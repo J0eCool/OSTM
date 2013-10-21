@@ -98,7 +98,7 @@ EnemyManager = {
 	},
 
 	getIncreaseLevelCost: function() {
-		return Math.floor(25 * Math.pow(this.level, 1.85));
+		return Math.floor(20 * Math.pow(this.level, 1.5));
 	}
 }
 

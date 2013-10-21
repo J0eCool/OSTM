@@ -27,10 +27,21 @@ Forge = {
 			displayName: 'Upgrade Armor',
 			baseMaxFill: 50,
 			getMaxFill: function() {
+				return this.baseMaxFill * (1 + Math.floor(Math.pow(this.itemDef.count, 1.8)));
+			},
+			onComplete: function() {
+				Player.armor += 1;
+			}
+		}),
+		new Recipe({
+			name: 'inventory+',
+			displayName: 'Raise Item Capacity',
+			baseMaxFill: 50,
+			getMaxFill: function() {
 				return this.baseMaxFill * (1 + Math.pow(this.itemDef.count, 2));
 			},
 			onComplete: function() {
-				Player.armor += this.itemDef.count;
+				Inventory.slotsPerItem += 1;
 			}
 		}),
 		new Recipe({
@@ -41,7 +52,7 @@ Forge = {
 				return this.baseMaxFill * (1 + Math.pow(this.itemDef.count, 2));
 			},
 			onComplete: function() {
-				Forge.fillOnClick += Math.floor(1 + this.itemDef.count / 2);
+				Forge.fillOnClick += this.itemDef.count;
 			}
 		}),
 		new Recipe({
@@ -49,10 +60,10 @@ Forge = {
 			displayName: 'Increase ' + getIconHtml('forge') + ' per Second',
 			baseMaxFill: 25,
 			getMaxFill: function() {
-				return this.baseMaxFill * (1 + 3 * Math.pow(this.itemDef.count, 2));
+				return this.baseMaxFill * (1 + 2 * Math.pow(this.itemDef.count, 2));
 			},
 			onComplete: function() {
-				Forge.fillPerSecond += this.itemDef.count;
+				Forge.fillPerSecond += 1;
 			}
 		})
 	],
@@ -183,7 +194,7 @@ function Recipe(data) {
 		}
 
 		if (!this.canMakeMore()) {
-			this.itemDef.count = Inventory.maxItemCount;
+			this.itemDef.count = this.itemDef.maxItemCount();
 			this.fill = 0;
 
 			Forge.createFillParticle('MAXED');
@@ -196,6 +207,6 @@ function Recipe(data) {
 	};
 
 	this.canMakeMore = data.canMakeMore || function() {
-		return !Inventory.isItemMaxed(this.itemDef);
+		return !this.itemDef.isItemMaxed();
 	};
 };

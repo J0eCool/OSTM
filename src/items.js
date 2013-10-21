@@ -1,5 +1,5 @@
 Inventory = {
-	maxItemCount: 5,
+	slotsPerItem: 5,
 
 	items: [
 		new PotionDef({
@@ -7,7 +7,8 @@ Inventory = {
 			count: 2,
 			data: {
 				healAmount: 100
-			}
+			},
+			maxPerInvSlot: 2
 		}),
 		new PotionDef({
 			name: 'hiPotion',
@@ -25,6 +26,10 @@ Inventory = {
 			isCountLimited: false
 		}),
 		new ItemDef({
+			name: 'inventory+',
+			isCountLimited: false
+		}),
+		new ItemDef({
 			name: 'forge-click',
 			isCountLimited: false
 		}),
@@ -33,10 +38,6 @@ Inventory = {
 			isCountLimited: false
 		})
 	],
-
-	isItemMaxed: function(def) {
-		return def.isCountLimited && def.count >= this.maxItemCount;
-	},
 
 	updateButtons: function() {
 		var htmlStr = '';
@@ -75,9 +76,20 @@ function ItemDef(data) {
 	this.onUse = data.onUse || null;
 	this.count = data.count || 0;
 	this.isCountLimited = (data.isCountLimited !== undefined ? data.isCountLimited : true);
+	this.maxPerInvSlot = data.maxPerInvSlot || 1;
 
 	this.getButtonHtml = function() {
-		return '<button onclick="Inventory.useItem(\'' + this.name + '\')">' + this.displayName + ': ' + formatNumber(this.count) + '</button>';
+		return '<button onclick="Inventory.useItem(\'' + this.name + '\')">' + this.displayName + ': ' + formatNumber(this.count)
+			+ (this.isCountLimited ? ' / ' + formatNumber(this.maxItemCount()) : '')
+			+ '</button>';
+	};
+
+	this.maxItemCount = function() {
+		return this.maxPerInvSlot * Inventory.slotsPerItem;
+	};
+
+	this.isItemMaxed = function() {
+		return this.isCountLimited && this.count >= this.maxItemCount();
 	};
 };
 
