@@ -14,20 +14,21 @@ Player = {
 
 	healthRegen: new StatType ({
 		statName: 'Health Regen',
-		minLevel: 30,
-		baseCost: 1000,
-		levelCost: 750,
-		baseValue: 2.5,
-		levelValue: 0.25,
-		isPercent: true
+		minLevel: 15,
+		baseCost: 400,
+		levelCost: 350,
+		baseValue: 1,
+		levelValue: 1,
+		isPercent: true,
+		stringPostfix: '%/sec'
 	}),
-	healthClickRegen: new StatType({
-		statName: 'Heal Percent',
-		minLevel: 10,
+	itemEfficiency: new StatType({
+		statName: 'Item Efficiency',
+		minLevel: 8,
 		baseCost: 100,
-		levelCost: 800,
-		baseValue: 2,
-		levelValue: 0.5,
+		levelCost: 50,
+		baseValue: 100,
+		levelValue: 15,
 		isPercent: true
 	}),
 	partialHealth: 0, //health regen per-tick roundoff
@@ -54,16 +55,24 @@ Player = {
 	armor: 2,
 	randDamage: 0.3,
 
-	stats: ['maxHealth', 'strength', 'defense', 'healthRegen', 'healthClickRegen'],
+	stats: ['maxHealth', 'strength', 'defense', 'itemEfficiency', 'healthRegen'],
 
 	init: function() {
 		this.health = this.maxHealth.value();
 		this.updateStatButtons();
 
-		$("#stats").html('Level: ' + Player.getLevel()
+		$("#stats").html(
+			'<div>Level: <span id="stat-level"></span></div>'
 			+ '<div>' + getIconHtml('xp') + ': <span id="stat-xp"></span></div>'
 			+ '<div>' + getIconHtml('gold') + ': <span id="stat-gold"></span></div>'
+			+ '<br/>'
 			+ '<div>Damage : <span id="stat-damage"></span></div>'
+			+ '<div>Weapon : <span id="stat-weapon"></span></div>'
+			+ '<div>Armor : <span id="stat-armor"></span></div>'
+			+ '<br/>'
+			+ '<div>' + getIconHtml('forge') + ' per Click: <span id="stat-forge-click"></span></div>'
+			+ '<div>' + getIconHtml('forge') + ' per Second: <span id="stat-forge-second"></span></div>'
+			+ '<br/>'
 		);
 
 		this.updateStats();
@@ -80,9 +89,16 @@ Player = {
 	},
 
 	updateStats: function() {
+		$('#stat-level').text(formatNumber(Player.getLevel()));
 		$('#stat-xp').text(formatNumber(Player.xp));
 		$('#stat-gold').text(formatNumber(Player.gold));
+
 		$('#stat-damage').text(formatNumber(Player.getDamageLo()) + ' - ' + formatNumber(Player.getDamageHi()));
+		$('#stat-weapon').text(formatNumber(Player.weaponDamage));
+		$('#stat-armor').text(formatNumber(Player.armor));
+
+		$('#stat-forge-click').text(formatNumber(Forge.fillOnClick));
+		$('#stat-forge-second').text(formatNumber(Forge.fillPerSecond));
 	},
 
 	getStat: function(i) {
@@ -95,19 +111,6 @@ Player = {
 			level += this.getStat(i).level;
 		}
 		return level;
-	},
-
-	healthPlusClicked: function() {
-		var toRestore = this.maxHealth.value() * this.healthClickRegen.value();
-		var restored = this.regenHealth(toRestore);
-
-		var button = $('.health-button');
-		var pos = button.position();
-		var width = button.width();
-		var height = button.height();
-		var x = pos.left + randInt(10, width - 10);
-		var y = pos.top + randInt(-10, 0) + height / 2;
-		ParticleContainer.create(healParticleType, '+' + restored, x, y);
 	},
 
 	regenHealth: function(amount) {
@@ -184,9 +187,7 @@ Player = {
 	updateStatButtons: function() {
 		var statHtml = '';
 		for (var i = 0; i < this.stats.length; i++) {
-			if (this.getStat(i).minLevel <= this.getLevel()) {
-				statHtml += '<div>' + this.getStat(i).getUpgradeButtonHtml() + '</div>';
-			}
+			statHtml += '<div>' + this.getStat(i).getUpgradeButtonHtml() + '</div>';
 		}
 
 		$('#stat-buttons').html(statHtml);
@@ -195,12 +196,13 @@ Player = {
 
 function StatType(data) {
 	this.statName = data.statName || '';
-	this.minLevel = data.minLevel || 1;
-	this.baseValue = data.baseValue || 4;
+	this.minLevel = data.minLevel || 0;
+	this.baseValue = data.baseValue || 0;
 	this.levelValue = data.levelValue || 1;
 	this.baseCost = data.baseCost || 0;
 	this.levelCost = data.levelCost || 0;
 	this.isPercent = data.isPercent || false;
+	this.stringPostfix = data.stringPostfix || '';
 
 	this.level = 0;
 
@@ -220,8 +222,12 @@ function StatType(data) {
 		return this.baseValue + level * this.levelValue;
 	}
 
+	this.getStringPostfix = function() {
+		return this.stringPostfix || (this.isPercent ? '%' : '');
+	}
+
 	this.stringValue = function() {
-		return formatNumber(this.getBaseValue()) + (this.isPercent ? "%" : "");
+		return formatNumber(this.getBaseValue()) + this.getStringPostfix();
 	};
 
 	this.upgradeCost = function() {
@@ -234,12 +240,12 @@ function StatType(data) {
 	};
 
 	this.stringUpgradeValue = function() {
-		return formatNumber(this.upgradeValue()) + (this.isPercent ? "%" : "");
+		return formatNumber(this.upgradeValue()) + this.getStringPostfix();
 	}
 
 	this.tryUpgrade = function() {
 		var cost = this.upgradeCost();
-		if (Player.xp >= cost) {
+		if (this.isPlayerMinLevel() && Player.xp >= cost) {
 			Player.xp -= cost;
 			this.level++;
 
@@ -249,11 +255,20 @@ function StatType(data) {
 		return false;
 	};
 
+	this.isPlayerMinLevel = function() {
+		return this.minLevel <= Player.getLevel();
+	}
+
 	this.getUpgradeButtonHtml = function() {
-		return '<button onClick="Player.upgrade(\'' + this.statName + '\')">'
-			+ this.statName + ': ' + this.stringValue() + '<br />'
-			+ '(+' + this.stringUpgradeValue() + ') : '
-			+ formatNumber(this.upgradeCost()) + ' '
-			+ getIconHtml('xp') + '</button>';
+		var htmlStr = '<button onClick="Player.upgrade(\'' + this.statName + '\')">'
+			+ this.statName + ': ' + this.stringValue();
+		if (this.isPlayerMinLevel()) {
+			htmlStr += '<br />'
+				+ '(+' + this.stringUpgradeValue() + ') : '
+				+ formatNumber(this.upgradeCost()) + ' '
+				+ getIconHtml('xp');
+		}
+		htmlStr += '</button>';
+		return htmlStr;
 	}
 }

@@ -250,8 +250,9 @@ function EnemyContainer(index) {
 		Player.gold += this.gold;
 		Forge.addFill(this.forge);
 
-		var rewardString = formatNumber(this.xp) + ' ' + getIconHtml('xp')
-			+ '<br />' + formatNumber(this.gold) + ' ' + getIconHtml('gold');
+		var rewardString = '<span class="xp-reward">' + getIconHtml('xp') + ' ' + formatNumber(this.xp) + '</span>'
+			+ '<br /><span class="gold-reward">' + getIconHtml('gold') + ' ' +  formatNumber(this.gold) + '</span>'
+			+ '<br /><span class="forge-reward">' + getIconHtml('forge') + ' ' + formatNumber(this.forge) + '</span>';
 
 		var pos = this.getAbsolutePosition();
 		ParticleContainer.create(rewardParticleType, rewardString, pos.x, pos.y);

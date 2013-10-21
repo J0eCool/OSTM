@@ -9,14 +9,16 @@ $(document).ready(function() {
 
 	window.setInterval(function() {
 		Player.update();
+		Forge.update();
 	}, Game.normalDt);
 
-	$('.health-button').click(function() {
+	//TODO: create helper class that 1: adds these events , 2: creates size-x css as needed
+	/*$('.health-button').click(function() {
 		Player.healthPlusClicked();
 	}).mouseleave(function() { $(this).attr('class', 'health-button'); })
 	.mouseup(function() { $(this).attr('class', 'health-button size-1_1'); })
 	.mouseenter(function() { $(this).attr('class', 'health-button size-1_1'); })
-	.mousedown(function() { $(this).attr('class', 'health-button size-0_85'); });
+	.mousedown(function() { $(this).attr('class', 'health-button size-0_85'); });*/
 
 	$(window).resize(Game.handleResize);
 });
@@ -39,8 +41,4 @@ Game = {
 
 		Game.windowSize = windowSize;
 	}
-};
-
-function getIconHtml(type) {
-	return '<img class="icon ' + type + '-icon" />';
 };

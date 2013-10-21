@@ -51,10 +51,14 @@ healParticleType = new ParticleType({
 	animHeight: -75
 });
 rewardParticleType = new ParticleType({
-	className: 'damage reward',
+	className: 'reward',
 	animHeight: 140,
 	animTime: 1200
 });
 forgeParticleType = new ParticleType({
 	className: 'damage forge-plus'
 });
+
+function getIconHtml(type) {
+	return '<img class="icon ' + type + '-icon" />';
+};

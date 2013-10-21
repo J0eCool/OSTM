@@ -4,6 +4,7 @@ Inventory = {
 	items: [
 		new PotionDef({
 			name: 'potion',
+			count: 2,
 			data: {
 				healAmount: 100
 			}
@@ -14,15 +15,22 @@ Inventory = {
 				healAmount: 500
 			}
 		}),
+
 		new ItemDef({
-			name: 'rock',
-			displayName: 'Sub-Useful Rock',
-			isCountLimited: false,
-			onUse: function() {
-				for (var i = 0; i < EnemyManager.enemies.length; i++) {
-					EnemyManager.enemies[i].takeDamage(randIntInc(2,4));
-				}
-			}
+			name: 'weapon+',
+			isCountLimited: false
+		}),
+		new ItemDef({
+			name: 'armor+',
+			isCountLimited: false
+		}),
+		new ItemDef({
+			name: 'forge-click',
+			isCountLimited: false
+		}),
+		new ItemDef({
+			name: 'forge-second',
+			isCountLimited: false
 		})
 	],
 
@@ -34,7 +42,7 @@ Inventory = {
 		var htmlStr = '';
 		for (var i = 0; i < this.items.length; i++) {
 			var item = this.items[i];
-			if (item.count > 0) {
+			if (item.count > 0 && item.onUse) {
 				htmlStr += item.getButtonHtml() + '<br />';
 			}
 		}
@@ -76,7 +84,7 @@ function ItemDef(data) {
 function PotionDef(data) {
 	this.__proto__ = new ItemDef(data);
 	this.onUse = function() {
-		Player.addHealth(this.data.healAmount);
+		Player.addHealth(Math.floor(this.data.healAmount * Player.itemEfficiency.value()));
 	};
 };
 

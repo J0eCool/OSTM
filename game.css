@@ -113,13 +113,18 @@ div
 .item-container
 {
     position: absolute;
-    top: 220px;
+    top: 270px;
     bottom: 0px;
     width: 220px;
 }
 .item-container div
 {
     height: 50%;
+}
+.item-container div div
+{
+    height: 100%;
+    overflow-y: auto;
 }
 .item-container h3
 {
@@ -188,10 +193,6 @@ button img.icon
 {
     height: 16px;
 }
-.particle img.icon
-{
-    height: 28px;
-}
 img.xp-icon
 {
     content:url("img/XP_text.png");
@@ -199,6 +200,10 @@ img.xp-icon
 img.gold-icon
 {
     content:url("img/Gold_icon.png");
+}
+img.forge-icon
+{
+    content:url("img/Goop.png");
 }
 
 .size-0_85
@@ -245,12 +250,29 @@ img.gold-icon
 {
     color: #20f030;
 }
-.reward
-{
-    color: #4f6;
-    text-align: center;
-}
 .forge-plus
 {
     color: #df6;
+}
+.reward
+{
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+}
+.reward img.icon
+{
+    height: 32px;
+}
+.xp-reward
+{
+    color: #4f6;
+}
+.gold-reward
+{
+    color: #cd3;
+}
+.forge-reward
+{
+    color: #d6f;
 }
