@@ -1,0 +1,256 @@
+body, html
+{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    webkit-user-drag: none;
+    user-drag: none;
+}
+
+div
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+.game-container
+{
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+
+    overflow: hidden;
+}
+
+.header-container
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 64px;
+
+    background-color: grey;
+}
+
+.body-container
+{
+    position: absolute;
+    top: 64px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.stat-bar
+{
+    float: left;
+    width: 240px;
+    height: 100%;
+
+    padding: 6px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background-color: teal;
+    white-space: nowrap;
+}
+.stat-bar button, .forge-bar button
+{
+    width: 100%;
+    min-height: 50px;
+}
+
+.field
+{
+    /*float: right;*/
+    position: absolute;
+    left: 252px;
+    right: 220px;
+
+    height: 100%;
+	background-color: green;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.forge-bar
+{
+    float: right;
+    width: 220px;
+    height: 100%;
+
+    background-color: darkred;
+}
+.forge-container
+{
+    width: 220px;
+    height: 220px;
+}
+.forge-hole
+{
+    position: relative;
+    z-index: 2;
+}
+.forge-fill
+{
+    position: absolute;
+    right: 55px;
+    top: 55px;
+    width: 110px;
+    height: 110px;
+    background-color: #c3f;
+    z-index: 1;
+}
+.item-container
+{
+    position: absolute;
+    top: 220px;
+    bottom: 0px;
+    width: 220px;
+}
+.item-container div
+{
+    height: 50%;
+}
+.item-container h3
+{
+    margin: 0px;
+}
+
+.enemy-container
+{
+	position: absolute;
+	left: 30px;
+	top: 30px;
+    text-align: center;
+    vertical-align: text-bottom;
+    width: 100px;
+    pointer-events: none;
+}
+
+.enemy-container .name
+{
+	font-weight: bold;
+}
+
+.enemy
+{
+    pointer-events: auto;
+
+    transition: 0.15s;
+}
+
+.blur
+{
+    -webkit-filter: blur(2px);
+
+    transition: 0.05s;
+}
+
+.health-foreground
+{
+    background-color: red;
+    height: 100%;
+    box-shadow:1.5px -1.5px 10px #911 inset;
+}
+.health-background
+{
+    background-color: darkred;
+    margin: 5px auto 5px;
+    width: 100%;
+    height: 12px;
+    box-shadow:-1.5px 1.5px 14px #111 inset;
+}
+.health-button-holder
+{
+    height: 70px;
+}
+.health-button
+{
+    transition: 0.08s;
+}
+
+button img.icon
+{
+    vertical-align: middle;
+    height: 14px;
+}
+.stat-bar div img.icon
+{
+    height: 16px;
+}
+.particle img.icon
+{
+    height: 28px;
+}
+img.xp-icon
+{
+    content:url("img/XP_text.png");
+}
+img.gold-icon
+{
+    content:url("img/Gold_icon.png");
+}
+
+.size-0_85
+{
+    transform:scale(0.85, 0.85);
+    -o-transform:scale(0.85, 0.85); /* Opera */
+    -ms-transform:scale(0.85, 0.85); /* IE 9 */
+    -moz-transform:scale(0.85, 0.85); /* Firefox */
+    -webkit-transform:scale(0.85, 0.85); /* Safari and Chrome */
+}
+.size-1_1
+{
+    transform:scale(1.1, 1.1);
+    -o-transform:scale(1.1, 1.1);
+    -ms-transform:scale(1.1, 1.1);
+    -moz-transform:scale(1.1, 1.1);
+    -webkit-transform:scale(1.1, 1.1);
+}
+
+.particles
+{
+    display: inline-block;
+    pointer-events: none;
+}
+.particle
+{
+    position: absolute;
+    z-index: 5;
+}
+.damage
+{
+    font-size: 28px;
+    font-weight: bold;
+}
+.enemy-damage
+{
+    color: #e0c030;
+}
+.player-damage
+{
+    color: red;
+}
+.heal
+{
+    color: #20f030;
+}
+.reward
+{
+    color: #4f6;
+    text-align: center;
+}
+.forge-plus
+{
+    color: #df6;
+}

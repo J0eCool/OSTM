@@ -1,0 +1,10 @@
+Skills:
+	. increase max hp by 0.5% per character level
+
+
+
+Misc:
+	. Forge an increase to forgeFill-per-click
+	. STR/DEX weapons, 2 varieties each
+		Str weapons either do increased random damage, or increase defenses
+		Dex weapons either increase crit chance or crit damage

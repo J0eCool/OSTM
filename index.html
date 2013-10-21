@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Progress-Style RPG</title>
+	<link rel="stylesheet" type="text/css" href="game.css" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="src/particles.js"></script>
+    <script src="src/enemies.js"></script>
+    <script src="src/player.js"></script>
+    <script src="src/items.js"></script>
+    <script src="src/forge.js"></script>
+    <script src="src/game.js"></script>
+    <script src="src/util.js"></script>
+</head>
+<body>
+	<div class="game-container">
+		<div class="header-container"></div>
+		<div class="body-container">
+			<div class="stat-bar">
+				<div class="health-background" style="height:18px">
+					<div class="health-foreground" id="player-health"></div>
+				</div>
+				<!--<div><img class="health-button" src="img/Plus.png" /></div>-->
+				<span id="stats"></span>
+				<span id="stat-buttons"></span>
+			</div>
+			<div class="field">
+				<!--<span class="field-header"></span>-->
+			</div>
+			<div class="forge-bar">
+				<div class="forge-container">
+					<img class="forge-hole" src="img/Forge_hole.png" />
+					<div class="forge-fill"></div>
+				</div>
+				<div class="item-container">
+					<div>
+						<h3>Recipes</h3>
+						<div class="recipes"></div>
+					</div>
+					<div>
+						<h3>Inventory</h3>
+						<div class="inventory"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="particles"></div>
+	</div>
+</body>
+</html>
