@@ -73,11 +73,14 @@ EnemyManager = {
 	updateHeaderButtons: function() {
 		var html = 'Current Enemy Level: ' + this.level + '<br />';
 		if (this.level > 1) {
-			html += '<button onClick="EnemyManager.decreaseLevel()">Decrease Level</button>';
+			html += getButtonHtml('EnemyManager.decreaseLevel()', 'Decrease Level');
+			//html += '<div class="button" onClick="EnemyManager.decreaseLevel()"><span>Decrease Level</span></div>';
 		}
-		html += '<button onClick="EnemyManager.increaseLevel()">Increase Level : '
+		html += getButtonHtml("EnemyManager.increaseLevel()",
+			'Increase Level : '
 			+ formatNumber(this.getIncreaseLevelCost())
-			+ ' ' + getIconHtml('gold') + '</button>';
+			+ ' ' + getIconHtml('gold')
+		);
 		$('.header-container').html(html);
 	},
 

@@ -81,7 +81,7 @@ Forge = {
 			Forge.createFillParticle('+' + formatNumber(Forge.fillOnClick));
 		});
 
-		$('#gold-convert').html(formatNumber(1000) + getIconHtml('gold') + ' -> ' + '[amount]' + getIconHtml('forge'))
+		$('#gold-convert').html('<span>' + formatNumber(1000) + getIconHtml('gold') + ' -> ' + '[amount]' + getIconHtml('forge') + '</span>')
 			.click(function() {
 				if (Player.gold >= 1000) {
 					Player.gold -= 1000;
@@ -157,7 +157,7 @@ Forge = {
 	updateRecipes: function() {
 		var htmlStr = '';
 		for (var i = 0; i < this.recipes.length; i++) {
-			htmlStr += this.recipes[i].getButtonHtml() + '<br />';
+			htmlStr += this.recipes[i].getButtonHtml();
 		}
 
 		$('.recipes').html(htmlStr);
@@ -173,12 +173,12 @@ function Recipe(data) {
 
 	this.getButtonHtml = function() {
 		var selected = Forge.curRecipe == this;
-		return '<button onclick="Forge.selectRecipe(\'' + this.name + '\')">'
-			+ (selected ? '<b>*' : '')
+		return getButtonHtml("Forge.selectRecipe('" + this.name + "')",
+			(selected ? '<b>*' : '')
 			+ this.displayName
 			+ (selected ? '*</b>' : '')
 			+ '<br />' + formatNumber(this.getMaxFill()) + ' ' + getIconHtml('forge')
-			+ '</button>';
+		);
 	};
 
 	this.onComplete = function() {

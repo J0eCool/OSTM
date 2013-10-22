@@ -44,7 +44,7 @@ Inventory = {
 		for (var i = 0; i < this.items.length; i++) {
 			var item = this.items[i];
 			if (item.count > 0 && item.onUse) {
-				htmlStr += item.getButtonHtml() + '<br />';
+				htmlStr += item.getButtonHtml();
 			}
 		}
 		$('.inventory').html(htmlStr);
@@ -79,9 +79,10 @@ function ItemDef(data) {
 	this.maxPerInvSlot = data.maxPerInvSlot || 1;
 
 	this.getButtonHtml = function() {
-		return '<button onclick="Inventory.useItem(\'' + this.name + '\')">' + this.displayName + ': ' + formatNumber(this.count)
+		return getButtonHtml("Inventory.useItem('" + this.name + "')",
+			this.displayName + ': ' + formatNumber(this.count)
 			+ (this.isCountLimited ? ' / ' + formatNumber(this.maxItemCount()) : '')
-			+ '</button>';
+		);
 	};
 
 	this.maxItemCount = function() {

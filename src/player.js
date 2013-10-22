@@ -260,15 +260,13 @@ function StatType(data) {
 	}
 
 	this.getUpgradeButtonHtml = function() {
-		var htmlStr = '<button onClick="Player.upgrade(\'' + this.statName + '\')">'
-			+ this.statName + ': ' + this.stringValue();
+		var htmlStr = this.statName + ': ' + this.stringValue();
 		if (this.isPlayerMinLevel()) {
 			htmlStr += '<br />'
 				+ '(+' + this.stringUpgradeValue() + ') : '
 				+ formatNumber(this.upgradeCost()) + ' '
 				+ getIconHtml('xp');
 		}
-		htmlStr += '</button>';
-		return htmlStr;
+		return getButtonHtml("Player.upgrade('" + this.statName + "')", htmlStr);
 	}
 }
