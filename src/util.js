@@ -18,6 +18,15 @@ function clamp01(val) {
 	return clamp(val, 0, 1);
 }
 
+function removeItem(item, list) {
+	var index = list.indexOf(item);
+	if (index >= 0) {
+		list.splice(index, 1);
+		return true;
+	}
+	return false;
+}
+
 function formatNumber(x) {
     var parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -26,3 +35,4 @@ function formatNumber(x) {
 function getButtonHtml(onclick, contents) {
 	return '<span class="button" onclick="' + onclick + '"><span>' + contents + '</span></span>';
 }
+

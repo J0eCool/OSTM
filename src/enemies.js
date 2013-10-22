@@ -26,9 +26,14 @@ EnemyManager = {
 	],
 
 	enemies: [],
+	activeEnemies: [],
 	jqField: null,
 
 	level: 1,
+
+	levelUpPoints: 0,
+	pendingLevelUpPoints: 0,
+	maxLevelUnlocked: 1,
 
 	getAppropriateEnemy: function() {
 		var enemies = [];
@@ -61,12 +66,40 @@ EnemyManager = {
 		$(".damage").css('opacity', '0');
 
 		this.updateHeaderButtons();
+		this.updateProgressBar();
 	},
 
 	spawnEnemies: function() {
-		for (var i = 0; i < this.enemies.length; i++) {
+		this.activeEnemies = [];
+		var numToSpawn = Math.min(this.enemies.length, 3);
+		$('.enemy-container').hide();
+		for (var i = 0; i < numToSpawn; i++) {
 			var enemy = this.enemies[i];
+			enemy.getSelector().show();
 			enemy.respawn(this.getAppropriateEnemy());
+			this.activeEnemies.push(enemy);
+		}
+	},
+
+	despawnEnemy: function(enemy) {
+		removeItem(enemy, this.activeEnemies);
+		enemy.getSelector().hide();
+		this.pendingLevelUpPoints += 1;
+		if (this.activeEnemies.length == 0) {
+			Player.health = Player.maxHealth.value();
+			if (this.level >= this.maxLevelUnlocked) {
+				this.levelUpPoints += this.pendingLevelUpPoints;
+				if (this.levelUpPoints >= this.getIncreaseLevelCost()) {
+					this.levelUpPoints = 0;
+					this.maxLevelUnlocked++;
+					this.updateHeaderButtons();
+				}
+
+				this.updateProgressBar();
+			}
+
+			this.pendingLevelUpPoints = 0;
+			this.spawnEnemies();
 		}
 	},
 
@@ -74,14 +107,16 @@ EnemyManager = {
 		var html = 'Current Enemy Level: ' + this.level + '<br />';
 		if (this.level > 1) {
 			html += getButtonHtml('EnemyManager.decreaseLevel()', 'Decrease Level');
-			//html += '<div class="button" onClick="EnemyManager.decreaseLevel()"><span>Decrease Level</span></div>';
 		}
-		html += getButtonHtml("EnemyManager.increaseLevel()",
-			'Increase Level : '
-			+ formatNumber(this.getIncreaseLevelCost())
-			+ ' ' + getIconHtml('gold')
-		);
+		if (this.level < this.maxLevelUnlocked) {
+			html += getButtonHtml("EnemyManager.increaseLevel()", 'Increase Level');
+		}
 		$('.header-container').html(html);
+	},
+
+	updateProgressBar: function() {
+		var pct = 100 * this.levelUpPoints / this.getIncreaseLevelCost();
+		$('.stage-progress-foreground').width(pct + '%');
 	},
 
 	decreaseLevel: function() {
@@ -91,17 +126,13 @@ EnemyManager = {
 	},
 
 	increaseLevel: function() {
-		var cost = this.getIncreaseLevelCost();
-		if (Player.gold >= cost) {
-			Player.gold -= cost;
-			this.level++;
-			this.spawnEnemies();
-			this.updateHeaderButtons();
-		}
+		this.level++;
+		this.spawnEnemies();
+		this.updateHeaderButtons();
 	},
 
 	getIncreaseLevelCost: function() {
-		return Math.floor(20 * Math.pow(this.level, 1.5));
+		return Math.floor(5 + this.maxLevelUnlocked);
 	}
 }
 
@@ -143,8 +174,16 @@ function EnemyContainer(index) {
 			</div>';
 	};
 
-	this.getId = function() {
-		return '.enemy-container[index='+this.index+']';
+	this.selector = null;
+	this.getSelector = function() {
+		if (!this.selector) {
+			this.selector = $('.enemy-container[index='+this.index+']');
+		}
+		return this.selector;
+	}
+
+	this.isActive = function() {
+		return EnemyManager.activeEnemies.indexOf(this) >= 0;
 	}
 
 	this.respawn = function(def) {
@@ -161,13 +200,13 @@ function EnemyContainer(index) {
 		this.gold = Math.floor(def.gold * rewardMult);
 		this.forge = Math.floor(def.forge * rewardMult);
 
-		var id = this.getId();
+		var sel = this.getSelector();
 
-		$(id + ' .enemy').attr('src', def.image);
-		$(id + ' .name').text(def.name);
+		sel.find('.enemy').attr('src', def.image);
+		sel.find('.name').text(def.name);
 
-		var width = $(id).width();
-		var height = $(id).height();
+		var width = sel.width();
+		var height = sel.height();
 
 		var margin = 30;
 
@@ -200,7 +239,7 @@ function EnemyContainer(index) {
 
 	this.updatePosition = function() {
 		var pos = this.getRelativePosition();
-		$(this.getId()).css({
+		this.getSelector().css({
 			'left': pos.x + 'px',
 			'top': pos.y + 'px'
 		});
@@ -212,7 +251,7 @@ function EnemyContainer(index) {
 
 	this.onClick = function() {
 		var dealtDamage = this.attackPower();
-		if (Player.takeDamage(dealtDamage)) {
+		if (this.isActive() && Player.takeDamage(dealtDamage)) {
 			this.takeDamage(Player.getRandomDamage());
 		}
 	}
@@ -220,9 +259,9 @@ function EnemyContainer(index) {
 	this.takeDamage = function(damage) {
 		this.health -= damage;
 
-		var id = this.getId();
-		var width = $(id).width();
-		var height = $(id).height();
+		var sel = this.getSelector();
+		var width = sel.width();
+		var height = sel.height();
 
 		var pos = this.getAbsolutePosition();
 		var x = pos.x + randInt(-40, 40) + width / 2;
@@ -232,18 +271,20 @@ function EnemyContainer(index) {
 		if (this.health <= 0) {
 			this.giveRewards();
 
-			this.respawn(EnemyManager.getAppropriateEnemy());
-
 			$('.enemy-health-'+this.index).stop(true, true).css('width', '100%');
+			this.selector.find('.enemy').toggleClass('blur', false);
+
+			EnemyManager.despawnEnemy(this);
 		}
 		else {
 			var healthPct = clamp(this.health / this.maxHealth, 0, 1) * 100;
 			$('.enemy-health-'+this.index).stop(true, false)
 				.animate({ width: healthPct+'%' }, 125);
 
-			$(id + ' .enemy').toggleClass('blur', true)
+			var enemyImage = this.getSelector().find('.enemy');
+			enemyImage.toggleClass('blur', true)
 				.one('transitionend', function(e) {
-					$(id + ' .enemy').toggleClass('blur', false);
+					enemyImage.toggleClass('blur', false);
 				});
 		}
 	}
