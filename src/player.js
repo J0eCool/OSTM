@@ -35,6 +35,7 @@ Player = {
 
 	xp: 0,
 	gold: 0,
+	forge: 0,
 
 	strength: new StatType({
 		statName: 'Strength',
@@ -65,6 +66,7 @@ Player = {
 			'<div>Level: <span id="stat-level"></span></div>'
 			+ '<div>' + getIconHtml('xp') + ': <span id="stat-xp"></span></div>'
 			+ '<div>' + getIconHtml('gold') + ': <span id="stat-gold"></span></div>'
+			+ '<div>' + getIconHtml('forge') + ': <span id="stat-forge"></span></div>'
 			+ '<br/>'
 			+ '<div>Damage : <span id="stat-damage"></span></div>'
 			+ '<div>Weapon : <span id="stat-weapon"></span></div>'
@@ -92,6 +94,7 @@ Player = {
 		$('#stat-level').text(formatNumber(Player.getLevel()));
 		$('#stat-xp').text(formatNumber(Player.xp));
 		$('#stat-gold').text(formatNumber(Player.gold));
+		$('#stat-forge').text(formatNumber(Player.forge));
 
 		$('#stat-damage').text(formatNumber(Player.getDamageLo()) + ' - ' + formatNumber(Player.getDamageHi()));
 		$('#stat-weapon').text(formatNumber(Player.weaponDamage));

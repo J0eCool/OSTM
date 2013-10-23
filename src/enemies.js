@@ -1,5 +1,5 @@
 EnemyManager = {
-	numEnemies: 4,
+	numEnemies: 6,
 	enemyDefs:  [
 		new EnemyDef({
 			name: 'Enemy',
@@ -71,7 +71,8 @@ EnemyManager = {
 
 	spawnEnemies: function() {
 		this.activeEnemies = [];
-		var numToSpawn = Math.min(this.enemies.length, 3);
+		var maxToSpawn = clamp(this.level, 2, 5);
+		var numToSpawn = Math.min(this.enemies.length, randIntInc(2, maxToSpawn));
 		$('.enemy-container').hide();
 		for (var i = 0; i < numToSpawn; i++) {
 			var enemy = this.enemies[i];
@@ -132,7 +133,7 @@ EnemyManager = {
 	},
 
 	getIncreaseLevelCost: function() {
-		return Math.floor(5 + this.maxLevelUnlocked);
+		return Math.min(Math.floor(5 + this.maxLevelUnlocked), 12);
 	}
 }
 
