@@ -147,7 +147,7 @@ div {
     top: 30px;
     text-align: center;
     vertical-align: text-bottom;
-    width: 100px;
+    width: 160px;
     pointer-events: none;
 }
 
@@ -156,6 +156,7 @@ div {
 }
 
 .enemy {
+    width: 75%;
     pointer-events: auto;
     -webkit-transition: 0.15s;
     transition: 0.15s;

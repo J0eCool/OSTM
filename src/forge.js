@@ -3,8 +3,13 @@ Forge = {
 	recipes: [
 		new Recipe({
 			name: 'potion',
-			fill: 20,
 			baseCost: 25
+		}),
+		new Recipe({
+			name: 'gold-potion',
+			baseCost: 25,
+			currency: 'gold',
+			itemDef: Inventory.getItem('potion')
 		}),
 		new Recipe({
 			name: 'hiPotion',
@@ -158,11 +163,16 @@ function Recipe(data) {
 	this.tryPurchase = function() {
 		var cost = this.getCost();
 		if (cost <= Player[this.currency]) {
-			Player[this.currency] -= cost;
-			this.onComplete();
+			if (!this.canMakeMore()) {
+				Forge.createFillParticle('MAXED');
+			}
+			else {
+				Player[this.currency] -= cost;
+				this.onComplete();
 
-			Inventory.updateButtons();
-			Forge.updateRecipes();
+				Inventory.updateButtons();
+				Forge.updateRecipes();
+			}
 		}
 	}
 
