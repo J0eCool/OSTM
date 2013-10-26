@@ -18,15 +18,15 @@ Inventory = {
 		}),
 
 		new ItemDef({
-			name: 'weapon+',
+			name: 'weapon-plus',
 			isCountLimited: false
 		}),
 		new ItemDef({
-			name: 'armor+',
+			name: 'armor-plus',
 			isCountLimited: false
 		}),
 		new ItemDef({
-			name: 'inventory+',
+			name: 'inventory-plus',
 			isCountLimited: false
 		}),
 		new ItemDef({

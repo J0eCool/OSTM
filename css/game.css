@@ -48,3 +48,17 @@ div {
     background-color: teal;
     white-space: nowrap;
 }
+
+.screen {
+    position: absolute;
+    left: 252px;
+    right: 220px;
+    height: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.options {
+    background-color: black;
+    color: white;
+}

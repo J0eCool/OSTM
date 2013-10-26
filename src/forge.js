@@ -6,18 +6,12 @@ Forge = {
 			baseCost: 25
 		}),
 		new Recipe({
-			name: 'gold-potion',
-			baseCost: 25,
-			currency: 'gold',
-			itemDef: Inventory.getItem('potion')
-		}),
-		new Recipe({
 			name: 'hiPotion',
 			baseCost: 100
 		}),
 
 		new Recipe({
-			name: 'weapon+',
+			name: 'weapon-plus',
 			displayName: 'Upgrade Weapon',
 			baseCost: 100,
 			getCost: function() {
@@ -28,7 +22,7 @@ Forge = {
 			}
 		}),
 		new Recipe({
-			name: 'armor+',
+			name: 'armor-plus',
 			displayName: 'Upgrade Armor',
 			baseCost: 50,
 			getCost: function() {
@@ -39,7 +33,7 @@ Forge = {
 			}
 		}),
 		new Recipe({
-			name: 'inventory+',
+			name: 'inventory-plus',
 			displayName: 'Raise Item Capacity',
 			baseCost: 50,
 			getCost: function() {
@@ -96,19 +90,20 @@ Forge = {
 			});
 
 		Inventory.updateButtons();
-		this.updateRecipes();
+		this.setupButtons();
+		this.updateButtons();
 	},
 
 	update: function() {
 		var dT = Game.normalDt / 1000;
-		//if (this.curRecipe.canMakeMore()) {
-			this.partialFill += this.fillPerSecond * dT;
-			var filled = Math.floor(this.partialFill);
-			if (filled > 0) {
-				this.addFill(filled);
-				this.partialFill -= filled;
-			}
-		//}
+		this.partialFill += this.fillPerSecond * dT;
+		var filled = Math.floor(this.partialFill);
+		if (filled > 0) {
+			this.addFill(filled);
+			this.partialFill -= filled;
+		}
+
+		this.updateButtons();
 	},
 
 	addFill: function(amount) {
@@ -132,13 +127,19 @@ Forge = {
 		ParticleContainer.create(forgeParticleType, message, x, y);
 	},
 
-	updateRecipes: function() {
+	setupButtons: function() {
 		var htmlStr = '';
 		for (var i = 0; i < this.recipes.length; i++) {
 			htmlStr += this.recipes[i].getButtonHtml();
 		}
 
 		$('.recipes').html(htmlStr);
+	},
+
+	updateButtons: function() {
+		for (var i = 0; i < this.recipes.length; i++) {
+			this.recipes[i].updateButton();
+		}
 	}
 };
 
@@ -150,20 +151,23 @@ function Recipe(data) {
 	this.currency = data.currency || 'forge';
 
 	this.getButtonHtml = function() {
-		var selected = Forge.curRecipe == this;
 		return getButtonHtml("Forge.selectRecipe('" + this.name + "')",
-			(selected ? '<b>*' : '')
-			+ this.displayName
-			+ (selected ? '*</b>' : '')
-			+ '<br />' + formatNumber(this.getCost()) + ' ' + getIconHtml(this.currency)
+			this.displayName
+			+ '<br /><span id="cost"></span> ' + getIconHtml(this.currency),
+			this.name + '-button'
 		);
 	};
 
+	this.updateButton = function() {
+		var id = '#' + this.name + '-button';
+		$(id).toggleClass('inactive', !this.canMakeMore());
+		$(id + ' span #cost').text(formatNumber(this.getCost()));
+	}
 
 	this.tryPurchase = function() {
 		var cost = this.getCost();
 		if (cost <= Player[this.currency]) {
-			if (!this.canMakeMore()) {
+			if (this.isLimitReached()) {
 				Forge.createFillParticle('MAXED');
 			}
 			else {
@@ -171,7 +175,7 @@ function Recipe(data) {
 				this.onComplete();
 
 				Inventory.updateButtons();
-				Forge.updateRecipes();
+				Forge.updateButtons();
 			}
 		}
 	}
@@ -185,7 +189,7 @@ function Recipe(data) {
 			this.onComplete_internal();
 		}
 
-		if (!this.canMakeMore()) {
+		if (this.isLimitReached()) {
 			this.itemDef.count = this.itemDef.maxItemCount();
 
 			Forge.createFillParticle('MAXED');
@@ -197,7 +201,15 @@ function Recipe(data) {
 		return this.baseCost;
 	};
 
-	this.canMakeMore = data.canMakeMore || function() {
-		return !this.itemDef.isItemMaxed();
+	this.canAfford = function() {
+		return this.getCost() <= Player[this.currency];
+	}
+
+	this.isLimitReached = data.isLimitReached || function() {
+		return this.itemDef.isItemMaxed();
 	};
+
+	this.canMakeMore = function() {
+		return AdventureScreen.isOpen('store') && this.canAfford() && !this.isLimitReached();
+	}
 };

@@ -3,7 +3,8 @@ $(document).ready(function() {
 
 	$('.particles').html(ParticleContainer.getHtml());
 
-	EnemyManager.setupEnemies();
+	Menu.init();
+	EnemyManager.init();
 	Player.init();
 	Forge.init();
 

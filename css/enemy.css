@@ -1,12 +1,14 @@
-.field {
-    /*float: right;*/
-    position: absolute;
-    left: 252px;
-    right: 220px;
+.adventure-screen {
+    width: 100%;
     height: 100%;
+}
+
+.field {
     background-color: green;
-    overflow: hidden;
-    white-space: nowrap;
+}
+
+.store {
+    background-color: orange;
 }
 
 .enemy-container {
@@ -67,10 +69,18 @@
     background-color: white;
 }
 
+#store-button {
+    position: absolute;
+    top: 30px;
+    left: 80px;
+    width: 100px;
+    height: 50px;
+}
+
 #dec-level,
 #inc-level {
     position: absolute;
-    bottom: 80px;
+    top: calc(50% - 20px);
     width: 100px;
     height: 40px;
 }

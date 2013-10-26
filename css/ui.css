@@ -10,18 +10,22 @@
     box-shadow: 1.5px -1.5px 10px #555 inset;
 }
 
-.button span {
+.button.inactive {
+    background-color: #777;
+}
+
+.button .content {
     display: table-cell;
     text-align: center;
     width: 100%;
     vertical-align: middle;
 }
 
-.button:hover {
+:not(.inactive).button:hover {
     background-color: #3fb;
 }
 
-.button:active {
+:not(.inactive).button:active {
     background-color: #0c5;
 }
 
@@ -30,6 +34,11 @@
     width: 95%;
     min-height: 50px;
     height: auto;
+}
+
+.header-container .button {
+    height: 80%;
+    min-width: 120px;
 }
 
 .button img.icon {

@@ -4,7 +4,8 @@ EnemyManager = {
 		new EnemyDef({
 			name: 'Enemy',
 			image: 'img/Shroomie.png',
-			health: 22
+			health: 22,
+			gold: 3
 		}),
 		new EnemyDef({
 			name: 'Wall',
@@ -12,6 +13,7 @@ EnemyManager = {
 			health: 40,
 			xp: 4,
 			forge: 2,
+			gold: 4,
 		}),
 		new EnemyDef({
 			minLevel: 3,
@@ -21,19 +23,20 @@ EnemyManager = {
 			attack: 7,
 			xp: 7,
 			forge: 3,
-			gold: 2
+			gold: 6
 		})
 	],
 
 	enemies: [],
 	activeEnemies: [],
 	jqField: null,
+	jqAdventure: null,
 
 	level: 1,
 
 	levelUpPoints: 0,
 	pendingLevelUpPoints: 0,
-	maxLevelUnlocked: 3,
+	maxLevelUnlocked: 1,
 
 	getAppropriateEnemy: function() {
 		var enemies = [];
@@ -45,14 +48,17 @@ EnemyManager = {
 		return randItem(enemies);
 	},
 
-	setupEnemies: function() {
+	init: function() {
 		this.jqField = $('.field');
+		this.jqAdventure = $('.adventure');
 		var fieldHtml = '';
 
 		fieldHtml += 'Current Enemy Level: <span id="enemy-level"></span><br />'
+			+ getButtonHtml('AdventureScreen.setScreen(\'store\')', 'Shop', 'store-button')
 			+ getButtonHtml('EnemyManager.decreaseLevel()', 'Decrease Level', 'dec-level')
 			+ getButtonHtml("EnemyManager.increaseLevel()", 'Increase Level', 'inc-level')
-			+ '<div class="stage-progress-background"><div class="stage-progress-foreground"></div></div>';
+			//+ '<div class="stage-progress-background"><div class="stage-progress-foreground"></div></div>'
+		;
 
 		this.enemies = [];
 		for (var i = 0; i < this.numEnemies; i++) {
@@ -91,7 +97,6 @@ EnemyManager = {
 		enemy.getSelector().hide();
 		this.pendingLevelUpPoints += 1;
 		if (this.activeEnemies.length == 0) {
-			Player.health = Player.maxHealth.value();
 			if (this.level >= this.maxLevelUnlocked) {
 				this.levelUpPoints += this.pendingLevelUpPoints;
 				if (this.levelUpPoints >= this.getIncreaseLevelCost()) {
@@ -115,6 +120,7 @@ EnemyManager = {
 
 	updateHeaderButtons: function() {
 		$('#enemy-level').text(this.level);
+		$('#store-button').toggle(this.level == 1);
 		$('#dec-level').toggle(this.level > 1);
 		$('#inc-level').toggle(this.level < this.maxLevelUnlocked);
 	},
@@ -138,7 +144,8 @@ EnemyManager = {
 	},
 
 	getIncreaseLevelCost: function() {
-		return Math.min(Math.floor(5 + this.maxLevelUnlocked), 12);
+		return 1;
+		//return Math.min(Math.floor(5 + this.maxLevelUnlocked), 12);
 	}
 }
 
@@ -224,6 +231,7 @@ function EnemyContainer(index) {
 		this.y = rand(margin, fieldHeight - height - margin) / fieldHeight;
 
 		this.updatePosition();
+		this.updateHealthBar();
 	}
 
 	this.getRelativePosition = function() {
@@ -235,11 +243,11 @@ function EnemyContainer(index) {
 	}
 
 	this.getAbsolutePosition = function() {
-		var fieldPos = EnemyManager.jqField.position();
+		var adventurePos = EnemyManager.jqAdventure.position();
 		var pos = this.getRelativePosition();
 		return {
-			x: fieldPos.left + pos.x,
-			y: fieldPos.top + pos.y
+			x: adventurePos.left + pos.x,
+			y: adventurePos.top + pos.y
 		};
 	}
 
@@ -277,15 +285,12 @@ function EnemyContainer(index) {
 		if (this.health <= 0) {
 			this.giveRewards();
 
-			$('.enemy-health-'+this.index).stop(true, true).css('width', '100%');
 			this.selector.find('.enemy').toggleClass('blur', false);
 
 			EnemyManager.despawnEnemy(this);
 		}
 		else {
-			var healthPct = clamp(this.health / this.maxHealth, 0, 1) * 100;
-			$('.enemy-health-'+this.index).stop(true, false)
-				.animate({ width: healthPct+'%' }, 125);
+			this.animateHealthBar();
 
 			var enemyImage = this.getSelector().find('.enemy');
 			enemyImage.toggleClass('blur', true)
@@ -293,6 +298,19 @@ function EnemyContainer(index) {
 					enemyImage.toggleClass('blur', false);
 				});
 		}
+	}
+
+	this.getHealthPercent = function() {
+		return clamp(this.health / this.maxHealth, 0, 1) * 100;
+	}
+
+	this.animateHealthBar = function() {
+		$('.enemy-health-'+this.index).stop(true, false)
+			.animate({ width: this.getHealthPercent() + '%' }, 125);
+	}
+
+	this.updateHealthBar = function() {
+		$('.enemy-health-'+this.index).stop(true, true).css('width', this.getHealthPercent() + '%');		
 	}
 
 	this.giveRewards = function() {

@@ -13,7 +13,8 @@ Player = {
 	health: 100,
 
 	healthRegen: new StatType ({
-		statName: 'Health Regen',
+		statName: 'healthRegen',
+		displayName: 'Health Regen',
 		minLevel: 15,
 		baseCost: 400,
 		levelCost: 350,
@@ -23,7 +24,8 @@ Player = {
 		stringPostfix: '%/sec'
 	}),
 	itemEfficiency: new StatType({
-		statName: 'Item Efficiency',
+		statName: 'itemEfficiency',
+		displayName: 'Item Efficiency',
 		minLevel: 8,
 		baseCost: 100,
 		levelCost: 50,
@@ -60,7 +62,7 @@ Player = {
 
 	init: function() {
 		this.health = this.maxHealth.value();
-		this.updateStatButtons();
+		this.createStatButtons();
 
 		$("#stats").html(
 			'<div>Level: <span id="stat-level"></span></div>'
@@ -88,6 +90,7 @@ Player = {
 			.css('width', this.health / this.maxHealth.value() * 100 + '%');
 
 		this.updateStats();
+		this.updateStatButtons();
 	},
 
 	updateStats: function() {
@@ -187,18 +190,26 @@ Player = {
 		}
 	},
 
-	updateStatButtons: function() {
+	createStatButtons: function() {
 		var statHtml = '';
 		for (var i = 0; i < this.stats.length; i++) {
 			statHtml += '<div>' + this.getStat(i).getUpgradeButtonHtml() + '</div>';
 		}
 
 		$('#stat-buttons').html(statHtml);
+		this.updateStatButtons();
+	},
+
+	updateStatButtons: function() {
+		for (var i = 0; i < this.stats.length; i++) {
+			this.getStat(i).updateButton();
+		}
 	}
 }
 
 function StatType(data) {
 	this.statName = data.statName || '';
+	this.displayName = data.displayName || this.statName || '';
 	this.minLevel = data.minLevel || 0;
 	this.baseValue = data.baseValue || 0;
 	this.levelValue = data.levelValue || 1;
@@ -227,7 +238,7 @@ function StatType(data) {
 
 	this.getStringPostfix = function() {
 		return this.stringPostfix || (this.isPercent ? '%' : '');
-	}
+	};
 
 	this.stringValue = function() {
 		return formatNumber(this.getBaseValue()) + this.getStringPostfix();
@@ -244,12 +255,15 @@ function StatType(data) {
 
 	this.stringUpgradeValue = function() {
 		return formatNumber(this.upgradeValue()) + this.getStringPostfix();
+	};
+
+	this.canUpgrade = function() {
+		return this.isPlayerMinLevel() && Player.xp >= this.upgradeCost();
 	}
 
 	this.tryUpgrade = function() {
-		var cost = this.upgradeCost();
-		if (this.isPlayerMinLevel() && Player.xp >= cost) {
-			Player.xp -= cost;
+		if (this.canUpgrade()) {
+			Player.xp -= this.upgradeCost();
 			this.level++;
 
 			Player.updateStatButtons();
@@ -260,16 +274,24 @@ function StatType(data) {
 
 	this.isPlayerMinLevel = function() {
 		return this.minLevel <= Player.getLevel();
-	}
+	};
 
 	this.getUpgradeButtonHtml = function() {
-		var htmlStr = this.statName + ': ' + this.stringValue();
-		if (this.isPlayerMinLevel()) {
-			htmlStr += '<br />'
-				+ '(+' + this.stringUpgradeValue() + ') : '
-				+ formatNumber(this.upgradeCost()) + ' '
-				+ getIconHtml('xp');
-		}
-		return getButtonHtml("Player.upgrade('" + this.statName + "')", htmlStr);
-	}
+		var htmlStr = this.displayName + ': <span id="amount"></span>'
+			+ '<br/><span id="upgrade">(+<span id="upgrade-amount"></span>) : '
+			+ '<span id="cost"></span> ' + getIconHtml('xp');
+		return getButtonHtml("Player.upgrade('" + this.statName + "')",
+			htmlStr, 'stat-' + this.statName + '-button');
+	};
+
+	this.updateButton = function() {
+		var id = '#stat-' + this.statName + '-button';
+		$(id).toggleClass('inactive', !this.canUpgrade());
+		$(id + ' #upgrade').toggle(this.isPlayerMinLevel());
+		$(id + ' #amount').text(this.stringValue());
+		$(id + ' #upgrade-amount').text(this.stringUpgradeValue());
+		$(id + ' #cost').text(formatNumber(this.upgradeCost()));
+	};
+
+	this.onUpgrade = data.onUpgrade || function() {};
 }
