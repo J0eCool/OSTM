@@ -1,93 +1,85 @@
 Forge = {
 
-	recipes: [
-		new Recipe({
-			name: 'potion',
-			baseCost: 25
-		}),
-		new Recipe({
-			name: 'hiPotion',
-			baseCost: 100
-		}),
-
-		new Recipe({
-			name: 'weapon-plus',
-			displayName: 'Upgrade Weapon',
-			baseCost: 100,
-			getCost: function() {
-				return this.baseCost * (1 + 4 * Math.pow(this.itemDef.count, 2));
-			},
-			onComplete: function() {
-				Player.weaponDamage += 1;
-			}
-		}),
-		new Recipe({
-			name: 'armor-plus',
-			displayName: 'Upgrade Armor',
-			baseCost: 50,
-			getCost: function() {
-				return this.baseCost * (1 + Math.floor(Math.pow(this.itemDef.count, 1.8)));
-			},
-			onComplete: function() {
-				Player.armor += 1;
-			}
-		}),
-		new Recipe({
-			name: 'inventory-plus',
-			displayName: 'Raise Item Capacity',
-			baseCost: 50,
-			getCost: function() {
-				return this.baseCost * (1 + Math.pow(this.itemDef.count, 2));
-			},
-			onComplete: function() {
-				Inventory.slotsPerItem += 1;
-			}
-		}),
-		new Recipe({
-			name: 'forge-click',
-			displayName: 'Increase ' + getIconHtml('forge') + ' per Click',
-			baseCost: 150,
-			currency: 'gold',
-			getCost: function() {
-				return this.baseCost * (1 + Math.pow(this.itemDef.count, 2));
-			},
-			onComplete: function() {
-				Forge.fillOnClick += this.itemDef.count;
-			}
-		}),
-		new Recipe({
-			name: 'forge-second',
-			displayName: 'Increase ' + getIconHtml('forge') + ' per Second',
-			baseCost: 25,
-			currency: 'gold',
-			getCost: function() {
-				return this.baseCost * (1 + 2 * Math.pow(this.itemDef.count, 2));
-			},
-			onComplete: function() {
-				Forge.fillPerSecond += 1;
-			}
-		})
-	],
+	recipes: [],
 
 	fillOnClick: 1,
 	fillPerSecond: 0,
 	partialFill: 0,
 
 	init: function() {
+		this.recipes = [
+			new Recipe({
+				name: 'potion',
+				baseCost: 25
+			}),
+			new Recipe({
+				name: 'hiPotion',
+				baseCost: 100
+			}),
+
+			new Recipe({
+				name: 'weapon-plus',
+				displayName: 'Upgrade Weapon',
+				baseCost: 100,
+				getCost: function() {
+					return this.baseCost * (1 + 2 * Math.pow(this.itemDef.count, 1.8));
+				},
+				onComplete: function() {
+					Player.weaponDamage += 1;
+				}
+			}),
+			new Recipe({
+				name: 'armor-plus',
+				displayName: 'Upgrade Armor',
+				baseCost: 50,
+				getCost: function() {
+					return this.baseCost * (1 + Math.floor(Math.pow(this.itemDef.count, 1.8)));
+				},
+				onComplete: function() {
+					Player.armor += 1;
+				}
+			}),
+			new Recipe({
+				name: 'inventory-plus',
+				displayName: 'Raise Item Capacity',
+				baseCost: 50,
+				getCost: function() {
+					return this.baseCost * (1 + Math.pow(this.itemDef.count, 2));
+				},
+				onComplete: function() {
+					Inventory.slotsPerItem += 1;
+				}
+			}),
+			new Recipe({
+				name: 'forge-click',
+				displayName: 'Increase ' + getIconHtml('forge') + ' per Click',
+				baseCost: 150,
+				currency: 'gold',
+				getCost: function() {
+					return this.baseCost * (1 + Math.pow(this.itemDef.count, 2));
+				},
+				onComplete: function() {
+					Forge.fillOnClick += this.itemDef.count;
+				}
+			}),
+			new Recipe({
+				name: 'forge-second',
+				displayName: 'Increase ' + getIconHtml('forge') + ' per Second',
+				baseCost: 25,
+				currency: 'gold',
+				getCost: function() {
+					return this.baseCost * (1 + 2 * Math.pow(this.itemDef.count, 2));
+				},
+				onComplete: function() {
+					Forge.fillPerSecond += 1;
+				}
+			})
+		];
+
 		$('.forge-container').click(function() {
 			Forge.addFill(Forge.fillOnClick);
 			Forge.createFillParticle('+' + formatNumber(Forge.fillOnClick));
 		});
-
-		$('#gold-convert').html('<span>' + formatNumber(1000) + getIconHtml('gold') + ' -> ' + '[amount]' + getIconHtml('forge') + '</span>')
-			.click(function() {
-				if (Player.gold >= 1000) {
-					Player.gold -= 1000;
-					var amount = 75 * Forge.fillOnClick;
-					Forge.addFill(amount);
-					Forge.createFillParticle('+' + formatNumber(amount));
-				}
-			});
 
 		Inventory.updateButtons();
 		this.setupButtons();
@@ -152,8 +144,7 @@ function Recipe(data) {
 
 	this.getButtonHtml = function() {
 		return getButtonHtml("Forge.selectRecipe('" + this.name + "')",
-			this.displayName
-			+ '<br /><span id="cost"></span> ' + getIconHtml(this.currency),
+			this.displayName + '<br /><span id="cost"></span> ' + getIconHtml(this.currency),
 			this.name + '-button'
 		);
 	};
@@ -162,7 +153,7 @@ function Recipe(data) {
 		var id = '#' + this.name + '-button';
 		$(id).toggleClass('inactive', !this.canMakeMore());
 		$(id + ' span #cost').text(formatNumber(this.getCost()));
-	}
+	};
 
 	this.tryPurchase = function() {
 		var cost = this.getCost();
@@ -178,7 +169,7 @@ function Recipe(data) {
 				Forge.updateButtons();
 			}
 		}
-	}
+	};
 
 	this.onComplete = function() {
 		if (this.itemDef) {
@@ -203,7 +194,7 @@ function Recipe(data) {
 
 	this.canAfford = function() {
 		return this.getCost() <= Player[this.currency];
-	}
+	};
 
 	this.isLimitReached = data.isLimitReached || function() {
 		return this.itemDef.isItemMaxed();
@@ -211,5 +202,5 @@ function Recipe(data) {
 
 	this.canMakeMore = function() {
 		return AdventureScreen.isOpen('store') && this.canAfford() && !this.isLimitReached();
-	}
-};
+	};
+}

@@ -1,43 +1,47 @@
 Inventory = {
 	slotsPerItem: 5,
 
-	items: [
-		new PotionDef({
-			name: 'potion',
-			count: 2,
-			data: {
-				healAmount: 100
-			},
-			maxPerInvSlot: 2
-		}),
-		new PotionDef({
-			name: 'hiPotion',
-			data: {
-				healAmount: 500
-			}
-		}),
+	items: [],
 
-		new ItemDef({
-			name: 'weapon-plus',
-			isCountLimited: false
-		}),
-		new ItemDef({
-			name: 'armor-plus',
-			isCountLimited: false
-		}),
-		new ItemDef({
-			name: 'inventory-plus',
-			isCountLimited: false
-		}),
-		new ItemDef({
-			name: 'forge-click',
-			isCountLimited: false
-		}),
-		new ItemDef({
-			name: 'forge-second',
-			isCountLimited: false
-		})
-	],
+	init: function() {
+		this.items = [
+			new PotionDef({
+				name: 'potion',
+				count: 2,
+				data: {
+					healAmount: 100
+				},
+				maxPerInvSlot: 2
+			}),
+			new PotionDef({
+				name: 'hiPotion',
+				data: {
+					healAmount: 500
+				}
+			}),
+
+			new ItemDef({
+				name: 'weapon-plus',
+				isCountLimited: false
+			}),
+			new ItemDef({
+				name: 'armor-plus',
+				isCountLimited: false
+			}),
+			new ItemDef({
+				name: 'inventory-plus',
+				isCountLimited: false
+			}),
+			new ItemDef({
+				name: 'forge-click',
+				isCountLimited: false
+			}),
+			new ItemDef({
+				name: 'forge-second',
+				isCountLimited: false
+			})
+		];
+	},
 
 	updateButtons: function() {
 		var htmlStr = '';
@@ -80,8 +84,8 @@ function ItemDef(data) {
 
 	this.getButtonHtml = function() {
 		return getButtonHtml("Inventory.useItem('" + this.name + "')",
-			this.displayName + ': ' + formatNumber(this.count)
-			+ (this.isCountLimited ? ' / ' + formatNumber(this.maxItemCount()) : '')
+			this.displayName + ': ' + formatNumber(this.count) +
+			(this.isCountLimited ? ' / ' + formatNumber(this.maxItemCount()) : '')
 		);
 	};
 
@@ -92,12 +96,12 @@ function ItemDef(data) {
 	this.isItemMaxed = function() {
 		return this.isCountLimited && this.count >= this.maxItemCount();
 	};
-};
+}
 
 function PotionDef(data) {
 	this.__proto__ = new ItemDef(data);
 	this.onUse = function() {
 		Player.addHealth(Math.floor(this.data.healAmount * Player.itemEfficiency.value()));
 	};
-};
+}
 

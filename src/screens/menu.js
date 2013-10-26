@@ -5,16 +5,13 @@ Menu = {
 
 	init: function() {
 		var mainHtml = '';
-		for (var i = 0; i < this.screens.length; i++) {
-			mainHtml += '<div class="screen ' + this.screens[i] + '"></div>';
-		}
-		$('.main-area').html(mainHtml);
-
 		var headerHtml = '';
 		for (var i = 0; i < this.screens.length; i++) {
 			var name = this.screens[i];
+			mainHtml += '<div class="screen ' + name + '"></div>';
 			headerHtml += getButtonHtml('Menu.setScreen(\'' + name + '\')', name, name + '-button') + ' ';
 		}
+		$('.main-area').html(mainHtml);
 		$('.header-container').html(headerHtml);
 
 		this.setScreen('adventure');
@@ -33,4 +30,4 @@ Menu = {
 	isOpen: function(name) {
 		return this.curScreen == name;
 	}
-}
+};

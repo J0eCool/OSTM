@@ -3,10 +3,7 @@ $(document).ready(function() {
 
 	$('.particles').html(ParticleContainer.getHtml());
 
-	Menu.init();
-	EnemyManager.init();
-	Player.init();
-	Forge.init();
+	Game.init();
 
 	window.setInterval(function() {
 		Player.update();
@@ -30,6 +27,24 @@ Game = {
 
 	windowSize: null,
 
+	data: null,
+
+	init: function() {
+		//this.data = JSON.parse()
+		//$.getJSON('data.json').done(function() {
+		//	console.log('ucsess');
+			//Game.data = data;
+			//console.log(data);
+		//});
+
+		Menu.init();
+		EnemyManager.init();
+		Player.init();
+
+		Inventory.init();
+		Forge.init();
+	},
+
 	handleResize: function() {
 		var windowSize = {
 			width: Math.max($(window).width(), 500),
@@ -38,7 +53,7 @@ Game = {
 
 		for (var i = 0; i < EnemyManager.enemies.length; i++) {
 			EnemyManager.enemies[i].handleResize(windowSize);
-		};
+		}
 
 		Game.windowSize = windowSize;
 	}

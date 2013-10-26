@@ -1,0 +1,39 @@
+{
+	"inventory": [
+		{
+			"name": "potion",
+			"count": 2,
+			"data": {
+				"healAmount": 100
+			},
+			"maxPerInvSlot": 2
+		},
+		{
+			"name": "hiPotion",
+			"data": {
+				"healAmount": 500
+			}
+		},
+
+		{
+			"name": "weapon-plus",
+			"isCountLimited": false
+		},
+		{
+			"name": "armor-plus",
+			"isCountLimited": false
+		},
+		{
+			"name": "inventory-plus",
+			"isCountLimited": false
+		},
+		{
+			"name": "forge-click",
+			"isCountLimited": false
+		},
+		{
+			"name": "forge-second",
+			"isCountLimited": false
+		}
+	]
+}

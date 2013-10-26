@@ -9,6 +9,11 @@ Player = {
 		getBaseValueAtLevel: function(level) {
 			return this.baseValue + level * (this.levelValue + level - 1);
 		},
+
+		onUpgrade: function() {
+			//technically not correct but it rounds up and is close
+			Player.regenHealth(this.upgradeValue());
+		}
 	}),
 	health: 100,
 
@@ -65,18 +70,18 @@ Player = {
 		this.createStatButtons();
 
 		$("#stats").html(
-			'<div>Level: <span id="stat-level"></span></div>'
-			+ '<div>' + getIconHtml('xp') + ': <span id="stat-xp"></span></div>'
-			+ '<div>' + getIconHtml('gold') + ': <span id="stat-gold"></span></div>'
-			+ '<div>' + getIconHtml('forge') + ': <span id="stat-forge"></span></div>'
-			+ '<br/>'
-			+ '<div>Damage : <span id="stat-damage"></span></div>'
-			+ '<div>Weapon : <span id="stat-weapon"></span></div>'
-			+ '<div>Armor : <span id="stat-armor"></span></div>'
-			+ '<br/>'
-			+ '<div>' + getIconHtml('forge') + ' per Click: <span id="stat-forge-click"></span></div>'
-			+ '<div>' + getIconHtml('forge') + ' per Second: <span id="stat-forge-second"></span></div>'
-			+ '<br/>'
+			'<div>Level: <span id="stat-level"></span></div>' +
+			'<div>' + getIconHtml('xp') + ': <span id="stat-xp"></span></div>' +
+			'<div>' + getIconHtml('gold') + ': <span id="stat-gold"></span></div>' +
+			'<div>' + getIconHtml('forge') + ': <span id="stat-forge"></span></div>' +
+			'<br/>' +
+			'<div>Damage : <span id="stat-damage"></span></div>' +
+			'<div>Weapon : <span id="stat-weapon"></span></div>' +
+			'<div>Armor : <span id="stat-armor"></span></div>' +
+			'<br/>' +
+			'<div>' + getIconHtml('forge') + ' per Click: <span id="stat-forge-click"></span></div>' +
+			'<div>' + getIconHtml('forge') + ' per Second: <span id="stat-forge-second"></span></div>' +
+			'<br/>'
 		);
 
 		this.updateStats();
@@ -204,8 +209,12 @@ Player = {
 		for (var i = 0; i < this.stats.length; i++) {
 			this.getStat(i).updateButton();
 		}
+	},
+
+	statUpgradeBaseCost: function() {
+		return Math.floor(Math.pow(this.getLevel() - 1, 1.7) * 1.5);
 	}
-}
+};
 
 function StatType(data) {
 	this.statName = data.statName || '';
@@ -230,11 +239,11 @@ function StatType(data) {
 
 	this.getBaseValue = function() {
 		return this.getBaseValueAtLevel(this.level);
-	}
+	};
 
 	this.getBaseValueAtLevel = data.getBaseValueAtLevel || function(level) {
 		return this.baseValue + level * this.levelValue;
-	}
+	};
 
 	this.getStringPostfix = function() {
 		return this.stringPostfix || (this.isPercent ? '%' : '');
@@ -245,12 +254,13 @@ function StatType(data) {
 	};
 
 	this.upgradeCost = function() {
-		return Math.ceil(this.baseCost + Math.pow(this.level, 2) * this.levelCost);
+		return Math.ceil(this.baseCost + Math.pow(this.level, 2.3) * this.levelCost) +
+			Player.statUpgradeBaseCost();
 	};
 
 	this.upgradeValue = function() {
-		return this.getBaseValueAtLevel(this.level + 1)
-			- this.getBaseValueAtLevel(this.level);
+		return this.getBaseValueAtLevel(this.level + 1) -
+			this.getBaseValueAtLevel(this.level);
 	};
 
 	this.stringUpgradeValue = function() {
@@ -259,12 +269,14 @@ function StatType(data) {
 
 	this.canUpgrade = function() {
 		return this.isPlayerMinLevel() && Player.xp >= this.upgradeCost();
-	}
+	};
 
 	this.tryUpgrade = function() {
 		if (this.canUpgrade()) {
 			Player.xp -= this.upgradeCost();
 			this.level++;
+
+			this.onUpgrade();
 
 			Player.updateStatButtons();
 			return true;
@@ -277,9 +289,9 @@ function StatType(data) {
 	};
 
 	this.getUpgradeButtonHtml = function() {
-		var htmlStr = this.displayName + ': <span id="amount"></span>'
-			+ '<br/><span id="upgrade">(+<span id="upgrade-amount"></span>) : '
-			+ '<span id="cost"></span> ' + getIconHtml('xp');
+		var htmlStr = this.displayName + ': <span id="amount"></span>' +
+			'<br/><span id="upgrade">(+<span id="upgrade-amount"></span>) : ' +
+			'<span id="cost"></span> ' + getIconHtml('xp');
 		return getButtonHtml("Player.upgrade('" + this.statName + "')",
 			htmlStr, 'stat-' + this.statName + '-button');
 	};

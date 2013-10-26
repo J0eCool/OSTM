@@ -61,4 +61,4 @@ forgeParticleType = new ParticleType({
 
 function getIconHtml(type) {
 	return '<img class="icon ' + type + '-icon" />';
-};
+}

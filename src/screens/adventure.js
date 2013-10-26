@@ -11,8 +11,8 @@ AdventureScreen = {
 
 		$('.adventure').html(html);
 
-		$('.store').html('You can buy stuff now ;)<br/>'
-			+ getButtonHtml('AdventureScreen.setScreen(\'field\')', 'Leave'));
+		$('.store').html('You can buy stuff now ;)<br/>' +
+			getButtonHtml('AdventureScreen.setScreen(\'field\')', 'Leave'));
 
 		this.setScreen('field');
 	},
@@ -38,4 +38,4 @@ AdventureScreen = {
 	isOpen: function(name) {
 		return this.curScreen == name;
 	}
-}
+};
