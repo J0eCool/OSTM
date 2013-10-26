@@ -33,7 +33,7 @@ EnemyManager = {
 
 	levelUpPoints: 0,
 	pendingLevelUpPoints: 0,
-	maxLevelUnlocked: 1,
+	maxLevelUnlocked: 3,
 
 	getAppropriateEnemy: function() {
 		var enemies = [];
@@ -47,26 +47,30 @@ EnemyManager = {
 
 	setupEnemies: function() {
 		this.jqField = $('.field');
-		var enemyHtml = '';
+		var fieldHtml = '';
+
+		fieldHtml += 'Current Enemy Level: <span id="enemy-level"></span><br />'
+			+ getButtonHtml('EnemyManager.decreaseLevel()', 'Decrease Level', 'dec-level')
+			+ getButtonHtml("EnemyManager.increaseLevel()", 'Increase Level', 'inc-level')
+			+ '<div class="stage-progress-background"><div class="stage-progress-foreground"></div></div>';
 
 		this.enemies = [];
 		for (var i = 0; i < this.numEnemies; i++) {
 			var enemy = new EnemyContainer(i);
 			this.enemies.push(enemy);
-			enemyHtml += enemy.getHtml();
+			fieldHtml += enemy.getHtml();
 		}
-		this.jqField.append(enemyHtml);
-		setTimeout(function() { EnemyManager.spawnEnemies() }, 1);
+
+		this.jqField.html(fieldHtml);
 
 		$(".enemy").click(function() {
 			var index = $(this).attr('index');
 			EnemyManager.enemies[index].onClick();
 		});
 
-		$(".damage").css('opacity', '0');
+		this.spawnEnemies();
 
-		this.updateHeaderButtons();
-		this.updateProgressBar();
+		this.updateUI();
 	},
 
 	spawnEnemies: function() {
@@ -104,32 +108,33 @@ EnemyManager = {
 		}
 	},
 
+	updateUI: function() {
+		this.updateHeaderButtons();
+		this.updateProgressBar();
+	},
+
 	updateHeaderButtons: function() {
-		var html = 'Current Enemy Level: ' + this.level + '<br />';
-		if (this.level > 1) {
-			html += getButtonHtml('EnemyManager.decreaseLevel()', 'Decrease Level');
-		}
-		if (this.level < this.maxLevelUnlocked) {
-			html += getButtonHtml("EnemyManager.increaseLevel()", 'Increase Level');
-		}
-		$('.header-container').html(html);
+		$('#enemy-level').text(this.level);
+		$('#dec-level').toggle(this.level > 1);
+		$('#inc-level').toggle(this.level < this.maxLevelUnlocked);
 	},
 
 	updateProgressBar: function() {
 		var pct = 100 * this.levelUpPoints / this.getIncreaseLevelCost();
 		$('.stage-progress-foreground').width(pct + '%');
+		$('.stage-progress-background').toggle(this.level == this.maxLevelUnlocked);
 	},
 
 	decreaseLevel: function() {
 		this.level--;
 		this.spawnEnemies();
-		this.updateHeaderButtons();
+		this.updateUI();
 	},
 
 	increaseLevel: function() {
 		this.level++;
 		this.spawnEnemies();
-		this.updateHeaderButtons();
+		this.updateUI();
 	},
 
 	getIncreaseLevelCost: function() {

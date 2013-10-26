@@ -1,0 +1,47 @@
+.forge-bar {
+    float: right;
+    width: 220px;
+    height: 100%;
+    background-color: darkred;
+}
+
+.forge-container {
+    width: 220px;
+    height: 220px;
+}
+
+.forge-hole {
+    position: relative;
+    z-index: 2;
+}
+
+.forge-fill {
+    position: absolute;
+    right: 55px;
+    top: 55px;
+    width: 110px;
+    height: 110px;
+    background-color: #c3f;
+    z-index: 1;
+}
+
+.item-container {
+    position: absolute;
+    top: 220px;
+    bottom: 0px;
+    width: 220px;
+}
+
+.item-container div {
+    height: 50%;
+}
+
+.item-container div div {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.item-container h3 {
+    margin: 0px;
+}

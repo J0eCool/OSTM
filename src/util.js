@@ -32,7 +32,8 @@ function formatNumber(x) {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
 }
-function getButtonHtml(onclick, contents) {
-	return '<span class="button" onclick="' + onclick + '"><span>' + contents + '</span></span>';
+function getButtonHtml(onclick, contents, id) {
+	idStr = id ? ' id="' + id + '"' : '';
+	return '<span class="button" onclick="' + onclick + '"' + idStr + ' ><span>' + contents + '</span></span>';
 }
 

@@ -1,0 +1,52 @@
+.particles {
+    display: inline-block;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    z-index: 5;
+}
+
+.damage {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.enemy-damage {
+    color: #e0c030;
+}
+
+.player-damage {
+    color: red;
+}
+
+.heal {
+    color: #20f030;
+}
+
+.forge-plus {
+    color: #df6;
+}
+
+.reward {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.reward img.icon {
+    height: 32px;
+}
+
+.xp-reward {
+    color: #4f6;
+}
+
+.gold-reward {
+    color: #cd3;
+}
+
+.forge-reward {
+    color: #d6f;
+}

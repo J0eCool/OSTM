@@ -1,0 +1,66 @@
+.button {
+    display: inline-table;
+    border-radius: 10px;
+    border: 2px solid black;
+    margin: 2px 0px;
+    padding: 3px;
+    background-color: #2d6;
+    -webkit-transition: 0.1s;
+    transition: 0.1s;
+    box-shadow: 1.5px -1.5px 10px #555 inset;
+}
+
+.button span {
+    display: table-cell;
+    text-align: center;
+    width: 100%;
+    vertical-align: middle;
+}
+
+.button:hover {
+    background-color: #3fb;
+}
+
+.button:active {
+    background-color: #0c5;
+}
+
+.stat-bar .button,
+.forge-bar .button {
+    width: 95%;
+    min-height: 50px;
+    height: auto;
+}
+
+.button img.icon {
+    vertical-align: middle;
+    height: 14px;
+}
+
+.stat-bar div img.icon {
+    height: 16px;
+}
+
+img.xp-icon {
+    content: url("../img/XP_text.png");
+}
+
+img.gold-icon {
+    content: url("../img/Gold_icon.png");
+}
+
+img.forge-icon {
+    content: url("../img/Goop.png");
+}
+
+.size-0_85 {
+    transform: scale(0.85, 0.85);
+    -ms-transform: scale(0.85, 0.85);
+    -webkit-transform: scale(0.85, 0.85);
+}
+
+.size-1_1 {
+    transform: scale(1.1, 1.1);
+    -ms-transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+}
