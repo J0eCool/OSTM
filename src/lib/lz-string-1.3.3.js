@@ -108,7 +108,7 @@ var LZString = {
     return this.decompress(output);
     
   },
-
+/* //Removing because I'm not using it
   compressToUTF16 : function (input) {
     if (input == null) return "";
     var output = "",
@@ -274,7 +274,7 @@ var LZString = {
     //return output;
     
   },
-
+//*/
 
   
   compress: function (uncompressed) {
@@ -568,6 +568,10 @@ var LZString = {
     dictionary[3] = c;
     w = result = c;
     while (true) {
+      if (data.index > data.string.length) {
+        return "";
+      }
+
       bits = 0;
       maxpower = Math.pow(2,numBits);
       power=1;

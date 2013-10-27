@@ -17,7 +17,7 @@ $(document).ready(function() {
 });
 
 Game = {
-	toSave: ['Player', 'Inventory'],
+	toSave: ['Player', 'Inventory', 'Forge'],
 
 	realtimeDt: 33,
 	normalDt: 100,

@@ -1,5 +1,5 @@
 Player = {
-	toSave: ['xp', 'gold', 'forge'],
+	toSave: ['xp', 'gold', 'forge', 'weaponDamage', 'armor'],
 	maxHealth: new StatType({
 		statName: 'Health',
 		baseCost: 5,
@@ -88,6 +88,10 @@ Player = {
 		);
 
 		this.updateStats();
+	},
+
+	postLoad: function() {
+		this.health = this.maxHealth.value();
 	},
 
 	update: function() {
@@ -216,10 +220,6 @@ Player = {
 
 	statUpgradeBaseCost: function() {
 		return Math.floor(Math.pow(this.getLevel() - 1, 1.7) * 1.5);
-	},
-
-	_toJSON: function() {
-		return 'dicks';
 	}
 };
 

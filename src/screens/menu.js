@@ -19,14 +19,14 @@ Menu = {
 		AdventureScreen.init();
 
 		$('.options').html(getButtonHtml('Save.save()', 'Save') + ' ' +
+			'<span id="save-info"><br/>' +
 			getButtonHtml('Save.clearSave()', 'Delete Save', 'del-save') +
-			'<br/><span id="save-info">' + getButtonHtml('Save.load()', 'Load') +
-			'<br/>Saved hash: <span id="save-val"></span>' +
-			'<br/>Current prehash value: <span id="save-prehash"></span></span>');
+			'<br/>Export hash: <input type="text" id="save-val"></input></span><br/>' +
+			getButtonHtml("Save.import($('#save-import').val())", 'Import') +
+			'Import hash: <input type="text" id="save-import"></input>');
 		window.setInterval(function() {
-			$('#del-save,#save-info').toggle(Save.saveExists());
-			$('#save-val').text(localStorage.saveString);
-			$('#save-prehash').text(Save.getPreHashSaveString());
+			$('#save-info').toggle(Save.saveExists());
+			$('#save-val').attr('value', Save.getSaveString());
 		}, 500);
 	},
 

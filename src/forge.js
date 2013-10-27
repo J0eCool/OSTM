@@ -1,4 +1,5 @@
 Forge = {
+	toSave: ['fillOnClick', 'fillPerSecond'],
 
 	recipes: [],
 

@@ -28,6 +28,7 @@ Save = {
 
 		var save = baseObject.toSave || Object.keys(baseObject);
 		for (var key in saveObject) {
+			console.log('restoring ' + key);
 			if (save[key] || !save.indexOf || save.indexOf(key) >= 0) {
 				if (typeof(baseObject[key]) === 'object') {
 					this.restoreFromSaveObject(baseObject[key], saveObject[key]);
@@ -46,13 +47,13 @@ Save = {
 	getFullSaveObject: function() {
 		var obj = {};
 		for (var i = 0; i < Game.toSave.length; i++) {
-			var str = Game.toSave[i];
-			obj[str] = this.getSaveObject(eval(str));
+			var key = Game.toSave[i];
+			obj[key] = this.getSaveObject(eval(key));
 		}
 		return obj;
 	},
 	getPreHashSaveString: function() {
-		return JSON.stringify(this.getFullSaveObject(), null, 2);
+		return JSON.stringify(this.getFullSaveObject());
 	},
 
 	getSaveString: function() {
@@ -71,11 +72,35 @@ Save = {
 	},
 
 	load: function() {
-		var str = LZString.decompressFromBase64(localStorage.saveString);
-		var restoredObject = JSON.parse(str);
-		for (var i = 0; i < Game.toSave.length; i++) {
-			var s = Game.toSave[i];
-			this.restoreFromSaveObject(eval(s), restoredObject[s]);
+		if (localStorage.saveString) {
+			Save.import(localStorage.saveString);
+		}
+	},
+
+	import: function(str) {
+		if (str && str !== '') {
+			console.log('importing: ' + str);
+			var baseStr = LZString.decompressFromBase64(str);
+			if (baseStr === null || baseStr === '') {
+				alert('Load failed! Invalid import string');
+				return;
+			}
+			try {
+				console.log('  base str: ' + baseStr);
+				var restoredObject = JSON.parse(baseStr);
+				console.log('  object : ' + restoredObject);
+				for (var i = 0; i < Game.toSave.length; i++) {
+					var key = Game.toSave[i];
+					var obj = eval(key);
+					this.restoreFromSaveObject(obj, restoredObject[key]);
+					if (obj.postLoad) {
+						obj.postLoad();
+					}
+				}
+			}
+			catch (exception) {
+				alert('Load failed! Unparseable save data');
+			}
 		}
 	}
 };

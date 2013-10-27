@@ -31,7 +31,8 @@ module.exports = function(grunt) {
     concat: {
       build: {
         files: {
-          'build/game.min.css': ['css/**/*.css']
+          'build/game.css': ['css/**/*.css'],
+          'build/game.js': ['src/**/*.js']
         }
       }
     }
