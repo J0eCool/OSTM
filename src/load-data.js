@@ -34,6 +34,10 @@ function loadItems() {
 		new ItemDef({
 			name: 'forge-second',
 			isCountLimited: false
+		}),
+		new ItemDef({
+			name: 'vaishugga',
+			isCountLimited: false
 		})
 	];
 }

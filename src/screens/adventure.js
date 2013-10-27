@@ -13,8 +13,8 @@ AdventureScreen = {
 
 		$('.map-select').html(getButtonHtml("AdventureScreen.setScreen('store')", "Store") +
 			'<br>' + getButtonHtml("AdventureScreen.setScreen('field')", "Field"));
-		$('.store').html('You can buy stuff now ;)<br/>' +
-			getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave'));
+		$('.store').html(getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave') +
+			'<div class="recipes"></div>');
 
 		this.setScreen('field');
 	},

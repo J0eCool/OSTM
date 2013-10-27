@@ -41,6 +41,10 @@
     height: 80%;
 }
 
+.store .button {
+    width: 240px;
+}
+
 .button img.icon {
     vertical-align: middle;
     height: 14px;

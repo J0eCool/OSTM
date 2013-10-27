@@ -55,7 +55,7 @@ Forge = {
 	setupButtons: function() {
 		var htmlStr = '';
 		for (var i = 0; i < this.recipes.length; i++) {
-			htmlStr += this.recipes[i].getButtonHtml();
+			htmlStr += this.recipes[i].getButtonHtml() + '<br/>';
 		}
 
 		$('.recipes').html(htmlStr);

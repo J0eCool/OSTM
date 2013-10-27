@@ -12,6 +12,7 @@ module.exports = function(grunt) {
         options: {          
           ignores: ['src/lib/*.js'],
           
+          '-W061': true, //disable eval warning
           '-W103': true //disable __proto__ warning
         },
         src: ['src/**/*.js']

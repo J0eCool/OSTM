@@ -17,12 +17,12 @@ $(document).ready(function() {
 });
 
 Game = {
+	toSave: ['Player', 'Inventory'],
+
 	realtimeDt: 33,
 	normalDt: 100,
 
 	windowSize: null,
-
-	data: null,
 
 	init: function() {
 		Menu.init();
@@ -32,11 +32,14 @@ Game = {
 		Inventory.init();
 		Forge.init();
 
+		Save.load();
+
 		window.setInterval(Game.update, Game.normalDt);
 	},
 
 	update: function() {
 		Player.update();
+		Inventory.update();
 		Forge.update();
 	},
 
@@ -51,29 +54,5 @@ Game = {
 		}
 
 		Game.windowSize = windowSize;
-	},
-
-	save: function() {
-		localStorage.saveString = this.getSaveString();
-	},
-
-	getSaveString: function() {
-		var str = 'doop ' + Player.xp;
-		return LZString.compressToBase64(str);
-	},
-
-	saveExists: function() {
-		if (localStorage.saveString) {
-			return true;
-		}
-		return false;
-	},
-
-	clearSave: function() {
-		delete localStorage.saveString;
-	},
-
-	load: function() {
-		var str = LZString.decompressFromBase64(localStorage.saveString);
 	}
 };

@@ -33,10 +33,6 @@
 }
 
 .item-container div {
-    height: 50%;
-}
-
-.item-container div div {
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;

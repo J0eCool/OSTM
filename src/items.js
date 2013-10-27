@@ -1,21 +1,31 @@
 Inventory = {
+	toSave: ['items'],
+
 	slotsPerItem: 5,
 
 	items: [],
 
 	init: function() {
 		this.items = loadItems();
+		this.setupButtons();
+	},
+
+	update: function() {
+		this.updateButtons();
+	},
+
+	setupButtons: function() {
+		var htmlStr = '';
+		for (var i = 0; i < this.items.length; i++) {
+			htmlStr += this.items[i].getButtonHtml();
+		}
+		$('.inventory').html(htmlStr);
 	},
 
 	updateButtons: function() {
-		var htmlStr = '';
 		for (var i = 0; i < this.items.length; i++) {
-			var item = this.items[i];
-			if (item.count > 0 && item.onUse) {
-				htmlStr += item.getButtonHtml();
-			}
+			this.items[i].updateButton();
 		}
-		$('.inventory').html(htmlStr);
 	},
 
 	getItem: function(itemName) {
@@ -38,6 +48,8 @@ Inventory = {
 };
 
 function ItemDef(data) {
+	this.toSave = ['name', 'count'];
+
 	this.name = data.name || '';
 	this.displayName = data.displayName || data.name || '';
 	this.data = data.data || null;
@@ -48,9 +60,17 @@ function ItemDef(data) {
 
 	this.getButtonHtml = function() {
 		return getButtonHtml("Inventory.useItem('" + this.name + "')",
-			this.displayName + ': ' + formatNumber(this.count) +
-			(this.isCountLimited ? ' / ' + formatNumber(this.maxItemCount()) : '')
+			this.displayName + ': <span id="count"></span>' +
+			(this.isCountLimited ? ' / <span id="max-count"></span>' : ''),
+			this.name + '-inv-button'
 		);
+	};
+
+	this.updateButton = function() {
+		var id = '#' + this.name + '-inv-button';
+		$(id).toggle(this.isVisible());
+		$(id + ' #count').text(formatNumber(this.count));
+		$(id + ' #max-count').text(formatNumber(this.maxItemCount()));
 	};
 
 	this.maxItemCount = function() {
@@ -59,6 +79,10 @@ function ItemDef(data) {
 
 	this.isItemMaxed = function() {
 		return this.isCountLimited && this.count >= this.maxItemCount();
+	};
+
+	this.isVisible = function() {
+		return this.onUse !== null && (this.count > 0);
 	};
 }
 

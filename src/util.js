@@ -37,4 +37,3 @@ function getButtonHtml(onclick, contents, id) {
 	return '<span class="button" onclick="' + onclick + '"' + idStr +
 		' ><span class="content">' + contents + '</span></span>';
 }
-

@@ -18,12 +18,15 @@ Menu = {
 
 		AdventureScreen.init();
 
-		$('.options').html(getButtonHtml('Game.save()', 'Save') + ' ' +
-			getButtonHtml('Game.clearSave()', 'Delete Save', 'del-save') +
-			'<br/><span id="save-info">Saving actually does nothing yet :P<br/>"Save" value: <span id="save-val"></span></span>');
+		$('.options').html(getButtonHtml('Save.save()', 'Save') + ' ' +
+			getButtonHtml('Save.clearSave()', 'Delete Save', 'del-save') +
+			'<br/><span id="save-info">' + getButtonHtml('Save.load()', 'Load') +
+			'<br/>Saved hash: <span id="save-val"></span>' +
+			'<br/>Current prehash value: <span id="save-prehash"></span></span>');
 		window.setInterval(function() {
-			$('#del-save,#save-info').toggle(Game.saveExists());
+			$('#del-save,#save-info').toggle(Save.saveExists());
 			$('#save-val').text(localStorage.saveString);
+			$('#save-prehash').text(Save.getPreHashSaveString());
 		}, 500);
 	},
 

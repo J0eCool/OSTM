@@ -1,4 +1,5 @@
 Player = {
+	toSave: ['xp', 'gold', 'forge'],
 	maxHealth: new StatType({
 		statName: 'Health',
 		baseCost: 5,
@@ -66,6 +67,8 @@ Player = {
 	stats: ['maxHealth', 'strength', 'defense', 'itemEfficiency', 'healthRegen'],
 
 	init: function() {
+		this.toSave = this.toSave.concat(this.stats);
+
 		this.health = this.maxHealth.value();
 		this.createStatButtons();
 
@@ -213,10 +216,16 @@ Player = {
 
 	statUpgradeBaseCost: function() {
 		return Math.floor(Math.pow(this.getLevel() - 1, 1.7) * 1.5);
+	},
+
+	_toJSON: function() {
+		return 'dicks';
 	}
 };
 
 function StatType(data) {
+	this.toSave = ['level'];
+
 	this.statName = data.statName || '';
 	this.displayName = data.displayName || this.statName || '';
 	this.minLevel = data.minLevel || 0;
