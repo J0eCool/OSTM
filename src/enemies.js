@@ -54,7 +54,7 @@ EnemyManager = {
 		var fieldHtml = '';
 
 		fieldHtml += 'Current Enemy Level: <span id="enemy-level"></span><br />' +
-			getButtonHtml('AdventureScreen.setScreen(\'store\')', 'Shop', 'store-button') +
+			getButtonHtml("AdventureScreen.setScreen('map-select')", 'Map', 'map-button') +
 			getButtonHtml('EnemyManager.decreaseLevel()', 'Decrease Level', 'dec-level') +
 			getButtonHtml("EnemyManager.increaseLevel()", 'Increase Level', 'inc-level')
 			//+ '<div class="stage-progress-background"><div class="stage-progress-foreground"></div></div>'
@@ -120,7 +120,6 @@ EnemyManager = {
 
 	updateHeaderButtons: function() {
 		$('#enemy-level').text(this.level);
-		$('#store-button').toggle(this.level == 1);
 		$('#dec-level').toggle(this.level > 1);
 		$('#inc-level').toggle(this.level < this.maxLevelUnlocked);
 	},

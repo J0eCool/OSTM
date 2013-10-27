@@ -4,43 +4,7 @@ Inventory = {
 	items: [],
 
 	init: function() {
-		this.items = [
-			new PotionDef({
-				name: 'potion',
-				count: 2,
-				data: {
-					healAmount: 100
-				},
-				maxPerInvSlot: 2
-			}),
-			new PotionDef({
-				name: 'hiPotion',
-				data: {
-					healAmount: 500
-				}
-			}),
-
-			new ItemDef({
-				name: 'weapon-plus',
-				isCountLimited: false
-			}),
-			new ItemDef({
-				name: 'armor-plus',
-				isCountLimited: false
-			}),
-			new ItemDef({
-				name: 'inventory-plus',
-				isCountLimited: false
-			}),
-			new ItemDef({
-				name: 'forge-click',
-				isCountLimited: false
-			}),
-			new ItemDef({
-				name: 'forge-second',
-				isCountLimited: false
-			})
-		];
+		this.items = loadItems();
 	},
 
 	updateButtons: function() {

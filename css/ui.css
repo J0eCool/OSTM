@@ -1,5 +1,8 @@
 .button {
     display: inline-table;
+    min-width: 120px;
+    min-height: 50px;
+    height: auto;
     border-radius: 10px;
     border: 2px solid black;
     margin: 2px 0px;
@@ -32,13 +35,10 @@
 .stat-bar .button,
 .forge-bar .button {
     width: 95%;
-    min-height: 50px;
-    height: auto;
 }
 
 .header-container .button {
     height: 80%;
-    min-width: 120px;
 }
 
 .button img.icon {

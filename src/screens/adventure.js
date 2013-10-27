@@ -1,6 +1,6 @@
 AdventureScreen = {
 
-	subscreens: ['field', 'store'],
+	subscreens: ['map-select', 'field', 'store'],
 	curScreen: '',
 
 	init: function() {
@@ -11,8 +11,10 @@ AdventureScreen = {
 
 		$('.adventure').html(html);
 
+		$('.map-select').html(getButtonHtml("AdventureScreen.setScreen('store')", "Store") +
+			'<br>' + getButtonHtml("AdventureScreen.setScreen('field')", "Field"));
 		$('.store').html('You can buy stuff now ;)<br/>' +
-			getButtonHtml('AdventureScreen.setScreen(\'field\')', 'Leave'));
+			getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave'));
 
 		this.setScreen('field');
 	},

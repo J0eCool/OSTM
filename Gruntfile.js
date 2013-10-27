@@ -9,7 +9,9 @@ module.exports = function(grunt) {
         reporterOutput: 'build/lint.xml'
       },
       build: {
-        options: {
+        options: {          
+          ignores: ['src/lib/*.js'],
+          
           '-W103': true //disable __proto__ warning
         },
         src: ['src/**/*.js']

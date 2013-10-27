@@ -18,7 +18,13 @@ Menu = {
 
 		AdventureScreen.init();
 
-		$('.options').html('There are no options :(');
+		$('.options').html(getButtonHtml('Game.save()', 'Save') + ' ' +
+			getButtonHtml('Game.clearSave()', 'Delete Save', 'del-save') +
+			'<br/><span id="save-info">Saving actually does nothing yet :P<br/>"Save" value: <span id="save-val"></span></span>');
+		window.setInterval(function() {
+			$('#del-save,#save-info').toggle(Game.saveExists());
+			$('#save-val').text(localStorage.saveString);
+		}, 500);
 	},
 
 	setScreen: function(name) {

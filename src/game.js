@@ -5,11 +5,6 @@ $(document).ready(function() {
 
 	Game.init();
 
-	window.setInterval(function() {
-		Player.update();
-		Forge.update();
-	}, Game.normalDt);
-
 	//TODO: create helper class that 1: adds these events , 2: creates size-x css as needed
 	/*$('.health-button').click(function() {
 		Player.healthPlusClicked();
@@ -30,19 +25,19 @@ Game = {
 	data: null,
 
 	init: function() {
-		//this.data = JSON.parse()
-		//$.getJSON('data.json').done(function() {
-		//	console.log('ucsess');
-			//Game.data = data;
-			//console.log(data);
-		//});
-
 		Menu.init();
 		EnemyManager.init();
 		Player.init();
 
 		Inventory.init();
 		Forge.init();
+
+		window.setInterval(Game.update, Game.normalDt);
+	},
+
+	update: function() {
+		Player.update();
+		Forge.update();
 	},
 
 	handleResize: function() {
@@ -56,5 +51,29 @@ Game = {
 		}
 
 		Game.windowSize = windowSize;
+	},
+
+	save: function() {
+		localStorage.saveString = this.getSaveString();
+	},
+
+	getSaveString: function() {
+		var str = 'doop ' + Player.xp;
+		return LZString.compressToBase64(str);
+	},
+
+	saveExists: function() {
+		if (localStorage.saveString) {
+			return true;
+		}
+		return false;
+	},
+
+	clearSave: function() {
+		delete localStorage.saveString;
+	},
+
+	load: function() {
+		var str = LZString.decompressFromBase64(localStorage.saveString);
 	}
 };
