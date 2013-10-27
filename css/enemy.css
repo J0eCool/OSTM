@@ -80,13 +80,16 @@
 #dec-level,
 #inc-level {
     position: absolute;
+    top: -webkit-calc(50% - 20px);
     top: calc(50% - 20px);
     width: 100px;
     height: 40px;
 }
+
 #dec-level {
     left: 30px;
 }
+
 #inc-level {
     right: 30px;
 }
