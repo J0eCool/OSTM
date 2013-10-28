@@ -10,6 +10,12 @@ Inventory = {
 		this.setupButtons();
 	},
 
+	postLoad: function() {
+		for (var i = 0; i < this.items.length; i++) {
+			this.items[i].update();
+		}
+	},
+
 	update: function() {
 		this.updateButtons();
 	},
@@ -84,6 +90,8 @@ function ItemDef(data) {
 	this.isVisible = function() {
 		return this.onUse !== null && (this.count > 0);
 	};
+
+	this.update = data.update || function() {};
 }
 
 function PotionDef(data) {

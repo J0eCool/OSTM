@@ -1,28 +1,24 @@
-AdventureScreen = {
+AdventureScreen = new ScreenContainer({
+	classBase: 'adventure-screen',
+	targetDiv: '.adventure',
 
-	subscreens: ['map-select', 'field', 'store'],
-	curScreen: '',
+	screens: [
+		new ScreenDef({
+			name: 'field'
+		}),
+		new ScreenDef({
+			name: 'map-select',
+			html: getButtonHtml("AdventureScreen.setScreen('store')", "Store") +
+				'<br>' + getButtonHtml("AdventureScreen.setScreen('field')", "Field")
+		}),
+		new ScreenDef({
+			name: 'store',
+			html: getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave') +
+				'<div class="recipes"></div>'
+		})
+	],
 
-	init: function() {
-		var html = '';
-		for (var i = 0; i < this.subscreens.length; i++) {
-			html += '<div class="adventure-screen ' + this.subscreens[i] + '"></div>';
-		}
-
-		$('.adventure').html(html);
-
-		$('.map-select').html(getButtonHtml("AdventureScreen.setScreen('store')", "Store") +
-			'<br>' + getButtonHtml("AdventureScreen.setScreen('field')", "Field"));
-		$('.store').html(getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave') +
-			'<div class="recipes"></div>');
-
-		this.setScreen('field');
-	},
-
-	setScreen: function(name) {
-		$('.adventure-screen').hide();
-		$('.' + name).show();
-
+	onScreenSet: function(name) {
 		if (!this.isOpen('field') && name == 'field') {
 			EnemyManager.maxLevelUnlocked = 1;
 			EnemyManager.level = 1;
@@ -34,10 +30,5 @@ AdventureScreen = {
 		}
 
 		this.curScreen = name;
-	},
-
-
-	isOpen: function(name) {
-		return this.curScreen == name;
 	}
-};
+});

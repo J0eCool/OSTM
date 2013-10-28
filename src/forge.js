@@ -1,6 +1,4 @@
 Forge = {
-	toSave: ['fillOnClick', 'fillPerSecond'],
-
 	recipes: [],
 
 	fillOnClick: 1,
@@ -108,6 +106,7 @@ function Recipe(data) {
 	this.onComplete = function() {
 		if (this.itemDef) {
 			this.itemDef.count += 1;
+			this.itemDef.update();
 		}
 
 		if (this.onComplete_internal) {
@@ -120,7 +119,6 @@ function Recipe(data) {
 			Forge.createFillParticle('MAXED');
 		}
 	};
-	this.onComplete_internal = data.onComplete || null;
 
 	this.getCost = data.getCost || function() {
 		return this.baseCost;

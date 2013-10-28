@@ -17,27 +17,38 @@ function loadItems() {
 
 		new ItemDef({
 			name: 'weapon-plus',
-			isCountLimited: false
+			isCountLimited: false,
+			update: function() {
+				Player.weaponDamage = this.count + 2;
+			}
 		}),
 		new ItemDef({
 			name: 'armor-plus',
-			isCountLimited: false
+			isCountLimited: false,
+			update: function() {
+				Player.armor = this.count + 2;
+			}
 		}),
 		new ItemDef({
 			name: 'inventory-plus',
-			isCountLimited: false
+			isCountLimited: false,
+			update: function() {
+				Inventory.slotsPerItem = this.count + 5;
+			}
 		}),
 		new ItemDef({
 			name: 'forge-click',
-			isCountLimited: false
+			isCountLimited: false,
+			update: function() {
+				Forge.fillOnClick = (this.count + 1) * (this.count + 2) / 2;
+			}
 		}),
 		new ItemDef({
 			name: 'forge-second',
-			isCountLimited: false
-		}),
-		new ItemDef({
-			name: 'vaishugga',
-			isCountLimited: false
+			isCountLimited: false,
+			update: function() {
+				Forge.fillPerSecond = this.count;
+			}
 		})
 	];
 }
@@ -59,9 +70,6 @@ function loadRecipes() {
 			baseCost: 100,
 			getCost: function() {
 				return this.baseCost * (1 + 2 * Math.floor(Math.pow(this.itemDef.count, 1.8)));
-			},
-			onComplete: function() {
-				Player.weaponDamage += 1;
 			}
 		}),
 		new Recipe({
@@ -70,9 +78,6 @@ function loadRecipes() {
 			baseCost: 50,
 			getCost: function() {
 				return this.baseCost * (1 + Math.floor(Math.pow(this.itemDef.count, 1.8)));
-			},
-			onComplete: function() {
-				Player.armor += 1;
 			}
 		}),
 		new Recipe({
@@ -81,9 +86,6 @@ function loadRecipes() {
 			baseCost: 50,
 			getCost: function() {
 				return this.baseCost * (1 + Math.pow(this.itemDef.count, 2));
-			},
-			onComplete: function() {
-				Inventory.slotsPerItem += 1;
 			}
 		}),
 		new Recipe({
@@ -93,9 +95,6 @@ function loadRecipes() {
 			currency: 'gold',
 			getCost: function() {
 				return this.baseCost * (1 + Math.pow(this.itemDef.count, 2));
-			},
-			onComplete: function() {
-				Forge.fillOnClick += this.itemDef.count;
 			}
 		}),
 		new Recipe({
@@ -105,9 +104,6 @@ function loadRecipes() {
 			currency: 'gold',
 			getCost: function() {
 				return this.baseCost * (1 + 2 * Math.pow(this.itemDef.count, 2));
-			},
-			onComplete: function() {
-				Forge.fillPerSecond += 1;
 			}
 		})
 	];

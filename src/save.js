@@ -28,7 +28,7 @@ Save = {
 
 		var save = baseObject.toSave || Object.keys(baseObject);
 		for (var key in saveObject) {
-			console.log('restoring ' + key);
+			//console.log('restoring ' + key);
 			if (save[key] || !save.indexOf || save.indexOf(key) >= 0) {
 				if (typeof(baseObject[key]) === 'object') {
 					this.restoreFromSaveObject(baseObject[key], saveObject[key]);
@@ -79,16 +79,16 @@ Save = {
 
 	import: function(str) {
 		if (str && str !== '') {
-			console.log('importing: ' + str);
+			//console.log('importing: ' + str);
 			var baseStr = LZString.decompressFromBase64(str);
 			if (baseStr === null || baseStr === '') {
 				alert('Load failed! Invalid import string');
 				return;
 			}
 			try {
-				console.log('  base str: ' + baseStr);
+				//console.log('  base str: ' + baseStr);
 				var restoredObject = JSON.parse(baseStr);
-				console.log('  object : ' + restoredObject);
+				//console.log('  object : ' + restoredObject);
 				for (var i = 0; i < Game.toSave.length; i++) {
 					var key = Game.toSave[i];
 					var obj = eval(key);

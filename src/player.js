@@ -1,5 +1,5 @@
 Player = {
-	toSave: ['xp', 'gold', 'forge', 'weaponDamage', 'armor'],
+	toSave: ['xp', 'gold', 'forge'],
 	maxHealth: new StatType({
 		statName: 'Health',
 		baseCost: 5,
