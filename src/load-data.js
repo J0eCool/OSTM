@@ -108,3 +108,59 @@ function loadRecipes() {
 		})
 	];
 }
+
+function loadEnemies() {
+	return [
+		new EnemyDef({
+			name: 'Enemy',
+			image: 'img/Shroomie.png',
+			health: 22,
+			gold: 3
+		}),
+		new EnemyDef({
+			name: 'Wall',
+			image: 'img/Bricks.png',
+			health: 40,
+			xp: 4,
+			forge: 2,
+			gold: 4,
+		}),
+		new EnemyDef({
+			minLevel: 3,
+			name: 'Swirl',
+			image: 'img/CircleTestPattern.png',
+			health: 30,
+			attack: 6,
+			xp: 6,
+			forge: 3,
+			gold: 5
+		})
+	];
+}
+
+function loadAdventures() {
+	var adventures = {
+		adv0: new AdventureDef({
+			displayName: 'Field',
+			levels: [5, 6, 6],
+			enemies: ['Enemy'],
+			spawnCountHi: 3
+		}),
+		adv1: new AdventureDef({
+			displayName: 'OtherField',
+			levels: [8, 10, 9, 12],
+			enemies: ['Enemy', 'Wall'],
+			prereq: 'adv0'
+		}),
+		adv2: new AdventureDef({
+			displayName: 'Third Area',
+			levels: [15, 18, 23, 26, 30],
+			enemies: ['Wall', 'Swirl'],
+			prereq: 'adv1'
+		})
+	};
+	for (var key in adventures) {
+		adventures[key].name = key;
+	}
+	return adventures;
+}

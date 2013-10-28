@@ -14,6 +14,8 @@ function ScreenContainer(data) {
 	this.curScreen = '';
 
 	this.init = function() {
+		this.preInit();
+		
 		var html = '';
 		for (var i = 0; i < this.screens.length; i++) {
 			var scr = this.screens[i];
@@ -28,6 +30,7 @@ function ScreenContainer(data) {
 		}
 	};
 
+	this.preInit = data.preInit || function(){};
 	this.postInit = data.postInit || function(){};
 
 	this.setScreen = function(name) {

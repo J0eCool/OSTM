@@ -17,7 +17,7 @@ $(document).ready(function() {
 });
 
 Game = {
-	toSave: ['Player', 'Inventory'],
+	toSave: ['Player', 'Inventory', 'AdventureScreen'],
 
 	realtimeDt: 33,
 	normalDt: 100,
@@ -41,6 +41,7 @@ Game = {
 		Player.update();
 		Inventory.update();
 		Forge.update();
+		AdventureScreen.update();
 	},
 
 	handleResize: function() {

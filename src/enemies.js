@@ -1,47 +1,21 @@
 EnemyManager = {
 	numEnemies: 6,
-	enemyDefs:  [
-		new EnemyDef({
-			name: 'Enemy',
-			image: 'img/Shroomie.png',
-			health: 22,
-			gold: 3
-		}),
-		new EnemyDef({
-			name: 'Wall',
-			image: 'img/Bricks.png',
-			health: 40,
-			xp: 4,
-			forge: 2,
-			gold: 4,
-		}),
-		new EnemyDef({
-			minLevel: 3,
-			name: 'Swirl',
-			image: 'img/CircleTestPattern.png',
-			health: 36,
-			attack: 7,
-			xp: 7,
-			forge: 3,
-			gold: 6
-		})
-	],
+	enemyDefs:  [],
+
+	curArea: null,
 
 	enemies: [],
 	activeEnemies: [],
 	jqField: null,
 	jqAdventure: null,
 
-	level: 1,
-
-	levelUpPoints: 0,
-	pendingLevelUpPoints: 0,
-	maxLevelUnlocked: 1,
+	subArea: 0,
+	bestAvailableSubArea: 0,
 
 	getAppropriateEnemy: function() {
 		var enemies = [];
 		for (var i = 0; i < this.enemyDefs.length; i++) {
-			if (this.enemyDefs[i].minLevel <= this.level) {
+			if (this.curArea.enemies.indexOf(this.enemyDefs[i].name) >= 0) {
 				enemies.push(this.enemyDefs[i]);
 			}
 		}
@@ -51,13 +25,16 @@ EnemyManager = {
 	init: function() {
 		this.jqField = $('.field');
 		this.jqAdventure = $('.adventure');
+
+		this.enemyDefs = loadEnemies();
+		this.curArea = AdventureScreen.adventures[0];
+
 		var fieldHtml = '';
 
-		fieldHtml += 'Current Enemy Level: <span id="enemy-level"></span><br />' +
+		fieldHtml += '<h2 id="area-name"></h2>' +
 			getButtonHtml("AdventureScreen.setScreen('map-select')", 'Map', 'map-button') +
-			getButtonHtml('EnemyManager.decreaseLevel()', 'Decrease Level', 'dec-level') +
-			getButtonHtml("EnemyManager.increaseLevel()", 'Increase Level', 'inc-level')
-			//+ '<div class="stage-progress-background"><div class="stage-progress-foreground"></div></div>'
+			getButtonHtml('EnemyManager.decreaseLevel()', 'Back', 'dec-level') +
+			getButtonHtml("EnemyManager.increaseLevel()", 'Forward', 'inc-level')
 		;
 
 		this.enemies = [];
@@ -68,21 +45,31 @@ EnemyManager = {
 		}
 
 		this.jqField.html(fieldHtml);
+		$('#map-button').hide();
 
 		$(".enemy").click(function() {
 			var index = $(this).attr('index');
 			EnemyManager.enemies[index].onClick();
 		});
 
-		this.spawnEnemies();
+		if (!AdventureScreen.hasBeat('adv0')) {
+			AdventureScreen.startAdventure('adv0');
+		}
+	},
 
-		this.updateUI();
+	resetField: function() {
+		if (this.curArea !== null) {
+			this.subArea = 0;
+			this.bestAvailableSubArea = -1;
+			this.spawnEnemies();
+			this.updateUI();
+		}
 	},
 
 	spawnEnemies: function() {
 		this.activeEnemies = [];
-		var maxToSpawn = clamp(this.level, 2, 5);
-		var numToSpawn = Math.min(this.enemies.length, randIntInc(2, maxToSpawn));
+		var numToSpawn = Math.min(this.enemies.length,
+			randIntInc(this.curArea.spawnCountLo, this.curArea.spawnCountHi));
 		$('.enemy-container').hide();
 		for (var i = 0; i < numToSpawn; i++) {
 			var enemy = this.enemies[i];
@@ -95,49 +82,35 @@ EnemyManager = {
 	despawnEnemy: function(enemy) {
 		removeItem(enemy, this.activeEnemies);
 		enemy.getSelector().hide();
-		this.pendingLevelUpPoints += 1;
 		if (this.activeEnemies.length === 0) {
-			if (this.level >= this.maxLevelUnlocked) {
-				this.levelUpPoints += this.pendingLevelUpPoints;
-				if (this.levelUpPoints >= this.getIncreaseLevelCost()) {
-					this.levelUpPoints = 0;
-					this.maxLevelUnlocked++;
-					this.updateHeaderButtons();
-				}
-
-				this.updateProgressBar();
+			this.bestAvailableSubArea = Math.max(this.subArea + 1, this.bestAvailableSubArea);
+			if (this.bestAvailableSubArea >= this.curArea.levels.length) {
+				this.curArea.hasBeat = true;
 			}
-
-			this.pendingLevelUpPoints = 0;
+			this.updateHeaderButtons();
 			this.spawnEnemies();
 		}
 	},
 
 	updateUI: function() {
 		this.updateHeaderButtons();
-		this.updateProgressBar();
 	},
 
 	updateHeaderButtons: function() {
-		$('#enemy-level').text(this.level);
-		$('#dec-level').toggle(this.level > 1);
-		$('#inc-level').toggle(this.level < this.maxLevelUnlocked);
-	},
-
-	updateProgressBar: function() {
-		var pct = 100 * this.levelUpPoints / this.getIncreaseLevelCost();
-		$('.stage-progress-foreground').width(pct + '%');
-		$('.stage-progress-background').toggle(this.level == this.maxLevelUnlocked);
+		$('#area-name').text(this.curArea.displayName);
+		$('#dec-level').toggle(this.subArea > 0);
+		$('#inc-level').toggle(this.subArea <
+			Math.min(this.curArea.levels.length - 1, this.bestAvailableSubArea));
 	},
 
 	decreaseLevel: function() {
-		this.level--;
+		this.subArea--;
 		this.spawnEnemies();
 		this.updateUI();
 	},
 
 	increaseLevel: function() {
-		this.level++;
+		this.subArea++;
 		this.spawnEnemies();
 		this.updateUI();
 	},
@@ -199,10 +172,11 @@ function EnemyContainer(index) {
 	};
 
 	this.respawn = function(def) {
-		this.level = EnemyManager.level;
+		this.level = EnemyManager.curArea.levels[EnemyManager.subArea];
 
-		var powerMult = (this.level + 1) / 2 + (Math.pow(1.1, this.level - 1) - 1);
-		var rewardMult = this.level + (Math.pow(1.07, this.level - 1) - 1);
+		var lev = this.level / 4;
+		var powerMult = (lev + 1) / 2 + (Math.pow(1.1, lev - 1) - 1);
+		var rewardMult = lev + (Math.pow(1.07, lev - 1) - 1);
 
 		this.maxHealth = Math.floor(def.health * powerMult);
 		this.health = this.maxHealth;
@@ -215,7 +189,7 @@ function EnemyContainer(index) {
 		var sel = this.getSelector();
 
 		sel.find('.enemy').attr('src', def.image);
-		sel.find('.name').text(def.name);
+		sel.find('.name').text('L' + this.level + ' ' + def.name);
 
 		var width = sel.width();
 		var height = sel.height();

@@ -1,4 +1,5 @@
 Inventory = {
+	//TODO: save items like I save adventures
 	toSave: ['items'],
 
 	slotsPerItem: 5,

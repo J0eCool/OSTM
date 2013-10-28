@@ -1,5 +1,7 @@
 Player = {
 	toSave: ['xp', 'gold', 'forge'],
+
+	//TODO: load and add stats dynamically; add a load-data.js function
 	maxHealth: new StatType({
 		statName: 'Health',
 		baseCost: 5,
@@ -36,7 +38,7 @@ Player = {
 		baseCost: 100,
 		levelCost: 50,
 		baseValue: 100,
-		levelValue: 15,
+		levelValue: 20,
 		isPercent: true
 	}),
 	partialHealth: 0, //health regen per-tick roundoff
@@ -84,6 +86,8 @@ Player = {
 			'<br/>' +
 			'<div>' + getIconHtml('forge') + ' per Click: <span id="stat-forge-click"></span></div>' +
 			'<div>' + getIconHtml('forge') + ' per Second: <span id="stat-forge-second"></span></div>' +
+			'<br/>' +
+			'<div>Health Regen: <span id="stat-regen"></span>/s</div>' +
 			'<br/>'
 		);
 
@@ -117,6 +121,8 @@ Player = {
 
 		$('#stat-forge-click').text(formatNumber(Forge.fillOnClick));
 		$('#stat-forge-second').text(formatNumber(Forge.fillPerSecond));
+
+		$('#stat-regen').text(formatNumber(this.maxHealth.value() * this.healthRegen.value()));
 	},
 
 	getStat: function(i) {

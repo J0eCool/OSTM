@@ -4,12 +4,11 @@ AdventureScreen = new ScreenContainer({
 
 	screens: [
 		new ScreenDef({
-			name: 'field'
+			name: 'map-select',
+			createHtml: mapSelectHtml
 		}),
 		new ScreenDef({
-			name: 'map-select',
-			html: getButtonHtml("AdventureScreen.setScreen('store')", "Store") +
-				'<br>' + getButtonHtml("AdventureScreen.setScreen('field')", "Field")
+			name: 'field'
 		}),
 		new ScreenDef({
 			name: 'store',
@@ -18,17 +17,71 @@ AdventureScreen = new ScreenContainer({
 		})
 	],
 
+	adventures: {},
+
+	preInit: function() {
+		this.adventures = loadAdventures();
+	},
+
 	onScreenSet: function(name) {
 		if (!this.isOpen('field') && name == 'field') {
-			EnemyManager.maxLevelUnlocked = 1;
-			EnemyManager.level = 1;
-			EnemyManager.spawnEnemies();
-			EnemyManager.updateUI();
-		}
-		else {
-			Player.health = Player.maxHealth.value();
+			EnemyManager.resetField();
 		}
 
 		this.curScreen = name;
 	}
 });
+AdventureScreen.toSave = ['adventures'];
+AdventureScreen.update = function() {
+	$('#map-button').toggle(this.hasBeat('adv0'));
+	for (var i in this.adventures) {
+		var adv = this.adventures[i];
+		$('#' + adv.name + '-button').toggle(adv.isAvailable());
+	}
+};
+AdventureScreen.getAdventure = function(name) {
+	for (var i in this.adventures) {
+		var adv = this.adventures[i];
+		if (adv.name == name) {
+			return adv;
+		}
+	}
+
+	return null;
+};
+AdventureScreen.hasBeat = function(name) {
+	var adv = this.getAdventure(name);
+	return adv && adv.hasBeat;
+};
+AdventureScreen.startAdventure = function(name) {
+	var adv = this.getAdventure(name);
+	EnemyManager.curArea = adv;
+	this.setScreen('field');
+};
+
+function mapSelectHtml() {
+	var html = getButtonHtml("AdventureScreen.setScreen('store')", "Store");
+	for (var i in AdventureScreen.adventures) {
+		var adv = AdventureScreen.adventures[i];
+		html += '<br>' + getButtonHtml("AdventureScreen.startAdventure('" + adv.name + "')",
+			adv.displayName, adv.name + '-button');
+	}
+	return html;
+}
+
+function AdventureDef(data) {
+	this.toSave = ['hasBeat'];
+	this.name = data.name || '';
+	this.displayName = data.displayName || '';
+	this.levels = data.levels || [1];
+	this.enemies = data.enemies || [];
+	this.spawnCountLo = data.spawnCountLo || 3;
+	this.spawnCountHi = data.spawnCountHi || 5;
+	this.prereq = data.prereq || null;
+
+	this.hasBeat = false;
+
+	this.isAvailable = function() {
+		return !this.prereq || AdventureScreen.hasBeat(this.prereq);
+	};
+}
