@@ -3,6 +3,8 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
+    // JavaScript tasks
     jshint: {
       options: {
         reporter: 'checkstyle',
@@ -24,15 +26,34 @@ module.exports = function(grunt) {
       },
       build: {
         files: {
-          'build/<%= pkg.name %>.min.js': ['src/**/*.js']
+          'build/game.min.js': ['src/**/*.js']
         }
       }
     },
+
+    // CSS tasks
     concat: {
       build: {
         files: {
           'build/game.css': ['css/**/*.css'],
           'build/game.js': ['src/**/*.js']
+        }
+      }
+    },
+    autoprefixer: {
+      build: {
+        files: {
+          'build/game.css': ['css/**/*.css']
+        }
+      }
+    },
+    cssmin: {
+      options: {
+        report: 'min'
+      },
+      build: {
+        files: {
+          'build/game.min.css': 'build/game.css'
         }
       }
     }
@@ -42,8 +63,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-autoprefixer');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'uglify', 'concat']);
+  grunt.registerTask('default', ['jshint', 'uglify', 'concat', 'autoprefixer', 'cssmin']);
 
 };

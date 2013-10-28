@@ -28,13 +28,11 @@
 .enemy {
     width: 75%;
     pointer-events: auto;
-    -webkit-transition: 0.15s;
     transition: 0.15s;
 }
 
 .blur {
-    -webkit-filter: blur(2px);
-    -webkit-transition: 0.05s;
+    filter: blur(2px);
     transition: 0.05s;
 }
 
@@ -80,7 +78,6 @@
 #dec-level,
 #inc-level {
     position: absolute;
-    top: -webkit-calc(50% - 20px);
     top: calc(50% - 20px);
     width: 100px;
     height: 40px;
