@@ -205,7 +205,7 @@ Player = {
 	createStatButtons: function() {
 		var statHtml = '';
 		for (var i = 0; i < this.stats.length; i++) {
-			statHtml += '<div>' + this.getStat(i).getUpgradeButtonHtml() + '</div>';
+			statHtml += this.getStat(i).getUpgradeButtonHtml() + '<br/>';
 		}
 
 		$('#stat-buttons').html(statHtml);
@@ -300,7 +300,7 @@ function StatType(data) {
 	this.getUpgradeButtonHtml = function() {
 		var htmlStr = this.displayName + ': <span id="amount"></span>' +
 			'<br/><span id="upgrade">(+<span id="upgrade-amount"></span>) : ' +
-			'<span id="cost"></span> ' + getIconHtml('xp');
+			'<span id="cost"></span> ' + getIconHtml('xp') + '</span>';
 		return getButtonHtml("Player.upgrade('" + this.statName + "')",
 			htmlStr, 'stat-' + this.statName + '-button');
 	};

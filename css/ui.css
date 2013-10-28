@@ -8,12 +8,17 @@
     margin: 2px 0px;
     padding: 3px;
     background-color: #2d6;
-    transition: 0.1s;
+    transition: 0.25s;
     box-shadow: 1.5px -1.5px 10px #555 inset;
+    z-index: 5;
 }
 
 .button.inactive {
     background-color: #777;
+}
+
+.button.selected {
+    background-color: #afd;
 }
 
 .button .content {
@@ -23,17 +28,32 @@
     vertical-align: middle;
 }
 
-:not(.inactive).button:hover {
+.button:hover:not(.inactive) {
     background-color: #3fb;
 }
 
-:not(.inactive).button:active {
+.button:active:not(.inactive) {
     background-color: #0c5;
+    transition: 0.1s;
 }
 
 .stat-bar .button,
 .forge-bar .button {
-    width: 95%;
+    width: 75%;
+}
+
+.stat-bar .health-background {
+    margin: 22px auto 14px;
+    width: 90%;
+}
+
+#stats {
+    margin-left: 10%;
+}
+
+#stat-buttons,
+.inventory {
+    text-align: center;
 }
 
 .header-container .button {

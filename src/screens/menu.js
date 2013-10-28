@@ -67,7 +67,8 @@ Menu = new ScreenContainer({
 		var headerHtml = '';
 		for (var i = 0; i < this.screens.length; i++) {
 			var name = this.screens[i].name;
-			headerHtml += getButtonHtml('Menu.setScreen(\'' + name + '\')', name, name + '-button') + ' ';
+			headerHtml += getButtonHtml("Menu.setScreen('" + name + "')",
+				name, name + '-button') + ' ';
 		}
 		$('.header-container').html(headerHtml);
 
@@ -81,13 +82,8 @@ Menu = new ScreenContainer({
 		}, 500);
 	},
 
-	setScreen: function(name) {
-		$('.screen').hide();
-		$('.' + name).show();
-		this.curScreen = name;
-	},
-
-	isOpen: function(name) {
-		return this.curScreen == name;
+	onScreenSet: function(name) {
+		$('#' + this.curScreen + '-button').toggleClass('selected', false);
+		$('#' + name + '-button').toggleClass('selected', true);
 	}
 });

@@ -24,7 +24,8 @@ div {
     left: 0px;
     right: 0px;
     height: 64px;
-    background-color: grey;
+    background-color: #777;
+    box-shadow: 0px 0px 22px #111 inset;
 }
 
 .body-container {
@@ -39,16 +40,19 @@ div {
     float: left;
     width: 240px;
     height: 100%;
-    padding: 6px;
     overflow-x: hidden;
     overflow-y: auto;
-    background-color: teal;
+    background: linear-gradient(70deg, #164, #3ac);
     white-space: nowrap;
+}
+
+.shadow {
+    box-shadow: 0px 0px 70px #222 inset;
 }
 
 .screen {
     position: absolute;
-    left: 252px;
+    left: 240px;
     right: 220px;
     height: 100%;
     overflow: hidden;
