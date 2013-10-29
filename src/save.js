@@ -45,7 +45,9 @@ Save = {
 	},
 
 	getFullSaveObject: function() {
-		var obj = {};
+		var obj = {
+			saveVersion: 0
+		};
 		for (var i = 0; i < Game.toSave.length; i++) {
 			var key = Game.toSave[i];
 			obj[key] = this.getSaveObject(eval(key));

@@ -18,7 +18,7 @@
 }
 
 .button.selected {
-    background-color: #afd;
+    background-color: #fb4;
 }
 
 .button .content {
@@ -30,6 +30,9 @@
 
 .button:hover:not(.inactive) {
     background-color: #3fb;
+}
+.button.selected:hover {
+    background-color: #fc9;
 }
 
 .button:active:not(.inactive) {

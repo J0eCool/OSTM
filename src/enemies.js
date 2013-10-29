@@ -4,7 +4,7 @@ EnemyManager = {
 
 	curArea: null,
 
-	enemies: [],
+	enemies: {},
 	activeEnemies: [],
 	jqField: null,
 	jqAdventure: null,
@@ -14,9 +14,10 @@ EnemyManager = {
 
 	getAppropriateEnemy: function() {
 		var enemies = [];
-		for (var i = 0; i < this.enemyDefs.length; i++) {
-			if (this.curArea.enemies.indexOf(this.enemyDefs[i].name) >= 0) {
-				enemies.push(this.enemyDefs[i]);
+		for (var key in this.enemyDefs) {
+			var e = this.enemyDefs[key];
+			if (this.curArea.enemies.indexOf(e.name) >= 0) {
+				enemies.push(e);
 			}
 		}
 		return randItem(enemies);
@@ -174,7 +175,7 @@ function EnemyContainer(index) {
 	this.respawn = function(def) {
 		this.level = EnemyManager.curArea.levels[EnemyManager.subArea];
 
-		var lev = this.level / 4;
+		var lev = this.level / 3;
 		var powerMult = (lev + 1) / 2 + (Math.pow(1.1, lev - 1) - 1);
 		var rewardMult = lev + (Math.pow(1.07, lev - 1) - 1);
 
@@ -182,9 +183,9 @@ function EnemyContainer(index) {
 		this.health = this.maxHealth;
 		this.attack = Math.floor(def.attack * powerMult);
 
-		this.xp = Math.floor(def.xp * Math.pow(rewardMult, 1.8));
-		this.gold = Math.floor(def.gold * Math.pow(rewardMult, 2.3));
-		this.forge = Math.floor(def.forge * rewardMult);
+		this.xp = Math.ceil(def.xp * Math.pow(rewardMult, 1.8));
+		this.gold = Math.ceil(def.gold * Math.pow(rewardMult, 2.3));
+		this.forge = Math.ceil(def.forge * rewardMult);
 
 		var sel = this.getSelector();
 

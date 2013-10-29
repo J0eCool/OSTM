@@ -30,7 +30,6 @@ Game = {
 		Player.init();
 
 		Inventory.init();
-		Forge.init();
 
 		Save.load();
 

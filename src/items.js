@@ -1,19 +1,23 @@
 Inventory = {
-	//TODO: save items like I save adventures
 	toSave: ['items'],
 
 	slotsPerItem: 5,
 
-	items: [],
+	items: {},
 
 	init: function() {
 		this.items = loadItems();
 		this.setupButtons();
+
+		$('.forge-container').click(function() {
+			Forge.addFill(Forge.fillOnClick);
+			Forge.createFillParticle('+' + formatNumber(Forge.fillOnClick));
+		});
 	},
 
 	postLoad: function() {
-		for (var i = 0; i < this.items.length; i++) {
-			this.items[i].update();
+		for (var key in this.items) {
+			this.items[key].update();
 		}
 	},
 
@@ -23,25 +27,25 @@ Inventory = {
 
 	setupButtons: function() {
 		var htmlStr = '';
-		for (var i = 0; i < this.items.length; i++) {
-			htmlStr += this.items[i].getButtonHtml();
+		var storeHtmlStr = '';
+		for (var key in this.items) {
+			var item = this.items[key];
+			htmlStr += item.getButtonHtml();
+			storeHtmlStr += item.getStoreButtonHtml() + '<br>';
 		}
 		$('.inventory').html(htmlStr);
+		$('.recipes').html(storeHtmlStr);
 	},
 
 	updateButtons: function() {
-		for (var i = 0; i < this.items.length; i++) {
-			this.items[i].updateButton();
+		for (var key in this.items) {
+			var item = this.items[key];
+			item.updateButtons();
 		}
 	},
 
 	getItem: function(itemName) {
-		for (var i = 0; i < this.items.length; i++) {
-			if (this.items[i].name == itemName) {
-				return this.items[i];
-			}
-		}
-		return null;
+		return this.items[itemName];
 	},
 
 	useItem: function(itemName) {
@@ -51,11 +55,15 @@ Inventory = {
 			item.onUse();
 			this.updateButtons();
 		}
+	},
+
+	tryPurchase: function(itemName) {
+		this.getItem(itemName).tryPurchase();
 	}
 };
 
 function ItemDef(data) {
-	this.toSave = ['name', 'count'];
+	this.toSave = ['count'];
 
 	this.name = data.name || '';
 	this.displayName = data.displayName || data.name || '';
@@ -65,6 +73,10 @@ function ItemDef(data) {
 	this.isCountLimited = (data.isCountLimited !== undefined ? data.isCountLimited : true);
 	this.maxPerInvSlot = data.maxPerInvSlot || 1;
 
+	this.storeName = data.storeName || data.displayName || data.name || '';
+	this.baseCost = data.baseCost || 100;
+	this.currency = data.currency || 'forge';
+
 	this.getButtonHtml = function() {
 		return getButtonHtml("Inventory.useItem('" + this.name + "')",
 			this.displayName + ': <span id="count"></span>' +
@@ -73,11 +85,22 @@ function ItemDef(data) {
 		);
 	};
 
-	this.updateButton = function() {
+	this.getStoreButtonHtml = function() {
+		return getButtonHtml("Inventory.tryPurchase('" + this.name + "')",
+			this.storeName + '<br /><span id="cost"></span> ' + getIconHtml(this.currency),
+			this.name + '-button'
+		);
+	};
+
+	this.updateButtons = function() {
 		var id = '#' + this.name + '-inv-button';
 		$(id).toggle(this.isVisible());
 		$(id + ' #count').text(formatNumber(this.count));
 		$(id + ' #max-count').text(formatNumber(this.maxItemCount()));
+
+		var storeId = '#' + this.name + '-button';
+		$(storeId).toggleClass('inactive', !this.canMakeMore());
+		$(storeId + ' span #cost').text(formatNumber(this.getCost()));
 	};
 
 	this.maxItemCount = function() {
@@ -93,6 +116,47 @@ function ItemDef(data) {
 	};
 
 	this.update = data.update || function() {};
+
+	this.tryPurchase = function() {
+		var cost = this.getCost();
+		if (this.canAfford()) {
+			if (this.isLimitReached()) {
+				Forge.createFillParticle('MAXED');
+			}
+			else {
+				Player[this.currency] -= cost;
+				this.onPurchase();
+
+				Inventory.updateButtons();
+			}
+		}
+	};
+
+	this.onPurchase = function() {
+		this.count += 1;
+		this.update();
+
+		if (this.isLimitReached()) {
+			this.count = this.maxItemCount();
+			Forge.createFillParticle('MAXED');
+		}
+	};
+
+	this.getCost = data.getCost || function() {
+		return this.baseCost;
+	};
+
+	this.canAfford = function() {
+		return this.getCost() <= Player[this.currency];
+	};
+
+	this.isLimitReached = data.isLimitReached || function() {
+		return this.isItemMaxed();
+	};
+
+	this.canMakeMore = function() {
+		return AdventureScreen.isOpen('store') && this.canAfford() && !this.isLimitReached();
+	};
 }
 
 function PotionDef(data) {
