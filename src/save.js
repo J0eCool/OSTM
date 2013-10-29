@@ -1,4 +1,18 @@
 Save = {
+	autosave: true,
+	autoDt: 6000,
+	autoTimer: 0,
+
+	update: function() {
+		if (this.autosave) {
+			this.autoTimer += Game.normalDt;
+			if (this.autoTimer >= this.autoDt) {
+				this.autoTimer -= this.autoDt;
+				this.save();
+			}
+		}
+	},
+
 	getSaveObject: function(baseObject) {
 		if (baseObject === null) {
 			return null;
@@ -22,7 +36,7 @@ Save = {
 	},
 
 	restoreFromSaveObject: function(baseObject, saveObject) {
-		if (baseObject === null || saveObject === null) {
+		if (!baseObject || !saveObject) {
 			return;
 		}
 
@@ -60,6 +74,10 @@ Save = {
 
 	getSaveString: function() {
 		return LZString.compressToBase64(this.getPreHashSaveString());
+	},
+
+	getSavedString: function() {
+		return localStorage.saveString;
 	},
 
 	saveExists: function() {

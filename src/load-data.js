@@ -1,3 +1,63 @@
+function loadStats() {
+	var stats = {
+		'maxHealth': new StatType({
+			displayName: 'Health',
+			baseCost: 5,
+			levelCost: 2.5,
+			baseValue: 100,
+			levelValue: 10,
+
+			getBaseValueAtLevel: function(level) {
+				return this.baseValue + level * (this.levelValue + level - 1);
+			},
+
+			onUpgrade: function() {
+				//technically not correct but it rounds up and is close
+				Player.regenHealth(this.upgradeValue());
+			}
+		}),
+		'strength': new StatType({
+			statName: 'Strength',
+			minLevel: 2,
+			baseCost: 10,
+			levelCost: 5,
+			baseValue: 4
+		}),
+		'defense': new StatType({
+			statName: 'Defense',
+			minLevel: 5,
+			baseCost: 25,
+			levelCost: 5,
+			baseValue: 3
+		}),
+		'itemEfficiency': new StatType({
+			statName: 'itemEfficiency',
+			displayName: 'Item Efficiency',
+			minLevel: 8,
+			baseCost: 100,
+			levelCost: 50,
+			baseValue: 100,
+			levelValue: 20,
+			isPercent: true
+		}),
+		'healthRegen': new StatType ({
+			statName: 'healthRegen',
+			displayName: 'Health Regen',
+			minLevel: 15,
+			baseCost: 400,
+			levelCost: 350,
+			baseValue: 1,
+			levelValue: 1,
+			isPercent: true,
+			stringPostfix: '%/sec'
+		}),
+	};
+	for (var key in stats) {
+		stats[key].name = key;
+	}
+	return stats;
+}
+
 function loadItems() {
 	var items = {
 		'potion': new PotionDef({
@@ -71,7 +131,7 @@ function loadItems() {
 			baseCost: 250,
 			currency: 'gold',
 			getCost: function() {
-				return this.baseCost * (1 + 2 * Math.pow(this.count, 2));
+				return Math.floor(this.baseCost * (1 + 2 * Math.pow(this.count, 2.5)));
 			}
 		})
 	};

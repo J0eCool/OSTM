@@ -41,6 +41,8 @@ Game = {
 		Inventory.update();
 		Forge.update();
 		AdventureScreen.update();
+
+		Save.update();
 	},
 
 	handleResize: function() {

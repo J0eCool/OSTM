@@ -63,7 +63,7 @@ function mapSelectHtml() {
 	var html = getButtonHtml("AdventureScreen.setScreen('store')", "Store");
 	for (var i in AdventureScreen.adventures) {
 		var adv = AdventureScreen.adventures[i];
-		html += '<br>' + getButtonHtml("AdventureScreen.startAdventure('" + adv.name + "')",
+		html += ' ' + getButtonHtml("AdventureScreen.startAdventure('" + adv.name + "')",
 			adv.displayName, adv.name + '-button');
 	}
 	return html;

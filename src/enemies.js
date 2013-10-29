@@ -1,10 +1,10 @@
 EnemyManager = {
 	numEnemies: 6,
-	enemyDefs:  [],
+	enemyDefs: {},
 
 	curArea: null,
 
-	enemies: {},
+	enemies: [],
 	activeEnemies: [],
 	jqField: null,
 	jqAdventure: null,

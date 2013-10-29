@@ -15,7 +15,7 @@ function ScreenContainer(data) {
 
 	this.init = function() {
 		this.preInit();
-		
+
 		var html = '';
 		for (var i = 0; i < this.screens.length; i++) {
 			var scr = this.screens[i];
@@ -55,11 +55,13 @@ Menu = new ScreenContainer({
 		new ScreenDef({
 			name: 'options',
 			html: getButtonHtml('Save.save()', 'Save') + ' ' +
+				getButtonHtml('Save.autosave = !Save.autosave',
+					'Autosave: <span id="save-autosave"></span>') +
 				'<span id="save-info"><br/>' +
 				getButtonHtml('Save.clearSave()', 'Delete Save', 'del-save') +
-				'<br/>Export hash: <input type="text" id="save-val"></input></span><br/>' +
+				'<br/>Export hash: <textarea disabled id="save-val"></textarea></span><br/>' +
 				getButtonHtml("Save.import($('#save-import').val())", 'Import') +
-				'Import hash: <input type="text" id="save-import"></input>'
+				'Import hash: <textarea id="save-import"></textarea>'
 		})
 	],
 
@@ -81,7 +83,11 @@ Menu = new ScreenContainer({
 
 		window.setInterval(function() {
 			$('#save-info').toggle(Save.saveExists());
-			$('#save-val').attr('value', Save.getSaveString());
+			var saveVal = $('#save-val');
+			if (saveVal.text() != Save.getSavedString()) {
+				saveVal.text(Save.getSavedString());
+			}
+			$('#save-autosave').text(Save.autosave ? 'Enabled' : 'Disabled');
 		}, 500);
 	},
 

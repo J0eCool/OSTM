@@ -56,7 +56,7 @@ div {
     right: 220px;
     height: 100%;
     overflow: hidden;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
 }
 
 .options {

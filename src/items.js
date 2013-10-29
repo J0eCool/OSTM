@@ -79,7 +79,7 @@ function ItemDef(data) {
 
 	this.getButtonHtml = function() {
 		return getButtonHtml("Inventory.useItem('" + this.name + "')",
-			this.displayName + ': <span id="count"></span>' +
+			'<b>' + this.displayName + '</b>: <span id="count"></span>' +
 			(this.isCountLimited ? ' / <span id="max-count"></span>' : ''),
 			this.name + '-inv-button'
 		);
@@ -87,7 +87,7 @@ function ItemDef(data) {
 
 	this.getStoreButtonHtml = function() {
 		return getButtonHtml("Inventory.tryPurchase('" + this.name + "')",
-			this.storeName + '<br /><span id="cost"></span> ' + getIconHtml(this.currency),
+			'<b>' + this.storeName + '</b><br /><span id="cost"></span> ' + getIconHtml(this.currency),
 			this.name + '-button'
 		);
 	};

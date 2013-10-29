@@ -7,6 +7,7 @@
     border: 2px solid black;
     margin: 2px 0px;
     padding: 3px;
+    color: black;
     background-color: #2d6;
     transition: 0.25s;
     box-shadow: 1.5px -1.5px 10px #555 inset;
@@ -94,4 +95,10 @@ img.forge-icon {
 
 .size-1_1 {
     transform: scale(1.1, 1.1);
+}
+
+.options textarea {
+    width: 75%;
+    height: 80px;
+    vertical-align: middle;
 }

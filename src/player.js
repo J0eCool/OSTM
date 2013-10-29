@@ -1,75 +1,26 @@
 Player = {
 	toSave: ['xp', 'gold', 'forge'],
 
-	//TODO: load and add stats dynamically; add a load-data.js function
-	maxHealth: new StatType({
-		statName: 'Health',
-		baseCost: 5,
-		levelCost: 2.5,
-		baseValue: 100,
-		levelValue: 10,
-
-		getBaseValueAtLevel: function(level) {
-			return this.baseValue + level * (this.levelValue + level - 1);
-		},
-
-		onUpgrade: function() {
-			//technically not correct but it rounds up and is close
-			Player.regenHealth(this.upgradeValue());
-		}
-	}),
 	health: 100,
-
-	healthRegen: new StatType ({
-		statName: 'healthRegen',
-		displayName: 'Health Regen',
-		minLevel: 15,
-		baseCost: 400,
-		levelCost: 350,
-		baseValue: 1,
-		levelValue: 1,
-		isPercent: true,
-		stringPostfix: '%/sec'
-	}),
-	itemEfficiency: new StatType({
-		statName: 'itemEfficiency',
-		displayName: 'Item Efficiency',
-		minLevel: 8,
-		baseCost: 100,
-		levelCost: 50,
-		baseValue: 100,
-		levelValue: 20,
-		isPercent: true
-	}),
 	partialHealth: 0, //health regen per-tick roundoff
 
 	xp: 0,
 	gold: 0,
 	forge: 0,
 
-	strength: new StatType({
-		statName: 'Strength',
-		minLevel: 2,
-		baseCost: 10,
-		levelCost: 5,
-		baseValue: 4
-	}),
-	defense: new StatType({
-		statName: 'Defense',
-		minLevel: 5,
-		baseCost: 25,
-		levelCost: 5,
-		baseValue: 3
-	}),
-
 	weaponDamage: 2,
 	armor: 2,
 	randDamage: 0.3,
 
-	stats: ['maxHealth', 'strength', 'defense', 'itemEfficiency', 'healthRegen'],
+	stats: [],
 
 	init: function() {
-		this.toSave = this.toSave.concat(this.stats);
+		var stats = loadStats();
+		for (var key in stats) {
+			this.stats.push(key);
+			this[key] = stats[key];
+			this.toSave.push(key);
+		}
 
 		this.health = this.maxHealth.value();
 		this.createStatButtons();
