@@ -173,11 +173,11 @@ function EnemyContainer(index) {
 	};
 
 	this.respawn = function(def) {
-		this.level = EnemyManager.curArea.levels[EnemyManager.subArea];
+		this.level = EnemyManager.curArea.getLevel(EnemyManager.subArea);
 
 		var lev = this.level / 3;
-		var powerMult = (lev + 1) / 2 + (Math.pow(1.1, lev - 1) - 1);
-		var rewardMult = lev + (Math.pow(1.07, lev - 1) - 1);
+		var powerMult = (lev + 0.5) / 1.5;
+		var rewardMult = lev;
 
 		this.maxHealth = Math.floor(def.health * powerMult);
 		this.health = this.maxHealth;

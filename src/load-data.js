@@ -177,19 +177,19 @@ function loadAdventures() {
 			displayName: 'Field',
 			levels: [2, 2, 3],
 			enemies: ['Enemy'],
-			spawnCountHi: 3
+			spawnCountHi: 3,
 		}),
 		'adv1': new AdventureDef({
+			prereq: 'adv0',
 			displayName: 'OtherField',
 			levels: [4, 6, 6, 8],
 			enemies: ['Enemy', 'Wall'],
-			prereq: 'adv0'
 		}),
 		'adv2': new AdventureDef({
+			prereq: 'adv1',
 			displayName: 'Third Area',
 			levels: [12, 16, 18, 18, 18, 22],
 			enemies: ['Wall', 'Swirl'],
-			prereq: 'adv1'
 		})
 	};
 	for (var key in adventures) {

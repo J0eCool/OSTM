@@ -38,7 +38,8 @@ Player = {
 			'<div>' + getIconHtml('forge') + ' per Click: <span id="stat-forge-click"></span></div>' +
 			'<div>' + getIconHtml('forge') + ' per Second: <span id="stat-forge-second"></span></div>' +
 			'<br/>' +
-			'<div>Health Regen: <span id="stat-regen"></span>/s</div>' +
+			'<div>Health Regen: <span id="stat-regen"></span></div>' +
+			'<div>Damage Reduction: <span id="stat-reduction"></span></div>' +
 			'<br/>'
 		);
 
@@ -73,7 +74,8 @@ Player = {
 		$('#stat-forge-click').text(formatNumber(Forge.fillOnClick));
 		$('#stat-forge-second').text(formatNumber(Forge.fillPerSecond));
 
-		$('#stat-regen').text(formatNumber(this.maxHealth.value() * this.healthRegen.value()));
+		$('#stat-regen').text('+' + formatNumber(this.maxHealth.value() * this.healthRegen.value()) + '/s');
+		$('#stat-reduction').text(formatNumber(100 * (1 - this.defenseDamageMultiplier())) + '%');
 	},
 
 	getStat: function(i) {

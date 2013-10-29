@@ -46,6 +46,10 @@
     width: 75%;
 }
 
+.shrine .button {
+    vertical-align: middle;
+}
+
 .stat-bar .health-background {
     margin: 22px auto 14px;
     width: 90%;

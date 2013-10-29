@@ -1,6 +1,6 @@
 Save = {
 	autosave: true,
-	autoDt: 6000,
+	autoDt: 30000,
 	autoTimer: 0,
 
 	update: function() {
