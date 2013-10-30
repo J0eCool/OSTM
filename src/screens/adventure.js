@@ -97,7 +97,7 @@ function AdventureDef(data) {
 			$(powId).show();
 			$(powId + '-count').text(formatNumber(this.power));
 			$(powId + '-dec').toggle(this.power > 0);
-			$(powId + '-inc-cost').text(this.powerUpCost());
+			$(powId + '-inc-cost').text(formatNumber(this.powerUpCost()));
 		}
 		else {
 			$(powId).hide();

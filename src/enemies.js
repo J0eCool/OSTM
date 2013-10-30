@@ -100,8 +100,9 @@ EnemyManager = {
 	updateHeaderButtons: function() {
 		$('#area-name').text(this.curArea.displayName);
 		$('#dec-level').toggle(this.subArea > 0);
-		$('#inc-level').toggle(this.subArea <
-			Math.min(this.curArea.levels.length - 1, this.bestAvailableSubArea));
+		$('#inc-level').toggle(this.subArea < this.bestAvailableSubArea)
+			.find('.content').text((this.subArea + 1 < this.curArea.levels.length) ?
+				'Forward' : 'Area Complete');
 	},
 
 	decreaseLevel: function() {
@@ -111,9 +112,14 @@ EnemyManager = {
 	},
 
 	increaseLevel: function() {
-		this.subArea++;
-		this.spawnEnemies();
-		this.updateUI();
+		if (this.subArea + 1 < this.curArea.levels.length) {
+			this.subArea++;
+			this.spawnEnemies();
+			this.updateUI();
+		}
+		else {
+			AdventureScreen.setScreen('map-select');
+		}
 	},
 
 	getIncreaseLevelCost: function() {

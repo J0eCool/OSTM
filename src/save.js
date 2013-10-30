@@ -1,4 +1,6 @@
 Save = {
+	toSave: ['autosave'],
+
 	autosave: true,
 	autoDt: 30000,
 	autoTimer: 0,
