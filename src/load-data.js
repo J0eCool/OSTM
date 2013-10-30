@@ -66,15 +66,16 @@ function loadItems() {
 			data: {
 				healAmount: 100
 			},
-			maxPerInvSlot: 2,
-			baseCost: 25
+			baseCost: 250,
+			currency: 'gold'
 		}),
 		'hiPotion': new PotionDef({
 			displayName: 'Hi-Potion',
 			data: {
 				healAmount: 500
 			},
-			baseCost: 100
+			baseCost: 5000,
+			currency: 'gold'
 		}),
 
 		'weapon-plus': new ItemDef({
@@ -114,7 +115,7 @@ function loadItems() {
 			storeName: 'Increase ' + getIconHtml('forge') + ' per Click',
 			isCountLimited: false,
 			update: function() {
-				Forge.fillOnClick = Math.floor(1 + this.count + Math.pow(this.count, 2) / 3);
+				Forge.fillOnClick = 1 + this.count;
 			},
 			baseCost: 100,
 			currency: 'gold',

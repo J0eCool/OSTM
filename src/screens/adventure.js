@@ -16,6 +16,12 @@ AdventureScreen = new ScreenContainer({
 				'<div class="recipes"></div>'
 		}),
 		new ScreenDef({
+			name: 'inn',
+			html: getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave') + '<br>' +
+				getButtonHtml("AdventureScreen.useInn()", 'Rest: <span id="inn-cost"></span>' +
+					getIconHtml('gold'))
+		}),
+		new ScreenDef({
 			name: 'shrine',
 			createHtml: shrineHtml
 		})
@@ -30,6 +36,8 @@ AdventureScreen = new ScreenContainer({
 	update: function() {
 		$('#map-button').toggle(this.hasBeat('adv0'));
 		$('#shrine-button').toggle(this.hasBeat('adv2'));
+		$('#inn-cost').text(formatNumber(this.getInnCost()));
+
 		for (var i in this.adventures) {
 			this.adventures[i].update();
 		}
@@ -76,6 +84,15 @@ AdventureScreen.decreasePower = function(name) {
 		adv.power--;
 	}
 };
+AdventureScreen.useInn = function() {
+	if (Player.gold >= this.getInnCost() && Player.health < Player.maxHealth.value()) {
+		Player.gold -= this.getInnCost();
+		Player.health = Player.maxHealth.value();
+	}
+};
+AdventureScreen.getInnCost = function() {
+	return Math.floor(Math.pow(Player.maxHealth.value() / 100, 1.25) * 30);
+};
 
 function AdventureDef(data) {
 	this.toSave = ['hasBeat', 'power'];
@@ -120,7 +137,8 @@ function AdventureDef(data) {
 }
 
 function mapSelectHtml() {
-	var html = getButtonHtml("AdventureScreen.setScreen('store')", 'Store') + ' ' +
+	var html = getButtonHtml("AdventureScreen.setScreen('inn')", 'Inn') + ' ' +
+		getButtonHtml("AdventureScreen.setScreen('store')", 'Store') + ' ' +
 		getButtonHtml("AdventureScreen.setScreen('shrine')", 'Shrine', 'shrine-button') + '<br>';
 	for (var key in AdventureScreen.adventures) {
 		var adv = AdventureScreen.adventures[key];

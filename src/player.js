@@ -118,7 +118,7 @@ Player = {
 	},
 
 	defenseDamageMultiplier: function() {
-		var defScale = 35;
+		var defScale = 28;
 		return defScale / (defScale + this.defense.value());
 	},
 
