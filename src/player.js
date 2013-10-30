@@ -1,5 +1,5 @@
 Player = {
-	toSave: ['xp', 'gold', 'forge'],
+	toSave: ['health', 'xp', 'gold', 'forge'],
 
 	health: 100,
 	partialHealth: 0, //health regen per-tick roundoff
@@ -22,7 +22,6 @@ Player = {
 			this.toSave.push(key);
 		}
 
-		this.health = this.maxHealth.value();
 		this.createStatButtons();
 
 		$("#stats").html(
@@ -37,6 +36,7 @@ Player = {
 			'<br/>' +
 			'<div>' + getIconHtml('forge') + ' per Click: <span id="stat-forge-click"></span></div>' +
 			'<div>' + getIconHtml('forge') + ' per Second: <span id="stat-forge-second"></span></div>' +
+			'<div>' + getIconHtml('gold') + ' per Second: <span id="stat-gold-second"></span></div>' +
 			'<br/>' +
 			'<div>Health Regen: <span id="stat-regen"></span></div>' +
 			'<div>Damage Reduction: <span id="stat-reduction"></span></div>' +
@@ -44,10 +44,6 @@ Player = {
 		);
 
 		this.updateStats();
-	},
-
-	postLoad: function() {
-		this.health = this.maxHealth.value();
 	},
 
 	update: function() {
@@ -73,6 +69,7 @@ Player = {
 
 		$('#stat-forge-click').text(formatNumber(Forge.fillOnClick));
 		$('#stat-forge-second').text(formatNumber(Forge.fillPerSecond));
+		$('#stat-gold-second').text(formatNumber(Village.goldPerSecond));
 
 		$('#stat-regen').text('+' + formatNumber(this.maxHealth.value() * this.healthRegen.value()) + '/s');
 		$('#stat-reduction').text(formatNumber(100 * (1 - this.defenseDamageMultiplier())) + '%');

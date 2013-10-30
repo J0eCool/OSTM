@@ -27,6 +27,14 @@ AdventureScreen = new ScreenContainer({
 		this.adventures = loadAdventures();
 	},
 
+	update: function() {
+		$('#map-button').toggle(this.hasBeat('adv0'));
+		$('#shrine-button').toggle(this.hasBeat('adv2'));
+		for (var i in this.adventures) {
+			this.adventures[i].update();
+		}
+	},
+
 	onScreenSet: function(name) {
 		if (!this.isOpen('field') && name == 'field') {
 			EnemyManager.resetField();
@@ -36,13 +44,6 @@ AdventureScreen = new ScreenContainer({
 	}
 });
 AdventureScreen.toSave = ['adventures'];
-AdventureScreen.update = function() {
-	$('#map-button').toggle(this.hasBeat('adv0'));
-	$('#shrine-button').toggle(this.hasBeat('adv2'));
-	for (var i in this.adventures) {
-		this.adventures[i].update();
-	}
-};
 AdventureScreen.getAdventure = function(name) {
 	for (var i in this.adventures) {
 		var adv = this.adventures[i];

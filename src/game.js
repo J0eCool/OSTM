@@ -17,7 +17,7 @@ $(document).ready(function() {
 });
 
 Game = {
-	toSave: ['Player', 'Inventory', 'AdventureScreen', 'Save'],
+	toSave: ['Player', 'Inventory', 'AdventureScreen', 'Save', 'Village'],
 
 	realtimeDt: 33,
 	normalDt: 100,
@@ -30,16 +30,21 @@ Game = {
 		Player.init();
 
 		Inventory.init();
+		Village.init();
 
 		Save.load();
 
 		window.setInterval(Game.update, Game.normalDt);
+		Game.update();
 	},
 
 	update: function() {
 		Player.update();
 		Inventory.update();
 		Forge.update();
+		Village.update();
+
+		Menu.update();
 		AdventureScreen.update();
 
 		Save.update();

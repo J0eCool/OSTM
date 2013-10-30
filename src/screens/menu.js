@@ -33,6 +33,8 @@ function ScreenContainer(data) {
 	this.preInit = data.preInit || function(){};
 	this.postInit = data.postInit || function(){};
 
+	this.update = data.update || function(){};
+
 	this.setScreen = function(name) {
 		$('.' + this.classBase).hide();
 		$('.' + name).show();
@@ -51,6 +53,9 @@ Menu = new ScreenContainer({
 	screens: [
 		new ScreenDef({
 			name: 'adventure'
+		}),
+		new ScreenDef({
+			name: 'village'
 		}),
 		new ScreenDef({
 			name: 'options',
@@ -81,14 +86,16 @@ Menu = new ScreenContainer({
 
 		AdventureScreen.init();
 
-		window.setInterval(function() {
-			$('#save-info').toggle(Save.saveExists());
-			var saveVal = $('#save-val');
-			if (saveVal.text() != Save.getSavedString()) {
-				saveVal.text(Save.getSavedString());
-			}
-			$('#save-autosave').text(Save.autosave ? 'Enabled' : 'Disabled');
-		}, 500);
+		$('#village-button').hide();
+	},
+
+	update: function() {
+		$('#save-info').toggle(Save.saveExists());
+		var saveVal = $('#save-val');
+		if (saveVal.text() != Save.getSavedString()) {
+			saveVal.text(Save.getSavedString());
+		}
+		$('#save-autosave').text(Save.autosave ? 'Enabled' : 'Disabled');
 	},
 
 	onScreenSet: function(name) {

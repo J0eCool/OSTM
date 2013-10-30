@@ -197,3 +197,23 @@ function loadAdventures() {
 	}
 	return adventures;
 }
+
+function loadBuildings() {
+
+	var buildings = {
+		'shack': new BuildingDef({
+			displayName: 'Shack',
+			baseCost: 10000,
+			goldPerSecond: 12
+		}),
+		'cottage': new BuildingDef({
+			displayName: 'Cottage',
+			baseCost: 50000,
+			goldPerSecond: 40
+		})
+	};
+	foreach(buildings, function(item, key) {
+		item.name = key;
+	});
+	return buildings;
+}

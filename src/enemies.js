@@ -120,11 +120,6 @@ EnemyManager = {
 		else {
 			AdventureScreen.setScreen('map-select');
 		}
-	},
-
-	getIncreaseLevelCost: function() {
-		return 1;
-		//return Math.min(Math.floor(5 + this.maxLevelUnlocked), 12);
 	}
 };
 
@@ -189,8 +184,8 @@ function EnemyContainer(index) {
 		this.health = this.maxHealth;
 		this.attack = Math.floor(def.attack * powerMult);
 
-		this.xp = Math.ceil(def.xp * Math.pow(rewardMult, 1.8));
-		this.gold = Math.ceil(def.gold * Math.pow(rewardMult, 2.3));
+		this.xp = Math.ceil(def.xp * Math.pow(rewardMult, 1.6));
+		this.gold = Math.ceil(def.gold * Math.pow(rewardMult, 2.1));
 		this.forge = Math.ceil(def.forge * rewardMult);
 
 		var sel = this.getSelector();
