@@ -119,13 +119,13 @@ function AdventureDef(data) {
 }
 
 function mapSelectHtml() {
-	var html = getButtonHtml("AdventureScreen.setScreen('store')", 'Store');
+	var html = getButtonHtml("AdventureScreen.setScreen('store')", 'Store') + ' ' +
+		getButtonHtml("AdventureScreen.setScreen('shrine')", 'Shrine', 'shrine-button') + '<br>';
 	for (var key in AdventureScreen.adventures) {
 		var adv = AdventureScreen.adventures[key];
-		html += ' ' + getButtonHtml("AdventureScreen.startAdventure('" + adv.name + "')",
-			adv.displayName, adv.name + '-button');
+		html += getButtonHtml("AdventureScreen.startAdventure('" + adv.name + "')",
+			adv.displayName, adv.name + '-button') + ' ';
 	}
-	html += ' ' + getButtonHtml("AdventureScreen.setScreen('shrine')", 'Shrine', 'shrine-button');
 	return html;
 }
 
