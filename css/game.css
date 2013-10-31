@@ -16,6 +16,8 @@ div {
     left: 0px;
     right: 0px;
     overflow: hidden;
+    min-width: 600px;
+    min-height: 450px;
 }
 
 .header-container {

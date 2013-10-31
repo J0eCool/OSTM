@@ -62,6 +62,7 @@ function loadItems() {
 	var items = {
 		'potion': new PotionDef({
 			displayName: 'Potion',
+			description: 'Restores 100 HP',
 			count: 2,
 			data: {
 				healAmount: 100
@@ -71,6 +72,7 @@ function loadItems() {
 		}),
 		'hiPotion': new PotionDef({
 			displayName: 'Hi-Potion',
+			description: 'Restores 500 HP',
 			data: {
 				healAmount: 500
 			},
@@ -80,6 +82,7 @@ function loadItems() {
 
 		'weapon-plus': new ItemDef({
 			storeName: 'Upgrade Weapon',
+			description: 'Increases Weapon Damage by 1',
 			isCountLimited: false,
 			update: function() {
 				Player.weaponDamage = this.count + 2;
@@ -91,6 +94,7 @@ function loadItems() {
 		}),
 		'armor-plus': new ItemDef({
 			storeName: 'Upgrade Armor',
+			description: 'Increases Armor by 1',
 			isCountLimited: false,
 			update: function() {
 				Player.armor = this.count + 2;
@@ -102,17 +106,19 @@ function loadItems() {
 		}),
 		'inventory-plus': new ItemDef({
 			storeName: 'Raise Item Capacity',
+			description: 'Increases the number of items you can carry by 1',
 			isCountLimited: false,
 			update: function() {
-				Inventory.slotsPerItem = this.count + 5;
+				Inventory.slotsPerItem = this.count + 3;
 			},
-			baseCost: 50,
+			baseCost: 100,
 			getCost: function() {
-				return this.baseCost * (1 + Math.pow(this.count, 2));
+				return this.baseCost * (1 + Math.pow(this.count, 3));
 			}
 		}),
 		'forge-second': new ItemDef({
 			storeName: 'Increase ' + getIconHtml('forge') + ' per Second',
+			description: 'Gives passive ' + getIconHtml('forge') + ' over time',
 			isCountLimited: false,
 			update: function() {
 				Inventory.forgePerSecond = this.count;

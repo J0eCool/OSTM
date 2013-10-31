@@ -3,7 +3,7 @@ Inventory = {
 
 	items: {},
 	
-	slotsPerItem: 5,
+	slotsPerItem: 3,
 
 	forgePerSecond: 0,
 	partialForge: 0,
@@ -40,7 +40,7 @@ Inventory = {
 		for (var key in this.items) {
 			var item = this.items[key];
 			htmlStr += item.getButtonHtml();
-			storeHtmlStr += item.getStoreButtonHtml() + '<br>';
+			storeHtmlStr += item.getStoreButtonHtml();
 		}
 		$('.inventory').html(htmlStr);
 		$('.recipes').html(storeHtmlStr);
@@ -76,6 +76,8 @@ function ItemDef(data) {
 
 	this.name = data.name || '';
 	this.displayName = data.displayName || data.name || '';
+	this.description = data.description || '';
+
 	this.data = data.data || null;
 	this.onUse = data.onUse || null;
 	this.count = data.count || 0;
@@ -95,10 +97,9 @@ function ItemDef(data) {
 	};
 
 	this.getStoreButtonHtml = function() {
-		return getButtonHtml("Inventory.tryPurchase('" + this.name + "')",
+		return '<div class="store-item">' + getButtonHtml("Inventory.tryPurchase('" + this.name + "')",
 			'<b>' + this.storeName + '</b><br /><span id="cost"></span> ' + getIconHtml(this.currency),
-			this.name + '-button'
-		);
+			this.name + '-button') + ' <span class="description">' + this.description + '</span></div>';
 	};
 
 	this.updateButtons = function() {
@@ -158,7 +159,7 @@ function ItemDef(data) {
 	};
 
 	this.canMakeMore = function() {
-		return AdventureScreen.isOpen('store') && this.canAfford() && !this.isLimitReached();
+		return this.canAfford() && !this.isLimitReached();
 	};
 }
 

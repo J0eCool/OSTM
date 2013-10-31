@@ -83,11 +83,12 @@
     height: 80%;
 }
 
-.store .button {
+.store .button,
+.village .button {
     width: 240px;
 }
 
-.button img.icon {
+img.icon {
     vertical-align: middle;
     height: 14px;
 }

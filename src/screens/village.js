@@ -32,7 +32,7 @@ Village = {
 	setupButtons: function() {
 		var html = '';
 		foreach(this.buildings, function(building) {
-			html += building.getButtonHtml() + '<br>';
+			html += building.getButtonHtml();
 		});
 		$('.village').html(html);
 	},
@@ -77,15 +77,16 @@ function BuildingDef(data) {
 
 	this.getButtonHtml = function() {
 		var id = this.name + '-button';
-		return getButtonHtml("Village.buyBuilding('" + this.name + "')",
+		return '<div>' + getButtonHtml("Village.buyBuilding('" + this.name + "')",
 			this.displayName + ' : <span id="' + id + '-count"></span><br><span id="' +
 				id + '-cost"></span> ' + getIconHtml('gold'),
-			this.name + '-button');
+			this.name + '-button') +
+			' +' + this.goldPerSecond + ' ' + getIconHtml('gold') + '/s</div>';
 	};
 
 	this.updateButton = function() {
 		var id = '#' + this.name + '-button';
-		//$(id).toggle();
+		$(id).toggleClass('inactive', Player.gold < this.getCost());
 		$(id + '-count').text(formatNumber(this.count));
 		$(id + '-cost').text(formatNumber(this.getCost()));
 	};
