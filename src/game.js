@@ -25,6 +25,8 @@ Game = {
 	windowSize: null,
 
 	init: function() {
+		Log.init();
+
 		Menu.init();
 		EnemyManager.init();
 		Player.init();

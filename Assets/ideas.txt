@@ -1,10 +1,16 @@
+TODO:
+	- upgrade Adventures
+		- add rare monsters (drop Wood)
+		- define rooms, enemy data per-room
+
+-----
+
 Skills:
 	. increase max hp by 0.5% per character level
-
-
+	. hit all enemies on screen
+	. double-strike; 30% damage hit that doesn't get counterattacked, 100% damage normal hit
 
 Misc:
-	. Forge an increase to forgeFill-per-click
 	. STR/DEX weapons, 2 varieties each
 		Str weapons either do increased random damage, or increase defenses
 		Dex weapons either increase crit chance or crit damage

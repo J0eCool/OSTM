@@ -58,6 +58,7 @@ Save = {
 
 	save: function() {
 		localStorage.saveString = this.getSaveString();
+		Log.write('Game Saved');
 	},
 
 	getFullSaveObject: function() {

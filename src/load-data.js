@@ -133,30 +133,33 @@ function loadItems() {
 function loadEnemies() {
 	var enemies = {
 		'enemy': new EnemyDef({
-			name: 'Enemy',
+			displayName: 'Enemy',
 			image: 'img/Shroomie.png',
 			health: 22,
-			gold: 3
+			gold: 5
 		}),
 		'wall': new EnemyDef({
-			name: 'Wall',
+			displayName: 'Wall',
 			image: 'img/Bricks.png',
 			health: 40,
 			xp: 4,
 			forge: 2,
-			gold: 4,
+			gold: 6,
 		}),
 		'swirl': new EnemyDef({
 			minLevel: 3,
-			name: 'Swirl',
+			displayName: 'Swirl',
 			image: 'img/CircleTestPattern.png',
 			health: 30,
 			attack: 6,
 			xp: 6,
 			forge: 3,
-			gold: 5
+			gold: 7
 		})
 	};
+	foreach (enemies, function(e, n) {
+		e.name = n;
+	});
 	return enemies;
 }
 
@@ -165,20 +168,20 @@ function loadAdventures() {
 		'adv0': new AdventureDef({
 			displayName: 'Field',
 			levels: [2, 2, 3],
-			enemies: ['Enemy'],
+			enemies: ['enemy'],
 			spawnCountHi: 3,
 		}),
 		'adv1': new AdventureDef({
 			prereq: 'adv0',
 			displayName: 'OtherField',
 			levels: [4, 6, 6, 8],
-			enemies: ['Enemy', 'Wall'],
+			enemies: ['enemy', 'wall'],
 		}),
 		'adv2': new AdventureDef({
 			prereq: 'adv1',
 			displayName: 'Third Area',
 			levels: [12, 16, 18, 18, 18, 22],
-			enemies: ['Wall', 'Swirl'],
+			enemies: ['wall', 'swirl'],
 		})
 	};
 	for (var key in adventures) {

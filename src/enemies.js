@@ -125,6 +125,7 @@ EnemyManager = {
 
 function EnemyDef(data) {
 	this.name = data.name || "Enemy";
+	this.displayName = data.displayName || "Enemy";
 	this.image = data.image || "img/Shroomie.png";
 
 	this.minLevel = data.minLevel || 0;
@@ -140,6 +141,8 @@ function EnemyDef(data) {
 function EnemyContainer(index) {
 	this.index = index;
 	this.level = 0;
+
+	this.def = null;
 
 	this.health = 0;
 	this.maxHealth = 0;
@@ -180,18 +183,19 @@ function EnemyContainer(index) {
 		var powerMult = (lev + 0.5) / 1.5;
 		var rewardMult = lev;
 
+		this.def = def;
 		this.maxHealth = Math.floor(def.health * powerMult);
 		this.health = this.maxHealth;
 		this.attack = Math.floor(def.attack * powerMult);
 
 		this.xp = Math.ceil(def.xp * Math.pow(rewardMult, 1.6));
-		this.gold = Math.ceil(def.gold * Math.pow(rewardMult, 2.1));
-		this.forge = Math.ceil(def.forge * rewardMult);
+		this.gold = Math.ceil(rand(0.5, 1.0) * def.gold * Math.pow(rewardMult, 1.9));
+		this.forge = Math.ceil(def.forge * Math.pow(rewardMult, 0.8));
 
 		var sel = this.getSelector();
 
 		sel.find('.enemy').attr('src', def.image);
-		sel.find('.name').text('L' + this.level + ' ' + def.name);
+		sel.find('.name').text('L' + this.level + ' ' + def.displayName);
 
 		var width = sel.width();
 		var height = sel.height();

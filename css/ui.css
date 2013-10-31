@@ -44,6 +44,18 @@
     transition: 0.1s;
 }
 
+.game-log {
+    position: absolute;
+    left: 240px;
+    right: 220px;
+    bottom: 60px;
+    z-index: 20;
+
+    text-align: center;
+    font-size: 24px;
+    pointer-events: none;
+}
+
 .stat-bar .button,
 .forge-bar .button {
     width: 75%;
