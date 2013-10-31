@@ -1,5 +1,6 @@
 function ScreenDef(data) {
 	this.name = data.name || '';
+	this.displayName = data.displayName || data.name || '';
 	this.html = data.html || '';
 	this.createHtml = data.createHtml || function() {
 		return this.html;
@@ -52,13 +53,21 @@ function ScreenContainer(data) {
 Menu = new ScreenContainer({
 	screens: [
 		new ScreenDef({
-			name: 'adventure'
+			name: 'adventure',
+			displayName: 'Adventure'
 		}),
 		new ScreenDef({
-			name: 'village'
+			name: 'store',
+			displayName: 'Store',
+			html: '<div class="recipes"></div>'
+		}),
+		new ScreenDef({
+			name: 'village',
+			displayName: 'Village'
 		}),
 		new ScreenDef({
 			name: 'options',
+			displayName: 'Options',
 			html: getButtonHtml('Save.save()', 'Save') + ' ' +
 				getButtonHtml('Save.autosave = !Save.autosave',
 					'Autosave: <span id="save-autosave"></span>') +
@@ -75,11 +84,10 @@ Menu = new ScreenContainer({
 
 	postInit: function() {
 		var headerHtml = '';
-		for (var i = 0; i < this.screens.length; i++) {
-			var name = this.screens[i].name;
-			headerHtml += getButtonHtml("Menu.setScreen('" + name + "')",
-				name, name + '-button') + ' ';
-		}
+		foreach (this.screens, function (scr) {
+			headerHtml += getButtonHtml("Menu.setScreen('" + scr.name + "')",
+				scr.displayName, scr.name + '-button') + ' ';
+		});
 		$('.header-container').html(headerHtml);
 
 		this.setScreen('adventure');
@@ -96,6 +104,8 @@ Menu = new ScreenContainer({
 			saveVal.text(Save.getSavedString());
 		}
 		$('#save-autosave').text(Save.autosave ? 'Enabled' : 'Disabled');
+
+		$('#store-button').toggle(AdventureScreen.hasBeat('adv0'));
 	},
 
 	onScreenSet: function(name) {

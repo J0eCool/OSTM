@@ -32,7 +32,7 @@ Village = {
 	setupButtons: function() {
 		var html = '';
 		foreach(this.buildings, function(building) {
-			html += building.getButtonHtml();
+			html += building.getButtonHtml() + '<br>';
 		});
 		$('.village').html(html);
 	},
@@ -91,7 +91,7 @@ function BuildingDef(data) {
 	};
 
 	this.getCost = function() {
-		return Math.ceil(this.baseCost * Math.pow(1.25, this.count));
+		return Math.ceil(this.baseCost * Math.pow(1.1, this.count));
 	};
 
 	this.getGPS = function() {

@@ -11,18 +11,15 @@ AdventureScreen = new ScreenContainer({
 			name: 'field'
 		}),
 		new ScreenDef({
-			name: 'store',
-			html: getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave') +
-				'<div class="recipes"></div>'
-		}),
-		new ScreenDef({
 			name: 'inn',
+			displayName: 'Inn',
 			html: getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave') + '<br>' +
 				getButtonHtml("AdventureScreen.useInn()", 'Rest: <span id="inn-cost"></span>' +
 					getIconHtml('gold'))
 		}),
 		new ScreenDef({
 			name: 'shrine',
+			displayName: 'Shrine',
 			createHtml: shrineHtml
 		})
 	],
@@ -137,14 +134,18 @@ function AdventureDef(data) {
 }
 
 function mapSelectHtml() {
-	var html = getButtonHtml("AdventureScreen.setScreen('inn')", 'Inn') + ' ' +
-		getButtonHtml("AdventureScreen.setScreen('store')", 'Store') + ' ' +
-		getButtonHtml("AdventureScreen.setScreen('shrine')", 'Shrine', 'shrine-button') + '<br>';
-	for (var key in AdventureScreen.adventures) {
-		var adv = AdventureScreen.adventures[key];
+	var html = '';
+	foreach (AdventureScreen.screens, function(scr) {
+		if (scr.name != 'field' && scr.name != 'map-select') {
+			html += getButtonHtml("AdventureScreen.setScreen('" + scr.name + "')",
+				scr.displayName, scr.name + '-button') + ' ';
+		}
+	});
+	html += '<br>';
+	foreach (AdventureScreen.adventures, function (adv) {
 		html += getButtonHtml("AdventureScreen.startAdventure('" + adv.name + "')",
 			adv.displayName, adv.name + '-button') + ' ';
-	}
+	});
 	return html;
 }
 

@@ -1,6 +1,11 @@
 TODO:
+	- weapon shop
+		- weapon upgrades
+	- research
+		- spend currency to unlock new items/weapons/buildings/etc
+		- beat adventures to unlock new research
 	- upgrade Adventures
-		- add rare monsters (drop Wood)
+		- add rare monsters (drop rare currency)
 		- define rooms, enemy data per-room
 
 -----

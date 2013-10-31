@@ -182,6 +182,12 @@ function loadAdventures() {
 			displayName: 'Third Area',
 			levels: [12, 16, 18, 18, 18, 22],
 			enemies: ['wall', 'swirl'],
+		}),
+		'adv3': new AdventureDef({
+			prereq: 'adv2',
+			displayName: "Oh shit there's more",
+			levels: [24, 26, 24, 28, 32],
+			enemies: ['enemy', 'wall', 'swirl'],
 		})
 	};
 	for (var key in adventures) {
@@ -193,15 +199,25 @@ function loadAdventures() {
 function loadBuildings() {
 
 	var buildings = {
+		'tent': new BuildingDef({
+			displayName: 'Tent',
+			baseCost: 7500,
+			goldPerSecond: 6
+		}),
 		'shack': new BuildingDef({
 			displayName: 'Shack',
-			baseCost: 10000,
-			goldPerSecond: 12
+			baseCost: 35000,
+			goldPerSecond: 22
+		}),
+		'cabin': new BuildingDef({
+			displayName: 'Cabin',
+			baseCost: 120000,
+			goldPerSecond: 75
 		}),
 		'cottage': new BuildingDef({
 			displayName: 'Cottage',
-			baseCost: 50000,
-			goldPerSecond: 40
+			baseCost: 250000,
+			goldPerSecond: 140
 		})
 	};
 	foreach(buildings, function(item, key) {
