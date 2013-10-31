@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Progress-Style RPG</title>
+
+	<link rel="stylesheet" type="text/css" href="build/game.min.css" />
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="build/game.min.js"></script>
+</head>
+<body>
+	<div class="game-container">
+		<div class="header-container"></div>
+		<div class="body-container">
+			<div class="stat-bar shadow">
+				<div class="health-background" style="height:18px">
+					<div class="health-foreground" id="player-health"></div>
+				</div>
+				<div id="stats"></div>
+				<div id="stat-buttons"></div>
+			</div>
+			<div class="main-area"></div>
+			<div class="game-log"></div>
+			<div class="forge-bar shadow">
+				<div class="item-container">
+					<h3>Inventory</h3>
+					<div class="inventory"></div>
+				</div>
+			</div>
+		</div>
+		<div class="particles"></div>
+	</div>
+</body>
+</html>
