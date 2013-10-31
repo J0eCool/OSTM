@@ -12,10 +12,12 @@
     transition: 0.25s;
     box-shadow: 1.5px -1.5px 10px #555 inset;
     z-index: 5;
+    cursor: pointer;
 }
 
 .button.inactive {
     background-color: #777;
+    cursor: auto;
 }
 
 .button.selected {
@@ -27,6 +29,7 @@
     text-align: center;
     width: 100%;
     vertical-align: middle;
+    pointer-events: none;
 }
 
 .button:hover:not(.inactive) {

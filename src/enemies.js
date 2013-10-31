@@ -291,7 +291,7 @@ function EnemyContainer(index) {
 	this.giveRewards = function() {
 		Player.xp += this.xp;
 		Player.gold += this.gold;
-		Forge.addFill(this.forge);
+		Player.forge += this.forge;
 
 		var rewardString = '<span class="xp-reward">' + getIconHtml('xp') + ' ' + formatNumber(this.xp) + '</span>' +
 			'<br /><span class="gold-reward">' + getIconHtml('gold') + ' ' +  formatNumber(this.gold) + '</span>' +

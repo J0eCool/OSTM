@@ -34,7 +34,6 @@ Player = {
 			'<div>Weapon : <span id="stat-weapon"></span></div>' +
 			'<div>Armor : <span id="stat-armor"></span></div>' +
 			'<br/>' +
-			'<div>' + getIconHtml('forge') + ' per Click: <span id="stat-forge-click"></span></div>' +
 			'<div>' + getIconHtml('forge') + ' per Second: <span id="stat-forge-second"></span></div>' +
 			'<div>' + getIconHtml('gold') + ' per Second: <span id="stat-gold-second"></span></div>' +
 			'<br/>' +
@@ -67,8 +66,7 @@ Player = {
 		$('#stat-weapon').text(formatNumber(Player.weaponDamage));
 		$('#stat-armor').text(formatNumber(Player.armor));
 
-		$('#stat-forge-click').text(formatNumber(Forge.fillOnClick));
-		$('#stat-forge-second').text(formatNumber(Forge.fillPerSecond));
+		$('#stat-forge-second').text(formatNumber(Inventory.forgePerSecond));
 		$('#stat-gold-second').text(formatNumber(Village.goldPerSecond));
 
 		$('#stat-regen').text('+' + formatNumber(this.maxHealth.value() * this.healthRegen.value()) + '/s');

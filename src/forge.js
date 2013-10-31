@@ -1,23 +1,4 @@
 Forge = {
-	recipes: {},
-
-	fillOnClick: 1,
-	fillPerSecond: 0,
-	partialFill: 0,
-
-	update: function() {
-		var dT = Game.normalDt / 1000;
-		this.partialFill += this.fillPerSecond * dT;
-		var filled = Math.floor(this.partialFill);
-		if (filled > 0) {
-			this.addFill(filled);
-			this.partialFill -= filled;
-		}
-	},
-
-	addFill: function(amount) {
-		Player.forge += amount;
-	},
 
 	createFillParticle: function(message) {
 		var container = $('.forge-container');

@@ -1,18 +1,16 @@
 Inventory = {
 	toSave: ['items'],
 
+	items: {},
+	
 	slotsPerItem: 5,
 
-	items: {},
+	forgePerSecond: 0,
+	partialForge: 0,
 
 	init: function() {
 		this.items = loadItems();
 		this.setupButtons();
-
-		$('.forge-container').click(function() {
-			Forge.addFill(Forge.fillOnClick);
-			Forge.createFillParticle('+' + formatNumber(Forge.fillOnClick));
-		});
 	},
 
 	postLoad: function() {
@@ -22,7 +20,18 @@ Inventory = {
 	},
 
 	update: function() {
+		this.updateForge();
 		this.updateButtons();
+	},
+
+	updateForge: function() {
+		var dT = Game.normalDt / 1000;
+		this.partialForge += this.forgePerSecond * dT;
+		var filled = Math.floor(this.partialForge);
+		if (filled > 0) {
+			Player.forge += filled;
+			this.partialForge -= filled;
+		}
 	},
 
 	setupButtons: function() {
@@ -120,15 +129,10 @@ function ItemDef(data) {
 	this.tryPurchase = function() {
 		var cost = this.getCost();
 		if (this.canAfford()) {
-			if (this.isLimitReached()) {
-				Forge.createFillParticle('MAXED');
-			}
-			else {
-				Player[this.currency] -= cost;
-				this.onPurchase();
+			Player[this.currency] -= cost;
+			this.onPurchase();
 
-				Inventory.updateButtons();
-			}
+			Inventory.updateButtons();
 		}
 	};
 
@@ -138,7 +142,6 @@ function ItemDef(data) {
 
 		if (this.isLimitReached()) {
 			this.count = this.maxItemCount();
-			Forge.createFillParticle('MAXED');
 		}
 	};
 

@@ -41,7 +41,6 @@ Game = {
 	update: function() {
 		Player.update();
 		Inventory.update();
-		Forge.update();
 		Village.update();
 
 		Menu.update();

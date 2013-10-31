@@ -111,23 +111,11 @@ function loadItems() {
 				return this.baseCost * (1 + Math.pow(this.count, 2));
 			}
 		}),
-		'forge-click': new ItemDef({
-			storeName: 'Increase ' + getIconHtml('forge') + ' per Click',
-			isCountLimited: false,
-			update: function() {
-				Forge.fillOnClick = 1 + this.count;
-			},
-			baseCost: 100,
-			currency: 'gold',
-			getCost: function() {
-				return Math.floor(this.baseCost * (1 + 3 * this.count + 1.75 * Math.pow(this.count, 2)));
-			}
-		}),
 		'forge-second': new ItemDef({
 			storeName: 'Increase ' + getIconHtml('forge') + ' per Second',
 			isCountLimited: false,
 			update: function() {
-				Forge.fillPerSecond = this.count;
+				Inventory.forgePerSecond = this.count;
 			},
 			baseCost: 250,
 			currency: 'gold',
