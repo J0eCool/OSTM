@@ -203,7 +203,6 @@ function loadAdventures() {
 }
 
 function loadBuildings() {
-
 	var buildings = {
 		'tent': new BuildingDef({
 			displayName: 'Tent',
@@ -212,22 +211,37 @@ function loadBuildings() {
 		}),
 		'shack': new BuildingDef({
 			displayName: 'Shack',
-			baseCost: 35000,
-			goldPerSecond: 22
+			baseCost: 40000,
+			goldPerSecond: 20
 		}),
 		'cabin': new BuildingDef({
 			displayName: 'Cabin',
-			baseCost: 120000,
-			goldPerSecond: 75
+			baseCost: 150000,
+			goldPerSecond: 65
 		}),
 		'cottage': new BuildingDef({
 			displayName: 'Cottage',
-			baseCost: 250000,
-			goldPerSecond: 140
+			baseCost: 350000,
+			goldPerSecond: 120
 		})
 	};
 	foreach(buildings, function(item, key) {
 		item.name = key;
 	});
 	return buildings;
+}
+
+function loadWeapons() {
+	var weapons = {
+		'knife': new WeaponDef({
+			displayName: 'Knife',
+		}),
+		'dagger': new WeaponDef({
+			displayName: 'Dagger'
+		})
+	};
+	foreach (weapons, function(weapon, key) {
+		weapon.name = key;
+	});
+	return weapons;
 }

@@ -61,7 +61,8 @@
     width: 75%;
 }
 
-.shrine .button {
+.shrine .button,
+.blacksmith .button {
     vertical-align: middle;
 }
 

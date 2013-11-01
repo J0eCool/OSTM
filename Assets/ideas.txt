@@ -7,6 +7,8 @@ TODO:
 	- upgrade Adventures
 		- define rooms, enemy data per-room
 	- enemy-spawn-area div
+	- refactor code w/ Javascript: The Good Parts
+	- loading message
 
 -----
 

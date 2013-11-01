@@ -62,6 +62,10 @@ Menu = new ScreenContainer({
 			html: '<div class="recipes"></div>'
 		}),
 		new ScreenDef({
+			name: 'blacksmith',
+			displayName: 'Blacksmith'
+		}),
+		new ScreenDef({
 			name: 'village',
 			displayName: 'Village'
 		}),
