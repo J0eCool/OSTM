@@ -32,8 +32,18 @@ Blacksmith = {
 		}
 	},
 
-	tryPurchase: function(itemName) {
-		var weapon = this.weapons[itemName];
+	getWeapon: function(wepName) {
+		return this.weapons[wepName];
+	},
+
+	equip: function(wepName) {
+		if (this.getWeapon(wepName).owned) {
+			Player.weapon = wepName;
+		}
+	},
+
+	tryPurchase: function(wepName) {
+		var weapon = this.getWeapon(wepName);
 		var cost = weapon.getCost();
 		var currency = weapon.getCurrency();
 		if (cost <= Player[currency]) {
@@ -48,7 +58,8 @@ function WeaponDef(data) {
 
 	this.name = data.name || '';
 	this.displayName = data.displayName || '';
-	this.description = data.description || '';
+	this.baseDamage = data.baseDamage || 2;
+	this.ascendDamage = data.ascendDamage || 1;
 	this.buyCost = data.buyCost || 1000;
 	this.upgradeCost = data.upgradeCost || 75000;
 	this.ascendCost = data.ascendCost || 5000;
@@ -56,6 +67,10 @@ function WeaponDef(data) {
 	this.owned = data.owned || false;
 	this.level = 0;
 	this.ascensions = 0;
+
+	this.getDamage = function() {
+		return this.baseDamage + this.ascensions * this.ascendDamage;
+	};
 
 	this.getMaxLevel = function() {
 		return 5 + this.ascensions;
@@ -104,7 +119,7 @@ function WeaponDef(data) {
 			' ' + getButtonHtml("Blacksmith.tryPurchase('" + this.name + "')",
 				'<span id="action"></span> ' + this.displayName + ' <span id="level"></span>' +
 				'<br><span id="cost"></span>', 'button') +
-			'<span id="description">' + this.description + '</span>' +
+			'<span id="description"></span>' +
 			'</div>';
 	};
 
@@ -121,9 +136,18 @@ function WeaponDef(data) {
 		}
 		container.find('#action').text(actionText);
 
-		container.find('#level').toggle(this.level > 0)
-			.text('(' + this.level + '/' + this.getMaxLevel() + ')');
+		var levelText = '';
+		if (this.level > 0) {
+			levelText += '(' + this.level + '/' + this.getMaxLevel() + ')';
+		}
+		if (this.ascensions > 0) {
+			levelText = '+' + this.ascensions + ' ' + levelText;
+		}
+		container.find('#level').text(levelText);
 
 		container.find('#cost').html(formatNumber(this.getCost()) + ' ' + getIconHtml(this.getCurrency()));
+
+		var descriptionText = 'Damage: ' + this.getDamage();
+		container.find('#description').text(descriptionText);
 	};
 }

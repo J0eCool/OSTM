@@ -80,18 +80,6 @@ function loadItems() {
 			currency: 'gold'
 		}),
 
-		'weapon-plus': new ItemDef({
-			storeName: 'Upgrade Weapon',
-			description: 'Increases Weapon Damage by 1',
-			isCountLimited: false,
-			update: function() {
-				Player.weaponDamage = this.count + 2;
-			},
-			baseCost: 100,
-			getCost: function() {
-				return this.baseCost * (1 + 2 * Math.floor(Math.pow(this.count, 1.8)));
-			}
-		}),
 		'armor-plus': new ItemDef({
 			storeName: 'Upgrade Armor',
 			description: 'Increases Armor by 1',

@@ -1,5 +1,5 @@
 Player = {
-	toSave: ['health', 'xp', 'gold', 'forge'],
+	toSave: ['health', 'xp', 'gold', 'forge', 'weapon'],
 
 	health: 100,
 	partialHealth: 0, //health regen per-tick roundoff
@@ -8,7 +8,7 @@ Player = {
 	gold: 0,
 	forge: 0,
 
-	weaponDamage: 2,
+	weapon: 'knife',
 	armor: 2,
 	randDamage: 0.3,
 
@@ -63,7 +63,8 @@ Player = {
 		$('#stat-forge').text(formatNumber(Player.forge));
 
 		$('#stat-damage').text(formatNumber(Player.getDamageLo()) + ' - ' + formatNumber(Player.getDamageHi()));
-		$('#stat-weapon').text(formatNumber(Player.weaponDamage));
+		var wep = Blacksmith.getWeapon(Player.weapon);
+		$('#stat-weapon').text(wep.displayName);
 		$('#stat-armor').text(formatNumber(Player.armor));
 
 		$('#stat-forge-second').text(formatNumber(Inventory.forgePerSecond));
@@ -104,7 +105,7 @@ Player = {
 	},
 
 	getBaseDamage: function() {
-		return this.strength.value() * this.weaponDamage;
+		return this.strength.value() * Blacksmith.getWeapon(this.weapon).getDamage();
 	},
 
 	getDamageLo: function() {
