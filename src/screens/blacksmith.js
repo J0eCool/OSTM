@@ -38,17 +38,15 @@ Blacksmith = {
 	},
 
 	equip: function(wepName) {
-		if (this.getWeapon(wepName).owned) {
+		if (this.getWeapon(wepName).owned && !AdventureScreen.isAdventuring()) {
 			Player.weaponName = wepName;
 		}
 	},
 
 	tryPurchase: function(wepName) {
 		var weapon = this.getWeapon(wepName);
-		var cost = weapon.getCost();
-		var currency = weapon.getCurrency();
-		if (cost <= Player[currency]) {
-			Player[currency] -= cost;
+		if (weapon.canPurchase()) {
+			Player[weapon.getCurrency()] -= weapon.getCost();
 			weapon.purchase();
 			Player.weaponName = wepName;
 		}
@@ -77,7 +75,7 @@ function WeaponDef(data) {
 		if (!perLevel) {
 			return 0;
 		}
-		return this.level * perLevel;
+		return (this.level + 1) * perLevel;
 	};
 
 	this.getBaseDamage = function() {
@@ -89,7 +87,7 @@ function WeaponDef(data) {
 	};
 
 	this.getMaxLevel = function() {
-		return 5 + this.ascensions;
+		return 4 + this.ascensions;
 	};
 
 	this.isMaxLevel = function() {
@@ -105,7 +103,7 @@ function WeaponDef(data) {
 			return this.ascendCost * Math.pow(this.ascensions + 1, 3);
 		}
 
-		return Math.floor(this.upgradeCost * Math.pow(this.level + 1, 1.5) * (2 * this.ascensions + 1));
+		return Math.floor(this.upgradeCost * Math.pow(this.level + 1, 0.5) * (2 * this.ascensions + 1));
 	};
 
 	this.getCurrency = function() {
@@ -114,6 +112,11 @@ function WeaponDef(data) {
 		}
 		//todo: currency progression
 		return 'forge';
+	};
+
+	this.canPurchase = function() {
+		return !AdventureScreen.isAdventuring() &&
+			Player[this.getCurrency()] >= this.getCost();
 	};
 
 	this.purchase = function() {
@@ -141,8 +144,12 @@ function WeaponDef(data) {
 
 	this.updateButton = function() {
 		var id = '.weapon-container#' + this.name;
+		var isEquipped = this.name == Player.weaponName;
 		j(id + ' #equip', 'toggle', this.owned);
-		j(id + ' #equip', 'toggleClass', 'selected', this.name == Player.weaponName);
+		j(id + ' #equip', 'toggleClass', 'inactive', AdventureScreen.isAdventuring() && !isEquipped);
+		j(id + ' #equip', 'toggleClass', 'selected', isEquipped);
+
+		j(id + ' #button', 'toggleClass', 'inactive', !this.canPurchase());
 
 		var actionText = 'Buy';
 		if (this.isMaxLevel()) {

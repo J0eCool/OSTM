@@ -30,6 +30,12 @@ AdventureScreen = new ScreenContainer({
 		this.adventures = loadAdventures();
 	},
 
+	postLoad: function() {
+		if (!this.hasBeat('adv0')) {
+			this.startAdventure('adv0');
+		}
+	},
+
 	update: function() {
 		j('#map-button', 'toggle', this.hasBeat('adv0'));
 		j('#shrine-button', 'toggle', this.hasBeat('adv2'));
@@ -61,7 +67,7 @@ AdventureScreen.getAdventure = function(name) {
 };
 AdventureScreen.hasBeat = function(name) {
 	var adv = this.getAdventure(name);
-	return adv && adv.hasBeat;
+	return adv && adv.beatOnPower >= 0;
 };
 AdventureScreen.startAdventure = function(name) {
 	var adv = this.getAdventure(name);
@@ -90,9 +96,12 @@ AdventureScreen.useInn = function() {
 AdventureScreen.getInnCost = function() {
 	return Math.floor(Math.pow(Player.maxHealth.value() / 100, 1.25) * 30);
 };
+AdventureScreen.isAdventuring = function() {
+	return this.curScreen == 'field';
+};
 
 function AdventureDef(data) {
-	this.toSave = ['hasBeat', 'power'];
+	this.toSave = ['beatOnPower', 'power'];
 	this.prereq = data.prereq || null;
 	this.name = data.name || '';
 	this.displayName = data.displayName || '';
@@ -102,20 +111,21 @@ function AdventureDef(data) {
 	this.spawnCountHi = data.spawnCountHi || 5;
 	this.powerCost = data.powerCost || 100;
 
-	this.hasBeat = false;
+	this.beatOnPower = -1;
 	this.power = 0;
 
 	this.update = function() {
-		$('#' + this.name + '-button').toggle(this.isAvailable());
+		var id = '#' + this.name + '-button';
 		var powId = '#' + this.name + '-power';
+
+		j(id, 'toggle', this.isAvailable());
+		j(powId, 'toggle', this.isAvailable());
 		if (this.isAvailable()) {
-			j(powId).show();
+			j(id, 'toggleClass', 'selected', this.power <= this.beatOnPower);
 			j(powId + '-count', 'text', formatNumber(this.power));
 			j(powId + '-dec', 'toggle', this.power > 0);
+			j(powId + '-inc', 'toggle', this.power <= this.beatOnPower);
 			j(powId + '-inc-cost', 'text', formatNumber(this.powerUpCost()));
-		}
-		else {
-			j(powId).hide();
 		}
 	};
 

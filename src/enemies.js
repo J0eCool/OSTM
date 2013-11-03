@@ -52,10 +52,6 @@ EnemyManager = {
 			var index = $(this).attr('index');
 			EnemyManager.enemies[index].onClick();
 		});
-
-		if (!AdventureScreen.hasBeat('adv0')) {
-			AdventureScreen.startAdventure('adv0');
-		}
 	},
 
 	resetField: function() {
@@ -86,7 +82,7 @@ EnemyManager = {
 		if (this.activeEnemies.length === 0) {
 			this.bestAvailableSubArea = Math.max(this.subArea + 1, this.bestAvailableSubArea);
 			if (this.bestAvailableSubArea >= this.curArea.levels.length) {
-				this.curArea.hasBeat = true;
+				this.curArea.beatOnPower = Math.max(this.curArea.power, this.curArea.beatOnPower);
 			}
 			this.updateHeaderButtons();
 			this.spawnEnemies();

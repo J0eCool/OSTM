@@ -159,7 +159,7 @@ function ItemDef(data) {
 	};
 
 	this.canMakeMore = function() {
-		return this.canAfford() && !this.isLimitReached();
+		return !AdventureScreen.isAdventuring() && this.canAfford() && !this.isLimitReached();
 	};
 }
 

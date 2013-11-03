@@ -231,7 +231,7 @@ function loadWeapons() {
 		}),
 		'dagger': new WeaponDef({
 			displayName: 'Dagger',
-			buyCost: 2500,
+			buyCost: 500,
 			damage: 5,
 			crit: 7,
 			upgradeData: {
@@ -241,7 +241,7 @@ function loadWeapons() {
 		}),
 		'shortsword': new WeaponDef({
 			displayName: 'Shortsword',
-			buyCost: 10000,
+			buyCost: 1500,
 			damage: 7,
 			crit: 5,
 			upgradeData: {
@@ -250,8 +250,8 @@ function loadWeapons() {
 			}
 		}),
 		'longsword': new WeaponDef({
-			displayName: 'Dagger',
-			buyCost: 25000,
+			displayName: 'Longsword',
+			buyCost: 5000,
 			damage: 9,
 			crit: 5,
 			upgradeData: {
@@ -261,7 +261,7 @@ function loadWeapons() {
 		}),
 		'basket-sword': new WeaponDef({
 			displayName: 'Basket-Hilted Broadsword',
-			buyCost: 50000,
+			buyCost: 7500,
 			damage: 9,
 			crit: 5,
 			upgradeData: {
@@ -271,7 +271,7 @@ function loadWeapons() {
 		}),
 		'greatsword': new WeaponDef({
 			displayName: 'Greatsword',
-			buyCost: 125000,
+			buyCost: 15000,
 			damage: 11,
 			crit: 4,
 			upgradeData: {

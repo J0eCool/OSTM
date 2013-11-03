@@ -36,6 +36,7 @@
 .enemy {
     width: 75%;
     pointer-events: auto;
+    cursor: pointer;
     transition: 0.15s;
 }
 
