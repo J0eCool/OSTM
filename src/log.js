@@ -9,7 +9,7 @@ Log = {
 		for (var i = 0; i < this.maxLines; i++) {
 			html += '<div class="log-message" id="' + i + '"></div>';
 		}
-		$('.game-log').html(html);
+		j('.game-log').html(html);
 	},
 
 	write: function(msg) {
@@ -20,7 +20,7 @@ Log = {
 				break;
 			}
 		}
-		$('.log-message#' + toSet).text(msg).stop(true, true).css({
+		j('.log-message#' + toSet).text(msg).stop(true, true).css({
 			'opacity': 0
 		}).animate({ opacity: '1' }, { duration: 500 } ).
 		animate({ opacity: '1' }, { duration: 1000 }).

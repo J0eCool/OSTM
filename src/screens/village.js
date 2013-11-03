@@ -34,12 +34,13 @@ Village = {
 		foreach(this.buildings, function(building) {
 			html += building.getButtonHtml();
 		});
-		$('.village').html(html);
+		j('.village').html(html);
 	},
 
 	updateButtons: function() {
-		if (AdventureScreen.hasBeat('adv1')) {
-			$('#village-button').show();
+		var unlocked = AdventureScreen.hasBeat('adv2');
+		j('#village-button', 'toggle', unlocked);
+		if (unlocked) {
 			foreach(this.buildings, function(building) {
 				building.updateButton();
 			});
@@ -86,9 +87,9 @@ function BuildingDef(data) {
 
 	this.updateButton = function() {
 		var id = '#' + this.name + '-button';
-		$(id).toggleClass('inactive', Player.gold < this.getCost());
-		$(id + '-count').text(formatNumber(this.count));
-		$(id + '-cost').text(formatNumber(this.getCost()));
+		j(id, 'toggleClass', 'inactive', Player.gold < this.getCost());
+		j(id + '-count', 'text', formatNumber(this.count));
+		j(id + '-cost', 'text', formatNumber(this.getCost()));
 	};
 
 	this.getCost = function() {

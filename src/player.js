@@ -1,5 +1,5 @@
 Player = {
-	toSave: ['health', 'xp', 'gold', 'forge', 'weapon'],
+	toSave: ['health', 'xp', 'gold', 'forge', 'weaponName'],
 
 	health: 100,
 	partialHealth: 0, //health regen per-tick roundoff
@@ -28,7 +28,7 @@ Player = {
 
 		this.createStatButtons();
 
-		$("#stats").html(
+		j("#stats").html(
 			'<div>Level: <span id="stat-level"></span></div>' +
 			'<div>' + getIconHtml('xp') + ': <span id="stat-xp"></span></div>' +
 			'<div>' + getIconHtml('gold') + ': <span id="stat-gold"></span></div>' +
@@ -56,7 +56,7 @@ Player = {
 		var dT = Game.normalDt / 1000;
 		this.regenHealth(this.maxHealth.value() * this.healthRegen.value() * dT);
 
-		$('#player-health').text(formatNumber(this.health) + ' / ' + formatNumber(this.maxHealth.value()))
+		j('#player-health').text(formatNumber(this.health) + ' / ' + formatNumber(this.maxHealth.value()))
 			.css('width', this.health / this.maxHealth.value() * 100 + '%');
 
 		this.weapon = Blacksmith.getWeapon(this.weaponName);
@@ -66,24 +66,24 @@ Player = {
 	},
 
 	updateStats: function() {
-		$('#stat-level').text(formatNumber(Player.getLevel()));
-		$('#stat-xp').text(formatNumber(Player.xp));
-		$('#stat-gold').text(formatNumber(Player.gold));
-		$('#stat-forge').text(formatNumber(Player.forge));
+		j('#stat-level', 'text', formatNumber(Player.getLevel()));
+		j('#stat-xp', 'text', formatNumber(Player.xp));
+		j('#stat-gold', 'text', formatNumber(Player.gold));
+		j('#stat-forge', 'text', formatNumber(Player.forge));
 
-		$('#stat-weapon').text(this.weapon.displayName);
+		j('#stat-weapon', 'text', this.weapon.displayName);
 		var dmg = this.getDamageInfo();
-		$('#stat-damage').text(formatNumber(dmg.lo) + ' - ' + formatNumber(dmg.hi));
-		$('#stat-crit').text(formatNumber(this.weapon.get('crit')) + '%');
-		$('#stat-crit-damage').text(formatNumber(this.getCritDamage()) + '%');
+		j('#stat-damage', 'text', formatNumber(dmg.lo) + ' - ' + formatNumber(dmg.hi));
+		j('#stat-crit', 'text', formatNumber(this.weapon.get('crit')) + '%');
+		j('#stat-crit-damage', 'text', formatNumber(this.getCritDamage()) + '%');
 
-		$('#stat-armor').text(formatNumber(Player.armor));
+		j('#stat-armor', 'text', formatNumber(Player.armor));
 
-		$('#stat-forge-second').text(formatNumber(Inventory.forgePerSecond));
-		$('#stat-gold-second').text(formatNumber(Village.goldPerSecond));
+		j('#stat-forge-second', 'text', formatNumber(Inventory.forgePerSecond));
+		j('#stat-gold-second', 'text', formatNumber(Village.goldPerSecond));
 
-		$('#stat-regen').text('+' + formatNumber(this.maxHealth.value() * this.healthRegen.value()) + '/s');
-		$('#stat-reduction').text(formatNumber(100 * (1 - this.defenseDamageMultiplier())) + '%');
+		j('#stat-regen', 'text', '+' + formatNumber(this.maxHealth.value() * this.healthRegen.value()) + '/s');
+		j('#stat-reduction', 'text', formatNumber(100 * (1 - this.defenseDamageMultiplier())) + '%');
 	},
 
 	getStat: function(i) {
@@ -162,10 +162,10 @@ Player = {
 		ParticleContainer.create(particleType, sign + formatNumber(healthAmt), x, y);
 	},
 
-	upgrade: function(statName) {
+	upgrade: function(name) {
 		for (var i = 0; i < this.stats.length; i++) {
 			var stat = this.getStat(i);
-			if (stat.statName == statName) {
+			if (stat.name == name) {
 				stat.tryUpgrade();
 			}
 		}
@@ -195,8 +195,8 @@ Player = {
 function StatType(data) {
 	this.toSave = ['level'];
 
-	this.statName = data.statName || '';
-	this.displayName = data.displayName || this.statName || '';
+	this.name = data.name || '';
+	this.displayName = data.displayName || this.name || '';
 	this.minLevel = data.minLevel || 0;
 	this.baseValue = data.baseValue || 0;
 	this.levelValue = data.levelValue || 1;
@@ -270,17 +270,17 @@ function StatType(data) {
 		var htmlStr = this.displayName + ': <span id="amount"></span>' +
 			'<br/><span id="upgrade">(+<span id="upgrade-amount"></span>) : ' +
 			'<span id="cost"></span> ' + getIconHtml('xp') + '</span>';
-		return getButtonHtml("Player.upgrade('" + this.statName + "')",
-			htmlStr, 'stat-' + this.statName + '-button');
+		return getButtonHtml("Player.upgrade('" + this.name + "')",
+			htmlStr, 'stat-' + this.name + '-button');
 	};
 
 	this.updateButton = function() {
-		var id = '#stat-' + this.statName + '-button';
-		$(id).toggleClass('inactive', !this.canUpgrade());
-		$(id + ' #upgrade').toggle(this.isPlayerMinLevel());
-		$(id + ' #amount').text(this.stringValue());
-		$(id + ' #upgrade-amount').text(this.stringUpgradeValue());
-		$(id + ' #cost').text(formatNumber(this.upgradeCost()));
+			var id = '#stat-' + this.name + '-button';
+			j(id, 'toggleClass', 'inactive', !this.canUpgrade());
+			j(id + ' #upgrade', 'toggle', this.isPlayerMinLevel());
+			j(id + ' #amount', 'text', this.stringValue());
+			j(id + ' #upgrade-amount', 'text', this.stringUpgradeValue());
+			j(id + ' #cost', 'text', formatNumber(this.upgradeCost()));
 	};
 
 	this.onUpgrade = data.onUpgrade || function() {};

@@ -31,9 +31,9 @@ AdventureScreen = new ScreenContainer({
 	},
 
 	update: function() {
-		$('#map-button').toggle(this.hasBeat('adv0'));
-		$('#shrine-button').toggle(this.hasBeat('adv2'));
-		$('#inn-cost').text(formatNumber(this.getInnCost()));
+		j('#map-button', 'toggle', this.hasBeat('adv0'));
+		j('#shrine-button', 'toggle', this.hasBeat('adv2'));
+		j('#inn-cost', 'text', formatNumber(this.getInnCost()));
 
 		for (var i in this.adventures) {
 			this.adventures[i].update();
@@ -109,13 +109,13 @@ function AdventureDef(data) {
 		$('#' + this.name + '-button').toggle(this.isAvailable());
 		var powId = '#' + this.name + '-power';
 		if (this.isAvailable()) {
-			$(powId).show();
-			$(powId + '-count').text(formatNumber(this.power));
-			$(powId + '-dec').toggle(this.power > 0);
-			$(powId + '-inc-cost').text(formatNumber(this.powerUpCost()));
+			j(powId).show();
+			j(powId + '-count', 'text', formatNumber(this.power));
+			j(powId + '-dec', 'toggle', this.power > 0);
+			j(powId + '-inc-cost', 'text', formatNumber(this.powerUpCost()));
 		}
 		else {
-			$(powId).hide();
+			j(powId).hide();
 		}
 	};
 

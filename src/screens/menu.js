@@ -37,8 +37,8 @@ function ScreenContainer(data) {
 	this.update = data.update || function(){};
 
 	this.setScreen = function(name) {
-		$('.' + this.classBase).hide();
-		$('.' + name).show();
+		j('.' + this.classBase).hide();
+		j('.' + name).show();
 		this.onScreenSet(name);
 		this.curScreen = name;
 	};
@@ -92,28 +92,26 @@ Menu = new ScreenContainer({
 			headerHtml += getButtonHtml("Menu.setScreen('" + scr.name + "')",
 				scr.displayName, scr.name + '-button') + ' ';
 		});
-		$('.header-container').html(headerHtml);
+		j('.header-container').html(headerHtml);
 
 		this.setScreen('adventure');
 
 		AdventureScreen.init();
-
-		$('#village-button').hide();
 	},
 
 	update: function() {
-		$('#save-info').toggle(Save.saveExists());
-		var saveVal = $('#save-val');
+		j('#save-info', 'toggle', Save.saveExists());
+		var saveVal = j('#save-val');
 		if (saveVal.text() != Save.getSavedString()) {
 			saveVal.text(Save.getSavedString());
 		}
-		$('#save-autosave').text(Save.autosave ? 'Enabled' : 'Disabled');
+		j('#save-autosave', 'text', Save.autosave ? 'Enabled' : 'Disabled');
 
-		$('#store-button').toggle(AdventureScreen.hasBeat('adv0'));
+		j('#store-button', 'toggle', AdventureScreen.hasBeat('adv0'));
 	},
 
 	onScreenSet: function(name) {
-		$('#' + this.curScreen + '-button').toggleClass('selected', false);
-		$('#' + name + '-button').toggleClass('selected', true);
+		j('#' + this.curScreen + '-button').toggleClass('selected', false);
+		j('#' + name + '-button').toggleClass('selected', true);
 	}
 });

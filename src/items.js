@@ -42,8 +42,8 @@ Inventory = {
 			htmlStr += item.getButtonHtml();
 			storeHtmlStr += item.getStoreButtonHtml();
 		}
-		$('.inventory').html(htmlStr);
-		$('.recipes').html(storeHtmlStr);
+		j('.inventory').html(htmlStr);
+		j('.recipes').html(storeHtmlStr);
 	},
 
 	updateButtons: function() {
@@ -104,13 +104,13 @@ function ItemDef(data) {
 
 	this.updateButtons = function() {
 		var id = '#' + this.name + '-inv-button';
-		$(id).toggle(this.isVisible());
-		$(id + ' #count').text(formatNumber(this.count));
-		$(id + ' #max-count').text(formatNumber(this.maxItemCount()));
+		j(id, 'toggle', this.isVisible());
+		j(id + ' #count', 'text', formatNumber(this.count));
+		j(id + ' #max-count', 'text', formatNumber(this.maxItemCount()));
 
 		var storeId = '#' + this.name + '-button';
-		$(storeId).toggleClass('inactive', !this.canMakeMore());
-		$(storeId + ' span #cost').text(formatNumber(this.getCost()));
+		j(storeId, 'toggleClass', 'inactive', !this.canMakeMore());
+		j(storeId + ' span #cost', 'text', formatNumber(this.getCost()));
 	};
 
 	this.maxItemCount = function() {

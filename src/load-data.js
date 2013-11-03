@@ -17,21 +17,20 @@ function loadStats() {
 			}
 		}),
 		'strength': new StatType({
-			statName: 'Strength',
+			displayName: 'Strength',
 			minLevel: 2,
 			baseCost: 10,
 			levelCost: 5,
 			baseValue: 4
 		}),
 		'defense': new StatType({
-			statName: 'Defense',
+			displayName: 'Defense',
 			minLevel: 5,
 			baseCost: 25,
 			levelCost: 5,
 			baseValue: 3
 		}),
 		'itemEfficiency': new StatType({
-			statName: 'itemEfficiency',
 			displayName: 'Item Efficiency',
 			minLevel: 8,
 			baseCost: 100,
@@ -41,7 +40,6 @@ function loadStats() {
 			isPercent: true
 		}),
 		'healthRegen': new StatType ({
-			statName: 'healthRegen',
 			displayName: 'Health Regen',
 			minLevel: 15,
 			baseCost: 400,

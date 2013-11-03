@@ -18,14 +18,15 @@ Blacksmith = {
 		foreach(this.weapons, function(weapon) {
 			html += weapon.getButtonHtml();
 		});
-		$('.blacksmith').html(html);
+		j('.blacksmith').html(html);
 
 		this.updateButtons();
 	},
 
 	updateButtons: function() {
-		if (AdventureScreen.hasBeat('adv2')) {
-			$('#blacksmith-button').show();
+		var unlocked = AdventureScreen.hasBeat('adv1');
+		j('#blacksmith-button', 'toggle', unlocked);
+		if (unlocked) {
 			foreach(this.weapons, function(weapon) {
 				weapon.updateButton();
 			});
@@ -49,6 +50,7 @@ Blacksmith = {
 		if (cost <= Player[currency]) {
 			Player[currency] -= cost;
 			weapon.purchase();
+			Player.weaponName = wepName;
 		}
 	}
 };
@@ -138,8 +140,9 @@ function WeaponDef(data) {
 	};
 
 	this.updateButton = function() {
-		var container = $('.weapon-container#' + this.name);
-		container.find('#equip').toggle(this.owned);
+		var id = '.weapon-container#' + this.name;
+		j(id + ' #equip', 'toggle', this.owned);
+		j(id + ' #equip', 'toggleClass', 'selected', this.name == Player.weaponName);
 
 		var actionText = 'Buy';
 		if (this.isMaxLevel()) {
@@ -148,7 +151,7 @@ function WeaponDef(data) {
 		else if (this.owned) {
 			actionText = 'Upgrade';
 		}
-		container.find('#action').text(actionText);
+		j(id + ' #action', 'text', actionText);
 
 		var levelText = '';
 		if (this.level > 0) {
@@ -157,16 +160,18 @@ function WeaponDef(data) {
 		if (this.ascensions > 0) {
 			levelText = '+' + this.ascensions + ' ' + levelText;
 		}
-		container.find('#level').text(levelText);
+		j(id + ' #level', 'text', levelText);
 
-		container.find('#cost').html(formatNumber(this.getCost()) + ' ' + getIconHtml(this.getCurrency()));
+		j(id + ' #cost', 'html', formatNumber(this.getCost()) +
+			' ' + getIconHtml(this.getCurrency()));
 
-		var descriptionText = 'Damage: ' + this.getBaseDamage() + ' Base Crit: ' + this.crit + '%';
+		var descriptionText = 'Damage: ' + this.getBaseDamage() +
+			' Base Crit: ' + this.crit + '%';
 		for (var up in this.upgradeData) {
 			descriptionText += ', ' + this.upgradeNames[up] + ': +' +
 				this.getUpgradeAmount(up) + '%';
 		}
-		container.find('#description').text(descriptionText);
+		j(id + ' #description', 'text', descriptionText);
 	};
 }
 WeaponDef.prototype.upgradeNames = {
