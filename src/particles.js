@@ -38,13 +38,18 @@ ParticleContainer = {
 
 damageParticleType = new ParticleType({
 	className: 'damage enemy-damage',
-	animHeight: 120,
-	animTime: 350
+	animHeight: 140,
+	animTime: 650
+});
+critParticleType = new ParticleType({
+	className: 'damage enemy-crit',
+	animHeight: 160,
+	animTime: 650
 });
 playerDamageParticleType = new ParticleType({
 	className: 'damage player-damage',
-	animHeight: -80,
-	animTime: 450
+	animHeight: -90,
+	animTime: 850
 });
 healParticleType = new ParticleType({
 	className: 'damage heal',
@@ -52,8 +57,8 @@ healParticleType = new ParticleType({
 });
 rewardParticleType = new ParticleType({
 	className: 'reward',
-	animHeight: 140,
-	animTime: 1200
+	animHeight: -70,
+	animTime: 1400
 });
 forgeParticleType = new ParticleType({
 	className: 'damage forge-plus'

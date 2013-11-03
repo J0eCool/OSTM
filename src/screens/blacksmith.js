@@ -38,7 +38,7 @@ Blacksmith = {
 
 	equip: function(wepName) {
 		if (this.getWeapon(wepName).owned) {
-			Player.weapon = wepName;
+			Player.weaponName = wepName;
 		}
 	},
 
@@ -58,18 +58,32 @@ function WeaponDef(data) {
 
 	this.name = data.name || '';
 	this.displayName = data.displayName || '';
-	this.baseDamage = data.baseDamage || 2;
+	this.damage = data.damage || 2;
+	this.crit = data.crit || 5;
 	this.ascendDamage = data.ascendDamage || 1;
 	this.buyCost = data.buyCost || 1000;
 	this.upgradeCost = data.upgradeCost || 75000;
+	this.upgradeData = data.upgradeData || { 'damage': 10 };
 	this.ascendCost = data.ascendCost || 5000;
 
 	this.owned = data.owned || false;
 	this.level = 0;
 	this.ascensions = 0;
 
-	this.getDamage = function() {
-		return this.baseDamage + this.ascensions * this.ascendDamage;
+	this.getUpgradeAmount = function(name) {
+		var perLevel = this.upgradeData[name];
+		if (!perLevel) {
+			return 0;
+		}
+		return this.level * perLevel;
+	};
+
+	this.getBaseDamage = function() {
+		return this.damage + this.ascensions * this.ascendDamage;
+	};
+
+	this.get = function(stat) {
+		return this[stat] * (1 + this.getUpgradeAmount(stat) / 100);
 	};
 
 	this.getMaxLevel = function() {
@@ -147,7 +161,17 @@ function WeaponDef(data) {
 
 		container.find('#cost').html(formatNumber(this.getCost()) + ' ' + getIconHtml(this.getCurrency()));
 
-		var descriptionText = 'Damage: ' + this.getDamage();
+		var descriptionText = 'Damage: ' + this.getBaseDamage() + ' Base Crit: ' + this.crit + '%';
+		for (var up in this.upgradeData) {
+			descriptionText += ', ' + this.upgradeNames[up] + ': +' +
+				this.getUpgradeAmount(up) + '%';
+		}
 		container.find('#description').text(descriptionText);
 	};
 }
+WeaponDef.prototype.upgradeNames = {
+	damage : 'Damage',
+	crit : 'Crit. Chance',
+	critDamage : 'Crit. Damage',
+	defense : 'Defense'
+};

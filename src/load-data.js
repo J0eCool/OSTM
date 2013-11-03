@@ -223,9 +223,62 @@ function loadWeapons() {
 	var weapons = {
 		'knife': new WeaponDef({
 			displayName: 'Knife',
+			owned: true,
+			damage: 3,
+			crit: 7,
+			upgradeData: {
+				crit: 10,
+				critDamage: 5
+			}
 		}),
 		'dagger': new WeaponDef({
-			displayName: 'Dagger'
+			displayName: 'Dagger',
+			buyCost: 2500,
+			damage: 5,
+			crit: 7,
+			upgradeData: {
+				damage: 5,
+				critDamage: 10
+			}
+		}),
+		'shortsword': new WeaponDef({
+			displayName: 'Shortsword',
+			buyCost: 10000,
+			damage: 7,
+			crit: 5,
+			upgradeData: {
+				damage: 8,
+				crit: 5
+			}
+		}),
+		'longsword': new WeaponDef({
+			displayName: 'Dagger',
+			buyCost: 25000,
+			damage: 9,
+			crit: 5,
+			upgradeData: {
+				damage: 10,
+				critDamage: 5
+			}
+		}),
+		'basket-sword': new WeaponDef({
+			displayName: 'Basket-Hilted Broadsword',
+			buyCost: 50000,
+			damage: 9,
+			crit: 5,
+			upgradeData: {
+				damage: 5,
+				defense: 10
+			}
+		}),
+		'greatsword': new WeaponDef({
+			displayName: 'Greatsword',
+			buyCost: 125000,
+			damage: 11,
+			crit: 4,
+			upgradeData: {
+				damage: 15
+			}
 		})
 	};
 	foreach (weapons, function(weapon, key) {

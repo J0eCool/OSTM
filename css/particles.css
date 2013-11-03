@@ -9,12 +9,17 @@
 }
 
 .damage {
-    font-size: 28px;
+    font-size: 36px;
     font-weight: bold;
 }
 
 .enemy-damage {
-    color: #e0c030;
+    color: #ec2;
+}
+
+.enemy-crit {
+    font-size: 48px;
+    color: #fd1;
 }
 
 .player-damage {

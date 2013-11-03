@@ -8,9 +8,13 @@ Player = {
 	gold: 0,
 	forge: 0,
 
-	weapon: 'knife',
+	weaponName: 'knife',
+	weapon: null,
+
 	armor: 2,
+
 	randDamage: 0.3,
+	critDamage: 150,
 
 	stats: [],
 
@@ -30,8 +34,11 @@ Player = {
 			'<div>' + getIconHtml('gold') + ': <span id="stat-gold"></span></div>' +
 			'<div>' + getIconHtml('forge') + ': <span id="stat-forge"></span></div>' +
 			'<br/>' +
-			'<div>Damage : <span id="stat-damage"></span></div>' +
 			'<div>Weapon : <span id="stat-weapon"></span></div>' +
+			'<div>Damage : <span id="stat-damage"></span></div>' +
+			'<div>Crit. Chance : <span id="stat-crit"></span></div>' +
+			'<div>Crit Damage : <span id="stat-crit-damage"></span></div>' +
+			'<br/>' +
 			'<div>Armor : <span id="stat-armor"></span></div>' +
 			'<br/>' +
 			'<div>' + getIconHtml('forge') + ' per Second: <span id="stat-forge-second"></span></div>' +
@@ -42,7 +49,7 @@ Player = {
 			'<br/>'
 		);
 
-		this.updateStats();
+		this.update();
 	},
 
 	update: function() {
@@ -51,6 +58,8 @@ Player = {
 
 		$('#player-health').text(formatNumber(this.health) + ' / ' + formatNumber(this.maxHealth.value()))
 			.css('width', this.health / this.maxHealth.value() * 100 + '%');
+
+		this.weapon = Blacksmith.getWeapon(this.weaponName);
 
 		this.updateStats();
 		this.updateStatButtons();
@@ -62,9 +71,12 @@ Player = {
 		$('#stat-gold').text(formatNumber(Player.gold));
 		$('#stat-forge').text(formatNumber(Player.forge));
 
-		$('#stat-damage').text(formatNumber(Player.getDamageLo()) + ' - ' + formatNumber(Player.getDamageHi()));
-		var wep = Blacksmith.getWeapon(Player.weapon);
-		$('#stat-weapon').text(wep.displayName);
+		$('#stat-weapon').text(this.weapon.displayName);
+		var dmg = this.getDamageInfo();
+		$('#stat-damage').text(formatNumber(dmg.lo) + ' - ' + formatNumber(dmg.hi));
+		$('#stat-crit').text(formatNumber(this.weapon.get('crit')) + '%');
+		$('#stat-crit-damage').text(formatNumber(this.getCritDamage()) + '%');
+
 		$('#stat-armor').text(formatNumber(Player.armor));
 
 		$('#stat-forge-second').text(formatNumber(Inventory.forgePerSecond));
@@ -100,20 +112,22 @@ Player = {
 		this.createAddHealthParticle(amount);
 	},
 
-	getRandomDamage: function() {
-		return randIntInc(this.getDamageLo(), this.getDamageHi());
+	getDamageInfo: function() {
+		var dmg = {
+			baseDamage: this.strength.value() * this.weapon.get('damage')
+		};
+		dmg.lo = Math.ceil(dmg.baseDamage * (1 - this.randDamage / 2));
+		dmg.hi = Math.floor(dmg.baseDamage * (1 + this.randDamage / 2));
+		dmg.isCrit = rand(0, 100) < this.weapon.get('crit');
+		dmg.damage = randIntInc(dmg.lo, dmg.hi);
+		if (dmg.isCrit) {
+			dmg.damage = Math.floor(dmg.damage * this.getCritDamage() / 100);
+		}
+		return dmg;
 	},
 
-	getBaseDamage: function() {
-		return this.strength.value() * Blacksmith.getWeapon(this.weapon).getDamage();
-	},
-
-	getDamageLo: function() {
-		return Math.floor(this.getBaseDamage() * (1 - this.randDamage / 2));
-	},
-
-	getDamageHi: function() {
-		return Math.floor(this.getBaseDamage() * (1 + this.randDamage / 2));
+	getCritDamage: function() {
+		return this.critDamage + this.weapon.getUpgradeAmount('critDamage');
 	},
 
 	defenseDamageMultiplier: function() {

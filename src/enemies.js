@@ -245,12 +245,13 @@ function EnemyContainer(index) {
 	this.onClick = function() {
 		var dealtDamage = this.attackPower();
 		if (this.isActive() && Player.takeDamage(dealtDamage)) {
-			this.takeDamage(Player.getRandomDamage());
+
+			this.takeDamage(Player.getDamageInfo());
 		}
 	};
 
-	this.takeDamage = function(damage) {
-		this.health -= damage;
+	this.takeDamage = function(damageInfo) {
+		this.health -= damageInfo.damage;
 
 		var sel = this.getSelector();
 		var width = sel.width();
@@ -259,7 +260,13 @@ function EnemyContainer(index) {
 		var pos = this.getAbsolutePosition();
 		var x = pos.x + randInt(-40, 40) + width / 2;
 		var y = pos.y + randInt(-20, 0) + height / 2;
-		ParticleContainer.create(damageParticleType, formatNumber(damage), x, y);
+		var dmgString = formatNumber(damageInfo.damage);
+		if (damageInfo.isCrit) {
+			ParticleContainer.create(critParticleType, dmgString + '!', x, y);
+		}
+		else {
+			ParticleContainer.create(damageParticleType, dmgString, x, y);
+		}
 
 		if (this.health <= 0) {
 			this.giveRewards();
