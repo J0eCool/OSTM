@@ -47,25 +47,27 @@ function foreach(target, toDo) {
 	}
 }
 
-var jqCache = {};
-function j(id) {
-	if (arguments.length == 1) {
-		if (!(id in jqCache)) {
-			jqCache[id] = $(id);
+j = function(id) {
+	var cache = {};
+	return function(id) {
+		if (arguments.length == 1) {
+			if (!(id in cache)) {
+				cache[id] = $(id);
+			}
+			return cache[id];
 		}
-		return jqCache[id];
-	}
-	else {
-		var func = arguments[1];
-		var key = id + func;
-		var args = [];
-		for (var i = 2; i < arguments.length; i++) {
-			args.push(arguments[i]);
+		else {
+			var func = arguments[1];
+			var key = id + '#' + func;
+			var args = [];
+			for (var i = 2; i < arguments.length; i++) {
+				args.push(arguments[i]);
+			}
+			if (cache[key] !== args.toString()) {
+				cache[key] = args.toString();
+				var f = j(id)[func];
+				f.apply(j(id), args);
+			}
 		}
-		if (jqCache[key] !== args.toString()) {
-			jqCache[key] = args.toString();
-			var f = j(id)[func];
-			f.apply(j(id), args);
-		}
-	}
-}
+	};
+}();

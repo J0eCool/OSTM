@@ -64,6 +64,12 @@ forgeParticleType = new ParticleType({
 	className: 'damage forge-plus'
 });
 
-function getIconHtml(type) {
-	return '<img class="icon ' + type + '-icon" />';
-}
+getIconHtml = function(type) {
+	var cache = {};
+	return function(type) {
+		if (!cache[type]) {
+			cache[type] = '<img class="icon ' + type + '-icon" />';
+		}
+		return cache[type];
+	};
+}();
