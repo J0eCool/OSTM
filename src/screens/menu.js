@@ -5,6 +5,7 @@ function ScreenDef(data) {
 	this.createHtml = data.createHtml || function() {
 		return this.html;
 	};
+	this.prereqs = data.prereqs || null;
 }
 
 function ScreenContainer(data) {
@@ -59,15 +60,26 @@ Menu = new ScreenContainer({
 		new ScreenDef({
 			name: 'store',
 			displayName: 'Store',
-			html: '<div class="recipes"></div>'
+			html: '<div class="recipes"></div>',
+			prereqs: {
+				adventures: ['adv0']
+			}
 		}),
 		new ScreenDef({
 			name: 'blacksmith',
-			displayName: 'Blacksmith'
+			displayName: 'Blacksmith',
+			prereqs: {
+				buildings: {
+					'blacksmith': 1
+				}
+			}
 		}),
 		new ScreenDef({
 			name: 'village',
-			displayName: 'Village'
+			displayName: 'Village',
+			prereqs: {
+				adventures: ['adv1']
+			}
 		}),
 		new ScreenDef({
 			name: 'options',
@@ -107,7 +119,9 @@ Menu = new ScreenContainer({
 		}
 		j('#save-autosave', 'text', Save.autosave ? 'Enabled' : 'Disabled');
 
-		j('#store-button', 'toggle', AdventureScreen.hasBeat('adv0'));
+		foreach (this.screens, function(scr) {
+			j('#' + scr.name + '-button', 'toggle', prereqsMet(scr.prereqs));
+		});
 	},
 
 	onScreenSet: function(name) {

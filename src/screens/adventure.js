@@ -30,12 +30,6 @@ AdventureScreen = new ScreenContainer({
 		this.adventures = loadAdventures();
 	},
 
-	postLoad: function() {
-		if (!this.hasBeat('adv0')) {
-			this.startAdventure('adv0');
-		}
-	},
-
 	update: function() {
 		j('#map-button', 'toggle', this.hasBeat('adv0'));
 		j('#shrine-button', 'toggle', this.hasBeat('adv2'));
@@ -55,6 +49,11 @@ AdventureScreen = new ScreenContainer({
 	}
 });
 AdventureScreen.toSave = ['adventures'];
+AdventureScreen.postLoad = function() {
+	if (!this.hasBeat('adv0')) {
+		this.startAdventure('adv0');
+	}
+};
 AdventureScreen.getAdventure = function(name) {
 	for (var i in this.adventures) {
 		var adv = this.adventures[i];
@@ -102,7 +101,7 @@ AdventureScreen.isAdventuring = function() {
 
 function AdventureDef(data) {
 	this.toSave = ['beatOnPower', 'power'];
-	this.prereq = data.prereq || null;
+	this.prereqs = data.prereqs || null;
 	this.name = data.name || '';
 	this.displayName = data.displayName || '';
 	this.levels = data.levels || [1];
@@ -130,7 +129,7 @@ function AdventureDef(data) {
 	};
 
 	this.isAvailable = function() {
-		return !this.prereq || AdventureScreen.hasBeat(this.prereq);
+		return prereqsMet(this.prereqs);
 	};
 
 	this.getLevel = function(areaIndex) {

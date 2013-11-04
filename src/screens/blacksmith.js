@@ -24,13 +24,9 @@ Blacksmith = {
 	},
 
 	updateButtons: function() {
-		var unlocked = AdventureScreen.hasBeat('adv1');
-		j('#blacksmith-button', 'toggle', unlocked);
-		if (unlocked) {
-			foreach(this.weapons, function(weapon) {
-				weapon.updateButton();
-			});
-		}
+		foreach(this.weapons, function(weapon) {
+			weapon.updateButton();
+		});
 	},
 
 	getWeapon: function(wepName) {
@@ -134,9 +130,10 @@ function WeaponDef(data) {
 
 	this.getButtonHtml = function() {
 		return '<div class="weapon-container" id="' + this.name + '">' +
-			getButtonHtml("Blacksmith.equip('" + this.name + "')", "Equip " + this.displayName, 'equip') +
+			getButtonHtml("Blacksmith.equip('" + this.name + "')", "Equip " +
+				this.displayName + ' <span id="level"></span>', 'equip') +
 			' ' + getButtonHtml("Blacksmith.tryPurchase('" + this.name + "')",
-				'<span id="action"></span> ' + this.displayName + ' <span id="level"></span>' +
+				'<span id="action"></span> ' + this.displayName +
 				'<br><span id="cost"></span>', 'button') +
 			'<span id="description"></span>' +
 			'</div>';
@@ -149,6 +146,14 @@ function WeaponDef(data) {
 		j(id + ' #equip', 'toggleClass', 'inactive', AdventureScreen.isAdventuring() && !isEquipped);
 		j(id + ' #equip', 'toggleClass', 'selected', isEquipped);
 
+		var prereqs = null;
+		if (this.owned) {
+			prereqs = { buildings: { 'anvil': 1 } };
+		}
+		if (this.isMaxLevel()) {
+			prereqs = { buildings: { 'forge': 1 } };
+		}
+		j(id + ' #button', 'toggle', prereqsMet(prereqs));
 		j(id + ' #button', 'toggleClass', 'inactive', !this.canPurchase());
 
 		var actionText = 'Buy';

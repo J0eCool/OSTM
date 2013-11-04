@@ -132,7 +132,8 @@ Player = {
 
 	defenseDamageMultiplier: function() {
 		var defScale = 28;
-		return defScale / (defScale + this.defense.value());
+		return defScale / (defScale + this.defense.value() *
+			(1 + this.weapon.getUpgradeAmount('defense') / 100));
 	},
 
 	takeDamage: function(damage) {

@@ -65,8 +65,7 @@ function loadItems() {
 			data: {
 				healAmount: 100
 			},
-			baseCost: 250,
-			currency: 'gold'
+			baseCost: 250
 		}),
 		'hiPotion': new PotionDef({
 			displayName: 'Hi-Potion',
@@ -75,7 +74,23 @@ function loadItems() {
 				healAmount: 500
 			},
 			baseCost: 5000,
-			currency: 'gold'
+			researchCost: 250,
+			prereqs: {
+				adventures: ['adv1']
+			}
+		}),
+		'megaPotion': new PotionDef({
+			displayName: 'Mega Potion',
+			description: 'Restores 2500 HP',
+			data: {
+				healAmount: 500
+			},
+			baseCost: 100000,
+			researchCost: 5000,
+			prereqs: {
+				adventures: ['adv2'],
+				items: ['hiPotion']
+			}
 		}),
 
 		'armor-plus': new ItemDef({
@@ -86,6 +101,7 @@ function loadItems() {
 				Player.armor = this.count + 2;
 			},
 			baseCost: 50,
+			currency: 'forge',
 			getCost: function() {
 				return this.baseCost * (1 + Math.floor(Math.pow(this.count, 1.8)));
 			}
@@ -97,9 +113,10 @@ function loadItems() {
 			update: function() {
 				Inventory.slotsPerItem = this.count + 3;
 			},
-			baseCost: 100,
+			baseCost: 500,
+			currency: 'forge',
 			getCost: function() {
-				return this.baseCost * (1 + Math.pow(this.count, 3));
+				return this.baseCost * Math.pow(10, this.count);
 			}
 		}),
 		'forge-second': new ItemDef({
@@ -110,7 +127,6 @@ function loadItems() {
 				Inventory.forgePerSecond = this.count;
 			},
 			baseCost: 250,
-			currency: 'gold',
 			getCost: function() {
 				return Math.floor(this.baseCost * (1 + 2 * Math.pow(this.count, 2.5)));
 			}
@@ -164,19 +180,25 @@ function loadAdventures() {
 			spawnCountHi: 3,
 		}),
 		'adv1': new AdventureDef({
-			prereq: 'adv0',
+			prereqs: {
+				adventures: ['adv0']
+			},
 			displayName: 'OtherField',
 			levels: [4, 6, 6, 8],
 			enemies: ['enemy', 'wall'],
 		}),
 		'adv2': new AdventureDef({
-			prereq: 'adv1',
+			prereqs: {
+				adventures: ['adv1']
+			},
 			displayName: 'Third Area',
 			levels: [12, 16, 18, 18, 18, 22],
 			enemies: ['wall', 'swirl'],
 		}),
 		'adv3': new AdventureDef({
-			prereq: 'adv2',
+			prereqs: {
+				adventures: ['adv2']
+			},
 			displayName: "Oh shit there's more",
 			levels: [24, 26, 24, 28, 32],
 			enemies: ['enemy', 'wall', 'swirl'],
@@ -198,17 +220,67 @@ function loadBuildings() {
 		'shack': new BuildingDef({
 			displayName: 'Shack',
 			baseCost: 40000,
-			goldPerSecond: 20
+			researchCost: 500,
+			goldPerSecond: 20,
+			prereqs: {
+				buildings: {
+					'tent': 0
+				}
+			}
 		}),
 		'cabin': new BuildingDef({
 			displayName: 'Cabin',
 			baseCost: 150000,
-			goldPerSecond: 65
+			researchCost: 2000,
+			goldPerSecond: 65,
+			prereqs: {
+				buildings: {
+					'shack': 0
+				}
+			}
 		}),
 		'cottage': new BuildingDef({
 			displayName: 'Cottage',
 			baseCost: 350000,
-			goldPerSecond: 120
+			researchCost: 10000,
+			goldPerSecond: 120,
+			prereqs: {
+				buildings: {
+					'cabin': 0
+				}
+			}
+		}),
+
+		// non-gold buildings
+		'blacksmith': new BuildingDef({
+			displayName: 'Blacksmith',
+			description: 'Sells weapons',
+			baseCost: 500,
+			maxCount: 1
+		}),
+		'anvil': new BuildingDef({
+			displayName: 'Anvil',
+			description: 'Blacksmith can Upgrade weapons',
+			researchCost: 1000,
+			baseCost: 25000,
+			maxCount: 1,
+			prereqs: {
+				buildings: {
+					'blacksmith': 1
+				}
+			}
+		}),
+		'forge': new BuildingDef({
+			displayName: 'Mystic Forge',
+			description: 'Blacksmith can Ascend max-level weapons',
+			researchCost: 5000,
+			baseCost: 50000,
+			maxCount: 1,
+			prereqs: {
+				buildings: {
+					'anvil': 1
+				}
+			}
 		})
 	};
 	foreach(buildings, function(item, key) {
@@ -223,7 +295,7 @@ function loadWeapons() {
 			displayName: 'Knife',
 			owned: true,
 			damage: 3,
-			crit: 7,
+			crit: 9,
 			upgradeData: {
 				crit: 10,
 				critDamage: 5
@@ -233,7 +305,7 @@ function loadWeapons() {
 			displayName: 'Dagger',
 			buyCost: 500,
 			damage: 5,
-			crit: 7,
+			crit: 8,
 			upgradeData: {
 				damage: 5,
 				critDamage: 10
@@ -259,13 +331,13 @@ function loadWeapons() {
 				critDamage: 5
 			}
 		}),
-		'basket-sword': new WeaponDef({
-			displayName: 'Basket-Hilted Broadsword',
+		'rapier': new WeaponDef({
+			displayName: 'Rapier',
 			buyCost: 7500,
 			damage: 9,
-			crit: 5,
+			crit: 7,
 			upgradeData: {
-				damage: 5,
+				crit: 5,
 				defense: 10
 			}
 		}),

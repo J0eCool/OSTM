@@ -72,7 +72,7 @@ Inventory = {
 };
 
 function ItemDef(data) {
-	this.toSave = ['count'];
+	this.toSave = ['count', 'isResearched'];
 
 	this.name = data.name || '';
 	this.displayName = data.displayName || data.name || '';
@@ -80,13 +80,17 @@ function ItemDef(data) {
 
 	this.data = data.data || null;
 	this.onUse = data.onUse || null;
-	this.count = data.count || 0;
 	this.isCountLimited = (data.isCountLimited !== undefined ? data.isCountLimited : true);
 	this.maxPerInvSlot = data.maxPerInvSlot || 1;
 
 	this.storeName = data.storeName || data.displayName || data.name || '';
 	this.baseCost = data.baseCost || 100;
-	this.currency = data.currency || 'forge';
+	this.currency = data.currency || 'gold';
+	this.researchCost = data.researchCost || 0;
+	this.prereqs = data.prereqs || null;
+
+	this.count = data.count || 0;
+	this.isResearched = (this.researchCost <= 0) || false;
 
 	this.getButtonHtml = function() {
 		return getButtonHtml("Inventory.useItem('" + this.name + "')",
@@ -97,9 +101,11 @@ function ItemDef(data) {
 	};
 
 	this.getStoreButtonHtml = function() {
-		return '<div class="store-item">' + getButtonHtml("Inventory.tryPurchase('" + this.name + "')",
-			'<b>' + this.storeName + '</b><br /><span id="cost"></span> ' + getIconHtml(this.currency),
-			this.name + '-button') + ' <span class="description">' + this.description + '</span></div>';
+		return '<div class="store-item" id="' + this.name + '">' +
+			getButtonHtml("Inventory.tryPurchase('" + this.name + "')",
+				'<b id="name"></b><br><span id="cost"></span> <span id="currency"></span>',
+				'button') +
+			' <span class="description"></span></div>';
 	};
 
 	this.updateButtons = function() {
@@ -108,9 +114,14 @@ function ItemDef(data) {
 		j(id + ' #count', 'text', formatNumber(this.count));
 		j(id + ' #max-count', 'text', formatNumber(this.maxItemCount()));
 
-		var storeId = '#' + this.name + '-button';
+		var storeId = '.store-item#' + this.name + ' #button';
+		j(storeId, 'toggle', this.isVisibleInStore());
 		j(storeId, 'toggleClass', 'inactive', !this.canMakeMore());
+		j(storeId + ' #name', 'html', this.isResearched ? this.storeName : 'Research Item');
 		j(storeId + ' span #cost', 'text', formatNumber(this.getCost()));
+		j(storeId + ' span #currency', 'html', getIconHtml(this.getCurrency()));
+		j('.store-item#' + this.name + ' .description', 'html',
+			this.isResearched ? this.description : '');
 	};
 
 	this.maxItemCount = function() {
@@ -125,12 +136,16 @@ function ItemDef(data) {
 		return this.onUse !== null && (this.count > 0);
 	};
 
+	this.isVisibleInStore = function() {
+		return prereqsMet(this.prereqs);
+	};
+
 	this.update = data.update || function() {};
 
 	this.tryPurchase = function() {
 		var cost = this.getCost();
 		if (this.canAfford()) {
-			Player[this.currency] -= cost;
+			Player[this.getCurrency()] -= cost;
 			this.onPurchase();
 
 			Inventory.updateButtons();
@@ -138,7 +153,13 @@ function ItemDef(data) {
 	};
 
 	this.onPurchase = function() {
-		this.count += 1;
+		if (!this.isResearched) {
+			this.isResearched = true;
+		}
+		else {
+			this.count += 1;
+		}
+
 		this.update();
 
 		if (this.isLimitReached()) {
@@ -146,12 +167,28 @@ function ItemDef(data) {
 		}
 	};
 
-	this.getCost = data.getCost || function() {
-		return this.baseCost;
+	this.getCost = function(that, costFunc) {
+		var cost = costFunc && costFunc.bind(that);
+		return function() {
+			if (!this.isResearched) {
+				return this.researchCost;
+			}
+			if (cost) {
+				return cost();
+			}
+			return this.baseCost;
+		};
+	}(this, data.getCost);
+
+	this.getCurrency = function() {
+		if (!this.isResearched) {
+			return 'forge';
+		}
+		return this.currency;
 	};
 
 	this.canAfford = function() {
-		return this.getCost() <= Player[this.currency];
+		return this.getCost() <= Player[this.getCurrency()];
 	};
 
 	this.isLimitReached = data.isLimitReached || function() {
