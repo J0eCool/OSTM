@@ -25,7 +25,6 @@
     top: 30px;
     text-align: center;
     vertical-align: text-bottom;
-    width: 160px;
     pointer-events: none;
 }
 
@@ -34,7 +33,7 @@
 }
 
 .enemy {
-    width: 75%;
+    width: 128px;
     pointer-events: auto;
     cursor: pointer;
     transition: 0.15s;

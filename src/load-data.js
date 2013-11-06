@@ -141,28 +141,36 @@ function loadItems() {
 function loadEnemies() {
 	var enemies = {
 		'enemy': new EnemyDef({
-			displayName: 'Enemy',
-			image: 'img/Shroomie.png',
+			displayName: 'Snake',
+			image: 'img/Snake.png',
 			health: 22,
 			gold: 5
 		}),
 		'wall': new EnemyDef({
-			displayName: 'Wall',
-			image: 'img/Bricks.png',
+			displayName: 'Sloog',
+			image: 'img/SlugSquirrel.png',
 			health: 40,
 			xp: 4,
 			forge: 2,
 			gold: 6,
 		}),
 		'swirl': new EnemyDef({
-			minLevel: 3,
-			displayName: 'Swirl',
-			image: 'img/CircleTestPattern.png',
+			displayName: 'Masker',
+			image: 'img/MaskBug.png',
 			health: 30,
 			attack: 6,
 			xp: 6,
 			forge: 3,
 			gold: 7
+		}),
+		'snail': new EnemyDef({
+			displayName: 'Snale',
+			image: 'img/SpikeSnail.png',
+			health: 45,
+			attack: 6,
+			xp: 7,
+			forge: 2,
+			gold: 8
 		})
 	};
 	foreach (enemies, function(e, n) {
@@ -201,7 +209,7 @@ function loadAdventures() {
 			},
 			displayName: "Oh shit there's more",
 			levels: [24, 26, 24, 28, 32],
-			enemies: ['enemy', 'wall', 'swirl'],
+			enemies: ['enemy', 'wall', 'swirl', 'snail'],
 		})
 	};
 	for (var key in adventures) {
