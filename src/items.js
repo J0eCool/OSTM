@@ -144,7 +144,7 @@ function ItemDef(data) {
 
 	this.tryPurchase = function() {
 		var cost = this.getCost();
-		if (this.canAfford()) {
+		if (this.canMakeMore()) {
 			Player[this.getCurrency()] -= cost;
 			this.onPurchase();
 

@@ -52,10 +52,8 @@ Village = {
 
 	buyBuilding: function(bldName) {
 		var building = this.buildings[bldName];
-		var cost = building.getCost();
-		var currency = building.getCurrency();
-		if (cost <= Player[currency]) {
-			Player[currency] -= cost;
+		if (building.canAfford()) {
+			Player[building.getCurrency()] -= building.getCost();
 
 			if (!building.isResearched) {
 				building.isResearched = true;
@@ -98,7 +96,7 @@ function BuildingDef(data) {
 		var id = '#' + this.name + '-building';
 		j(id, 'toggle', this.isVisible());
 		j(id + ' #name', 'text', this.isResearched ? this.displayName : 'Research Building');
-		j(id + ' #button', 'toggleClass', 'inactive', Player.gold < this.getCost());
+		j(id + ' #button', 'toggleClass', 'inactive', !this.canAfford());
 		j(id + ' #count', 'text', formatNumber(this.count));
 		j(id + ' #cost', 'html', formatNumber(this.getCost()) + ' ' + getIconHtml(this.getCurrency()));
 
@@ -119,6 +117,10 @@ function BuildingDef(data) {
 
 	this.getCurrency = function() {
 		return this.isResearched ? 'gold' : 'forge';
+	};
+
+	this.canAfford = function() {
+		return Player[this.getCurrency()] >= this.getCost();
 	};
 
 	this.getGPS = function() {
