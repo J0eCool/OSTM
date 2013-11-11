@@ -101,13 +101,14 @@ img.icon {
 img.xp-icon {
     content: url("../img/XP_text.png");
 }
-
 img.gold-icon {
     content: url("../img/Gold_icon.png");
 }
-
 img.forge-icon {
     content: url("../img/Goop.png");
+}
+img.iron-icon {
+    content: url("../img/Iron.png");
 }
 
 .size-0_85 {

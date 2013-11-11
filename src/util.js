@@ -35,6 +35,7 @@ function formatNumber(x) {
 	}
 	return parts.join(".");
 }
+
 function getButtonHtml(onclick, contents, id) {
 	idStr = id ? ' id="' + id + '"' : '';
 	return '<span class="button" onclick="' + onclick + '"' + idStr +

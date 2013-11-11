@@ -1,5 +1,5 @@
 Player = {
-	toSave: ['health', 'xp', 'gold', 'forge', 'weaponName'],
+	toSave: ['health', 'weaponName'],
 
 	health: 100,
 	partialHealth: 0, //health regen per-tick roundoff
@@ -17,6 +17,7 @@ Player = {
 	critDamage: 150,
 
 	stats: [],
+	resources: ['xp', 'gold', 'forge', 'iron'],
 
 	init: function() {
 		var stats = loadStats();
@@ -26,13 +27,25 @@ Player = {
 			this.toSave.push(key);
 		}
 
+		foreach (this.resources, function(resource) {
+			Player[resource] = {
+				toSave: ['amount'],
+				amount: 0,
+				partial: 0,
+				perSecond: 0,
+				unlocked: false
+			};
+			Player.toSave.push(resource);
+		});
+		this.xp.unlocked = true;
+		this.gold.unlocked = true;
+		this.forge.unlocked = true;
+
 		this.createStatButtons();
 
 		j("#stats").html(
 			'<div>Level: <span id="stat-level"></span></div>' +
-			'<div>' + getIconHtml('xp') + ': <span id="stat-xp"></span></div>' +
-			'<div>' + getIconHtml('gold') + ': <span id="stat-gold"></span></div>' +
-			'<div>' + getIconHtml('forge') + ': <span id="stat-forge"></span></div>' +
+			'<div id="resources"></div>' +
 			'<br/>' +
 			'<div>Weapon : <span id="stat-weapon"></span></div>' +
 			'<div>Damage : <span id="stat-damage"></span></div>' +
@@ -41,14 +54,12 @@ Player = {
 			'<br/>' +
 			'<div>Armor : <span id="stat-armor"></span></div>' +
 			'<br/>' +
-			'<div>' + getIconHtml('forge') + ' per Second: <span id="stat-forge-second"></span></div>' +
-			'<div>' + getIconHtml('gold') + ' per Second: <span id="stat-gold-second"></span></div>' +
-			'<br/>' +
 			'<div>Health Regen: <span id="stat-regen"></span></div>' +
 			'<div>Damage Reduction: <span id="stat-reduction"></span></div>' +
 			'<br/>'
 		);
 
+		this.refreshResourceProduction();
 		this.update();
 	},
 
@@ -56,20 +67,56 @@ Player = {
 		var dT = Game.normalDt / 1000;
 		this.regenHealth(this.maxHealth.value() * this.healthRegen.value() * dT);
 
-		j('#player-health').text(formatNumber(this.health) + ' / ' + formatNumber(this.maxHealth.value()))
-			.css('width', this.health / this.maxHealth.value() * 100 + '%');
+		j('#player-health', 'text', formatNumber(this.health) + ' / ' + formatNumber(this.maxHealth.value()));
+		j('#player-health', 'css', 'width', this.health / this.maxHealth.value() * 100 + '%');
 
 		this.weapon = Blacksmith.getWeapon(this.weaponName);
 
+		this.updateResources();
 		this.updateStats();
 		this.updateStatButtons();
 	},
 
+	updateResources: function() {
+		var dT = Game.normalDt / 1000;
+
+		foreach (this.resources, function(resource) {
+			var r = Player[resource];
+			r.partial += r.perSecond * dT;
+			var whole = Math.floor(r.partial);
+			r.amount += whole;
+			r.partial -= whole;
+		});
+	},
+
+	refreshResourceProduction: function() {
+		foreach (this.resources, function(resource) {
+			Player[resource].perSecond = 0;
+		});
+
+		foreach(Village.buildings, function(building) {
+			if (building.resourceProduced) {
+				Player[building.resourceProduced].perSecond +=
+					building.count * building.getProduction();
+			}
+		});
+	},
+
 	updateStats: function() {
 		j('#stat-level', 'text', formatNumber(Player.getLevel()));
-		j('#stat-xp', 'text', formatNumber(Player.xp));
-		j('#stat-gold', 'text', formatNumber(Player.gold));
-		j('#stat-forge', 'text', formatNumber(Player.forge));
+
+		var resourceHtml = '';
+		foreach (this.resources, function(resource){
+			if (Player[resource].unlocked) {
+				var r = Player[resource];
+				resourceHtml += '<div>' + getIconHtml(resource) + ': ' + formatNumber(r.amount);
+				if (r.perSecond > 0) {
+					resourceHtml += ' (+' + formatNumber(r.perSecond) + '/s)';
+				}
+				resourceHtml += '</div>';
+			}
+		});
+		j('#resources', 'html', resourceHtml);
 
 		j('#stat-weapon', 'text', this.weapon.displayName);
 		var dmg = this.getDamageInfo();
@@ -78,9 +125,6 @@ Player = {
 		j('#stat-crit-damage', 'text', formatNumber(this.getCritDamage()) + '%');
 
 		j('#stat-armor', 'text', formatNumber(Player.armor));
-
-		j('#stat-forge-second', 'text', formatNumber(Inventory.forgePerSecond));
-		j('#stat-gold-second', 'text', formatNumber(Village.goldPerSecond));
 
 		j('#stat-regen', 'text', '+' + formatNumber(this.maxHealth.value() * this.healthRegen.value()) + '/s');
 		j('#stat-reduction', 'text', formatNumber(100 * (1 - this.defenseDamageMultiplier())) + '%');
@@ -247,12 +291,12 @@ function StatType(data) {
 	};
 
 	this.canUpgrade = function() {
-		return this.isPlayerMinLevel() && Player.xp >= this.upgradeCost();
+		return this.isPlayerMinLevel() && Player.xp.amount >= this.upgradeCost();
 	};
 
 	this.tryUpgrade = function() {
 		if (this.canUpgrade()) {
-			Player.xp -= this.upgradeCost();
+			Player.xp.amount -= this.upgradeCost();
 			this.level++;
 
 			this.onUpgrade();

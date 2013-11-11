@@ -32,3 +32,7 @@ function prereqsMet(prereqs) {
 
 	return true;
 }
+
+function canResearch() {
+	return prereqsMet({ buildings: { 'research-center': 1 } });
+}

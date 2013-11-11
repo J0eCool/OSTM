@@ -1,10 +1,5 @@
 TODO:
-	- currency revamp
-		- buildings can give various currencies
-		- currency object (on player?)
-			- current quantity
-			- perSecond
-			- isUnlocked
+	- button refactor
 	- upgrade Adventures
 		- define rooms, enemy data per-room
 	- enemy-spawn-area div

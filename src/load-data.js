@@ -118,18 +118,6 @@ function loadItems() {
 			getCost: function() {
 				return this.baseCost * Math.pow(10, this.count);
 			}
-		}),
-		'forge-second': new ItemDef({
-			storeName: 'Increase ' + getIconHtml('forge') + ' per Second',
-			description: 'Gives passive ' + getIconHtml('forge') + ' over time',
-			isCountLimited: false,
-			update: function() {
-				Inventory.forgePerSecond = this.count;
-			},
-			baseCost: 250,
-			getCost: function() {
-				return Math.floor(this.baseCost * (1 + 2 * Math.pow(this.count, 2.5)));
-			}
 		})
 	};
 	for (var key in items) {
@@ -219,80 +207,108 @@ function loadAdventures() {
 }
 
 function loadBuildings() {
-	var buildings = {
-		'tent': new BuildingDef({
-			displayName: 'Tent',
-			baseCost: 7500,
-			goldPerSecond: 6
-		}),
-		'shack': new BuildingDef({
-			displayName: 'Shack',
-			baseCost: 40000,
-			researchCost: 500,
-			goldPerSecond: 20,
-			prereqs: {
-				buildings: {
-					'tent': 0
+	var sectionedBuildings = {
+		'Residences': {
+			'tent': new BuildingDef({
+				displayName: 'Tent',
+				baseCost: 7500,
+				resourcePerSecond: 6
+			}),
+			'shack': new BuildingDef({
+				displayName: 'Shack',
+				baseCost: 40000,
+				researchCost: 500,
+				resourcePerSecond: 20,
+				prereqs: {
+					buildings: {
+						'tent': 0
+					}
 				}
-			}
-		}),
-		'cabin': new BuildingDef({
-			displayName: 'Cabin',
-			baseCost: 150000,
-			researchCost: 2000,
-			goldPerSecond: 65,
-			prereqs: {
-				buildings: {
-					'shack': 0
+			}),
+			'cabin': new BuildingDef({
+				displayName: 'Cabin',
+				baseCost: 150000,
+				researchCost: 2000,
+				resourcePerSecond: 65,
+				prereqs: {
+					buildings: {
+						'shack': 0
+					}
 				}
-			}
-		}),
-		'cottage': new BuildingDef({
-			displayName: 'Cottage',
-			baseCost: 350000,
-			researchCost: 10000,
-			goldPerSecond: 120,
-			prereqs: {
-				buildings: {
-					'cabin': 0
+			}),
+			'cottage': new BuildingDef({
+				displayName: 'Cottage',
+				baseCost: 350000,
+				researchCost: 10000,
+				resourcePerSecond: 120,
+				prereqs: {
+					buildings: {
+						'cabin': 0
+					}
 				}
-			}
-		}),
-
-		// non-gold buildings
-		'blacksmith': new BuildingDef({
-			displayName: 'Blacksmith',
-			description: 'Sells weapons',
-			baseCost: 500,
-			maxCount: 1
-		}),
-		'anvil': new BuildingDef({
-			displayName: 'Anvil',
-			description: 'Blacksmith can Upgrade weapons',
-			researchCost: 1000,
-			baseCost: 25000,
-			maxCount: 1,
-			prereqs: {
-				buildings: {
-					'blacksmith': 1
+			})
+		},
+		'Blacksmith': {
+			'blacksmith': new BuildingDef({
+				displayName: 'Blacksmith',
+				description: 'Sells weapons',
+				baseCost: 500,
+				maxCount: 1
+			}),
+			'anvil': new BuildingDef({
+				displayName: 'Anvil',
+				description: 'Blacksmith can Upgrade weapons',
+				researchCost: 1000,
+				baseCost: 25000,
+				maxCount: 1,
+				prereqs: {
+					buildings: {
+						'blacksmith': 1
+					}
 				}
-			}
-		}),
-		'forge': new BuildingDef({
-			displayName: 'Mystic Forge',
-			description: 'Blacksmith can Ascend max-level weapons',
-			researchCost: 5000,
-			baseCost: 50000,
-			maxCount: 1,
-			prereqs: {
-				buildings: {
-					'anvil': 1
+			}),
+			'forge': new BuildingDef({
+				displayName: 'Mystic Forge',
+				description: 'Blacksmith can Ascend max-level weapons',
+				researchCost: 5000,
+				baseCost: 50000,
+				maxCount: 1,
+				prereqs: {
+					buildings: {
+						'anvil': 1
+					}
 				}
-			}
-		})
+			})
+		},
+		'Research': {
+			'research-center': new BuildingDef({
+				displayName: 'Research Center',
+				description: 'Researches new things',
+				baseCost: 5000,
+				maxCount: 1
+			}),
+			'library': new BuildingDef({
+				displayName: 'Library',
+				baseCost: 25000,
+				costIncreasePercent: 30,
+				researchCost: 1000,
+				resourceProduced: 'forge',
+				resourcePerSecond: 1,
+				prereqs: {
+					buildings: {
+						'research-center': 1
+					}
+				}
+			})
+		}
 	};
-	foreach(buildings, function(item, key) {
-		item.name = key;
+	var buildings = {};
+	foreach (sectionedBuildings, function(section, sectionName) {
+		foreach (section, function(item, key) {
+			item.name = key;
+			item.sectionName = sectionName;
+			buildings[key] = item;
+		});
 	});
 	return buildings;
 }

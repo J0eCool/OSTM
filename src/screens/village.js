@@ -10,31 +10,30 @@ Village = {
 		this.buildings = loadBuildings();
 
 		this.setupButtons();
-
-		this.refreshGPS();
 	},
 
 	postLoad: function() {
-		this.refreshGPS();
+		Player.refreshResourceProduction();
 	},
 
 	update: function() {
 		this.updateButtons();
-
-		// Update GpS
-		var dT = Game.normalDt / 1000;
-		this.partialGold += this.goldPerSecond * dT;
-		var gold = Math.floor(this.partialGold);
-		Player.gold += gold;
-		this.partialGold -= gold;
 	},
 
 	setupButtons: function() {
-		var html = '';
-		foreach(this.buildings, function(building) {
-			html += building.getButtonHtml();
+		var sections = {};
+		foreach (this.buildings, function(building) {
+			if (!sections[building.sectionName]) {
+				sections[building.sectionName] = '';
+			}
+			sections[building.sectionName] += building.getButtonHtml();
 		});
-		j('.village').html(html);
+		
+		var fullHtml = '';
+		foreach (sections, function(html, name) {
+			fullHtml += '<div><h3>' + name + '</h3>' + html + '</div>';
+		});
+		j('.village').html(fullHtml);
 	},
 
 	updateButtons: function() {
@@ -43,17 +42,10 @@ Village = {
 		});
 	},
 
-	refreshGPS: function() {
-		this.goldPerSecond = 0;
-		foreach(this.buildings, function(building) {
-			Village.goldPerSecond += building.count * building.getGPS();
-		});
-	},
-
 	buyBuilding: function(bldName) {
 		var building = this.buildings[bldName];
 		if (building.canAfford()) {
-			Player[building.getCurrency()] -= building.getCost();
+			Player[building.getCurrency()].amount -= building.getCost();
 
 			if (!building.isResearched) {
 				building.isResearched = true;
@@ -62,23 +54,25 @@ Village = {
 				building.count += 1;
 			}
 
-			this.refreshGPS();
+			Player.refreshResourceProduction();
 		}
 	}
 };
 
 function BuildingDef(data) {
-	this.toSave = ['count'];
+	this.toSave = ['count', 'isResearched'];
 
 	this.name = data.name || '';
 	this.displayName = data.displayName || '';
 	this.description = data.description || '';
 	this.baseCost = data.baseCost || 10000;
+	this.costIncreasePercent = data.costIncreasePercent || 10;
 	this.researchCost = data.researchCost || 0;
 	this.prereqs = data.prereqs || null;
 	this.maxCount = data.maxCount || 0;
 
-	this.goldPerSecond = data.goldPerSecond || 0;
+	this.resourceProduced = data.resourceProduced || 'gold';
+	this.resourcePerSecond = data.resourcePerSecond || 0;
 
 	this.count = 0;
 	this.isResearched = this.researchCost === 0 || false;
@@ -101,18 +95,20 @@ function BuildingDef(data) {
 		j(id + ' #cost', 'html', formatNumber(this.getCost()) + ' ' + getIconHtml(this.getCurrency()));
 
 		j(id + ' #description', 'html', this.isResearched ? this.description ? this.description :
-			'+' + this.goldPerSecond + ' ' + getIconHtml('gold') + '/s' : '');
+			'+' + this.resourcePerSecond + ' ' + getIconHtml(this.resourceProduced) + '/s' : '');
 	};
 
 	this.isVisible = function() {
-		return prereqsMet(this.prereqs) && (!this.maxCount || this.count < this.maxCount);
+		return (this.isResearched || canResearch()) &&
+			prereqsMet(this.prereqs) &&
+			(!this.maxCount || this.count < this.maxCount);
 	};
 
 	this.getCost = function() {
 		if (!this.isResearched) {
 			return this.researchCost;
 		}
-		return Math.ceil(this.baseCost * Math.pow(1.1, this.count));
+		return Math.ceil(this.baseCost * Math.pow(1 + this.costIncreasePercent / 100, this.count));
 	};
 
 	this.getCurrency = function() {
@@ -120,10 +116,10 @@ function BuildingDef(data) {
 	};
 
 	this.canAfford = function() {
-		return Player[this.getCurrency()] >= this.getCost();
+		return Player[this.getCurrency()].amount >= this.getCost();
 	};
 
-	this.getGPS = function() {
-		return this.goldPerSecond;
+	this.getProduction = function() {
+		return this.resourcePerSecond;
 	};
 }

@@ -137,7 +137,7 @@ function ItemDef(data) {
 	};
 
 	this.isVisibleInStore = function() {
-		return prereqsMet(this.prereqs);
+		return prereqsMet(this.prereqs) && (this.isResearched || canResearch());
 	};
 
 	this.update = data.update || function() {};
@@ -145,7 +145,7 @@ function ItemDef(data) {
 	this.tryPurchase = function() {
 		var cost = this.getCost();
 		if (this.canMakeMore()) {
-			Player[this.getCurrency()] -= cost;
+			Player[this.getCurrency()].amount -= cost;
 			this.onPurchase();
 
 			Inventory.updateButtons();
@@ -188,7 +188,7 @@ function ItemDef(data) {
 	};
 
 	this.canAfford = function() {
-		return this.getCost() <= Player[this.getCurrency()];
+		return this.getCost() <= Player[this.getCurrency()].amount;
 	};
 
 	this.isLimitReached = data.isLimitReached || function() {
