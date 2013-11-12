@@ -25,8 +25,8 @@ ParticleContainer = {
 		}
 		var obj = this.particles[this.curParticle];
 		obj.stop(true, true).html(val).css({
-			'left': 100 * x / Game.windowSize.width + '%',
-			'top': 100 * (y + 64) / Game.windowSize.height + '%',
+			'left': x + 'px',
+			'top': (y + 64) + 'px',
 			'opacity': 1
 		}).attr('class', 'particle ' + type.className).animate({
 			top: "-=" + type.animHeight + "px",

@@ -15,6 +15,14 @@
     overflow: hidden;
 }
 
+.spawn-area {
+    position: absolute;
+    left: 150px;
+    right: 150px;
+    top: 100px;
+    bottom: 50px;
+}
+
 .store {
     background-color: orange;
 }

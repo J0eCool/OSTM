@@ -42,9 +42,10 @@ Blacksmith = {
 	tryPurchase: function(wepName) {
 		var weapon = this.getWeapon(wepName);
 		if (weapon.canPurchase()) {
-			Player[weapon.getCurrency()].amount -= weapon.getCost();
-			weapon.purchase();
-			Player.weaponName = wepName;
+			Player.spend(weapon.getCurrency(), weapon.getCost(), function() {
+				weapon.purchase();
+				Player.weaponName = wepName;
+			});
 		}
 	}
 };
@@ -112,7 +113,7 @@ function WeaponDef(data) {
 
 	this.canPurchase = function() {
 		return !AdventureScreen.isAdventuring() &&
-			Player[this.getCurrency()].amount >= this.getCost();
+			Player.spend(this.getCurrency(), this.getCost());
 	};
 
 	this.purchase = function() {

@@ -60,7 +60,6 @@ function loadItems() {
 	var items = {
 		'potion': new PotionDef({
 			displayName: 'Potion',
-			description: 'Restores 100 HP',
 			count: 2,
 			data: {
 				healAmount: 100
@@ -69,7 +68,6 @@ function loadItems() {
 		}),
 		'hiPotion': new PotionDef({
 			displayName: 'Hi-Potion',
-			description: 'Restores 500 HP',
 			data: {
 				healAmount: 500
 			},
@@ -81,9 +79,8 @@ function loadItems() {
 		}),
 		'megaPotion': new PotionDef({
 			displayName: 'Mega Potion',
-			description: 'Restores 2500 HP',
 			data: {
-				healAmount: 500
+				healAmount: 2500
 			},
 			baseCost: 100000,
 			researchCost: 5000,

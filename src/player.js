@@ -102,6 +102,17 @@ Player = {
 		});
 	},
 
+	spend: function(name, cost, onSucceed) {
+		if (this[name] && Player[name].amount >= cost) {
+			if (onSucceed) {
+				this[name].amount -= cost;
+				onSucceed();
+			}
+			return true;
+		}
+		return false;
+	},
+
 	updateStats: function() {
 		j('#stat-level', 'text', formatNumber(Player.getLevel()));
 

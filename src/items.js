@@ -143,12 +143,13 @@ function ItemDef(data) {
 	this.update = data.update || function() {};
 
 	this.tryPurchase = function() {
-		var cost = this.getCost();
 		if (this.canMakeMore()) {
-			Player[this.getCurrency()].amount -= cost;
-			this.onPurchase();
+			var that = this;
+			Player.spend(this.getCurrency(), this.getCost(), function() {
+				that.onPurchase();
 
-			Inventory.updateButtons();
+				Inventory.updateButtons();
+			});
 		}
 	};
 
@@ -205,5 +206,7 @@ function PotionDef(data) {
 	this.onUse = function() {
 		Player.addHealth(Math.floor(this.data.healAmount * Player.itemEfficiency.value()));
 	};
+
+	this.description = 'Restores ' + formatNumber(this.data.healAmount) + ' HP';
 }
 

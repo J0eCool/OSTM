@@ -75,10 +75,9 @@ AdventureScreen.startAdventure = function(name) {
 };
 AdventureScreen.increasePower = function(name) {
 	var adv = this.getAdventure(name);
-	if (Player.gold >= adv.powerUpCost()) {
-		Player.gold -= adv.powerUpCost();
+	Player.spend('gold', adv.powerUpCost(), function() {
 		adv.power++;
-	}
+	});
 };
 AdventureScreen.decreasePower = function(name) {
 	var adv = this.getAdventure(name);
@@ -87,9 +86,10 @@ AdventureScreen.decreasePower = function(name) {
 	}
 };
 AdventureScreen.useInn = function() {
-	if (Player.gold >= this.getInnCost() && Player.health < Player.maxHealth.value()) {
-		Player.gold -= this.getInnCost();
-		Player.health = Player.maxHealth.value();
+	if (Player.health < Player.maxHealth.value()) {
+		Player.spend('gold', this.getInnCost(), function() {
+			Player.health = Player.maxHealth.value();
+		});
 	}
 };
 AdventureScreen.getInnCost = function() {

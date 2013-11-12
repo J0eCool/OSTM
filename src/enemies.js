@@ -38,12 +38,14 @@ EnemyManager = {
 			getButtonHtml("EnemyManager.increaseLevel()", 'Forward', 'inc-level')
 		;
 
+		fieldHtml += '<div class="spawn-area">';
 		this.enemies = [];
 		for (var i = 0; i < this.numEnemies; i++) {
 			var enemy = new EnemyContainer(i);
 			this.enemies.push(enemy);
 			fieldHtml += enemy.getHtml();
 		}
+		fieldHtml += '</div>';
 
 		this.jqField.html(fieldHtml);
 		$('#map-button').hide();
@@ -163,7 +165,7 @@ function EnemyContainer(index) {
 	this.selector = null;
 	this.getSelector = function() {
 		if (!this.selector) {
-			this.selector = $('.enemy-container[index='+this.index+']');
+			this.selector = j('.enemy-container[index='+this.index+']');
 		}
 		return this.selector;
 	};
@@ -196,42 +198,37 @@ function EnemyContainer(index) {
 		var width = sel.width();
 		var height = sel.height();
 
-		var margin = 30;
+		var spawn = j('.spawn-area');
+		var spawnWidth = spawn.width();
+		var spawnHeight = spawn.height();
 
-		var field = EnemyManager.jqField;
-		var fieldWidth = field.width();
-		var fieldHeight = field.height();
+		this.x = rand(0, spawnWidth - width) / spawnWidth;
+		this.y = rand(0, spawnHeight - height) / spawnHeight;
 
-		this.x = rand(margin, fieldWidth - width - margin) / fieldWidth;
-		this.y = rand(margin, fieldHeight - height - margin) / fieldHeight;
+		this.getSelector().css({
+			'left': this.x * 100 + '%',
+			'top': this.y * 100 + '%'
+		});
 
-		this.updatePosition();
 		this.updateHealthBar();
 	};
 
 	this.getRelativePosition = function() {
-		var field = EnemyManager.jqField;
+		var spawn = j('.spawn-area');
 		return {
-			x: field.width() * this.x,
-			y: field.height() * this.y
+			x: spawn.width() * this.x,
+			y: spawn.height() * this.y
 		};
 	};
 
 	this.getAbsolutePosition = function() {
 		var adventurePos = EnemyManager.jqAdventure.position();
+		var spawnPos = j('.spawn-area').position();
 		var pos = this.getRelativePosition();
 		return {
-			x: adventurePos.left + pos.x,
-			y: adventurePos.top + pos.y
+			x: adventurePos.left + spawnPos.left + pos.x,
+			y: adventurePos.top + spawnPos.top + pos.y
 		};
-	};
-
-	this.updatePosition = function() {
-		var pos = this.getRelativePosition();
-		this.getSelector().css({
-			'left': pos.x + 'px',
-			'top': pos.y + 'px'
-		});
 	};
 
 	this.attackPower = function() {
