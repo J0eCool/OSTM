@@ -44,14 +44,16 @@ Blacksmith = {
 		if (weapon.canPurchase()) {
 			Player.spend(weapon.getCurrency(), weapon.getCost(), function() {
 				weapon.purchase();
-				Player.weaponName = wepName;
+				if (weapon.owned) {
+					Player.weaponName = wepName;
+				}
 			});
 		}
 	}
 };
 
 function WeaponDef(data) {
-	this.toSave = ['owned', 'level', 'ascensions'];
+	this.toSave = ['owned', 'researched', 'level', 'ascensions'];
 
 	this.name = data.name || '';
 	this.displayName = data.displayName || '';
@@ -60,9 +62,9 @@ function WeaponDef(data) {
 	this.ascendDamage = data.ascendDamage || 1;
 	this.buyCost = data.buyCost || 1000;
 	this.researchCost = data.researchCost || 0;
-	this.upgradeCost = data.upgradeCost || 75000;
+	this.upgradeCost = (data.upgradeCostMult || 1) * 75000;
 	this.upgradeData = data.upgradeData || { 'damage': 10 };
-	this.ascendCost = data.ascendCost || 5000;
+	this.ascendCost = (data.ascendCostMult || 1) * 5000;
 	this.prereqs = data.prereqs || null;
 
 	this.owned = data.owned || false;
@@ -95,6 +97,10 @@ function WeaponDef(data) {
 	};
 
 	this.getCost = function() {
+		if (!this.researched) {
+			return this.researchCost;
+		}
+
 		if (!this.owned) {
 			return this.buyCost;
 		}
@@ -107,9 +113,14 @@ function WeaponDef(data) {
 	};
 
 	this.getCurrency = function() {
+		if (!this.researched) {
+			return 'forge';
+		}
+
 		if (!this.owned || !this.isMaxLevel()) {
 			return 'gold';
 		}
+
 		//todo: currency progression
 		return 'forge';
 	};
@@ -120,7 +131,10 @@ function WeaponDef(data) {
 	};
 
 	this.purchase = function() {
-		if (!this.owned) {
+		if (!this.researched) {
+			this.researched = true;
+		}
+		else if (!this.owned) {
 			this.owned = true;
 		}
 		else if (this.isMaxLevel()) {
@@ -137,7 +151,7 @@ function WeaponDef(data) {
 			getButtonHtml("Blacksmith.equip('" + this.name + "')", "Equip " +
 				this.displayName + ' <span id="level"></span>', 'equip') +
 			' ' + getButtonHtml("Blacksmith.tryPurchase('" + this.name + "')",
-				'<span id="action"></span> ' + this.displayName +
+				'<span id="action"></span>' +
 				'<br><span id="cost"></span>', 'button') +
 			'<span id="description"></span>' +
 			'</div>';
@@ -145,7 +159,7 @@ function WeaponDef(data) {
 
 	this.updateButton = function() {
 		var id = '.weapon-container#' + this.name;
-		var isVisible = prereqsMet(this.prereqs);
+		var isVisible = this.owned || prereqsMet(this.prereqs);
 		j(id, 'toggle', isVisible);
 
 		if (isVisible) {
@@ -164,12 +178,18 @@ function WeaponDef(data) {
 			j(id + ' #button', 'toggle', prereqsMet(prereqs));
 			j(id + ' #button', 'toggleClass', 'inactive', !this.canPurchase());
 
-			var actionText = 'Buy';
+			var actionText = 'Buy ';
 			if (this.isMaxLevel()) {
-				actionText = 'Ascend';
+				actionText = 'Ascend ';
 			}
 			else if (this.owned) {
-				actionText = 'Upgrade';
+				actionText = 'Upgrade ';
+			}
+			if (this.researched) {
+				actionText += this.displayName;
+			}
+			else {
+				actionText = 'Research Weapon';
 			}
 			j(id + ' #action', 'text', actionText);
 
@@ -185,6 +205,7 @@ function WeaponDef(data) {
 			j(id + ' #cost', 'html', formatNumber(this.getCost()) +
 				' ' + getIconHtml(this.getCurrency()));
 
+			j(id + ' #description', 'toggle', this.researched);
 			var descriptionText = 'Damage: ' + this.getBaseDamage() +
 				' Base Crit: ' + this.crit + '%';
 			for (var up in this.upgradeData) {

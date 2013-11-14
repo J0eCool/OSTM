@@ -1,4 +1,9 @@
 TODO:
+	- weapon mastery?
+	- building upgrades
+		- wood resource
+	- blacksmith visual upgrade
+		- weapon stats/upgrade info in columns
 	- upgrade Adventures
 		- define rooms, enemy data per-room
 	- refactor code w/ Javascript: The Good Parts

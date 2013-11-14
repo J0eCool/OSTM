@@ -326,7 +326,7 @@ function loadBuildings() {
 				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 1000,
 				resourceProduced: 'forge',
-				resourcePerSecond: 1,
+				resourcePerSecond: 0.5,
 				prereqs: {
 					buildings: {
 						'research-center': 1
@@ -335,11 +335,11 @@ function loadBuildings() {
 			}),
 			'school': new BuildingDef({
 				displayName: 'School',
-				baseCost: 150000,
+				baseCost: 175000,
 				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 7500,
 				resourceProduced: 'forge',
-				resourcePerSecond: 3,
+				resourcePerSecond: 2,
 				prereqs: {
 					buildings: {
 						'library': 0
@@ -348,11 +348,11 @@ function loadBuildings() {
 			}),
 			'university': new BuildingDef({
 				displayName: 'University',
-				baseCost: 650000,
+				baseCost: 750000,
 				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 100000,
 				resourceProduced: 'forge',
-				resourcePerSecond: 7,
+				resourcePerSecond: 5,
 				prereqs: {
 					buildings: {
 						'school': 0
@@ -431,6 +431,22 @@ function loadWeapons() {
 			crit: 4,
 			upgradeData: {
 				damage: 15
+			}
+		}),
+		'greatersword': new WeaponDef({
+			displayName: 'Greatersword',
+			buyCost: 50000,
+			researchCost: 7000,
+			damage: 14,
+			crit: 5,
+			upgradeData: {
+				damage: 16,
+				defense: 2
+			},
+			prereqs: {
+				buildings: {
+					'library': 1
+				}
 			}
 		})
 	};
