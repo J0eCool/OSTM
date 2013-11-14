@@ -102,15 +102,27 @@ Player = {
 		});
 	},
 
+	canSpend: function(name, cost) {
+		return this[name] && this[name].amount >= cost;
+	},
+
 	spend: function(name, cost, onSucceed) {
-		if (this[name] && Player[name].amount >= cost) {
+		if (this.canSpend(name, cost)) {
+			this[name].amount -= cost;
 			if (onSucceed) {
-				this[name].amount -= cost;
 				onSucceed();
 			}
 			return true;
 		}
 		return false;
+	},
+
+	giveResources: function(resources) {
+		foreach (resources, function(val, name) {
+			if (Player[name]) {
+				Player[name].amount += val;
+			}
+		});
 	},
 
 	updateStats: function() {

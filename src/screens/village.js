@@ -95,7 +95,8 @@ function BuildingDef(data) {
 		j(id + ' #cost', 'html', formatNumber(this.getCost()) + ' ' + getIconHtml(this.getCurrency()));
 
 		j(id + ' #description', 'html', this.isResearched ? this.description ? this.description :
-			'+' + this.resourcePerSecond + ' ' + getIconHtml(this.resourceProduced) + '/s' : '');
+			'+' + formatNumber(this.resourcePerSecond) + ' ' +
+			getIconHtml(this.resourceProduced) + '/s' : '');
 	};
 
 	this.isVisible = function() {

@@ -129,33 +129,45 @@ function loadEnemies() {
 			displayName: 'Snake',
 			image: 'img/Snake.png',
 			health: 22,
-			gold: 5
+			reward: {
+				'xp': 3,
+				'gold': 5
+			}
 		}),
 		'wall': new EnemyDef({
 			displayName: 'Sloog',
 			image: 'img/SlugSquirrel.png',
 			health: 40,
-			xp: 4,
-			forge: 2,
-			gold: 6,
+			reward: {
+				xp: 4,
+				gold: 6
+			}
 		}),
 		'swirl': new EnemyDef({
 			displayName: 'Masker',
 			image: 'img/MaskBug.png',
 			health: 30,
 			attack: 6,
-			xp: 6,
-			forge: 3,
-			gold: 7
+			reward: {
+				xp: 6,
+				forge: 3,
+				gold: 7
+			}
 		}),
 		'snail': new EnemyDef({
 			displayName: 'Snale',
 			image: 'img/SpikeSnail.png',
 			health: 45,
 			attack: 6,
-			xp: 7,
-			forge: 2,
-			gold: 8
+			reward: {
+				xp: 7,
+				forge: 4,
+				gold: 8
+			}
+		}),
+		'en0': new EnemyDef({
+			//displayName: 'monzero',
+			//health:
 		})
 	};
 	foreach (enemies, function(e, n) {
@@ -204,6 +216,8 @@ function loadAdventures() {
 }
 
 function loadBuildings() {
+	var researchBuildingCostIncrease = 30;
+
 	var sectionedBuildings = {
 		'Residences': {
 			'tent': new BuildingDef({
@@ -241,6 +255,28 @@ function loadBuildings() {
 				prereqs: {
 					buildings: {
 						'cabin': 0
+					}
+				}
+			}),
+			'house': new BuildingDef({
+				displayName: 'House',
+				baseCost: 1500000,
+				researchCost: 35000,
+				resourcePerSecond: 450,
+				prereqs: {
+					buildings: {
+						'cottage': 0
+					}
+				}
+			}),
+			'manor': new BuildingDef({
+				displayName: 'Manor',
+				baseCost: 6000000,
+				researchCost: 125000,
+				resourcePerSecond: 1250,
+				prereqs: {
+					buildings: {
+						'house': 0
 					}
 				}
 			})
@@ -287,13 +323,39 @@ function loadBuildings() {
 			'library': new BuildingDef({
 				displayName: 'Library',
 				baseCost: 25000,
-				costIncreasePercent: 30,
+				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 1000,
 				resourceProduced: 'forge',
 				resourcePerSecond: 1,
 				prereqs: {
 					buildings: {
 						'research-center': 1
+					}
+				}
+			}),
+			'school': new BuildingDef({
+				displayName: 'School',
+				baseCost: 150000,
+				costIncreasePercent: researchBuildingCostIncrease,
+				researchCost: 7500,
+				resourceProduced: 'forge',
+				resourcePerSecond: 3,
+				prereqs: {
+					buildings: {
+						'library': 0
+					}
+				}
+			}),
+			'university': new BuildingDef({
+				displayName: 'University',
+				baseCost: 650000,
+				costIncreasePercent: researchBuildingCostIncrease,
+				researchCost: 100000,
+				resourceProduced: 'forge',
+				resourcePerSecond: 7,
+				prereqs: {
+					buildings: {
+						'school': 0
 					}
 				}
 			})

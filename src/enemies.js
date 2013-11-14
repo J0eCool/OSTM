@@ -131,9 +131,7 @@ function EnemyDef(data) {
 	this.health = data.health || 10;
 	this.attack = data.attack || 5;
 
-	this.xp = data.xp || 3;
-	this.gold = data.gold || 1;
-	this.forge = data.forge || 1;
+	this.reward = data.reward || {};
 }
 
 function EnemyContainer(index) {
@@ -146,8 +144,7 @@ function EnemyContainer(index) {
 	this.maxHealth = 0;
 	this.attack = 0;
 
-	this.xp = 0;
-	this.gold = 0;
+	this.reward = {};
 
 	this.x = 0;
 	this.y = 0;
@@ -174,21 +171,39 @@ function EnemyContainer(index) {
 		return EnemyManager.activeEnemies.indexOf(this) >= 0;
 	};
 
+	var calcReward = function() {
+		var rewardScaling = {
+			xp: function(b, s) { return b * Math.pow(s, 1.6); },
+			gold: function(b, s) { return rand(0.5, 1) * b * Math.pow(s, 1.75); },
+			forge: function(b, s) { return b * Math.pow(s, 0.7); }
+		};
+		return function(reward, level) {
+			var r = {};
+			var scale = level / 3;
+			for (var key in reward) {
+				if (key in rewardScaling) {
+					r[key] = Math.ceil(rewardScaling[key](reward[key], scale));
+				}
+				else {
+					r[key] = reward[key];
+				}
+			}
+			return r;
+		};
+	}();
+
 	this.respawn = function(def) {
 		this.level = EnemyManager.curArea.getLevel(EnemyManager.subArea);
 
 		var lev = this.level / 3;
 		var powerMult = (lev + 0.5) / 1.5;
-		var rewardMult = lev;
 
 		this.def = def;
 		this.maxHealth = Math.floor(def.health * powerMult);
 		this.health = this.maxHealth;
 		this.attack = Math.floor(def.attack * powerMult);
 
-		this.xp = Math.ceil(def.xp * Math.pow(rewardMult, 1.6));
-		this.gold = Math.ceil(rand(0.5, 1.0) * def.gold * Math.pow(rewardMult, 1.9));
-		this.forge = Math.ceil(def.forge * Math.pow(rewardMult, 0.8));
+		this.reward = calcReward(def.reward, this.level);
 
 		var sel = this.getSelector();
 
@@ -293,13 +308,15 @@ function EnemyContainer(index) {
 	};
 
 	this.giveRewards = function() {
-		Player.xp.amount += this.xp;
-		Player.gold.amount += this.gold;
-		Player.forge.amount += this.forge;
+		Player.giveResources(this.reward);
 
-		var rewardString = '<span class="xp-reward">' + getIconHtml('xp') + ' ' + formatNumber(this.xp) + '</span>' +
-			'<br /><span class="gold-reward">' + getIconHtml('gold') + ' ' +  formatNumber(this.gold) + '</span>' +
-			'<br /><span class="forge-reward">' + getIconHtml('forge') + ' ' + formatNumber(this.forge) + '</span>';
+		var rewardString = '';
+		foreach (this.reward, function(amt, name) {
+			if (amt > 0) {
+				rewardString += '<span class="' + name + '-reward">' + getIconHtml(name) + ' ' +
+					formatNumber(amt) + '</span><br>';
+			}
+		});
 
 		var pos = this.getAbsolutePosition();
 		ParticleContainer.create(rewardParticleType, rewardString, pos.x, pos.y);

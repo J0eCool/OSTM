@@ -59,11 +59,14 @@ function WeaponDef(data) {
 	this.crit = data.crit || 5;
 	this.ascendDamage = data.ascendDamage || 1;
 	this.buyCost = data.buyCost || 1000;
+	this.researchCost = data.researchCost || 0;
 	this.upgradeCost = data.upgradeCost || 75000;
 	this.upgradeData = data.upgradeData || { 'damage': 10 };
 	this.ascendCost = data.ascendCost || 5000;
+	this.prereqs = data.prereqs || null;
 
 	this.owned = data.owned || false;
+	this.researched = this.owned || this.researchCost <= 0;
 	this.level = 0;
 	this.ascensions = 0;
 
@@ -113,7 +116,7 @@ function WeaponDef(data) {
 
 	this.canPurchase = function() {
 		return !AdventureScreen.isAdventuring() &&
-			Player.spend(this.getCurrency(), this.getCost());
+			Player.canSpend(this.getCurrency(), this.getCost());
 	};
 
 	this.purchase = function() {
@@ -142,49 +145,54 @@ function WeaponDef(data) {
 
 	this.updateButton = function() {
 		var id = '.weapon-container#' + this.name;
-		var isEquipped = this.name == Player.weaponName;
-		j(id + ' #equip', 'toggle', this.owned);
-		j(id + ' #equip', 'toggleClass', 'inactive', AdventureScreen.isAdventuring() && !isEquipped);
-		j(id + ' #equip', 'toggleClass', 'selected', isEquipped);
+		var isVisible = prereqsMet(this.prereqs);
+		j(id, 'toggle', isVisible);
 
-		var prereqs = null;
-		if (this.owned) {
-			prereqs = { buildings: { 'anvil': 1 } };
-		}
-		if (this.isMaxLevel()) {
-			prereqs = { buildings: { 'forge': 1 } };
-		}
-		j(id + ' #button', 'toggle', prereqsMet(prereqs));
-		j(id + ' #button', 'toggleClass', 'inactive', !this.canPurchase());
+		if (isVisible) {
+			var isEquipped = this.name == Player.weaponName;
+			j(id + ' #equip', 'toggle', this.owned);
+			j(id + ' #equip', 'toggleClass', 'inactive', AdventureScreen.isAdventuring() && !isEquipped);
+			j(id + ' #equip', 'toggleClass', 'selected', isEquipped);
 
-		var actionText = 'Buy';
-		if (this.isMaxLevel()) {
-			actionText = 'Ascend';
-		}
-		else if (this.owned) {
-			actionText = 'Upgrade';
-		}
-		j(id + ' #action', 'text', actionText);
+			var prereqs = null;
+			if (this.owned) {
+				prereqs = { buildings: { 'anvil': 1 } };
+			}
+			else if (this.isMaxLevel()) {
+				prereqs = { buildings: { 'forge': 1 } };
+			}
+			j(id + ' #button', 'toggle', prereqsMet(prereqs));
+			j(id + ' #button', 'toggleClass', 'inactive', !this.canPurchase());
 
-		var levelText = '';
-		if (this.level > 0) {
-			levelText += '(' + this.level + '/' + this.getMaxLevel() + ')';
-		}
-		if (this.ascensions > 0) {
-			levelText = '+' + this.ascensions + ' ' + levelText;
-		}
-		j(id + ' #level', 'text', levelText);
+			var actionText = 'Buy';
+			if (this.isMaxLevel()) {
+				actionText = 'Ascend';
+			}
+			else if (this.owned) {
+				actionText = 'Upgrade';
+			}
+			j(id + ' #action', 'text', actionText);
 
-		j(id + ' #cost', 'html', formatNumber(this.getCost()) +
-			' ' + getIconHtml(this.getCurrency()));
+			var levelText = '';
+			if (this.level > 0) {
+				levelText += '(' + this.level + '/' + this.getMaxLevel() + ')';
+			}
+			if (this.ascensions > 0) {
+				levelText = '+' + this.ascensions + ' ' + levelText;
+			}
+			j(id + ' #level', 'text', levelText);
 
-		var descriptionText = 'Damage: ' + this.getBaseDamage() +
-			' Base Crit: ' + this.crit + '%';
-		for (var up in this.upgradeData) {
-			descriptionText += ', ' + this.upgradeNames[up] + ': +' +
-				this.getUpgradeAmount(up) + '%';
+			j(id + ' #cost', 'html', formatNumber(this.getCost()) +
+				' ' + getIconHtml(this.getCurrency()));
+
+			var descriptionText = 'Damage: ' + this.getBaseDamage() +
+				' Base Crit: ' + this.crit + '%';
+			for (var up in this.upgradeData) {
+				descriptionText += ', ' + this.upgradeNames[up] + ': +' +
+					this.getUpgradeAmount(up) + '%';
+			}
+			j(id + ' #description', 'text', descriptionText);
 		}
-		j(id + ' #description', 'text', descriptionText);
 	};
 }
 WeaponDef.prototype.upgradeNames = {
