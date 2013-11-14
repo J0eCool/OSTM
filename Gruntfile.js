@@ -35,25 +35,32 @@ module.exports = function(grunt) {
     concat: {
       build: {
         files: {
-          'build/game.css': ['css/**/*.css'],
+          'build/less.less': ['css/**/*.less'],
           'build/game.js': ['src/**/*.js']
+        }
+      }
+    },
+    less: {
+      build: {
+        options: {
+          report: 'min',
+          cleancss: true
+        },
+        files: {
+          'build/less.min.css': 'build/less.less'
+        }
+      },
+      unminned: {
+        files: {
+          'build/less.css': 'build/less.less'
         }
       }
     },
     autoprefixer: {
       build: {
         files: {
-          'build/game.css': ['css/**/*.css']
-        }
-      }
-    },
-    cssmin: {
-      options: {
-        report: 'min'
-      },
-      build: {
-        files: {
-          'build/game.min.css': 'build/game.css'
+          'build/game.css': 'build/less.css',
+          'build/game.min.css': 'build/less.min.css'
         }
       }
     }
@@ -63,10 +70,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-autoprefixer');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'uglify', 'concat', 'autoprefixer', 'cssmin']);
+  grunt.registerTask('default', ['jshint', 'uglify', 'concat', 'less', 'autoprefixer']);
 
 };

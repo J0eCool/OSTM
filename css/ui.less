@@ -127,3 +127,11 @@ img.wood-icon {
     height: 80px;
     vertical-align: middle;
 }
+
+.outlined(@r: 1px, @color: black) {
+    text-shadow:
+        @r @r 0 @color,
+        // -@r @r 0 @color,
+        // @r -@r 0 @color,
+        -@r -@r 0 @color;
+}
