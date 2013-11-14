@@ -17,7 +17,7 @@ Player = {
 	critDamage: 150,
 
 	stats: [],
-	resources: ['xp', 'gold', 'forge', 'iron'],
+	resources: ['xp', 'gold', 'forge', 'iron', 'wood'],
 
 	init: function() {
 		var stats = loadStats();
@@ -33,7 +33,7 @@ Player = {
 				amount: 0,
 				partial: 0,
 				perSecond: 0,
-				unlocked: false
+				unlocked: true
 			};
 			Player.toSave.push(resource);
 		});

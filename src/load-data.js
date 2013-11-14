@@ -150,7 +150,7 @@ function loadEnemies() {
 			attack: 6,
 			reward: {
 				xp: 6,
-				forge: 3,
+				iron: 3,
 				gold: 7
 			}
 		}),
@@ -166,8 +166,14 @@ function loadEnemies() {
 			}
 		}),
 		'en0': new EnemyDef({
-			//displayName: 'monzero',
-			//health:
+			displayName: 'monzero',
+			health: 50,
+			attack: 6,
+			reward: {
+				xp: 6,
+				wood: 3,
+				gold: 6
+			}
 		})
 	};
 	foreach (enemies, function(e, n) {
@@ -206,7 +212,7 @@ function loadAdventures() {
 			},
 			displayName: "Oh shit there's more",
 			levels: [24, 26, 24, 28, 32],
-			enemies: ['enemy', 'wall', 'swirl', 'snail'],
+			enemies: ['enemy', 'wall', 'swirl', 'snail', 'en0'],
 		})
 	};
 	for (var key in adventures) {

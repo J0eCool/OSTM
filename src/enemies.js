@@ -185,7 +185,7 @@ function EnemyContainer(index) {
 					r[key] = Math.ceil(rewardScaling[key](reward[key], scale));
 				}
 				else {
-					r[key] = reward[key];
+					r[key] = reward[key] * scale;
 				}
 			}
 			return r;

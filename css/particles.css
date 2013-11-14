@@ -47,11 +47,15 @@
 .xp-reward {
     color: #4f6;
 }
-
 .gold-reward {
     color: #cd3;
 }
-
 .forge-reward {
     color: #d6f;
+}
+.iron-reward {
+    color: #ccc;
+}
+.wood-reward {
+    color: #a74;
 }
