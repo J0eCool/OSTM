@@ -1,4 +1,11 @@
 .button {
+    @bgColor: #28f090;
+    @bgColorSelected: #f0b038;
+    @bgColorInactive: #777;
+
+    @bgHoverLighten: 17%;
+    @bgPressDarken: 14%;
+
     display: inline-table;
     min-width: 120px;
     min-height: 50px;
@@ -8,41 +15,45 @@
     margin: 2px 0px;
     padding: 3px;
     color: black;
-    background-color: #2d6;
+    background-color: @bgColor;
     transition: 0.25s;
     box-shadow: 1.5px -1.5px 10px #555 inset;
     z-index: 5;
     cursor: pointer;
+
+    &.selected {
+        background-color: @bgColorSelected;
+    }
+    &.inactive {
+        background-color: @bgColorInactive;
+        cursor: auto;
+    }
+
+    &:hover:not(.inactive) {
+        background-color: lighten(@bgColor, @bgHoverLighten);
+    }
+    &.selected:hover {
+        background-color: lighten(@bgColorSelected, @bgHoverLighten);
+    }
+
+    &:active:not(.inactive) {
+        background-color: darken(@bgColor, @bgPressDarken);
+        transition: 0.1s;
+
+        &.selected {
+            background-color: darken(@bgColorSelected, @bgPressDarken);
+        }
+    }
+
+    .content {
+        display: table-cell;
+        text-align: center;
+        width: 100%;
+        vertical-align: middle;
+        pointer-events: none;
+    }
 }
 
-.button.inactive {
-    background-color: #777;
-    cursor: auto;
-}
-
-.button.selected {
-    background-color: #fb4;
-}
-
-.button .content {
-    display: table-cell;
-    text-align: center;
-    width: 100%;
-    vertical-align: middle;
-    pointer-events: none;
-}
-
-.button:hover:not(.inactive) {
-    background-color: #3fb;
-}
-.button.selected:hover {
-    background-color: #fc9;
-}
-
-.button:active:not(.inactive) {
-    background-color: #0c5;
-    transition: 0.1s;
-}
 
 .game-log {
     position: absolute;
@@ -89,29 +100,30 @@
     width: 240px;
 }
 
-img.icon {
-    vertical-align: middle;
-    height: 14px;
-}
-
 .stat-bar div img.icon {
     height: 16px;
 }
 
-img.xp-icon {
-    content: url("../img/XP_text.png");
-}
-img.gold-icon {
-    content: url("../img/Gold_icon.png");
-}
-img.forge-icon {
-    content: url("../img/Goop.png");
-}
-img.iron-icon {
-    content: url("../img/Iron.png");
-}
-img.wood-icon {
-    content: url("../img/Log.png");
+img {
+    &.icon {
+        vertical-align: middle;
+        height: 14px;
+    }
+    &.xp-icon {
+        content: url("../img/XP_text.png");
+    }
+    &.gold-icon {
+        content: url("../img/Gold_icon.png");
+    }
+    &.forge-icon {
+        content: url("../img/Goop.png");
+    }
+    &.iron-icon {
+        content: url("../img/Iron.png");
+    }
+    &.wood-icon {
+        content: url("../img/Log.png");
+    }
 }
 
 .size-0_85 {
