@@ -130,8 +130,9 @@ function loadEnemies() {
 			image: 'img/Snake.png',
 			health: 22,
 			reward: {
-				'xp': 3,
-				'gold': 5
+				xp: 3,
+				gold: 5,
+				wood: 2,
 			}
 		}),
 		'wall': new EnemyDef({
@@ -140,7 +141,8 @@ function loadEnemies() {
 			health: 40,
 			reward: {
 				xp: 4,
-				gold: 6
+				gold: 6,
+				forge: 3,
 			}
 		}),
 		'swirl': new EnemyDef({
@@ -150,8 +152,8 @@ function loadEnemies() {
 			attack: 6,
 			reward: {
 				xp: 6,
-				iron: 3,
-				gold: 7
+				gold: 7,
+				iron: 3
 			}
 		}),
 		'snail': new EnemyDef({
@@ -287,38 +289,7 @@ function loadBuildings() {
 				}
 			})
 		},
-		'Blacksmith': {
-			'blacksmith': new BuildingDef({
-				displayName: 'Blacksmith',
-				description: 'Sells weapons',
-				baseCost: 500,
-				maxCount: 1
-			}),
-			'anvil': new BuildingDef({
-				displayName: 'Anvil',
-				description: 'Blacksmith can Upgrade weapons',
-				researchCost: 1000,
-				baseCost: 25000,
-				maxCount: 1,
-				prereqs: {
-					buildings: {
-						'blacksmith': 1
-					}
-				}
-			}),
-			'forge': new BuildingDef({
-				displayName: 'Mystic Forge',
-				description: 'Blacksmith can Ascend max-level weapons',
-				researchCost: 5000,
-				baseCost: 50000,
-				maxCount: 1,
-				prereqs: {
-					buildings: {
-						'anvil': 1
-					}
-				}
-			})
-		},
+
 		'Research': {
 			'research-center': new BuildingDef({
 				displayName: 'Research Center',
@@ -364,6 +335,46 @@ function loadBuildings() {
 						'school': 0
 					}
 				}
+			})
+		},
+
+		'Workshops': {
+			'blacksmith': new BuildingDef({
+				displayName: 'Blacksmith',
+				description: 'Sells weapons',
+				baseCost: 500,
+				maxCount: 1
+			}),
+			'anvil': new BuildingDef({
+				displayName: 'Anvil',
+				description: 'Blacksmith can Upgrade weapons',
+				researchCost: 1000,
+				baseCost: 25000,
+				maxCount: 1,
+				prereqs: {
+					buildings: {
+						'blacksmith': 1
+					}
+				}
+			}),
+			'forge': new BuildingDef({
+				displayName: 'Mystic Forge',
+				description: 'Blacksmith can Ascend max-level weapons',
+				researchCost: 5000,
+				baseCost: 50000,
+				maxCount: 1,
+				prereqs: {
+					buildings: {
+						'anvil': 1
+					}
+				}
+			}),
+			'logger': new BuildingDef({
+				displayName: 'Logger',
+				description: 'Unlocks building upgrades',
+				researchCost: 1000,
+				baseCost: 15000,
+				maxCount: 1
 			})
 		}
 	};

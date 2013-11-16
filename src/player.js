@@ -33,13 +33,16 @@ Player = {
 				amount: 0,
 				partial: 0,
 				perSecond: 0,
-				unlocked: true
+				unlocked: false,
+				unlockBuilding: ''
 			};
 			Player.toSave.push(resource);
 		});
 		this.xp.unlocked = true;
 		this.gold.unlocked = true;
-		this.forge.unlocked = true;
+		this.forge.unlockBuilding = 'research-center';
+		this.iron.unlockBuilding = 'forge';
+		this.wood.unlockBuilding = 'logger';
 
 		this.createStatButtons();
 
@@ -90,8 +93,15 @@ Player = {
 	},
 
 	refreshResourceProduction: function() {
-		foreach (this.resources, function(resource) {
-			Player[resource].perSecond = 0;
+		foreach (this.resources, function(r) {
+			var resource = Player[r];
+			resource.perSecond = 0;
+			if (!resource.unlocked) {
+				var building = Village.buildings[resource.unlockBuilding];
+				if (building && building.count > 0) {
+					resource.unlocked = true;
+				}
+			}
 		});
 
 		foreach(Village.buildings, function(building) {

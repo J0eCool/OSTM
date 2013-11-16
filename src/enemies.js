@@ -181,11 +181,13 @@ function EnemyContainer(index) {
 			var r = {};
 			var scale = level / 3;
 			for (var key in reward) {
-				if (key in rewardScaling) {
-					r[key] = Math.ceil(rewardScaling[key](reward[key], scale));
-				}
-				else {
-					r[key] = reward[key] * scale;
+				if (Player[key] && Player[key].unlocked) {
+					if (key in rewardScaling) {
+						r[key] = Math.ceil(rewardScaling[key](reward[key], scale));
+					}
+					else {
+						r[key] = Math.ceil(reward[key] * scale);
+					}
 				}
 			}
 			return r;

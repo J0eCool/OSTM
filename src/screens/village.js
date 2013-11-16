@@ -185,6 +185,7 @@ function UpgradeDef(data) {
 
 	this.isVisible = function() {
 		return (this.isResearched || canResearch()) &&
+			Player.wood.unlocked &&
 			prereqsMet(this.prereqs) &&
 			(!this.maxCount || this.count < this.maxCount);
 	};
