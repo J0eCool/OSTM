@@ -2,9 +2,9 @@
   "name": "game",
   "version": "0.0.0",
   "license": "WTFPL",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/J0eCool/ProgressBasedRpg.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/J0eCool/ProgressBasedRpg.git"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -12,6 +12,7 @@
     "grunt-contrib-jshint": "~0.7.0",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-autoprefixer": "~0.4.0",
-    "grunt-contrib-less": "~0.8.1"
+    "grunt-contrib-less": "~0.8.1",
+    "grunt-contrib-cssmin": "~0.7.0"
   }
 }

@@ -1,13 +1,12 @@
 Village = {
-	toSave: ['buildings'],
+	toSave: ['buildings', 'upgrades'],
 
 	buildings: {},
-
-	goldPerSecond: 0,
-	partialGold: 0,
+	upgrades: {},
 
 	init: function() {
 		this.buildings = loadBuildings();
+		this.upgrades = loadUpgrades();
 
 		this.setupButtons();
 	},
@@ -28,6 +27,10 @@ Village = {
 			}
 			sections[building.sectionName] += building.getButtonHtml();
 		});
+		sections.Upgrades = '';
+		foreach (this.upgrades, function(upgrade) {
+			sections.Upgrades += upgrade.getButtonHtml();
+		});
 		
 		var fullHtml = '';
 		foreach (sections, function(html, name) {
@@ -37,25 +40,34 @@ Village = {
 	},
 
 	updateButtons: function() {
-		foreach(this.buildings, function(building) {
+		foreach (this.buildings, function(building) {
 			building.updateButton();
+		});
+		foreach (this.upgrades, function(upgrade) {
+			upgrade.updateButton();
 		});
 	},
 
-	buyBuilding: function(bldName) {
-		var building = this.buildings[bldName];
-		if (building.canAfford()) {
-			Player[building.getCurrency()].amount -= building.getCost();
-
-			if (!building.isResearched) {
-				building.isResearched = true;
+	buy: function(type, name) {
+		var item = this[type][name];
+		if (Player.spend(item.getCurrency(), item.getCost())) {
+			if (!item.isResearched) {
+				item.isResearched = true;
 			}
 			else {
-				building.count += 1;
+				item.count += 1;
 			}
 
 			Player.refreshResourceProduction();
 		}
+	},
+
+	buyBuilding: function(bldName) {
+		this.buy('buildings', bldName);
+	},
+
+	buyUpgrade: function(upgName) {
+		this.buy('upgrades', upgName);
 	}
 };
 
@@ -95,7 +107,7 @@ function BuildingDef(data) {
 		j(id + ' #cost', 'html', formatNumber(this.getCost()) + ' ' + getIconHtml(this.getCurrency()));
 
 		j(id + ' #description', 'html', this.isResearched ? this.description ? this.description :
-			'+' + formatNumber(this.resourcePerSecond) + ' ' +
+			'+' + formatNumber(this.getProduction()) + ' ' +
 			getIconHtml(this.resourceProduced) + '/s' : '');
 	};
 
@@ -117,10 +129,82 @@ function BuildingDef(data) {
 	};
 
 	this.canAfford = function() {
-		return Player[this.getCurrency()].amount >= this.getCost();
+		return Player.canSpend(this.getCurrency(), this.getCost());
 	};
 
 	this.getProduction = function() {
-		return this.resourcePerSecond;
+		var base = this.resourcePerSecond;
+		var name = this.name;
+		foreach (Village.upgrades, function(upgrade) {
+			if (upgrade.count > 0 && name == upgrade.targetBuilding) {
+				base = upgrade.apply(base);
+			}
+		});
+		return base;
+	};
+}
+
+function UpgradeDef(data) {
+	this.toSave = ['count', 'isResearched'];
+
+	this.name = data.name || '';
+	this.displayName = data.displayName || '';
+	this.description = data.description || '';
+	this.baseCost = data.baseCost || 10000;
+	this.costIncreasePercent = data.costIncreasePercent || 500;
+	this.researchCost = data.researchCost || 0;
+	this.prereqs = data.prereqs || null;
+	this.maxCount = data.maxCount || 1;
+
+	this.targetBuilding = data.targetBuilding || '';
+	this.amountIncrease = data.amountIncrease || 0;
+
+	this.count = 0;
+	this.isResearched = this.researchCost === 0 || false;
+
+	this.getButtonHtml = function() {
+		var id = this.name + '-button';
+		return '<div id="' + this.name + '-building">' +
+			getButtonHtml("Village.buyUpgrade('" + this.name + "')",
+				'<b id="name"></b> : <span id="count"></span><br><span id="cost"></span>',
+				'button') +
+			' <span id="description"' + '"></span></div>';
+	};
+
+	this.updateButton = function() {
+		var id = '#' + this.name + '-building';
+		j(id, 'toggle', this.isVisible());
+		j(id + ' #name', 'text', this.isResearched ? this.displayName : 'Research Building');
+		j(id + ' #button', 'toggleClass', 'inactive', !this.canAfford());
+		//j(id + ' #count', 'text', formatNumber(this.count));
+		j(id + ' #cost', 'html', formatNumber(this.getCost()) + ' ' + getIconHtml(this.getCurrency()));
+
+		j(id + ' #description', 'html', this.isResearched ? this.description ? this.description :
+			Village.buildings[this.targetBuilding].displayName + ' +' + formatNumber(this.amountIncrease) + '%' : '');
+	};
+
+	this.isVisible = function() {
+		return (this.isResearched || canResearch()) &&
+			prereqsMet(this.prereqs) &&
+			(!this.maxCount || this.count < this.maxCount);
+	};
+
+	this.getCost = function() {
+		if (!this.isResearched) {
+			return this.researchCost;
+		}
+		return Math.ceil(this.baseCost * Math.pow(1 + this.costIncreasePercent / 100, this.count));
+	};
+
+	this.getCurrency = function() {
+		return this.isResearched ? 'wood' : 'forge';
+	};
+
+	this.canAfford = function() {
+		return Player.canSpend(this.getCurrency(), this.getCost());
+	};
+
+	this.apply = data.apply || function(base) {
+		return (1 + this.amountIncrease / 100) * base;
 	};
 }

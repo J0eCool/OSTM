@@ -378,6 +378,40 @@ function loadBuildings() {
 	return buildings;
 }
 
+function loadUpgrades() {
+	var upgrades = {
+		'tent-1': new UpgradeDef({
+			displayName: 'Big Tents',
+			baseCost: 100,
+			targetBuilding: 'tent',
+			amountIncrease: 25,
+			prereqs: {
+				buildings: {
+					'tent': 5
+				}
+			}
+		}),
+		'tent-2': new UpgradeDef({
+			displayName: 'Bigger Tents',
+			baseCost: 500,
+			targetBuilding: 'tent',
+			amountIncrease: 50,
+			prereqs: {
+				buildings: {
+					'tent': 10
+				},
+				upgrades: {
+					'tent-1': 1
+				}
+			}
+		})
+	};
+	foreach (upgrades, function(upgrade, name) {
+		upgrade.name = name;
+	});
+	return upgrades;
+}
+
 function loadWeapons() {
 	var weapons = {
 		'knife': new WeaponDef({

@@ -30,6 +30,15 @@ function prereqsMet(prereqs) {
 		}
 	}
 
+	if (prereqs.upgrades) {
+		for (i in prereqs.upgrades) {
+			var upgrade = Village.upgrades[i];
+			if (upgrade && (!upgrade.isResearched || upgrade.count < prereqs.upgrades[i])) {
+				return false;
+			}
+		}
+	}
+
 	return true;
 }
 
