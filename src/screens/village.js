@@ -7,9 +7,9 @@ Village = {
 	partialGold: 0,
 
 	init: function() {
-		this.buildings = loadBuildings();
+		Village.buildings = loadBuildings();
 
-		this.setupButtons();
+		Village.setupButtons();
 	},
 
 	postLoad: function() {
@@ -17,12 +17,12 @@ Village = {
 	},
 
 	update: function() {
-		this.updateButtons();
+		Village.updateButtons();
 	},
 
 	setupButtons: function() {
 		var sections = {};
-		foreach (this.buildings, function(building) {
+		foreach (Village.buildings, function(building) {
 			if (!sections[building.sectionName]) {
 				sections[building.sectionName] = '';
 			}
@@ -37,13 +37,13 @@ Village = {
 	},
 
 	updateButtons: function() {
-		foreach(this.buildings, function(building) {
+		foreach(Village.buildings, function(building) {
 			building.updateButton();
 		});
 	},
 
 	buyBuilding: function(bldName) {
-		var building = this.buildings[bldName];
+		var building = Village.buildings[bldName];
 		if (building.canAfford()) {
 			Player[building.getCurrency()].amount -= building.getCost();
 
@@ -78,11 +78,15 @@ function BuildingDef(data) {
 	this.isResearched = this.researchCost === 0 || false;
 
 	this.getButtonHtml = function() {
+		var button = ButtonManager.create({
+			onclick: Village.buyBuilding.bind(Village).curry(this.name),
+			contents: '<b id="name"></b> : <span id="count"></span><br><span id="cost"></span>',
+			id: 'button'
+		});
+
 		var id = this.name + '-button';
 		return '<div id="' + this.name + '-building">' +
-			getButtonHtml("Village.buyBuilding('" + this.name + "')",
-				'<b id="name"></b> : <span id="count"></span><br><span id="cost"></span>',
-				'button') +
+			button.html() +
 			' <span id="description"' + '"></span></div>';
 	};
 

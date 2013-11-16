@@ -37,7 +37,7 @@ function formatNumber(x) {
 }
 
 function getButtonHtml(onclick, contents, id) {
-	idStr = id ? ' id="' + id + '"' : '';
+	var idStr = id ? ' id="' + id + '"' : '';
 	return '<span class="button" onclick="' + onclick + '"' + idStr +
 		' ><span class="content">' + contents + '</span></span>';
 }
@@ -47,6 +47,14 @@ function foreach(target, toDo) {
 		toDo(target[i], i);
 	}
 }
+
+Function.prototype.curry = function() {
+	var fn = this, args = Array.prototype.slice.call(arguments);
+	return function() {
+		return fn.apply(this, args.concat(
+			Array.prototype.slice.call(arguments)));
+	};
+};
 
 j = function(id) {
 	var cache = {};
