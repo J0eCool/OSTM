@@ -83,7 +83,7 @@ function loadItems() {
 				healAmount: 2500
 			},
 			baseCost: 100000,
-			researchCost: 5000,
+			researchCost: 1500,
 			prereqs: {
 				adventures: ['adv2'],
 				items: ['hiPotion']
@@ -101,6 +101,11 @@ function loadItems() {
 			currency: 'iron',
 			getCost: function() {
 				return this.baseCost * (1 + Math.floor(Math.pow(this.count, 1.8)));
+			},
+			prereqs: {
+				buildings: {
+					'forge': 1
+				}
 			}
 		}),
 		'inventory-plus': new ItemDef({
@@ -114,6 +119,11 @@ function loadItems() {
 			currency: 'iron',
 			getCost: function() {
 				return this.baseCost * Math.pow(10, this.count);
+			},
+			prereqs: {
+				buildings: {
+					'forge': 1
+				}
 			}
 		})
 	};
@@ -236,7 +246,7 @@ function loadBuildings() {
 			'shack': new BuildingDef({
 				displayName: 'Shack',
 				baseCost: 40000,
-				researchCost: 500,
+				researchCost: 50,
 				resourcePerSecond: 20,
 				prereqs: {
 					buildings: {
@@ -247,7 +257,7 @@ function loadBuildings() {
 			'cabin': new BuildingDef({
 				displayName: 'Cabin',
 				baseCost: 150000,
-				researchCost: 2000,
+				researchCost: 200,
 				resourcePerSecond: 65,
 				prereqs: {
 					buildings: {
@@ -258,7 +268,7 @@ function loadBuildings() {
 			'cottage': new BuildingDef({
 				displayName: 'Cottage',
 				baseCost: 350000,
-				researchCost: 10000,
+				researchCost: 1000,
 				resourcePerSecond: 120,
 				prereqs: {
 					buildings: {
@@ -269,7 +279,7 @@ function loadBuildings() {
 			'house': new BuildingDef({
 				displayName: 'House',
 				baseCost: 1500000,
-				researchCost: 35000,
+				researchCost: 3500,
 				resourcePerSecond: 450,
 				prereqs: {
 					buildings: {
@@ -280,7 +290,7 @@ function loadBuildings() {
 			'manor': new BuildingDef({
 				displayName: 'Manor',
 				baseCost: 6000000,
-				researchCost: 125000,
+				researchCost: 12500,
 				resourcePerSecond: 1250,
 				prereqs: {
 					buildings: {
@@ -303,7 +313,7 @@ function loadBuildings() {
 				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 1000,
 				resourceProduced: 'research',
-				resourcePerSecond: 0.5,
+				resourcePerSecond: 0.25,
 				prereqs: {
 					buildings: {
 						'research-center': 1
@@ -316,7 +326,7 @@ function loadBuildings() {
 				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 7500,
 				resourceProduced: 'research',
-				resourcePerSecond: 2,
+				resourcePerSecond: 1,
 				prereqs: {
 					buildings: {
 						'library': 0
@@ -329,7 +339,7 @@ function loadBuildings() {
 				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 100000,
 				resourceProduced: 'research',
-				resourcePerSecond: 5,
+				resourcePerSecond: 2.5,
 				prereqs: {
 					buildings: {
 						'school': 0
@@ -348,7 +358,7 @@ function loadBuildings() {
 			'anvil': new BuildingDef({
 				displayName: 'Anvil',
 				description: 'Blacksmith can Upgrade weapons',
-				researchCost: 1000,
+				researchCost: 100,
 				baseCost: 25000,
 				maxCount: 1,
 				prereqs: {
@@ -360,7 +370,7 @@ function loadBuildings() {
 			'forge': new BuildingDef({
 				displayName: 'Mystic Forge',
 				description: 'Blacksmith can Ascend max-level weapons',
-				researchCost: 5000,
+				researchCost: 2500,
 				baseCost: 50000,
 				maxCount: 1,
 				prereqs: {
@@ -372,7 +382,7 @@ function loadBuildings() {
 			'logger': new BuildingDef({
 				displayName: 'Logger',
 				description: 'Unlocks building upgrades',
-				researchCost: 1000,
+				researchCost: 250,
 				baseCost: 15000,
 				maxCount: 1
 			})
@@ -393,6 +403,7 @@ function loadUpgrades() {
 	var upgrades = {
 		'tent-1': new UpgradeDef({
 			displayName: 'Big Tents',
+			researchCost: 500,
 			baseCost: 100,
 			targetBuilding: 'tent',
 			amountIncrease: 25,
@@ -404,6 +415,7 @@ function loadUpgrades() {
 		}),
 		'tent-2': new UpgradeDef({
 			displayName: 'Bigger Tents',
+			researchCost: 2000,
 			baseCost: 500,
 			targetBuilding: 'tent',
 			amountIncrease: 50,
@@ -428,7 +440,7 @@ function loadWeapons() {
 		'knife': new WeaponDef({
 			displayName: 'Knife',
 			owned: true,
-			damage: 3,
+			damage: 5,
 			crit: 9,
 			upgradeData: {
 				crit: 10,
@@ -438,7 +450,7 @@ function loadWeapons() {
 		'dagger': new WeaponDef({
 			displayName: 'Dagger',
 			buyCost: 500,
-			damage: 5,
+			damage: 6,
 			crit: 8,
 			upgradeData: {
 				damage: 5,
@@ -458,7 +470,7 @@ function loadWeapons() {
 		'longsword': new WeaponDef({
 			displayName: 'Longsword',
 			buyCost: 5000,
-			damage: 9,
+			damage: 8,
 			crit: 5,
 			upgradeData: {
 				damage: 10,
@@ -468,7 +480,7 @@ function loadWeapons() {
 		'rapier': new WeaponDef({
 			displayName: 'Rapier',
 			buyCost: 7500,
-			damage: 9,
+			damage: 8,
 			crit: 7,
 			upgradeData: {
 				crit: 5,
@@ -478,8 +490,8 @@ function loadWeapons() {
 		'greatsword': new WeaponDef({
 			displayName: 'Greatsword',
 			buyCost: 15000,
-			damage: 11,
-			crit: 4,
+			damage: 10,
+			crit: 3,
 			upgradeData: {
 				damage: 15
 			}
@@ -487,8 +499,8 @@ function loadWeapons() {
 		'greatersword': new WeaponDef({
 			displayName: 'Greatersword',
 			buyCost: 50000,
-			researchCost: 7000,
-			damage: 14,
+			researchCost: 1500,
+			damage: 12,
 			crit: 5,
 			upgradeData: {
 				damage: 16,

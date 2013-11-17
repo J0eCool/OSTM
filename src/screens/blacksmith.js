@@ -185,12 +185,10 @@ function WeaponDef(data) {
 			else if (this.owned) {
 				actionText = 'Upgrade ';
 			}
-			if (this.researched) {
-				actionText += this.displayName;
+			else if (!this.researched) {
+				actionText = 'Research ';
 			}
-			else {
-				actionText = 'Research Weapon';
-			}
+			actionText += this.displayName;
 			j(id + ' #action', 'text', actionText);
 
 			var levelText = '';

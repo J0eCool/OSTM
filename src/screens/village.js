@@ -93,7 +93,7 @@ function BuildingDef(data) {
 		var id = this.name + '-button';
 		return '<div id="' + this.name + '-building">' +
 			getButtonHtml("Village.buyBuilding('" + this.name + "')",
-				'<b id="name"></b> : <span id="count"></span><br><span id="cost"></span>',
+				'<b id="name"></b><span id="count"></span><br><span id="cost"></span>',
 				'button') +
 			' <span id="description"' + '"></span></div>';
 	};
@@ -101,9 +101,9 @@ function BuildingDef(data) {
 	this.updateButton = function() {
 		var id = '#' + this.name + '-building';
 		j(id, 'toggle', this.isVisible());
-		j(id + ' #name', 'text', this.isResearched ? this.displayName : 'Research Building');
+		j(id + ' #name', 'text', this.isResearched ? this.displayName : 'Research ' + this.displayName);
 		j(id + ' #button', 'toggleClass', 'inactive', !this.canAfford());
-		j(id + ' #count', 'text', formatNumber(this.count));
+		j(id + ' #count', 'text', this.isResearched ? ': ' + formatNumber(this.count) : '');
 		j(id + ' #cost', 'html', formatNumber(this.getCost()) + ' ' + getIconHtml(this.getCurrency()));
 
 		j(id + ' #description', 'html', this.isResearched ? this.description ? this.description :
@@ -166,7 +166,7 @@ function UpgradeDef(data) {
 		var id = this.name + '-button';
 		return '<div id="' + this.name + '-building">' +
 			getButtonHtml("Village.buyUpgrade('" + this.name + "')",
-				'<b id="name"></b> : <span id="count"></span><br><span id="cost"></span>',
+				'<b id="name"></b><br><span id="cost"></span>',
 				'button') +
 			' <span id="description"' + '"></span></div>';
 	};
@@ -174,7 +174,7 @@ function UpgradeDef(data) {
 	this.updateButton = function() {
 		var id = '#' + this.name + '-building';
 		j(id, 'toggle', this.isVisible());
-		j(id + ' #name', 'text', this.isResearched ? this.displayName : 'Research Building');
+		j(id + ' #name', 'text', this.isResearched ? this.displayName : 'Research ' + this.displayName);
 		j(id + ' #button', 'toggleClass', 'inactive', !this.canAfford());
 		//j(id + ' #count', 'text', formatNumber(this.count));
 		j(id + ' #cost', 'html', formatNumber(this.getCost()) + ' ' + getIconHtml(this.getCurrency()));

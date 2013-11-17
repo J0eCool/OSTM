@@ -101,9 +101,9 @@ function ItemDef(data) {
 		j(id + ' #max-count', 'text', formatNumber(this.maxItemCount()));
 
 		var storeId = '.store-item#' + this.name + ' #button';
-		j(storeId, 'toggle', this.isVisibleInStore());
+		j('.store-item#' + this.name, 'toggle', this.isVisibleInStore());
 		j(storeId, 'toggleClass', 'inactive', !this.canMakeMore());
-		j(storeId + ' #name', 'html', this.isResearched ? this.storeName : 'Research Item');
+		j(storeId + ' #name', 'html', this.isResearched ? this.storeName : 'Research ' + this.storeName);
 		j(storeId + ' span #cost', 'text', formatNumber(this.getCost()));
 		j(storeId + ' span #currency', 'html', getIconHtml(this.getCurrency()));
 		j('.store-item#' + this.name + ' .description', 'html',

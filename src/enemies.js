@@ -175,7 +175,7 @@ function EnemyContainer(index) {
 		var rewardScaling = {
 			xp: function(b, s) { return b * Math.pow(s, 1.6); },
 			gold: function(b, s) { return rand(0.5, 1) * b * Math.pow(s, 1.75); },
-			forge: function(b, s) { return b * Math.pow(s, 0.7); }
+			research: function(b, s) { return b * Math.pow(s, 0.7); }
 		};
 		return function(reward, level) {
 			var r = {};
