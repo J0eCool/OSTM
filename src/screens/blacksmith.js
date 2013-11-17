@@ -64,7 +64,7 @@ function WeaponDef(data) {
 	this.researchCost = data.researchCost || 0;
 	this.upgradeCost = (data.upgradeCostMult || 1) * 75000;
 	this.upgradeData = data.upgradeData || { 'damage': 10 };
-	this.ascendCost = (data.ascendCostMult || 1) * 5000;
+	this.ascendCost = (data.ascendCostMult || 1) * 500;
 	this.prereqs = data.prereqs || null;
 
 	this.owned = data.owned || false;
@@ -114,7 +114,7 @@ function WeaponDef(data) {
 
 	this.getCurrency = function() {
 		if (!this.researched) {
-			return 'forge';
+			return 'research';
 		}
 
 		if (!this.owned || !this.isMaxLevel()) {
@@ -122,7 +122,7 @@ function WeaponDef(data) {
 		}
 
 		//todo: currency progression
-		return 'forge';
+		return 'iron';
 	};
 
 	this.canPurchase = function() {

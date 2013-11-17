@@ -125,7 +125,7 @@ function BuildingDef(data) {
 	};
 
 	this.getCurrency = function() {
-		return this.isResearched ? 'gold' : 'forge';
+		return this.isResearched ? 'gold' : 'research';
 	};
 
 	this.canAfford = function() {
@@ -198,7 +198,7 @@ function UpgradeDef(data) {
 	};
 
 	this.getCurrency = function() {
-		return this.isResearched ? 'wood' : 'forge';
+		return this.isResearched ? 'wood' : 'research';
 	};
 
 	this.canAfford = function() {

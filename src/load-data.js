@@ -98,7 +98,7 @@ function loadItems() {
 				Player.armor = this.count + 2;
 			},
 			baseCost: 50,
-			currency: 'forge',
+			currency: 'iron',
 			getCost: function() {
 				return this.baseCost * (1 + Math.floor(Math.pow(this.count, 1.8)));
 			}
@@ -111,7 +111,7 @@ function loadItems() {
 				Inventory.slotsPerItem = this.count + 3;
 			},
 			baseCost: 500,
-			currency: 'forge',
+			currency: 'iron',
 			getCost: function() {
 				return this.baseCost * Math.pow(10, this.count);
 			}
@@ -142,7 +142,7 @@ function loadEnemies() {
 			reward: {
 				xp: 4,
 				gold: 6,
-				forge: 3,
+				research: 3,
 			}
 		}),
 		'swirl': new EnemyDef({
@@ -163,7 +163,7 @@ function loadEnemies() {
 			attack: 6,
 			reward: {
 				xp: 7,
-				forge: 4,
+				research: 4,
 				gold: 8
 			}
 		}),
@@ -302,7 +302,7 @@ function loadBuildings() {
 				baseCost: 25000,
 				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 1000,
-				resourceProduced: 'forge',
+				resourceProduced: 'research',
 				resourcePerSecond: 0.5,
 				prereqs: {
 					buildings: {
@@ -315,7 +315,7 @@ function loadBuildings() {
 				baseCost: 175000,
 				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 7500,
-				resourceProduced: 'forge',
+				resourceProduced: 'research',
 				resourcePerSecond: 2,
 				prereqs: {
 					buildings: {
@@ -328,7 +328,7 @@ function loadBuildings() {
 				baseCost: 750000,
 				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 100000,
-				resourceProduced: 'forge',
+				resourceProduced: 'research',
 				resourcePerSecond: 5,
 				prereqs: {
 					buildings: {

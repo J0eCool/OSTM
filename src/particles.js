@@ -60,15 +60,12 @@ rewardParticleType = new ParticleType({
 	animHeight: -70,
 	animTime: 1400
 });
-forgeParticleType = new ParticleType({
-	className: 'damage forge-plus'
-});
 
 getIconHtml = function(type) {
 	var cache = {};
 	return function(type) {
 		if (!cache[type]) {
-			cache[type] = '<img class="icon ' + type + '-icon" />';
+			cache[type] = '<img class="icon ' + type + '-icon" alt="' + type + '"/>';
 		}
 		return cache[type];
 	};

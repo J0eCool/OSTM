@@ -5,9 +5,6 @@ Inventory = {
 	
 	slotsPerItem: 3,
 
-	forgePerSecond: 0,
-	partialForge: 0,
-
 	init: function() {
 		this.items = loadItems();
 		this.setupButtons();
@@ -20,18 +17,7 @@ Inventory = {
 	},
 
 	update: function() {
-		this.updateForge();
 		this.updateButtons();
-	},
-
-	updateForge: function() {
-		var dT = Game.normalDt / 1000;
-		this.partialForge += this.forgePerSecond * dT;
-		var filled = Math.floor(this.partialForge);
-		if (filled > 0) {
-			Player.forge += filled;
-			this.partialForge -= filled;
-		}
 	},
 
 	setupButtons: function() {
@@ -183,7 +169,7 @@ function ItemDef(data) {
 
 	this.getCurrency = function() {
 		if (!this.isResearched) {
-			return 'forge';
+			return 'research';
 		}
 		return this.currency;
 	};

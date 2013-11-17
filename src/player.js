@@ -4,10 +4,6 @@ Player = {
 	health: 100,
 	partialHealth: 0, //health regen per-tick roundoff
 
-	xp: 0,
-	gold: 0,
-	forge: 0,
-
 	weaponName: 'knife',
 	weapon: null,
 
@@ -17,7 +13,7 @@ Player = {
 	critDamage: 150,
 
 	stats: [],
-	resources: ['xp', 'gold', 'forge', 'iron', 'wood'],
+	resources: ['xp', 'gold', 'research', 'iron', 'wood'],
 
 	init: function() {
 		var stats = loadStats();
@@ -40,7 +36,7 @@ Player = {
 		});
 		this.xp.unlocked = true;
 		this.gold.unlocked = true;
-		this.forge.unlockBuilding = 'research-center';
+		this.research.unlockBuilding = 'research-center';
 		this.iron.unlockBuilding = 'forge';
 		this.wood.unlockBuilding = 'logger';
 
