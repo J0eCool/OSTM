@@ -15,6 +15,7 @@ module.exports = function(grunt) {
           ignores: ['src/lib/*.js'],
           
           '-W061': true, //disable eval warning
+          '-W099': true, //disable "mixed spaces and tabs" warning
           '-W103': true //disable __proto__ warning
         },
         src: ['src/**/*.js']

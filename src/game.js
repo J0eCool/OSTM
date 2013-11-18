@@ -13,7 +13,8 @@ $(document).ready(function() {
 });
 
 Game = {
-	toSave: ['Player', 'Inventory', 'AdventureScreen', 'Save', 'Village', 'Blacksmith'],
+	toSave: ['Player', 'Inventory', 'AdventureScreen', 'Save',
+		'Village', 'Blacksmith', 'Skills'],
 
 	realtimeDt: 33,
 	normalDt: 100,
@@ -27,6 +28,7 @@ Game = {
 		Inventory.init();
 		Village.init();
 		Blacksmith.init();
+		Skills.init();
 
 		Player.init();
 
@@ -41,6 +43,7 @@ Game = {
 		Inventory.update();
 		Village.update();
 		Blacksmith.update();
+		Skills.update();
 
 		Menu.update();
 		AdventureScreen.update();

@@ -190,7 +190,7 @@ function ItemDef(data) {
 function PotionDef(data) {
 	this.__proto__ = new ItemDef(data);
 	this.onUse = function() {
-		Player.addHealth(Math.floor(this.data.healAmount * Player.itemEfficiency.value()));
+		Player.addHealth(Math.floor(this.data.healAmount));
 	};
 
 	this.description = 'Restores ' + formatNumber(this.data.healAmount) + ' HP';

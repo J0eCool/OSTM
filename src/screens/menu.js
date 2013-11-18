@@ -82,6 +82,13 @@ Menu = new ScreenContainer({
 			}
 		}),
 		new ScreenDef({
+			name: 'skills',
+			displayName: 'Skills',
+			prereqs: {
+				//buildings: {'training-hall': 1}
+			}
+		}),
+		new ScreenDef({
 			name: 'options',
 			displayName: 'Options',
 			html: getButtonHtml('Save.save()', 'Save') + ' ' +

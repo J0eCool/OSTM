@@ -206,6 +206,7 @@ function EnemyContainer(index) {
 		this.attack = Math.floor(def.attack * powerMult);
 
 		this.reward = calcReward(def.reward, this.level);
+		this.reward.skill = Math.floor(5 + this.level / 5);
 
 		var sel = this.getSelector();
 
@@ -253,11 +254,7 @@ function EnemyContainer(index) {
 	};
 
 	this.onClick = function() {
-		var dealtDamage = this.attackPower();
-		if (this.isActive() && Player.takeDamage(dealtDamage)) {
-
-			this.takeDamage(Player.getDamageInfo());
-		}
+		Player.tryAttack(this);
 	};
 
 	this.takeDamage = function(damageInfo) {

@@ -13,6 +13,9 @@ Player = {
 	weaponName: 'knife',
 	weapon: null,
 
+	attackName: 'attack',
+	attack: null,
+
 	armor: 2,
 
 	randDamage: 0.3,
@@ -54,6 +57,7 @@ Player = {
 			'<div id="resources"></div>' +
 			'<br/>' +
 			'<div>Weapon : <span id="stat-weapon"></span></div>' +
+			'<div>Skill : <span id="stat-skill"></span></div>' +
 			'<div>Damage : <span id="stat-damage"></span></div>' +
 			'<div>Crit. Chance : <span id="stat-crit"></span></div>' +
 			'<div>Crit Damage : <span id="stat-crit-damage"></span></div>' +
@@ -80,6 +84,7 @@ Player = {
 		j('#player-mana', 'css', 'width', this.mana / this.getMaxMana() * 100 + '%');
 
 		this.weapon = Blacksmith.getWeapon(this.weaponName);
+		this.attack = Skills.getSkill(this.attackName);
 
 		this.updateResources();
 		this.updateStats();
@@ -158,6 +163,7 @@ Player = {
 		j('#resources', 'html', resourceHtml);
 
 		j('#stat-weapon', 'text', this.weapon.displayName);
+		j('#stat-skill', 'text', this.attack.displayName);
 		var dmg = this.getDamageInfo();
 		j('#stat-damage', 'text', formatNumber(dmg.lo) + ' - ' + formatNumber(dmg.hi));
 		j('#stat-crit', 'text', formatNumber(this.weapon.get('crit')) + '%');
@@ -216,7 +222,9 @@ Player = {
 
 	getDamageInfo: function() {
 		var dmg = {
-			baseDamage: this.strength.value() * this.weapon.get('damage')
+			baseDamage: this.strength.value() *
+				this.weapon.get('damage') *
+				this.attack.getDamage() / 100
 		};
 		dmg.lo = Math.ceil(dmg.baseDamage * (1 - this.randDamage / 2));
 		dmg.hi = Math.floor(dmg.baseDamage * (1 + this.randDamage / 2));
@@ -238,21 +246,32 @@ Player = {
 			(1 + this.weapon.getUpgradeAmount('defense') / 100));
 	},
 
-	takeDamage: function(damage) {
-		var modifiedDamage = Math.ceil(damage * this.defenseDamageMultiplier()) - this.armor;
+	tryAttack: function(enemy) {
+		var baseDamage = enemy.attackPower();
+		var modifiedDamage = Math.ceil(baseDamage * this.defenseDamageMultiplier()) -
+			this.armor;
 		modifiedDamage = Math.max(modifiedDamage, 1);
-		if (modifiedDamage >= this.health) {
-			return false;
+		if (enemy.isActive() &&
+				this.mana >= this.attack.manaCost &&
+				this.health > modifiedDamage) {
+			this.spendMana(this.attack.manaCost);
+			this.takeDamage(modifiedDamage);
+			enemy.takeDamage(this.getDamageInfo());
 		}
+	},
 
-		this.health -= modifiedDamage;
-		this.createAddHealthParticle(-modifiedDamage);
+	takeDamage: function(damage) {
+		this.health -= damage;
+		this.createAddHealthParticle(-damage);
+	},
 
-		return true;
+	spendMana: function(cost) {
+		this.mana -= cost;
+		//this.createAddManaParticle(-cost);
 	},
 
 	createAddHealthParticle: function(healthAmt) {
-		var healthBar = $('#player-health');
+		var healthBar = j('#player-health');
 		var pos = healthBar.position();
 		var width = healthBar.width();
 		var height = healthBar.height();

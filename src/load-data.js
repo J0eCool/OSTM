@@ -513,3 +513,25 @@ function loadWeapons() {
 	});
 	return weapons;
 }
+
+function loadSkills() {
+	var skills = {
+		'attack': new AttackDef({
+			displayName: 'Attack',
+			baseDamage: 95,
+			levelDamage: 5,
+			level: 1
+		}),
+		'power-attack': new AttackDef({
+			displayName: 'Power Attack',
+			manaCost: 20,
+			baseDamage: 150,
+			levelDamage: 15
+		})
+	};
+
+	foreach (skills, function(skill, key) {
+		skill.name = key;
+	});
+	return skills;
+}
