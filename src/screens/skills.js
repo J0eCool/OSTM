@@ -139,9 +139,12 @@ function SkillDef(data) {
 				' ' + getIconHtml(this.getCurrency()));
 
 			j(id + ' #description', 'toggle', this.researched);
-			var descriptionText = 'Damage: ' + this.getDamage();
-			j(id + ' #description', 'text', descriptionText);
+			j(id + ' #description', 'text', this.getDescriptionAtLevel(this.level));
 		}
+	};
+
+	this.getDescriptionAtLevel = data.getDescriptionAtLevel || function(level) {
+		return this.displayName + ' Level ' + level;
 	};
 }
 
@@ -155,6 +158,14 @@ function AttackDef(data) {
 	this.levelDamage = data.levelDamage || 10;
 
 	this.getDamage = function() {
-		return this.baseDamage + this.levelDamage * this.level;
+		return this.getDamageAtLevel(this.level);
+	};
+
+	this.getDamageAtLevel = function(level) {
+		return this.baseDamage + this.levelDamage * (this.level - 1);
+	};
+
+	this.getDescriptionAtLevel = function(level) {
+		return 'Damage: ' + this.getDamageAtLevel(level);
 	};
 }

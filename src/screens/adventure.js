@@ -75,7 +75,7 @@ AdventureScreen.startAdventure = function(name) {
 };
 AdventureScreen.increasePower = function(name) {
 	var adv = this.getAdventure(name);
-	Player.spend('gold', adv.powerUpCost(), function() {
+	Player.spend('research', adv.powerUpCost(), function() {
 		adv.power++;
 	});
 };
@@ -169,7 +169,7 @@ function shrineHtml() {
 			' <span>' + adv.displayName + ' : Power <span id="' + id + '-count"></span></span> ' +
 			getButtonHtml("AdventureScreen.increasePower('" + adv.name + "')",
 				'Increase Power<br><span id="' + id + '-inc-cost"></span>' +
-				getIconHtml('gold'), id + '-inc') +
+				getIconHtml('research'), id + '-inc') +
 			'</div>';
 	}
 	return html;

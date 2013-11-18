@@ -380,7 +380,14 @@ function loadBuildings() {
 				researchCost: 250,
 				baseCost: 15000,
 				maxCount: 1
-			})
+			}),
+			'training-hall': new BuildingDef({
+				displayName: 'Training Hall',
+				description: 'Unlocks Skills',
+				researchCost: 500,
+				baseCost: 25000,
+				maxCount: 1
+			}),
 		}
 	};
 	var buildings = {};
@@ -518,7 +525,7 @@ function loadSkills() {
 	var skills = {
 		'attack': new AttackDef({
 			displayName: 'Attack',
-			baseDamage: 95,
+			baseDamage: 100,
 			levelDamage: 5,
 			level: 1
 		}),

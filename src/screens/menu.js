@@ -85,7 +85,9 @@ Menu = new ScreenContainer({
 			name: 'skills',
 			displayName: 'Skills',
 			prereqs: {
-				//buildings: {'training-hall': 1}
+				buildings: {
+					'training-hall': 1
+				}
 			}
 		}),
 		new ScreenDef({

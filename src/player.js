@@ -45,7 +45,7 @@ Player = {
 		});
 		this.xp.unlocked = true;
 		this.gold.unlocked = true;
-		this.skill.unlocked = true;
+		this.skill.unlockBuilding = 'training-hall';
 		this.research.unlockBuilding = 'research-center';
 		this.iron.unlockBuilding = 'forge';
 		this.wood.unlockBuilding = 'logger';

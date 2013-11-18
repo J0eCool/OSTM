@@ -310,12 +310,15 @@ function EnemyContainer(index) {
 		Player.giveResources(this.reward);
 
 		var rewardString = '';
-		foreach (this.reward, function(amt, name) {
+		// iterate over Player.resources to guarantee ordering
+		for (var i = 0; i < Player.resources.length; i++) {
+			var name = Player.resources[i];
+			var amt = this.reward[name];
 			if (amt > 0) {
 				rewardString += '<span class="' + name + '-reward">' + getIconHtml(name) + ' ' +
 					formatNumber(amt) + '</span><br>';
 			}
-		});
+		}
 
 		var pos = this.getAbsolutePosition();
 		ParticleContainer.create(rewardParticleType, rewardString, pos.x, pos.y);
