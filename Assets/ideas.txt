@@ -1,19 +1,30 @@
 TODO:
+	- skill main-stat?
+	- status effects
+		- poison: 500% damage over 8 seconds
+		- burn: 300% damage over 3 seconds
 	- weapon mastery?
-	- building upgrades
-		- wood resource
 	- blacksmith visual upgrade
 		- weapon stats/upgrade info in columns
 	- upgrade Adventures
 		- define rooms, enemy data per-room
+		- bosses
+		- split adventure list into main and side areas
 	- refactor code w/ Javascript: The Good Parts
 	- loading message
 
 -----
 
 Skills:
+	Passive
 	. increase max hp by 0.5% per character level
+	. increase hp/mp recovery
+	. increase max mana
+	. restore mana on basic attack
+
+	Active
 	. hit all enemies on screen
+	. drawing strike: large damage, only works on full-health enemy
 	. double-strike; 30% damage hit that doesn't get counterattacked, 100% damage normal hit
 
 Misc:

@@ -216,3 +216,6 @@ pip-log.txt
 
 #node.js modules
 node_modules
+
+#Excel lock files
+.~lock.*
