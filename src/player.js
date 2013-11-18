@@ -1,8 +1,14 @@
 Player = {
-	toSave: ['health', 'weaponName'],
+	toSave: ['health', 'mana', 'weaponName'],
 
 	health: 100,
+	baseHealthRegen: 1, //percent
 	partialHealth: 0, //health regen per-tick roundoff
+
+	mana: 100,
+	baseMaxMana: 100,
+	baseManaRegen: 5,
+	partialMana: 0,
 
 	weaponName: 'knife',
 	weapon: null,
@@ -13,7 +19,7 @@ Player = {
 	critDamage: 150,
 
 	stats: [],
-	resources: ['xp', 'gold', 'research', 'iron', 'wood'],
+	resources: ['xp', 'gold', 'skill', 'research', 'iron', 'wood'],
 
 	init: function() {
 		var stats = loadStats();
@@ -36,6 +42,7 @@ Player = {
 		});
 		this.xp.unlocked = true;
 		this.gold.unlocked = true;
+		this.skill.unlocked = true;
 		this.research.unlockBuilding = 'research-center';
 		this.iron.unlockBuilding = 'forge';
 		this.wood.unlockBuilding = 'logger';
@@ -64,10 +71,13 @@ Player = {
 
 	update: function() {
 		var dT = Game.normalDt / 1000;
-		this.regenHealth(this.maxHealth.value() * this.healthRegen.value() * dT);
+		this.regenHealth(this.getHealthRegen() * dT);
+		this.regenMana(this.getManaRegen() * dT);
 
 		j('#player-health', 'text', formatNumber(this.health) + ' / ' + formatNumber(this.maxHealth.value()));
 		j('#player-health', 'css', 'width', this.health / this.maxHealth.value() * 100 + '%');
+		j('#player-mana', 'text', formatNumber(this.mana) + ' / ' + formatNumber(this.getMaxMana()));
+		j('#player-mana', 'css', 'width', this.mana / this.getMaxMana() * 100 + '%');
 
 		this.weapon = Blacksmith.getWeapon(this.weaponName);
 
@@ -100,7 +110,7 @@ Player = {
 			}
 		});
 
-		foreach(Village.buildings, function(building) {
+		foreach (Village.buildings, function(building) {
 			if (building.resourceProduced) {
 				Player[building.resourceProduced].perSecond +=
 					building.count * building.getProduction();
@@ -155,7 +165,7 @@ Player = {
 
 		j('#stat-armor', 'text', formatNumber(Player.armor));
 
-		j('#stat-regen', 'text', '+' + formatNumber(this.maxHealth.value() * this.healthRegen.value()) + '/s');
+		j('#stat-regen', 'text', '+' + formatNumber(this.getHealthRegen()) + '/s');
 		j('#stat-reduction', 'text', formatNumber(100 * (1 - this.defenseDamageMultiplier())) + '%');
 	},
 
@@ -176,13 +186,32 @@ Player = {
 		var restored = Math.floor(this.partialHealth);
 		this.partialHealth -= restored;
 		this.health = Math.min(this.health + restored, this.maxHealth.value());
+		return restored;
+	},
 
+	regenMana: function(amount) {
+		this.partialMana += amount;
+		var restored = Math.floor(this.partialMana);
+		this.partialMana -= restored;
+		this.mana = Math.min(this.mana + restored, this.getMaxMana());
 		return restored;
 	},
 
 	addHealth: function(amount) {
 		this.regenHealth(amount);
 		this.createAddHealthParticle(amount);
+	},
+
+	getMaxMana: function() {
+		return this.baseMaxMana;
+	},
+
+	getHealthRegen: function() {
+		return this.baseHealthRegen / 100 * this.maxHealth.value();
+	},
+
+	getManaRegen: function() {
+		return this.baseManaRegen / 100 * this.getMaxMana();
 	},
 
 	getDamageInfo: function() {

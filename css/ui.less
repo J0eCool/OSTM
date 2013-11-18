@@ -10,9 +10,9 @@
     min-width: 120px;
     min-height: 50px;
     height: auto;
-    border-radius: 10px;
-    border: 2px solid black;
-    margin: 2px 0px;
+    border-radius: 16px;
+    border: 1px solid black;
+    margin: 1.5px 0px;
     padding: 3px;
     color: black;
     background-color: @bgColor;
@@ -77,9 +77,19 @@
     vertical-align: middle;
 }
 
-.stat-bar .health-background {
-    margin: 22px auto 14px;
-    width: 90%;
+.stat-bar {
+    .health-background {
+        margin: 22px auto 4px;
+    }
+    .mana-background {
+        margin: 0px auto 14px;
+    }
+
+    .health-background,
+    .mana-background {
+        width: 90%;
+        height: 18px;
+    }
 }
 
 #stats {
@@ -123,6 +133,9 @@ img {
     }
     &.wood-icon {
         content: url("../img/Log.png");
+    }
+    &.skill-icon {
+        content: url("../img/SP.png");
     }
 }
 

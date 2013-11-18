@@ -23,32 +23,27 @@ function loadStats() {
 			levelCost: 5,
 			baseValue: 4
 		}),
+		'dexterity': new StatType({
+			displayName: 'Dexterity',
+			minLevel: 10,
+			baseCost: 15,
+			levelCost: 5,
+			baseValue: 5
+		}),
+		'intelligence': new StatType({
+			displayName: 'Intelligence',
+			minLevel: 24,
+			baseCost: 80,
+			levelCost: 7,
+			baseValue: 3
+		}),
 		'defense': new StatType({
 			displayName: 'Defense',
 			minLevel: 5,
 			baseCost: 25,
 			levelCost: 5,
 			baseValue: 3
-		}),
-		'itemEfficiency': new StatType({
-			displayName: 'Item Efficiency',
-			minLevel: 8,
-			baseCost: 100,
-			levelCost: 50,
-			baseValue: 100,
-			levelValue: 20,
-			isPercent: true
-		}),
-		'healthRegen': new StatType ({
-			displayName: 'Health Regen',
-			minLevel: 15,
-			baseCost: 400,
-			levelCost: 350,
-			baseValue: 1,
-			levelValue: 1,
-			isPercent: true,
-			stringPostfix: '%/sec'
-		}),
+		})
 	};
 	for (var key in stats) {
 		stats[key].name = key;
