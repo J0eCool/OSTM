@@ -22,7 +22,7 @@ Player = {
 	critDamage: 150,
 
 	stats: [],
-	resources: ['xp', 'gold', 'skill', 'research', 'iron', 'wood'],
+	resources: ['xp', 'skill', 'gold', 'research', 'iron', 'wood'],
 
 	init: function() {
 		var stats = loadStats();
@@ -166,7 +166,7 @@ Player = {
 		j('#stat-skill', 'text', this.attack.displayName);
 		var dmg = this.getDamageInfo();
 		j('#stat-damage', 'text', formatNumber(dmg.lo) + ' - ' + formatNumber(dmg.hi));
-		j('#stat-crit', 'text', formatNumber(this.weapon.get('crit')) + '%');
+		j('#stat-crit', 'text', formatNumber(this.weapon.getCrit()) + '%');
 		j('#stat-crit-damage', 'text', formatNumber(this.getCritDamage()) + '%');
 
 		j('#stat-armor', 'text', formatNumber(Player.armor));
@@ -222,13 +222,12 @@ Player = {
 
 	getDamageInfo: function() {
 		var dmg = {
-			baseDamage: this.strength.value() *
-				this.weapon.get('damage') *
+			baseDamage: this.weapon.getDamage() *
 				this.attack.getDamage() / 100
 		};
 		dmg.lo = Math.ceil(dmg.baseDamage * (1 - this.randDamage / 2));
 		dmg.hi = Math.floor(dmg.baseDamage * (1 + this.randDamage / 2));
-		dmg.isCrit = rand(0, 100) < this.weapon.get('crit');
+		dmg.isCrit = rand(0, 100) < this.weapon.getCrit();
 		dmg.damage = randIntInc(dmg.lo, dmg.hi);
 		if (dmg.isCrit) {
 			dmg.damage = Math.floor(dmg.damage * this.getCritDamage() / 100);
@@ -319,6 +318,7 @@ function StatType(data) {
 
 	this.name = data.name || '';
 	this.displayName = data.displayName || this.name || '';
+	this.abbrev = data.abbrev || this.displayName || '';
 	this.minLevel = data.minLevel || 0;
 	this.baseValue = data.baseValue || 0;
 	this.levelValue = data.levelValue || 1;

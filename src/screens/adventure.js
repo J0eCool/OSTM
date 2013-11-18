@@ -93,7 +93,8 @@ AdventureScreen.useInn = function() {
 	}
 };
 AdventureScreen.getInnCost = function() {
-	return Math.floor(Math.pow(Player.maxHealth.value() / 100, 1.25) * 30);
+	var l = Player.getLevel() - 1;
+	return Math.floor(10 + l + 0.05 * Math.pow(l, 2.2));
 };
 AdventureScreen.isAdventuring = function() {
 	return this.curScreen == 'field';

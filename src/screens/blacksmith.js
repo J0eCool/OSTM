@@ -57,6 +57,7 @@ function WeaponDef(data) {
 
 	this.name = data.name || '';
 	this.displayName = data.displayName || '';
+	this.mainStat = data.mainStat || 'strength';
 	this.damage = data.damage || 2;
 	this.crit = data.crit || 5;
 	this.ascendDamage = data.ascendDamage || 1;
@@ -84,8 +85,15 @@ function WeaponDef(data) {
 		return this.damage + this.ascensions * this.ascendDamage;
 	};
 
-	this.get = function(stat) {
-		return this[stat] * (1 + this.getUpgradeAmount(stat) / 100);
+	this.getDamage = function() {
+		var weaponDamage = this.getBaseDamage() * (1 + this.getUpgradeAmount('damage') / 100);
+		var statMod = (Player.strength.value() + Player.dexterity.value()) / 2;
+		statMod += Player[this.mainStat].value() / 2;
+		return weaponDamage * statMod;
+	};
+
+	this.getCrit = function() {
+		return this.crit * (1 + this.getUpgradeAmount('crit') / 100);
 	};
 
 	this.getMaxLevel = function() {
@@ -204,13 +212,20 @@ function WeaponDef(data) {
 				' ' + getIconHtml(this.getCurrency()));
 
 			j(id + ' #description', 'toggle', this.researched);
-			var descriptionText = 'Damage: ' + this.getBaseDamage() +
+			var descriptionText ='';
+			var stat = Player[this.mainStat];
+			if (stat) {
+				descriptionText += ' (' + stat.abbrev + ')';
+			}
+			descriptionText += ' Damage: ' + this.getBaseDamage() +
 				' Base Crit: ' + this.crit + '%';
+			descriptionText += '<i>';
 			for (var up in this.upgradeData) {
 				descriptionText += ', ' + this.upgradeNames[up] + ': +' +
 					this.getUpgradeAmount(up) + '%';
 			}
-			j(id + ' #description', 'text', descriptionText);
+			descriptionText += '</i>';
+			j(id + ' #description', 'html', descriptionText);
 		}
 	};
 }

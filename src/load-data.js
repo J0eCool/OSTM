@@ -18,6 +18,7 @@ function loadStats() {
 		}),
 		'strength': new StatType({
 			displayName: 'Strength',
+			abbrev: 'STR',
 			minLevel: 2,
 			baseCost: 10,
 			levelCost: 5,
@@ -25,6 +26,7 @@ function loadStats() {
 		}),
 		'dexterity': new StatType({
 			displayName: 'Dexterity',
+			abbrev: 'DEX',
 			minLevel: 10,
 			baseCost: 15,
 			levelCost: 5,
@@ -32,6 +34,7 @@ function loadStats() {
 		}),
 		'intelligence': new StatType({
 			displayName: 'Intelligence',
+			abbrev: 'INT',
 			minLevel: 24,
 			baseCost: 80,
 			levelCost: 7,
@@ -39,6 +42,7 @@ function loadStats() {
 		}),
 		'defense': new StatType({
 			displayName: 'Defense',
+			abbrev: 'DEF',
 			minLevel: 5,
 			baseCost: 25,
 			levelCost: 5,
@@ -442,6 +446,7 @@ function loadWeapons() {
 		'knife': new WeaponDef({
 			displayName: 'Knife',
 			owned: true,
+			mainStat: 'dexterity',
 			damage: 5,
 			crit: 9,
 			upgradeData: {
@@ -451,6 +456,7 @@ function loadWeapons() {
 		}),
 		'dagger': new WeaponDef({
 			displayName: 'Dagger',
+			mainStat: 'dexterity',
 			buyCost: 500,
 			damage: 6,
 			crit: 8,
@@ -461,6 +467,7 @@ function loadWeapons() {
 		}),
 		'shortsword': new WeaponDef({
 			displayName: 'Shortsword',
+			mainStat: 'dexterity',
 			buyCost: 1500,
 			damage: 7,
 			crit: 5,
@@ -471,6 +478,7 @@ function loadWeapons() {
 		}),
 		'longsword': new WeaponDef({
 			displayName: 'Longsword',
+			mainStat: 'strength',
 			buyCost: 5000,
 			damage: 8,
 			crit: 5,
@@ -481,6 +489,7 @@ function loadWeapons() {
 		}),
 		'rapier': new WeaponDef({
 			displayName: 'Rapier',
+			mainStat: 'dexterity',
 			buyCost: 7500,
 			damage: 8,
 			crit: 7,
@@ -491,6 +500,7 @@ function loadWeapons() {
 		}),
 		'greatsword': new WeaponDef({
 			displayName: 'Greatsword',
+			mainStat: 'strength',
 			buyCost: 15000,
 			damage: 10,
 			crit: 3,
@@ -500,6 +510,7 @@ function loadWeapons() {
 		}),
 		'greatersword': new WeaponDef({
 			displayName: 'Greatersword',
+			mainStat: 'strength',
 			buyCost: 50000,
 			researchCost: 1500,
 			damage: 12,

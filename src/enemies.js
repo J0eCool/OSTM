@@ -190,6 +190,10 @@ function EnemyContainer(index) {
 					}
 				}
 			}
+
+			if (Player.skill.unlocked) {
+				r.skill = 5 + Math.floor(level / 5);
+			}
 			return r;
 		};
 	}();
@@ -206,7 +210,6 @@ function EnemyContainer(index) {
 		this.attack = Math.floor(def.attack * powerMult);
 
 		this.reward = calcReward(def.reward, this.level);
-		this.reward.skill = Math.floor(5 + this.level / 5);
 
 		var sel = this.getSelector();
 
