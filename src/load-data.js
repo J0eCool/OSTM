@@ -451,7 +451,7 @@ function loadWeapons() {
 			crit: 9,
 			upgradeData: {
 				crit: 10,
-				critDamage: 5
+				critDamage: 10
 			}
 		}),
 		'dagger': new WeaponDef({
@@ -462,7 +462,7 @@ function loadWeapons() {
 			crit: 8,
 			upgradeData: {
 				damage: 5,
-				critDamage: 10
+				critDamage: 25
 			}
 		}),
 		'shortsword': new WeaponDef({
@@ -473,7 +473,7 @@ function loadWeapons() {
 			crit: 5,
 			upgradeData: {
 				damage: 8,
-				crit: 5
+				crit: 10
 			}
 		}),
 		'longsword': new WeaponDef({
@@ -484,7 +484,7 @@ function loadWeapons() {
 			crit: 5,
 			upgradeData: {
 				damage: 10,
-				critDamage: 5
+				critDamage: 10
 			}
 		}),
 		'rapier': new WeaponDef({
@@ -492,9 +492,9 @@ function loadWeapons() {
 			mainStat: 'dexterity',
 			buyCost: 7500,
 			damage: 8,
-			crit: 7,
+			crit: 6.5,
 			upgradeData: {
-				crit: 5,
+				crit: 12,
 				defense: 10
 			}
 		}),
@@ -522,6 +522,23 @@ function loadWeapons() {
 			prereqs: {
 				buildings: {
 					'library': 1
+				}
+			}
+		}),
+		'rune-dagger': new WeaponDef({
+			displayName: 'Rune Dagger',
+			mainStat: 'intelligence',
+			buyCost: 250000,
+			researchCost: 5000,
+			damage: 9,
+			crit: 6,
+			upgradeData: {
+				crit: 8,
+				manaRegen: 12
+			},
+			prereqs: {
+				buildings: {
+					'training-hall': 1
 				}
 			}
 		})

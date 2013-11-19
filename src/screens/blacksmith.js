@@ -81,19 +81,23 @@ function WeaponDef(data) {
 		return (this.level + 1) * perLevel;
 	};
 
+	this.getMult = function(name) {
+		return 1 + this.getUpgradeAmount(name) / 100;
+	};
+
 	this.getBaseDamage = function() {
 		return this.damage + this.ascensions * this.ascendDamage;
 	};
 
 	this.getDamage = function() {
-		var weaponDamage = this.getBaseDamage() * (1 + this.getUpgradeAmount('damage') / 100);
+		var weaponDamage = this.getBaseDamage() * this.getMult('damage');
 		var statMod = (Player.strength.value() + Player.dexterity.value()) / 2;
 		statMod += Player[this.mainStat].value() / 2;
 		return weaponDamage * statMod;
 	};
 
 	this.getCrit = function() {
-		return this.crit * (1 + this.getUpgradeAmount('crit') / 100);
+		return this.crit * this.getMult('crit');
 	};
 
 	this.getMaxLevel = function() {
@@ -147,7 +151,7 @@ function WeaponDef(data) {
 		}
 		else if (this.isMaxLevel()) {
 			this.ascensions += 1;
-			this.level = 0;
+			this.level = Math.floor(this.getMaxLevel() / 2);
 		}
 		else {
 			this.level += 1;
@@ -230,8 +234,11 @@ function WeaponDef(data) {
 	};
 }
 WeaponDef.prototype.upgradeNames = {
-	damage : 'Damage',
-	crit : 'Crit. Chance',
-	critDamage : 'Crit. Damage',
-	defense : 'Defense'
+	damage: 'Damage',
+	crit: 'Crit. Chance',
+	critDamage: 'Crit. Damage',
+	defense: 'Defense',
+	healthRegen: 'Health Regen',
+	maxMana: 'Max Mana',
+	manaRegen: 'Mana Regen'
 };

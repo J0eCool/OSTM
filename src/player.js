@@ -65,6 +65,7 @@ Player = {
 			'<div>Armor : <span id="stat-armor"></span></div>' +
 			'<br/>' +
 			'<div>Health Regen: <span id="stat-regen"></span></div>' +
+			'<div>Mana Regen: <span id="stat-mana-regen"></span></div>' +
 			'<div>Damage Reduction: <span id="stat-reduction"></span></div>' +
 			'<br/>'
 		);
@@ -74,6 +75,9 @@ Player = {
 	},
 
 	update: function() {
+		this.weapon = Blacksmith.getWeapon(this.weaponName);
+		this.attack = Skills.getSkill(this.attackName);
+
 		var dT = Game.normalDt / 1000;
 		this.regenHealth(this.getHealthRegen() * dT);
 		this.regenMana(this.getManaRegen() * dT);
@@ -82,9 +86,6 @@ Player = {
 		j('#player-health', 'css', 'width', this.health / this.maxHealth.value() * 100 + '%');
 		j('#player-mana', 'text', formatNumber(this.mana) + ' / ' + formatNumber(this.getMaxMana()));
 		j('#player-mana', 'css', 'width', this.mana / this.getMaxMana() * 100 + '%');
-
-		this.weapon = Blacksmith.getWeapon(this.weaponName);
-		this.attack = Skills.getSkill(this.attackName);
 
 		this.updateResources();
 		this.updateStats();
@@ -172,6 +173,7 @@ Player = {
 		j('#stat-armor', 'text', formatNumber(Player.armor));
 
 		j('#stat-regen', 'text', '+' + formatNumber(this.getHealthRegen()) + '/s');
+		j('#stat-mana-regen', 'text', '+' + formatNumber(this.getManaRegen()) + '/s');
 		j('#stat-reduction', 'text', formatNumber(100 * (1 - this.defenseDamageMultiplier())) + '%');
 	},
 
@@ -209,15 +211,19 @@ Player = {
 	},
 
 	getMaxMana: function() {
-		return this.baseMaxMana;
+		return this.weapon.getMult('maxMana') * this.baseMaxMana;
 	},
 
 	getHealthRegen: function() {
-		return this.baseHealthRegen / 100 * this.maxHealth.value();
+		return this.baseHealthRegen / 100 *
+			this.weapon.getMult('healthRegen') *
+			this.maxHealth.value();
 	},
 
 	getManaRegen: function() {
-		return this.baseManaRegen / 100 * this.getMaxMana();
+		return this.baseManaRegen / 100 *
+			this.weapon.getMult('manaRegen') *
+			this.getMaxMana();
 	},
 
 	getDamageInfo: function() {
