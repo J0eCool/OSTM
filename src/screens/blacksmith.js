@@ -34,7 +34,7 @@ Blacksmith = {
 	},
 
 	equip: function(wepName) {
-		if (this.getWeapon(wepName).owned && !AdventureScreen.isAdventuring()) {
+		if (this.getWeapon(wepName).owned) {
 			Player.weaponName = wepName;
 		}
 	},
@@ -177,7 +177,6 @@ function WeaponDef(data) {
 		if (isVisible) {
 			var isEquipped = this.name == Player.weaponName;
 			j(id + ' #equip', 'toggle', this.owned);
-			j(id + ' #equip', 'toggleClass', 'inactive', AdventureScreen.isAdventuring() && !isEquipped);
 			j(id + ' #equip', 'toggleClass', 'selected', isEquipped);
 
 			var prereqs = null;

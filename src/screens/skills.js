@@ -15,10 +15,16 @@ Skills = {
 
 	setupButtons: function() {
 		var html = '';
+		var attackHtml = '';
 		foreach(this.skills, function(skill) {
 			html += skill.getButtonHtml();
+
+			if (skill.category === 'Attack') {
+				attackHtml += skill.getAttackButtonHtml();
+			}
 		});
-		j('.skills').html(html);
+		j('.skills', 'html', html);
+		j('.attacks', 'html', attackHtml);
 
 		this.updateButtons();
 	},
@@ -98,13 +104,16 @@ function SkillDef(data) {
 
 	this.getButtonHtml = function() {
 		return '<div class="skill-container" id="' + this.name + '">' +
-			getButtonHtml("Skills.equip('" + this.name + "')", "Equip " +
-				this.displayName + ' <span id="level"></span>', 'equip') +
-			' ' + getButtonHtml("Skills.tryPurchase('" + this.name + "')",
-				'<span id="action"></span>' +
+			getButtonHtml("Skills.tryPurchase('" + this.name + "')",
+				'<span id="action"></span><span id="level"></span>' +
 				'<br><span id="cost"></span>', 'button') +
 			'<span id="description"></span>' +
 			'</div>';
+	};
+
+	this.getAttackButtonHtml = function() {
+		return getButtonHtml("Skills.equip('" + this.name + "')",
+				this.displayName + '<br><span id="mana"></span>', this.name + '-equip');
 	};
 
 	this.updateButton = function() {
@@ -114,8 +123,15 @@ function SkillDef(data) {
 
 		if (isVisible) {
 			var isEquipped = this.name === Player.attackName;
-			j(id + ' #equip', 'toggle', this.level > 0);
-			j(id + ' #equip', 'toggleClass', 'selected', isEquipped);
+			var equipId = '#' + this.name + '-equip';
+			j(equipId, 'toggle', this.level > 0);
+			j(equipId, 'toggleClass', 'selected', isEquipped);
+			var manaText = '';
+			if (this.manaCost > 0) {
+				manaText = this.manaCost + ' MP';
+			}
+			j(equipId + ' #mana', 'text', manaText);
+
 
 			j(id + ' #button', 'toggleClass', 'inactive', !this.canPurchase());
 
@@ -131,7 +147,7 @@ function SkillDef(data) {
 
 			var levelText = '';
 			if (this.level > 0) {
-				levelText += '(L' + this.level + ')';
+				levelText = ' (L' + this.level + ')';
 			}
 			j(id + ' #level', 'text', levelText);
 
@@ -139,12 +155,19 @@ function SkillDef(data) {
 				' ' + getIconHtml(this.getCurrency()));
 
 			j(id + ' #description', 'toggle', this.researched);
-			j(id + ' #description', 'text', this.getDescriptionAtLevel(this.level));
+			j(id + ' #description', 'text', this.getDescription());
 		}
 	};
 
 	this.getDescriptionAtLevel = data.getDescriptionAtLevel || function(level) {
 		return this.displayName + ' Level ' + level;
+	};
+
+	this.getDescription = function() {
+		if (this.level < 1) {
+			return this.getDescriptionAtLevel(1);
+		}
+		return this.getDescriptionAtLevel(this.level) + ' --> ' + this.getDescriptionAtLevel(this.level + 1);
 	};
 }
 
@@ -162,10 +185,10 @@ function AttackDef(data) {
 	};
 
 	this.getDamageAtLevel = function(level) {
-		return this.baseDamage + this.levelDamage * (this.level - 1);
+		return this.baseDamage + this.levelDamage * (level - 1);
 	};
 
 	this.getDescriptionAtLevel = function(level) {
-		return 'Damage: ' + this.getDamageAtLevel(level);
+			return 'Damage: ' + this.getDamageAtLevel(level);
 	};
 }

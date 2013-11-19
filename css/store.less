@@ -3,23 +3,22 @@
     width: 220px;
     height: 100%;
     background: linear-gradient(-70deg, #813, #d63);
+    overflow-x: hidden;
+    overflow-y: auto;
 
     z-index: 1;
 }
 
-.item-container {
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    width: 220px;
-}
+.item-container,
+.attack-container {
+    div {
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        text-align: center;
+    }
 
-.item-container div {
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-.item-container h3 {
-    margin: 0px;
+    h3 {
+        margin: 0px;
+    }
 }
