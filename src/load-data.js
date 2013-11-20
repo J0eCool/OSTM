@@ -177,7 +177,8 @@ function loadEnemies() {
 			}
 		}),
 		'en0': new EnemyDef({
-			displayName: 'monzero',
+			displayName: 'Tri-Snake',
+			image: 'img/TriSnake.png',
 			health: 50,
 			attack: 6,
 			reward: {
