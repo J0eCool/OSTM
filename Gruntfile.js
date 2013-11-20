@@ -62,17 +62,21 @@ module.exports = function(grunt) {
           'build/game.min.css': 'build/game.css'
         }
       }
-    }
+    },
+
+    // Bundle
+    copy: {
+      build: {
+        files: {
+          'build/deploy/': ['build/game.min.css', 'build/game.min.js', 'index.html', 'img/**']
+        }
+      }
+    },
   });
 
   // Load the plugins
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-autoprefixer');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  require('load-grunt-tasks')(grunt);
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'uglify', 'concat', 'less', 'autoprefixer', 'cssmin']);
+  grunt.registerTask('default', ['jshint', 'uglify', 'concat', 'less', 'autoprefixer', 'cssmin', 'copy']);
 };
