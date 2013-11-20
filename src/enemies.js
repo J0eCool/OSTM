@@ -125,6 +125,7 @@ function EnemyDef(data) {
 	this.name = data.name || "Enemy";
 	this.displayName = data.displayName || "Enemy";
 	this.image = data.image || "img/Shroomie.png";
+	this.boss = data.boss || false;
 
 	this.minLevel = data.minLevel || 0;
 
@@ -212,12 +213,14 @@ function EnemyContainer(index) {
 		this.reward = calcReward(def.reward, this.level);
 
 		var sel = this.getSelector();
+		var en = sel.find('.enemy');
 
-		sel.find('.enemy').attr('src', def.image);
+		en.attr('src', def.image)
+			.toggleClass('boss', def.boss);
 		sel.find('.name').text('L' + this.level + ' ' + def.displayName);
 
-		var width = sel.width();
-		var height = sel.height();
+		var width = en.width();
+		var height = width;//en.height();
 
 		var spawn = j('.spawn-area');
 		var spawnWidth = spawn.width();

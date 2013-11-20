@@ -176,17 +176,40 @@ function loadEnemies() {
 				gold: 8
 			}
 		}),
-		'en0': new EnemyDef({
-			displayName: 'Tri-Snake',
-			image: 'img/TriSnake.png',
+		'snapplant': new EnemyDef({
+			displayName: 'Snapper',
+			image: 'img/SnapPlant.png',
 			health: 50,
 			attack: 6,
 			reward: {
 				xp: 6,
-				wood: 3,
-				gold: 6
+				wood: 4,
+				gold: 3
 			}
-		})
+		}),
+		'trisnake': new EnemyDef({
+			displayName: 'Tri-Snake',
+			image: 'img/TriSnake.png',
+			health: 65,
+			attack: 7,
+			reward: {
+				xp: 9,
+				research: 5,
+				gold: 7
+			}
+		}),
+		'trisnake-boss': new EnemyDef({
+			displayName: 'Tri-Snake',
+			image: 'img/TriSnake-alt.png',
+			boss: true,
+			health: 500,
+			attack: 6,
+			reward: {
+				xp: 20,
+				research: 25,
+				gold: 12
+			}
+		}),
 	};
 	foreach (enemies, function(e, n) {
 		e.name = n;
@@ -224,7 +247,7 @@ function loadAdventures() {
 			},
 			displayName: "Oh shit there's more",
 			levels: [24, 26, 24, 28, 32],
-			enemies: ['enemy', 'wall', 'swirl', 'snail', 'en0'],
+			enemies: ['wall', 'swirl', 'snail', 'snapplant', 'trisnake', 'trisnake-boss'],
 		})
 	};
 	for (var key in adventures) {
