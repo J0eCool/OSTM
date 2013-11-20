@@ -1,3 +1,9 @@
+Needed for release:
+	- INT-based attacks
+	- Browser compatibility
+		- Firefox
+		- IE9?+
+
 TODO:
 	- skill main-stat?
 	- status effects
@@ -18,8 +24,6 @@ TODO:
 Skills:
 	Passive
 	. increase max hp by 0.5% per character level
-	. increase hp/mp recovery
-	. increase max mana
 	. restore mana on basic attack
 
 	Active
