@@ -14,14 +14,21 @@ Skills = {
 	},
 
 	setupButtons: function() {
+		var categoriedHtml = {};
 		var html = '';
 		var attackHtml = '';
-		foreach(this.skills, function(skill) {
-			html += skill.getButtonHtml();
+		foreach (this.skills, function(skill) {
+			if (!categoriedHtml[skill.category]) {
+				categoriedHtml[skill.category] = '<h3>' + skill.category + '</h3>';
+			}
+			categoriedHtml[skill.category] += skill.getButtonHtml();
 
 			if (skill.category === 'Attack') {
 				attackHtml += skill.getAttackButtonHtml();
 			}
+		});
+		foreach (categoriedHtml, function(str) {
+			html += str;
 		});
 		j('.skills', 'html', html);
 		j('.attacks', 'html', attackHtml);
@@ -37,6 +44,26 @@ Skills = {
 
 	getSkill: function(skillName) {
 		return this.skills[skillName];
+	},
+
+	getPassiveMult: function(stat) {
+		var mult = 1;
+		foreach (this.skills, function(skill) {
+			if (skill.category === 'Passive') {
+				mult *= skill.getMult(stat);
+			}
+		});
+		return mult;
+	},
+
+	getPassiveBase: function(stat) {
+		var base = 0;
+		foreach (this.skills, function(skill) {
+			if (skill.category === 'Passive') {
+				base += skill.getBase(stat);
+			}
+		});
+		return base;
 	},
 
 	equip: function(skillName) {
@@ -171,7 +198,7 @@ function SkillDef(data) {
 	};
 }
 
-function AttackDef(data) {
+function AttackSkillDef(data) {
 	this.__proto__ = new SkillDef(data);
 	this.category = 'Attack';
 
@@ -190,5 +217,44 @@ function AttackDef(data) {
 
 	this.getDescriptionAtLevel = function(level) {
 			return 'Damage: ' + this.getDamageAtLevel(level);
+	};
+}
+
+function PassiveSkillDef(data) {
+	this.__proto__ = new SkillDef(data);
+	this.category = 'Passive';
+
+	var stats = {};
+	stats.mult = data.statMult || {};
+	stats.base = data.statBase || {};
+
+	var getAmount = function(type, stat, level) {
+		var s = stats[type][stat];
+		if (!s || level < 1) {
+			return 0;
+		}
+		var base = s.base || 0;
+		var levAmt = s.level || 0;
+		return base + levAmt * (level - 1);
+	};
+
+	this.getMult = function(stat, base) {
+		return 1 + getAmount('mult', stat, this.level) / 100;
+	};
+
+	this.getBase = function(stat, base) {
+		return getAmount('base', stat, this.level);
+	};
+
+	this.getDescriptionAtLevel = function(level) {
+		var str = '';
+		var stat;
+		for (stat in stats.mult) {
+			str += ' ' + getUpgradeName(stat) + ' +' + getAmount('mult', stat, level) + '%';
+		}
+		for (stat in stats.base) {
+			str += ' ' + getUpgradeName(stat) + ' +' + getAmount('base', stat, level);
+		}
+		return str;
 	};
 }

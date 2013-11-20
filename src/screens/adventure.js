@@ -86,9 +86,9 @@ AdventureScreen.decreasePower = function(name) {
 	}
 };
 AdventureScreen.useInn = function() {
-	if (Player.health < Player.maxHealth.value()) {
+	if (Player.health < Player.getMaxHealth()) {
 		Player.spend('gold', this.getInnCost(), function() {
-			Player.health = Player.maxHealth.value();
+			Player.health = Player.getMaxHealth();
 		});
 	}
 };

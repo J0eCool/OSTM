@@ -575,18 +575,69 @@ function loadWeapons() {
 
 function loadSkills() {
 	var skills = {
-		'attack': new AttackDef({
+		'attack': new AttackSkillDef({
 			displayName: 'Attack',
 			baseDamage: 100,
 			levelDamage: 5,
 			level: 1
 		}),
-		'power-attack': new AttackDef({
+		'power-attack': new AttackSkillDef({
 			displayName: 'Power Attack',
 			manaCost: 20,
 			baseDamage: 150,
 			levelDamage: 15
-		})
+		}),
+
+		'health-up': new PassiveSkillDef({
+			displayName: 'Health Plus',
+			statMult: {
+				maxHealth: {
+					base: 2,
+					level: 0.5
+				}
+			}
+		}),
+		'mana-up': new PassiveSkillDef({
+			displayName: 'Mana Plus',
+			statMult: {
+				maxMana: {
+					base: 5,
+					level: 1
+				}
+			}
+		}),
+		'focus': new PassiveSkillDef({
+			displayName: 'Focus',
+			statMult: {
+				manaRegen: {
+					base: 15,
+					level: 3
+				}
+			}
+		}),
+		'precision': new PassiveSkillDef({
+			displayName: 'Precision',
+			statBase: {
+				crit: {
+					base: 1,
+					level: 0.2
+				}
+			}
+		}),
+		'cruelty': new PassiveSkillDef({
+			displayName: 'Cruelty',
+			statBase: {
+				critDamage: {
+					base: 20,
+					level: 4
+				}
+			},
+			statMult: {
+				damage: {
+					level: 1
+				}
+			}
+		}),
 	};
 
 	foreach (skills, function(skill, key) {

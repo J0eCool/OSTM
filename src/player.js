@@ -82,8 +82,8 @@ Player = {
 		this.regenHealth(this.getHealthRegen() * dT);
 		this.regenMana(this.getManaRegen() * dT);
 
-		j('#player-health', 'text', formatNumber(this.health) + ' / ' + formatNumber(this.maxHealth.value()));
-		j('#player-health', 'css', 'width', this.health / this.maxHealth.value() * 100 + '%');
+		j('#player-health', 'text', formatNumber(this.health) + ' / ' + formatNumber(this.getMaxHealth()));
+		j('#player-health', 'css', 'width', this.health / this.getMaxHealth() * 100 + '%');
 		j('#player-mana', 'text', formatNumber(this.mana) + ' / ' + formatNumber(this.getMaxMana()));
 		j('#player-mana', 'css', 'width', this.mana / this.getMaxMana() * 100 + '%');
 
@@ -167,7 +167,7 @@ Player = {
 		j('#stat-skill', 'text', this.attack.displayName);
 		var dmg = this.getDamageInfo();
 		j('#stat-damage', 'text', formatNumber(dmg.lo) + ' - ' + formatNumber(dmg.hi));
-		j('#stat-crit', 'text', formatNumber(this.weapon.getCrit()) + '%');
+		j('#stat-crit', 'text', formatNumber(dmg.crit) + '%');
 		j('#stat-crit-damage', 'text', formatNumber(this.getCritDamage()) + '%');
 
 		j('#stat-armor', 'text', formatNumber(Player.armor));
@@ -193,7 +193,7 @@ Player = {
 		this.partialHealth += amount;
 		var restored = Math.floor(this.partialHealth);
 		this.partialHealth -= restored;
-		this.health = Math.min(this.health + restored, this.maxHealth.value());
+		this.health = Math.min(this.health + restored, this.getMaxHealth());
 		return restored;
 	},
 
@@ -210,30 +210,44 @@ Player = {
 		this.createAddHealthParticle(amount);
 	},
 
+	getMaxHealth: function() {
+		return Math.floor(this.weapon.getMult('maxHealth') *
+			Skills.getPassiveMult('maxHealth') *
+			this.maxHealth.value());
+	},
+
 	getMaxMana: function() {
-		return this.weapon.getMult('maxMana') * this.baseMaxMana;
+		return Math.floor(this.weapon.getMult('maxMana') *
+			Skills.getPassiveMult('maxMana') *
+			this.baseMaxMana);
 	},
 
 	getHealthRegen: function() {
 		return this.baseHealthRegen / 100 *
 			this.weapon.getMult('healthRegen') *
-			this.maxHealth.value();
+			Skills.getPassiveMult('healthRegen') *
+			this.getMaxHealth();
 	},
 
 	getManaRegen: function() {
 		return this.baseManaRegen / 100 *
 			this.weapon.getMult('manaRegen') *
+			Skills.getPassiveMult('manaRegen') *
 			this.getMaxMana();
 	},
 
 	getDamageInfo: function() {
 		var dmg = {
 			baseDamage: this.weapon.getDamage() *
-				this.attack.getDamage() / 100
+				this.attack.getDamage() / 100 *
+				Skills.getPassiveMult('damage'),
+			crit: (this.weapon.getBaseCrit() + Skills.getPassiveBase('crit')) *
+				this.weapon.getMult('crit') *
+				Skills.getPassiveMult('crit')
 		};
 		dmg.lo = Math.ceil(dmg.baseDamage * (1 - this.randDamage / 2));
 		dmg.hi = Math.floor(dmg.baseDamage * (1 + this.randDamage / 2));
-		dmg.isCrit = rand(0, 100) < this.weapon.getCrit();
+		dmg.isCrit = rand(0, 100) < dmg.crit;
 		dmg.damage = randIntInc(dmg.lo, dmg.hi);
 		if (dmg.isCrit) {
 			dmg.damage = Math.floor(dmg.damage * this.getCritDamage() / 100);
@@ -242,13 +256,16 @@ Player = {
 	},
 
 	getCritDamage: function() {
-		return this.critDamage + this.weapon.getUpgradeAmount('critDamage');
+		return this.weapon.getUpgradeAmount('critDamage') +
+			Skills.getPassiveBase('critDamage') +
+			this.critDamage;
 	},
 
 	defenseDamageMultiplier: function() {
 		var defScale = 28;
-		return defScale / (defScale + this.defense.value() *
-			(1 + this.weapon.getUpgradeAmount('defense') / 100));
+		return defScale / (defScale +
+			this.weapon.getMult('defense') *
+			this.defense.value());
 	},
 
 	tryAttack: function(enemy) {

@@ -96,8 +96,8 @@ function WeaponDef(data) {
 		return weaponDamage * statMod;
 	};
 
-	this.getCrit = function() {
-		return this.crit * this.getMult('crit');
+	this.getBaseCrit = function() {
+		return this.crit;
 	};
 
 	this.getMaxLevel = function() {
@@ -224,7 +224,7 @@ function WeaponDef(data) {
 				' Base Crit: ' + this.crit + '%';
 			descriptionText += '<i>';
 			for (var up in this.upgradeData) {
-				descriptionText += ', ' + this.upgradeNames[up] + ': +' +
+				descriptionText += ', ' + getUpgradeName(up) + ': +' +
 					this.getUpgradeAmount(up) + '%';
 			}
 			descriptionText += '</i>';
@@ -232,12 +232,19 @@ function WeaponDef(data) {
 		}
 	};
 }
-WeaponDef.prototype.upgradeNames = {
-	damage: 'Damage',
-	crit: 'Crit. Chance',
-	critDamage: 'Crit. Damage',
-	defense: 'Defense',
-	healthRegen: 'Health Regen',
-	maxMana: 'Max Mana',
-	manaRegen: 'Mana Regen'
-};
+
+var getUpgradeName = function() {
+	var upgradeNames = {
+		damage: 'Damage',
+		crit: 'Crit. Chance',
+		critDamage: 'Crit. Damage',
+		defense: 'Defense',
+		maxHealth: 'Max Health',
+		healthRegen: 'Health Regen',
+		maxMana: 'Max Mana',
+		manaRegen: 'Mana Regen',
+	};
+	return function(stat) {
+		return upgradeNames[stat] || stat;
+	};
+}();
