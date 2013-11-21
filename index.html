@@ -3,14 +3,17 @@
 <head>
 	<title>Progress-Style RPG</title>
 
-	<link rel="stylesheet" type="text/css" href="build/game.min.css" />
+	<link rel="stylesheet" type="text/css" href="game.min.css" />
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="build/game.min.js"></script>
+    <script src="game.min.js"></script>
 </head>
 <body>
 	<div class="game-container">
-		<div class="header-container"></div>
+		<div class="header-container">
+			<div class="header-buttons"></div>
+			<div class="version">v<!-- @echo version --></div>
+		</div>
 		<div class="body-container">
 			<div class="stat-bar shadow">
 				<div class="health-background">

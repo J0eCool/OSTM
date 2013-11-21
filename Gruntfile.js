@@ -1,10 +1,14 @@
 module.exports = function(grunt) {
+  var printSizes = false;
 
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    deployFolder: 'build/deploy/<%= pkg.version %>',
 
-    // JavaScript tasks
+    clean: {
+      build: ['<%= deployFolder %>']
+    },
     jshint: {
       options: {
         reporter: 'checkstyle',
@@ -22,23 +26,34 @@ module.exports = function(grunt) {
         src: ['src/**/*.js']
       }
     },
-    uglify: {
-      options: {
-        report: 'min'
-      },
-      build: {
-        files: {
-          'build/game.min.js': ['src/**/*.js']
-        }
-      }
-    },
-
-    // CSS tasks
     concat: {
       build: {
         files: {
           'build/less.less': ['css/**/*.less'],
-          'build/game.js': ['src/**/*.js']
+          'build/game.unprocessed.js': ['src/**/*.js']
+        }
+      }
+    },
+    preprocess: {
+      options: {
+        context: {
+          version: '<%= pkg.version %>'
+        }
+      },
+      build: {
+        files: {
+          'build/index.html': 'index.html',
+          'build/game.js': 'build/game.unprocessed.js'
+        }
+      }
+    },
+    uglify: {
+      options: {
+        report: printSizes && 'min'
+      },
+      build: {
+        files: {
+          'build/game.min.js': 'build/game.js'
         }
       }
     },
@@ -67,9 +82,10 @@ module.exports = function(grunt) {
     // Bundle
     copy: {
       build: {
-        files: {
-          'build/deploy/': ['build/game.min.css', 'build/game.min.js', 'index.html', 'img/**']
-        }
+        files: [
+          {expand: true, flatten: true, dest: '<%= deployFolder %>', src: ['build/game.min.css', 'build/game.min.js', 'build/index.html']},
+          {expand: true, flatten: false, dest: '<%= deployFolder %>', src: ['img/**']},
+        ]
       }
     },
   });
@@ -78,5 +94,5 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'uglify', 'concat', 'less', 'autoprefixer', 'cssmin', 'copy']);
+  grunt.registerTask('default', ['clean', 'jshint', 'concat', 'preprocess', 'uglify', 'less', 'autoprefixer', 'cssmin', 'copy']);
 };

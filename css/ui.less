@@ -100,7 +100,7 @@
     text-align: center;
 }
 
-.header-container .button {
+.header-buttons .button {
     height: 80%;
 }
 
@@ -114,27 +114,28 @@
 }
 
 img {
+    @imgDir: "img/";
     &.icon {
         vertical-align: middle;
         height: 14px;
     }
     &.xp-icon {
-        content: url("../img/XP_text.png");
+        content: url("@{imgDir}XP_text.png");
     }
     &.gold-icon {
-        content: url("../img/Gold_icon.png");
+        content: url("@{imgDir}Gold_icon.png");
     }
     &.research-icon {
-        content: url("../img/Goop.png");
+        content: url("@{imgDir}Goop.png");
     }
     &.iron-icon {
-        content: url("../img/Iron.png");
+        content: url("@{imgDir}Iron.png");
     }
     &.wood-icon {
-        content: url("../img/Log.png");
+        content: url("@{imgDir}Log.png");
     }
     &.skill-icon {
-        content: url("../img/SP.png");
+        content: url("@{imgDir}SP.png");
     }
 }
 

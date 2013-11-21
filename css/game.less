@@ -20,12 +20,14 @@ div {
     min-height: 450px;
 }
 
+@headerHeight: 64px;
+
 .header-container {
     position: absolute;
     top: 0px;
     left: 0px;
     right: 0px;
-    height: 64px;
+    height: @headerHeight;
     background-color: #777;
     box-shadow: 0px 0px 22px #111 inset;
 }
@@ -65,4 +67,16 @@ div {
 .options {
     background-color: #445;
     color: white;
+}
+
+.version {
+    @fontSize: 24px;
+    position: absolute;
+    top: (@headerHeight - @fontSize) / 2;
+    right: 30px;
+    font-size: @fontSize;
+    font-weight: bold;
+    color: white;
+    .outlined;
+    vertical-align: middle;
 }

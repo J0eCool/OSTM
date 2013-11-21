@@ -113,7 +113,7 @@ Menu = new ScreenContainer({
 			headerHtml += getButtonHtml("Menu.setScreen('" + scr.name + "')",
 				scr.displayName, scr.name + '-button') + ' ';
 		});
-		j('.header-container').html(headerHtml);
+		j('.header-buttons', 'html', headerHtml);
 
 		this.setScreen('adventure');
 
