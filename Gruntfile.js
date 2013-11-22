@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     debugFolder: 'build/debug/<%= pkg.version %>',
 
     clean: {
-      build: ['<%= deployFolder %>', '<%= debugFolder %>']
+      build: ['build/*.*', '<%= deployFolder %>', '<%= debugFolder %>']
     },
     jshint: {
       options: {
