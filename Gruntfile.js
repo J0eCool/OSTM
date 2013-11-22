@@ -117,8 +117,8 @@ module.exports = function(grunt) {
         options: {
           commitMessage: 'Push <%= pkg.version %>'
         },
-        src: '<%= deployFolder =%>',
-        dest: '_site'
+        src: '<%= deployFolder %>',
+        dest: '../gh-pages'
       }
     },
   });
