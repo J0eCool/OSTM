@@ -77,18 +77,23 @@
     vertical-align: middle;
 }
 
+@healthHeight: 18px;
+@healthTop: 22px;
+@healthBetween: 4px;
+@healthBottom: 14px;
+@healthTotal: @healthHeight * 2 + @healthTop + @healthBetween + @healthBottom;
 .stat-bar {
     .health-background {
-        margin: 22px auto 4px;
+        margin: @healthTop auto @healthBetween;
     }
     .mana-background {
-        margin: 0px auto 14px;
+        margin: 0px auto @healthBottom;
     }
 
     .health-background,
     .mana-background {
         width: 90%;
-        height: 18px;
+        height: @healthHeight;
     }
 }
 
@@ -147,10 +152,14 @@ img {
     transform: scale(1.1, 1.1);
 }
 
-.options textarea {
-    width: 75%;
-    height: 80px;
+.saveArea {
+    min-width: 75%;
+    min-height: 120px;
     vertical-align: middle;
+    .scrolls;
+    user-select: auto;
+    user-drag: auto;
+    word-wrap: break-word;
 }
 
 .outlined(@r: 1px, @color: black) {
@@ -159,4 +168,9 @@ img {
         // -@r @r 0 @color,
         // @r -@r 0 @color,
         -@r -@r 0 @color;
+}
+
+.scrolls(@x: hidden) {
+    overflow-x: @x;
+    overflow-y: auto;
 }

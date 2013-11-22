@@ -111,11 +111,11 @@ Menu = new ScreenContainer({
 			html: getButtonHtml('Save.save()', 'Save') + ' ' +
 				getButtonHtml('Save.autosave = !Save.autosave',
 					'Autosave: <span id="save-autosave"></span>') +
-				'<span id="save-info"><br/>' +
-				getButtonHtml('Save.clearSave()', 'Delete Save', 'del-save') +
-				'<br/>Export hash: <textarea disabled id="save-val"></textarea></span><br/>' +
+				'<span id="save-info"><br>' +
+				getButtonHtml('Save.clearSave()', 'Delete Save', 'del-save') + '<br>' +
 				getButtonHtml("Save.import($('#save-import').val())", 'Import') +
-				'Import hash: <textarea id="save-import"></textarea>'
+				'Import hash: <textarea class="saveArea" id="save-import"></textarea>' +
+				'<br>Export hash: <div class="saveArea" id="save-val"></div></span>'
 		})
 	],
 
@@ -137,10 +137,7 @@ Menu = new ScreenContainer({
 
 	update: function() {
 		j('#save-info', 'toggle', Save.saveExists());
-		var saveVal = j('#save-val');
-		if (saveVal.text() != Save.getSavedString()) {
-			saveVal.text(Save.getSavedString());
-		}
+		j('#save-val', 'text', Save.getSavedString());
 		j('#save-autosave', 'text', Save.autosave ? 'Enabled' : 'Disabled');
 
 		foreach (this.screens, function(scr) {
