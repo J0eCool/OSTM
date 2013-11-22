@@ -1,6 +1,8 @@
 Save = {
 	toSave: ['autosave'],
 
+	currentSaveVersion: '/* @echo version */',
+
 	autosave: true,
 	autoDt: 30000,
 	autoTimer: 0,
@@ -63,7 +65,7 @@ Save = {
 
 	getFullSaveObject: function() {
 		var obj = {
-			saveVersion: 0
+			saveVersion: this.currentSaveVersion
 		};
 		for (var i = 0; i < Game.toSave.length; i++) {
 			var key = Game.toSave[i];
@@ -104,13 +106,16 @@ Save = {
 		if (str && str !== '') {
 			//console.log('importing: ' + str);
 			var baseStr = LZString.decompressFromBase64(str);
-			if (baseStr === null || baseStr === '') {
-				alert('Load failed! Invalid import string');
-				return;
-			}
 			try {
 				//console.log('  base str: ' + baseStr);
+				if (baseStr === null || baseStr === '') {
+					throw('Load failed! Invalid import string');
+				}
+
 				var restoredObject = JSON.parse(baseStr);
+				if (restoredObject.saveVersion > this.currentSaveVersion) {
+					throw('Load failed! Saved version is greater than current version');
+				}
 				//console.log('  object : ' + restoredObject);
 				for (var i = 0; i < Game.toSave.length; i++) {
 					var key = Game.toSave[i];
@@ -122,7 +127,12 @@ Save = {
 				}
 			}
 			catch (exception) {
-				alert('Load failed! Unparseable save data');
+				if (typeof exception === 'string') {
+					alert(exception);
+				}
+				else {
+					alert('Load failed! Unparseable save data');
+				}
 			}
 		}
 	}
