@@ -2,17 +2,17 @@
 <html>
 <head>
 	<title>Progress-Style RPG</title>
-
+	
 	<link rel="stylesheet" type="text/css" href="game.min.css" />
-
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
     <script src="game.min.js"></script>
 </head>
 <body>
 	<div class="game-container">
 		<div class="header-container">
 			<div class="header-buttons"></div>
-			<div class="version">v0.1.0</div>
+			<div class="version">v0.1.1</div>
 		</div>
 		<div class="body-container">
 			<div class="stat-bar shadow">
@@ -22,8 +22,10 @@
 				<div class="mana-background">
 					<div class="mana-foreground" id="player-mana"></div>
 				</div>
-				<div id="stats"></div>
-				<div id="stat-buttons"></div>
+				<div class="stat-container">
+					<div id="stats"></div>
+					<div id="stat-buttons"></div>
+				</div>
 			</div>
 			<div class="main-area"></div>
 			<div class="game-log"></div>
