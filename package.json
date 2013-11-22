@@ -17,6 +17,7 @@
     "grunt-contrib-copy": "~0.4.1",
     "load-grunt-tasks": "~0.2.0",
     "grunt-preprocess": "~3.0.1",
-    "grunt-contrib-clean": "~0.5.0"
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-github-pages": "0.0.3"
   }
 }

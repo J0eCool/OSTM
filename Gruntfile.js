@@ -100,16 +100,25 @@ module.exports = function(grunt) {
     copy: {
       build: {
         files: [
-          {expand: true, flatten: true, dest: '<%= deployFolder %>', src: ['build/game.min.css', 'build/game.min.js', 'build/index.html']},
-          {expand: true, flatten: false, dest: '<%= deployFolder %>', src: ['img/**']},
+          {expand: true, flatten: true, dest: '<%= deployFolder %>', src: ['build/game.min.css', 'build/game.min.js', 'build/index.html', 'img/**']},
         ]
       },
       debug: {
         files: [
           {dest: '<%= debugFolder %>/index.html', src: ['build/index.debug.html']},
-          {expand: true, flatten: true, dest: '<%= debugFolder %>', src: ['build/game.css', 'build/game.js']},
-          {expand: true, flatten: false, dest: '<%= debugFolder %>', src: ['img/**']},
+          {expand: true, flatten: true, dest: '<%= debugFolder %>', src: ['build/game.css', 'build/game.js', 'img/**']},
         ]
+      }
+    },
+
+    // Deploy
+    githubPages: {
+      deploy: {
+        options: {
+          commitMessage: 'Push <%= pkg.version %>'
+        },
+        src: '<%= deployFolder =%>',
+        dest: '_site'
       }
     },
   });
@@ -119,4 +128,5 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['clean', 'jshint', 'concat', 'preprocess', 'uglify', 'less', 'autoprefixer', 'cssmin', 'copy']);
+  grunt.registerTask('deploy', ['default', 'githubPages']);
 };

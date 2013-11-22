@@ -163,7 +163,7 @@ Player = {
 		});
 		j('#resources', 'html', resourceHtml);
 
-		j('#stat-weapon', 'text', this.weapon.displayName);
+		j('#stat-weapon', 'text', this.weapon.getName());
 		j('#stat-skill', 'text', this.attack.displayName);
 		var dmg = this.getDamageInfo();
 		j('#stat-damage', 'text', formatNumber(dmg.lo) + ' - ' + formatNumber(dmg.hi));

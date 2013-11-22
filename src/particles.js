@@ -63,7 +63,7 @@ rewardParticleType = new ParticleType({
 
 var getIconHtml = function(type) {
 	var cache = {};
-	var imgDir = 'img/';
+	var imgDir = '';
 	var imgs = {
 		xp: 'XP_text.png',
         gold: 'Gold_icon.png',

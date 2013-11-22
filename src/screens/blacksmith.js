@@ -73,6 +73,13 @@ function WeaponDef(data) {
 	this.level = 0;
 	this.ascensions = 0;
 
+	this.getName = function() {
+		if (this.ascensions > 0) {
+			return this.displayName + ' +' + this.ascensions;
+		}
+		return this.displayName;
+	};
+
 	this.getUpgradeAmount = function(name) {
 		var perLevel = this.upgradeData[name];
 		if (!perLevel) {
@@ -161,7 +168,7 @@ function WeaponDef(data) {
 	this.getButtonHtml = function() {
 		return '<div class="weapon-container" id="' + this.name + '">' +
 			getButtonHtml("Blacksmith.equip('" + this.name + "')", "Equip " +
-				this.displayName + ' <span id="level"></span>', 'equip') +
+				'<span id="name"></span> <span id="level"></span>', 'equip') +
 			' ' + getButtonHtml("Blacksmith.tryPurchase('" + this.name + "')",
 				'<span id="action"></span>' +
 				'<br><span id="cost"></span>', 'button') +
@@ -202,12 +209,10 @@ function WeaponDef(data) {
 			actionText += this.displayName;
 			j(id + ' #action', 'text', actionText);
 
+			j(id + ' #name', 'text', this.getName());
 			var levelText = '';
 			if (this.level > 0) {
 				levelText += '(' + this.level + '/' + this.getMaxLevel() + ')';
-			}
-			if (this.ascensions > 0) {
-				levelText = '+' + this.ascensions + ' ' + levelText;
 			}
 			j(id + ' #level', 'text', levelText);
 

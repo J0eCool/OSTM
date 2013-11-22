@@ -304,12 +304,12 @@ function EnemyContainer(index) {
 	};
 
 	this.animateHealthBar = function() {
-		$('.enemy-health-'+this.index).stop(true, false)
+		j('.enemy-health-'+this.index).stop(true, false)
 			.animate({ width: this.getHealthPercent() + '%' }, 125);
 	};
 
 	this.updateHealthBar = function() {
-		$('.enemy-health-'+this.index).stop(true, true).css('width', this.getHealthPercent() + '%');		
+		j('.enemy-health-'+this.index).stop(true, true).css('width', this.getHealthPercent() + '%');		
 	};
 
 	this.giveRewards = function() {

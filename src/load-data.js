@@ -8,7 +8,7 @@ function loadStats() {
 			levelValue: 10,
 
 			getBaseValueAtLevel: function(level) {
-				return this.baseValue + level * (this.levelValue + level - 1);
+				return this.baseValue + level * (this.levelValue + (level - 1) / 2);
 			},
 
 			onUpgrade: function() {
@@ -136,7 +136,7 @@ function loadEnemies() {
 	var enemies = {
 		'enemy': new EnemyDef({
 			displayName: 'Snake',
-			image: 'img/Snake.png',
+			image: 'Snake.png',
 			health: 22,
 			reward: {
 				xp: 3,
@@ -146,7 +146,7 @@ function loadEnemies() {
 		}),
 		'wall': new EnemyDef({
 			displayName: 'Sloog',
-			image: 'img/SlugSquirrel.png',
+			image: 'SlugSquirrel.png',
 			health: 40,
 			reward: {
 				xp: 4,
@@ -156,7 +156,7 @@ function loadEnemies() {
 		}),
 		'swirl': new EnemyDef({
 			displayName: 'Masker',
-			image: 'img/MaskBug.png',
+			image: 'MaskBug.png',
 			health: 30,
 			attack: 6,
 			reward: {
@@ -167,7 +167,7 @@ function loadEnemies() {
 		}),
 		'snail': new EnemyDef({
 			displayName: 'Snale',
-			image: 'img/SpikeSnail.png',
+			image: 'SpikeSnail.png',
 			health: 45,
 			attack: 6,
 			reward: {
@@ -178,7 +178,7 @@ function loadEnemies() {
 		}),
 		'snapplant': new EnemyDef({
 			displayName: 'Snapper',
-			image: 'img/SnapPlant.png',
+			image: 'SnapPlant.png',
 			health: 50,
 			attack: 6,
 			reward: {
@@ -189,7 +189,7 @@ function loadEnemies() {
 		}),
 		'trisnake': new EnemyDef({
 			displayName: 'Tri-Snake',
-			image: 'img/TriSnake.png',
+			image: 'TriSnake.png',
 			health: 65,
 			attack: 7,
 			reward: {
@@ -199,8 +199,8 @@ function loadEnemies() {
 			}
 		}),
 		'trisnake-boss': new EnemyDef({
-			displayName: 'Tri-Snake',
-			image: 'img/TriSnake-alt.png',
+			displayName: 'Tri-Snake Boss',
+			image: 'TriSnake-alt.png',
 			boss: true,
 			health: 500,
 			attack: 6,
@@ -258,6 +258,7 @@ function loadAdventures() {
 
 function loadBuildings() {
 	var researchBuildingCostIncrease = 30;
+	var ironBuildingCostIncrease = 50;
 
 	var sectionedBuildings = {
 		'Residences': {
@@ -402,6 +403,19 @@ function loadBuildings() {
 					}
 				}
 			}),
+			'foundry': new BuildingDef({
+				displayName: 'Foundry',
+				researchCost: 5000,
+				baseCost: 250000,
+				costIncreasePercent: ironBuildingCostIncrease,
+				resourceProduced: 'iron',
+				resourcePerSecond: 3,
+				prereqs: {
+					buildings: {
+						'forge': 1
+					}
+				}
+			}),
 			'logger': new BuildingDef({
 				displayName: 'Logger',
 				description: 'Unlocks building upgrades',
@@ -433,31 +447,96 @@ function loadUpgrades() {
 	var upgrades = {
 		'tent-1': new UpgradeDef({
 			displayName: 'Big Tents',
-			researchCost: 500,
-			baseCost: 100,
+			baseCost: 1000,
 			targetBuilding: 'tent',
-			amountIncrease: 25,
+			amountIncrease: 50,
 			prereqs: {
 				buildings: {
-					'tent': 5
+					'tent': 1
 				}
 			}
 		}),
 		'tent-2': new UpgradeDef({
 			displayName: 'Bigger Tents',
-			researchCost: 2000,
-			baseCost: 500,
+			researchCost: 750,
+			baseCost: 5000,
 			targetBuilding: 'tent',
 			amountIncrease: 50,
 			prereqs: {
 				buildings: {
-					'tent': 10
+					'tent': 5
 				},
 				upgrades: {
 					'tent-1': 1
 				}
 			}
-		})
+		}),
+		'tent-3': new UpgradeDef({
+			displayName: 'Nice Tents',
+			researchCost: 2000,
+			baseCost: 50000,
+			targetBuilding: 'tent',
+			amountIncrease: 100,
+			prereqs: {
+				buildings: {
+					'tent': 10
+				},
+				upgrades: {
+					'tent-2': 1
+				}
+			}
+		}),
+		'tent-4': new UpgradeDef({
+			displayName: 'Real Nice Tents',
+			researchCost: 5000,
+			baseCost: 250000,
+			targetBuilding: 'tent',
+			amountIncrease: 30,
+			prereqs: {
+				buildings: {
+					'tent': 25
+				},
+				upgrades: {
+					'tent-3': 1
+				}
+			}
+		}),
+
+		'shack-1': new UpgradeDef({
+			displayName: 'Dry Shacks',
+			baseCost: 50000,
+			targetBuilding: 'shack',
+			amountIncrease: 50,
+			prereqs: {
+				buildings: {
+					'shack': 1
+				}
+			}
+		}),
+
+		'cabin-1': new UpgradeDef({
+			displayName: 'Log Cabins',
+			baseCost: 250000,
+			targetBuilding: 'cabin',
+			amountIncrease: 30,
+			prereqs: {
+				buildings: {
+					'cabin': 1
+				}
+			}
+		}),
+
+		'library-1': new UpgradeDef({
+			displayName: 'Card Catalogs',
+			baseCost: 50000,
+			targetBuilding: 'library',
+			amountIncrease: 100,
+			prereqs: {
+				buildings: {
+					'library': 1
+				}
+			}
+		}),
 	};
 	foreach (upgrades, function(upgrade, name) {
 		upgrade.name = name;
