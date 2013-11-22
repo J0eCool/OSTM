@@ -61,11 +61,21 @@ rewardParticleType = new ParticleType({
 	animTime: 1400
 });
 
-getIconHtml = function(type) {
+var getIconHtml = function(type) {
 	var cache = {};
+	var imgDir = 'img/';
+	var imgs = {
+		xp: 'XP_text.png',
+        gold: 'Gold_icon.png',
+        research: 'Goop.png',
+        iron: 'Iron.png',
+        wood: 'Log.png',
+        skill: 'SP.png'
+    };
 	return function(type) {
 		if (!cache[type]) {
-			cache[type] = '<img class="icon ' + type + '-icon" alt="' + type + '"/>';
+			cache[type] = '<img class="icon ' + type + '-icon" src="' +
+				imgDir + imgs[type] + '" alt="' + type + '"/>';
 		}
 		return cache[type];
 	};

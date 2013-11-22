@@ -48,7 +48,7 @@ function foreach(target, toDo) {
 	}
 }
 
-j = function(id) {
+var j = function(id) {
 	var cache = {};
 	return function(id) {
 		if (arguments.length == 1) {

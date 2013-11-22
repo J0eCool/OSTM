@@ -5,9 +5,10 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     deployFolder: 'build/deploy/<%= pkg.version %>',
+    debugFolder: 'build/debug/<%= pkg.version %>',
 
     clean: {
-      build: ['<%= deployFolder %>']
+      build: ['<%= deployFolder %>', '<%= debugFolder %>']
     },
     jshint: {
       options: {
@@ -41,9 +42,25 @@ module.exports = function(grunt) {
         }
       },
       build: {
+        options: {
+          context: {
+            DEBUG: false
+          },
+        },
         files: {
           'build/index.html': 'index.html',
           'build/game.js': 'build/game.unprocessed.js'
+        }
+      },
+      debug: {
+        options: {
+          context: {
+            DEBUG: true
+          },
+        },
+        files: {
+          'build/index.debug.html': 'index.html',
+          'build/game.debug.js' : 'build/game.unprocessed.js'
         }
       }
     },
@@ -85,6 +102,13 @@ module.exports = function(grunt) {
         files: [
           {expand: true, flatten: true, dest: '<%= deployFolder %>', src: ['build/game.min.css', 'build/game.min.js', 'build/index.html']},
           {expand: true, flatten: false, dest: '<%= deployFolder %>', src: ['img/**']},
+        ]
+      },
+      debug: {
+        files: [
+          {dest: '<%= debugFolder %>/index.html', src: ['build/index.debug.html']},
+          {expand: true, flatten: true, dest: '<%= debugFolder %>', src: ['build/game.css', 'build/game.js']},
+          {expand: true, flatten: false, dest: '<%= debugFolder %>', src: ['img/**']},
         ]
       }
     },

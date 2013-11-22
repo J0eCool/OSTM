@@ -2,11 +2,23 @@
 <html>
 <head>
 	<title>Progress-Style RPG</title>
-
+	
+	<!-- @if  DEBUG -->
+	<link rel="stylesheet" type="text/css" href="game.css" />
+	<!-- @endif -->
+	<!-- @if !DEBUG -->
 	<link rel="stylesheet" type="text/css" href="game.min.css" />
+	<!-- @endif -->
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+	<!-- @if DEBUG -->
+    <script src="game.js"></script>
+	<!-- @endif -->
+	<!-- @if !DEBUG -->
     <script src="game.min.js"></script>
+	<!-- @endif -->
+
 </head>
 <body>
 	<div class="game-container">
