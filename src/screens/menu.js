@@ -5,6 +5,7 @@ function ScreenDef(data) {
 	this.createHtml = data.createHtml || function() {
 		return this.html;
 	};
+	this.adventuresBlock = data.adventuresBlock || false;
 	this.prereqs = data.prereqs || null;
 }
 
@@ -37,11 +38,24 @@ function ScreenContainer(data) {
 
 	this.update = data.update || function(){};
 
+	this.getScreen = function(name) {
+		for (var i = 0; i < this.screens.length; i++) {
+			var screen = this.screens[i];
+			if (screen.name === name) {
+				return screen;
+			}
+		}
+
+		return null;
+	};
+
 	this.setScreen = function(name) {
-		j('.' + this.classBase).hide();
-		j('.' + name).show();
-		this.onScreenSet(name);
-		this.curScreen = name;
+		if (!j('#' + name + '-button').hasClass('inactive')) {
+			j('.' + this.classBase).hide();
+			j('.' + name).show();
+			this.onScreenSet(name);
+			this.curScreen = name;
+		}
 	};
 
 	this.onScreenSet = data.onScreenSet || function(name){};
@@ -61,6 +75,7 @@ Menu = new ScreenContainer({
 			name: 'store',
 			displayName: 'Store',
 			html: '<div class="recipes"></div>',
+			adventuresBlock: true,
 			prereqs: {
 				adventures: ['adv0']
 			}
@@ -129,12 +144,14 @@ Menu = new ScreenContainer({
 		j('#save-autosave', 'text', Save.autosave ? 'Enabled' : 'Disabled');
 
 		foreach (this.screens, function(scr) {
-			j('#' + scr.name + '-button', 'toggle', prereqsMet(scr.prereqs));
+			var id = '#' + scr.name + '-button';
+			j(id, 'toggle', prereqsMet(scr.prereqs));
+			j(id, 'toggleClass', 'inactive', scr.adventuresBlock && AdventureScreen.isAdventuring());
 		});
 	},
 
 	onScreenSet: function(name) {
-		j('#' + this.curScreen + '-button').toggleClass('selected', false);
-		j('#' + name + '-button').toggleClass('selected', true);
+		j('#' + this.curScreen + '-button', 'toggleClass', 'selected', false);
+		j('#' + name + '-button', 'toggleClass', 'selected', true);
 	}
 });
