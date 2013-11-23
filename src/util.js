@@ -38,8 +38,8 @@ function formatNumber(x) {
 
 function getButtonHtml(onclick, contents, id) {
 	idStr = id ? ' id="' + id + '"' : '';
-	return '<span class="button" onclick="' + onclick + '"' + idStr +
-		' ><span class="content">' + contents + '</span></span>';
+	return '<div class="button" onclick="' + onclick + '"' + idStr +
+		' ><span class="content">' + contents + '</span></div>';
 }
 
 function foreach(target, toDo) {

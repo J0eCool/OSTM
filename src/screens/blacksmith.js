@@ -57,13 +57,13 @@ function WeaponDef(data) {
 
 	this.name = data.name || '';
 	this.displayName = data.displayName || '';
-	this.mainStat = data.mainStat || 'strength';
+	this.scalingBase = data.scalingBase || { strength: 50 };
 	this.damage = data.damage || 2;
 	this.crit = data.crit || 5;
 	this.ascendDamage = data.ascendDamage || 1;
 	this.buyCost = data.buyCost || 1000;
 	this.researchCost = data.researchCost || 0;
-	this.upgradeCost = (data.upgradeCostMult || 1) * 75000;
+	this.upgradeCost = (data.upgradeCostMult || 1) * 10000;
 	this.upgradeData = data.upgradeData || { 'damage': 10 };
 	this.ascendCost = (data.ascendCostMult || 1) * 500;
 	this.prereqs = data.prereqs || null;
@@ -96,10 +96,28 @@ function WeaponDef(data) {
 		return this.damage + this.ascensions * this.ascendDamage;
 	};
 
+	this.getTotalUpgradeCount = function() {
+		// Sum of numbers from n to x = (x + n)*(x + n - 1)/2 - n*(n - 1)/2
+		// aka: the sum from 1 to x minus the sum from 1 to n
+		return this.level + (this.ascensions + 5) * (this.ascensions + 4) / 2 - 10;
+	};
+
+	this.getScaling = function(stat) {
+		if (!this.scalingBase[stat]) {
+			return 0;
+		}
+		return this.scalingBase[stat] * (1 + this.getTotalUpgradeCount() / 50);
+	};
+
 	this.getDamage = function() {
 		var weaponDamage = this.getBaseDamage() * this.getMult('damage');
-		var statMod = (Player.strength.value() + Player.dexterity.value()) / 2;
-		statMod += Player[this.mainStat].value() / 2;
+		var statMod = 1;
+		var that = this;
+		foreach (this.scalingBase, function(val, name) {
+			if (Player[name]) {
+				statMod += Player[name].value() * that.getScaling(name) / 100;
+			}
+		});
 		return weaponDamage * statMod;
 	};
 
@@ -125,10 +143,10 @@ function WeaponDef(data) {
 		}
 
 		if (this.isMaxLevel()) {
-			return this.ascendCost * Math.pow(this.ascensions + 1, 3);
+			return Math.floor(this.ascendCost * Math.pow(this.ascensions + 1, 2.5));
 		}
 
-		return Math.floor(this.upgradeCost * Math.pow(this.level + 1, 0.5) * (2 * this.ascensions + 1));
+		return Math.floor(this.upgradeCost * Math.pow(this.level + 1, 2 + this.ascensions / 8) * (this.ascensions / 4 + 1));
 	};
 
 	this.getCurrency = function() {
@@ -158,7 +176,8 @@ function WeaponDef(data) {
 		}
 		else if (this.isMaxLevel()) {
 			this.ascensions += 1;
-			this.level = Math.floor(this.getMaxLevel() / 2);
+			//this.level = Math.floor(this.getMaxLevel() / 2);
+			this.level = 0;
 		}
 		else {
 			this.level += 1;
@@ -172,8 +191,8 @@ function WeaponDef(data) {
 			' ' + getButtonHtml("Blacksmith.tryPurchase('" + this.name + "')",
 				'<span id="action"></span>' +
 				'<br><span id="cost"></span>', 'button') +
-			'<span id="description"><span id="scaling"></span><span id="base">' +
-			'</span><span id="upgrades"></span></span>' +
+			'<div id="description"><span id="scaling"> </span><span id="base">' +
+			'</span> <span id="upgrades"></span></div>' +
 			'</div>';
 	};
 
@@ -220,16 +239,24 @@ function WeaponDef(data) {
 
 			j(id + ' #description', 'toggle', this.researched);
 
-			var stat = Player[this.mainStat];
-			if (stat) {
-				j(id + ' #scaling', 'text', '(' + stat.abbrev + ')');
+			var scalingStr = '<ul>';
+			var possibleStats = ['strength', 'dexterity', 'intelligence'];
+			for (var i in possibleStats) {
+				var name = possibleStats[i];
+				var stat = Player[name];
+				if (stat) {
+					var scaling = this.getScaling(name);
+					scalingStr += '<li>' + stat.abbrev + ': ' +
+						(scaling ? formatNumber(scaling) + '%' : '-') + '</li>';
+				}
 			}
-			j(id + ' #base', 'html', '<ul><li>Damage: ' + this.getBaseDamage() +
-				'</li><li>Base Crit: ' + this.crit + '%</li></ul>');
+			j(id + ' #scaling', 'html', scalingStr);
+			j(id + ' #base', 'html', '<ul><li>Damage: ' + formatNumber(this.getBaseDamage()) +
+				'</li><li>Base Crit: ' + formatNumber(this.crit) + '%</li></ul>');
 			var upgradeStr = '<ul>';
 			for (var up in this.upgradeData) {
 				upgradeStr += '<li>' + getUpgradeName(up) + ': +' +
-					this.getUpgradeAmount(up) + '%</li>';
+					formatNumber(this.getUpgradeAmount(up)) + '%</li>';
 			}
 			upgradeStr += '</ul>';
 			j(id + ' #upgrades', 'html', upgradeStr);

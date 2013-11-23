@@ -1,23 +1,22 @@
-Needed for release:
-	- INT-based attacks
-	- Browser compatibility
-		- Firefox
-		- IE9?+
+to do asap:
+	- rebalance blacksmith costs
 
-TODO:
+Backlog:
 	- skill main-stat?
 	- status effects
 		- poison: 500% damage over 8 seconds
 		- burn: 300% damage over 3 seconds
-	- weapon mastery?
-	- blacksmith visual upgrade
-		- weapon stats/upgrade info in columns
 	- upgrade Adventures
 		- define rooms, enemy data per-room
 		- bosses
 		- split adventure list into main and side areas
-	- refactor code w/ Javascript: The Good Parts
+	- Browser compatibility
+		- Firefox
+		- IE9?+
 	- loading message
+	- class system
+	- weapon mastery?
+	- ascension system
 
 -----
 

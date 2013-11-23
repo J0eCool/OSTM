@@ -25,20 +25,35 @@
     overflow: auto;
     display: inline-table;
     width: 100%;
-    //height: 90px;
+    margin: 5px;
+
+    ul {
+        list-style-type: none;
+        padding: 0px;
+        margin: 0px;
+
+        li {
+            margin: 2px;
+        }
+    }
+
     #name {
-        display: inline-table;
+        display: table-cell;
         width: 160px;
         text-align: center;
+        vertical-align: middle;
     }
     #equip {
-        //display: inline-table;
         width: 70px;
         min-width: 0px;
     }
+
+    #description {
+        display: inline-block;
+    }
     #scaling {
         display: inline-table;
-        width: 50px;
+        width: 90px;
     }
     #base {
         display: inline-table;

@@ -19,7 +19,7 @@ function loadStats() {
 		'strength': new StatType({
 			displayName: 'Strength',
 			abbrev: 'STR',
-			minLevel: 2,
+			minLevel: 10,
 			baseCost: 10,
 			levelCost: 5,
 			baseValue: 4
@@ -27,7 +27,7 @@ function loadStats() {
 		'dexterity': new StatType({
 			displayName: 'Dexterity',
 			abbrev: 'DEX',
-			minLevel: 10,
+			minLevel: 2,
 			baseCost: 15,
 			levelCost: 5,
 			baseValue: 5
@@ -549,7 +549,10 @@ function loadWeapons() {
 		'knife': new WeaponDef({
 			displayName: 'Knife',
 			owned: true,
-			mainStat: 'dexterity',
+			scalingBase: {
+				strength: 5,
+				dexterity: 70
+			},
 			damage: 5,
 			crit: 9,
 			upgradeData: {
@@ -559,7 +562,10 @@ function loadWeapons() {
 		}),
 		'dagger': new WeaponDef({
 			displayName: 'Dagger',
-			mainStat: 'dexterity',
+			scalingBase: {
+				strength: 10,
+				dexterity: 55
+			},
 			buyCost: 500,
 			damage: 6,
 			crit: 8,
@@ -570,7 +576,10 @@ function loadWeapons() {
 		}),
 		'shortsword': new WeaponDef({
 			displayName: 'Shortsword',
-			mainStat: 'dexterity',
+			scalingBase: {
+				strength: 25,
+				dexterity: 40
+			},
 			buyCost: 1500,
 			damage: 7,
 			crit: 5,
@@ -581,7 +590,10 @@ function loadWeapons() {
 		}),
 		'longsword': new WeaponDef({
 			displayName: 'Longsword',
-			mainStat: 'strength',
+			scalingBase: {
+				strength: 45,
+				dexterity: 30
+			},
 			buyCost: 5000,
 			damage: 8,
 			crit: 5,
@@ -592,7 +604,10 @@ function loadWeapons() {
 		}),
 		'rapier': new WeaponDef({
 			displayName: 'Rapier',
-			mainStat: 'dexterity',
+			scalingBase: {
+				strength: 20,
+				dexterity: 60
+			},
 			buyCost: 7500,
 			damage: 8,
 			crit: 6.5,
@@ -603,7 +618,9 @@ function loadWeapons() {
 		}),
 		'greatsword': new WeaponDef({
 			displayName: 'Greatsword',
-			mainStat: 'strength',
+			scalingBase: {
+				strength: 80
+			},
 			buyCost: 15000,
 			damage: 10,
 			crit: 3,
@@ -613,7 +630,10 @@ function loadWeapons() {
 		}),
 		'greatersword': new WeaponDef({
 			displayName: 'Greatersword',
-			mainStat: 'strength',
+			scalingBase: {
+				strength: 85,
+				dexterity: 20
+			},
 			buyCost: 50000,
 			researchCost: 1500,
 			damage: 12,
@@ -624,13 +644,37 @@ function loadWeapons() {
 			},
 			prereqs: {
 				buildings: {
-					'library': 1
+					'research-center': 1
+				}
+			}
+		}),
+		'shamshir': new WeaponDef({
+			displayName: 'Shamshir',
+			scalingBase: {
+				strength: 20,
+				dexterity: 85
+			},
+			buyCost: 50000,
+			researchCost: 1500,
+			damage: 11,
+			crit: 6,
+			upgradeData: {
+				damage: 8,
+				crit: 8,
+				critDamage: 10
+			},
+			prereqs: {
+				buildings: {
+					'research-center': 1
 				}
 			}
 		}),
 		'rune-dagger': new WeaponDef({
 			displayName: 'Rune Dagger',
-			mainStat: 'intelligence',
+			scalingBase: {
+				dexterity: 20,
+				intelligence: 50
+			},
 			buyCost: 250000,
 			researchCost: 5000,
 			damage: 9,
@@ -644,7 +688,7 @@ function loadWeapons() {
 					'training-hall': 1
 				}
 			}
-		})
+		}),
 	};
 	foreach (weapons, function(weapon, key) {
 		weapon.name = key;
