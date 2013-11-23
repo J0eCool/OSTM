@@ -279,6 +279,10 @@ Player = {
 			this.spendMana(this.attack.manaCost);
 			this.takeDamage(modifiedDamage);
 			enemy.takeDamage(this.getDamageInfo());
+
+			if (this.mana < this.attack.manaCost) {
+				this.attackName  = 'attack';
+			}
 		}
 	},
 
@@ -289,7 +293,10 @@ Player = {
 
 	spendMana: function(cost) {
 		this.mana -= cost;
-		//this.createAddManaParticle(-cost);
+
+		if (cost > 0) {
+			this.createAddManaParticle(-cost);
+		}
 	},
 
 	createAddHealthParticle: function(healthAmt) {
@@ -304,6 +311,19 @@ Player = {
 		var sign = healthAmt > 0 ? '+' : '';
 
 		ParticleContainer.create(particleType, sign + formatNumber(healthAmt), x, y);
+	},
+
+	createAddManaParticle: function(manaAmt) {
+		var manaBar = j('#player-mana');
+		var pos = manaBar.position();
+		var width = manaBar.width();
+		var height = manaBar.height();
+		var x = pos.left + width - 8;
+		var y = pos.top + height / 2;
+
+		var sign = manaAmt > 0 ? '+' : '';
+
+		ParticleContainer.create(manaParticleType, sign + formatNumber(manaAmt), x, y);
 	},
 
 	upgrade: function(name) {

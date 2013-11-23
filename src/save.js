@@ -114,7 +114,7 @@ Save = {
 
 				var restoredObject = JSON.parse(baseStr);
 				if (restoredObject.saveVersion > this.currentSaveVersion) {
-					throw('Load failed! Saved version is greater than current version');
+					throw('Load failed! Saved version is greater than current version. Old version is: ' + restoredObject.saveVersion);
 				}
 				//console.log('  object : ' + restoredObject);
 				for (var i = 0; i < Game.toSave.length; i++) {
@@ -133,6 +133,8 @@ Save = {
 				else {
 					alert('Load failed! Unparseable save data');
 				}
+
+				this.autosave = false;
 			}
 		}
 	}

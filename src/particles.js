@@ -36,26 +36,32 @@ ParticleContainer = {
 	}
 };
 
-damageParticleType = new ParticleType({
+var damageParticleType = new ParticleType({
 	className: 'damage enemy-damage',
 	animHeight: 140,
 	animTime: 650
 });
-critParticleType = new ParticleType({
+var critParticleType = new ParticleType({
 	className: 'damage enemy-crit',
 	animHeight: 160,
 	animTime: 650
 });
-playerDamageParticleType = new ParticleType({
+var playerDamageParticleType = new ParticleType({
 	className: 'damage player-damage',
 	animHeight: -90,
 	animTime: 850
 });
-healParticleType = new ParticleType({
+var healParticleType = new ParticleType({
 	className: 'damage heal',
-	animHeight: -75
+	animHeight: -75,
+	animTime: 500
 });
-rewardParticleType = new ParticleType({
+var manaParticleType = new ParticleType({
+	className: 'damage mana',
+	animHeight: -90,
+	animTime: 850
+});
+var rewardParticleType = new ParticleType({
 	className: 'reward',
 	animHeight: -70,
 	animTime: 1400
