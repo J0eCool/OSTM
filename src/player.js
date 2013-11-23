@@ -52,8 +52,12 @@ Player = {
 
 		this.createStatButtons();
 
-		j("#stats").html(
-			'<div>Level: <span id="stat-level"></span></div>' +
+		var statStr = '<div>Level: <span id="stat-level"></span></div>';
+		foreach (this.resources, function(resource) {
+			statStr += '<div id="' + resource + '-stat">' + getIconHtml(resource) +
+				': <span id="' + resource + '-amount"></span></div>';
+		});
+		statStr += 
 			'<div id="resources"></div>' +
 			'<br/>' +
 			'<div>Weapon : <span id="stat-weapon"></span></div>' +
@@ -67,8 +71,9 @@ Player = {
 			'<div>Health Regen: <span id="stat-regen"></span></div>' +
 			'<div>Mana Regen: <span id="stat-mana-regen"></span></div>' +
 			'<div>Damage Reduction: <span id="stat-reduction"></span></div>' +
-			'<br/>'
-		);
+			'<br/>';
+
+		j("#stats").html(statStr);
 
 		this.refreshResourceProduction();
 		this.update();
@@ -152,16 +157,15 @@ Player = {
 
 		var resourceHtml = '';
 		foreach (this.resources, function(resource){
-			if (Player[resource].unlocked) {
-				var r = Player[resource];
-				resourceHtml += '<div>' + getIconHtml(resource) + ': ' + formatNumber(r.amount);
-				if (r.perSecond > 0) {
-					resourceHtml += ' (+' + formatNumber(r.perSecond) + '/s)';
-				}
-				resourceHtml += '</div>';
+			var r = Player[resource];
+			j('#' + resource + '-stat', 'toggle', r.unlocked);
+
+			var amtStr = formatNumber(r.amount);
+			if (r.perSecond > 0) {
+				amtStr += ' (+' + formatNumber(r.perSecond) + '/s)';
 			}
+			j('#' + resource + '-amount', 'text', amtStr);
 		});
-		j('#resources', 'html', resourceHtml);
 
 		j('#stat-weapon', 'text', this.weapon.getName());
 		j('#stat-skill', 'text', this.attack.displayName);

@@ -6,6 +6,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     deployFolder: 'build/deploy/<%= pkg.version %>',
     debugFolder: 'build/debug/<%= pkg.version %>',
+    liveDeployFolder: '../gh-pages',
 
     clean: {
       build: ['build/*.*', '<%= deployFolder %>', '<%= debugFolder %>']
@@ -118,7 +119,7 @@ module.exports = function(grunt) {
           commitMessage: 'Push <%= pkg.version %>'
         },
         src: '<%= deployFolder %>',
-        dest: '../gh-pages'
+        dest: '<%= liveDeployFolder %>'
       }
     },
   });
