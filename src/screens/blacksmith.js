@@ -166,13 +166,14 @@ function WeaponDef(data) {
 	};
 
 	this.getButtonHtml = function() {
-		return '<div class="weapon-container" id="' + this.name + '">' +
-			getButtonHtml("Blacksmith.equip('" + this.name + "')", "Equip " +
-				'<span id="name"></span> <span id="level"></span>', 'equip') +
+		return '<div class="weapon-container" id="' + this.name +
+			'"><span id="name"></span>' +
+			getButtonHtml("Blacksmith.equip('" + this.name + "')", 'Equip', 'equip') +
 			' ' + getButtonHtml("Blacksmith.tryPurchase('" + this.name + "')",
 				'<span id="action"></span>' +
 				'<br><span id="cost"></span>', 'button') +
-			'<span id="description"></span>' +
+			'<span id="description"><span id="scaling"></span><span id="base">' +
+			'</span><span id="upgrades"></span></span>' +
 			'</div>';
 	};
 
@@ -196,44 +197,42 @@ function WeaponDef(data) {
 			j(id + ' #button', 'toggle', prereqsMet(prereqs));
 			j(id + ' #button', 'toggleClass', 'inactive', !this.canPurchase());
 
-			var actionText = 'Buy ';
+			var actionText = 'Buy';
 			if (this.isMaxLevel()) {
-				actionText = 'Ascend ';
+				actionText = 'Ascend';
 			}
 			else if (this.owned) {
-				actionText = 'Upgrade ';
+				actionText = 'Upgrade';
 			}
 			else if (!this.researched) {
-				actionText = 'Research ';
+				actionText = 'Research';
 			}
-			actionText += this.displayName;
 			j(id + ' #action', 'text', actionText);
 
-			j(id + ' #name', 'text', this.getName());
-			var levelText = '';
+			var nameText = this.getName();
 			if (this.level > 0) {
-				levelText += '(' + this.level + '/' + this.getMaxLevel() + ')';
+				nameText += ' (' + this.level + '/' + this.getMaxLevel() + ')';
 			}
-			j(id + ' #level', 'text', levelText);
+			j(id + ' #name', 'text', nameText);
 
 			j(id + ' #cost', 'html', formatNumber(this.getCost()) +
 				' ' + getIconHtml(this.getCurrency()));
 
 			j(id + ' #description', 'toggle', this.researched);
-			var descriptionText ='';
+
 			var stat = Player[this.mainStat];
 			if (stat) {
-				descriptionText += ' (' + stat.abbrev + ')';
+				j(id + ' #scaling', 'text', '(' + stat.abbrev + ')');
 			}
-			descriptionText += ' Damage: ' + this.getBaseDamage() +
-				' Base Crit: ' + this.crit + '%';
-			descriptionText += '<i>';
+			j(id + ' #base', 'html', '<ul><li>Damage: ' + this.getBaseDamage() +
+				'</li><li>Base Crit: ' + this.crit + '%</li></ul>');
+			var upgradeStr = '<ul>';
 			for (var up in this.upgradeData) {
-				descriptionText += ', ' + getUpgradeName(up) + ': +' +
-					this.getUpgradeAmount(up) + '%';
+				upgradeStr += '<li>' + getUpgradeName(up) + ': +' +
+					this.getUpgradeAmount(up) + '%</li>';
 			}
-			descriptionText += '</i>';
-			j(id + ' #description', 'html', descriptionText);
+			upgradeStr += '</ul>';
+			j(id + ' #upgrades', 'html', upgradeStr);
 		}
 	};
 }
