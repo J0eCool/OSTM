@@ -27,13 +27,35 @@ function removeItem(item, list) {
 	return false;
 }
 
-function formatNumber(x) {
-	var parts = x.toString().split(".");
+function formatNumber(x, precision, report) {
+	if (precision === undefined) {
+		precision = 2;
+	}
+
+	var parts = x.toString().split('.');
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	if (parts.length > 1) {
-		parts[1] = parts[1].slice(0, 2);
+		var decimal = parts[1];
+		if (decimal.length > precision) {
+			decimal = Math.round(parts[1].slice(0, precision + 1) / 10).toString();
+		}
+		decimal = decimal.slice(0, precision);
+		for (var i = decimal.length - 1; i >= 0; i--) {
+			if (decimal[i] === '0') {
+				decimal = decimal.slice(0, i);
+			}
+			else {
+				break;
+			}
+		}
+		if (decimal.length > 0) {
+			parts[1] = '.' + decimal;
+		}
+		else {
+			parts[1] = '';
+		}
 	}
-	return parts.join(".");
+	return parts.join('');
 }
 
 function getButtonHtml(onclick, contents, id) {

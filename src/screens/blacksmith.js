@@ -247,7 +247,7 @@ function WeaponDef(data) {
 				if (stat) {
 					var scaling = this.getScaling(name);
 					scalingStr += '<li>' + stat.abbrev + ': ' +
-						(scaling ? formatNumber(scaling) + '%' : '-') + '</li>';
+						(scaling ? formatNumber(scaling, 1) + '%' : '-') + '</li>';
 				}
 			}
 			j(id + ' #scaling', 'html', scalingStr);

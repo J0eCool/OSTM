@@ -249,10 +249,10 @@ function PassiveSkillDef(data) {
 		var str = '';
 		var stat;
 		for (stat in stats.mult) {
-			str += ' ' + getUpgradeName(stat) + ' +' + getAmount('mult', stat, level) + '%';
+			str += ' ' + getUpgradeName(stat) + ' +' + formatNumber(getAmount('mult', stat, level)) + '%';
 		}
 		for (stat in stats.base) {
-			str += ' ' + getUpgradeName(stat) + ' +' + getAmount('base', stat, level);
+			str += ' ' + getUpgradeName(stat) + ' +' + formatNumber(getAmount('base', stat, level));
 		}
 		return str;
 	};
