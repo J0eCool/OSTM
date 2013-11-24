@@ -193,7 +193,7 @@ function EnemyContainer(index) {
 			}
 
 			if (Player.skill.unlocked) {
-				r.skill = 5 + Math.floor(level / 5);
+				r.skill = 10 + Math.floor(Math.pow(level * 0.5, 0.5));
 			}
 			return r;
 		};
