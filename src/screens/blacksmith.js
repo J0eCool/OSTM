@@ -63,7 +63,7 @@ function WeaponDef(data) {
 	this.ascendDamage = data.ascendDamage || 1;
 	this.buyCost = data.buyCost || 1000;
 	this.researchCost = data.researchCost || 0;
-	this.upgradeCost = (data.upgradeCostMult || 1) * 10000;
+	this.upgradeCost = (data.upgradeCostMult || 1) * 5000;
 	this.upgradeData = data.upgradeData || { 'damage': 10 };
 	this.ascendCost = (data.ascendCostMult || 1) * 500;
 	this.prereqs = data.prereqs || null;
@@ -106,7 +106,7 @@ function WeaponDef(data) {
 		if (!this.scalingBase[stat]) {
 			return 0;
 		}
-		return this.scalingBase[stat] * (1 + this.getTotalUpgradeCount() / 50);
+		return this.scalingBase[stat] * (1 + this.getTotalUpgradeCount() / 75);
 	};
 
 	this.getDamage = function() {
@@ -143,10 +143,10 @@ function WeaponDef(data) {
 		}
 
 		if (this.isMaxLevel()) {
-			return Math.floor(this.ascendCost * Math.pow(this.ascensions + 1, 2.5));
+			return Math.floor(this.ascendCost * Math.pow(this.ascensions + 1, 2.6));
 		}
 
-		return Math.floor(this.upgradeCost * Math.pow(this.level + 1, 2 + this.ascensions / 8) * (this.ascensions / 4 + 1));
+		return Math.floor(this.upgradeCost * Math.pow(this.level + 1, 1.6 + this.ascensions * 0.2) * (this.ascensions * 0.2 + 1));
 	};
 
 	this.getCurrency = function() {
