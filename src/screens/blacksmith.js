@@ -60,7 +60,9 @@ function WeaponDef(data) {
 	this.scalingBase = data.scalingBase || { strength: 50 };
 	this.damage = data.damage || 2;
 	this.crit = data.crit || 5;
+	this.spellPower = data.spellPower || 0;
 	this.ascendDamage = data.ascendDamage || 1;
+	this.ascendSpellPower = data.ascendSpellPower || 10;
 	this.buyCost = data.buyCost || 1000;
 	this.researchCost = data.researchCost || 0;
 	this.upgradeCost = (data.upgradeCostMult || 1) * 5000;
@@ -96,6 +98,13 @@ function WeaponDef(data) {
 		return this.damage + this.ascensions * this.ascendDamage;
 	};
 
+	this.getBaseSpellPower = function() {
+		if (!this.spellPower) {
+			return 0;
+		}
+		return this.spellPower + this.ascensions * this.ascendSpellPower;
+	};
+
 	this.getTotalUpgradeCount = function() {
 		// Sum of numbers from n to x = (x + n)*(x + n - 1)/2 - n*(n - 1)/2
 		// aka: the sum from 1 to x minus the sum from 1 to n
@@ -119,6 +128,10 @@ function WeaponDef(data) {
 			}
 		});
 		return weaponDamage * statMod;
+	};
+
+	this.getSpellPower = function() {
+		return this.getBaseSpellPower() * this.getMult('spellPower');
 	};
 
 	this.getBaseCrit = function() {
@@ -252,8 +265,13 @@ function WeaponDef(data) {
 			}
 			scalingStr += '</ul>';
 			j(id + ' #scaling', 'html', scalingStr);
-			j(id + ' #base', 'html', '<ul><li>Damage: ' + formatNumber(this.getBaseDamage()) +
-				'</li><li>Base Crit: ' + formatNumber(this.crit) + '%</li></ul>');
+			var baseStr = '<ul><li>Damage: ' + formatNumber(this.getBaseDamage()) +
+				'</li><li>Base Crit: ' + formatNumber(this.crit) + '%</li>';
+			if (this.getBaseSpellPower()) {
+				baseStr += '<li>Spell Power: +' + formatNumber(this.getBaseSpellPower()) + '</li>';
+			}
+			baseStr += '</ul>';
+			j(id + ' #base', 'html', baseStr);
 			var upgradeStr = '<ul>';
 			for (var up in this.upgradeData) {
 				upgradeStr += '<li>' + getUpgradeName(up) + ': +' +
@@ -275,6 +293,7 @@ var getUpgradeName = function() {
 		healthRegen: 'Health Regen',
 		maxMana: 'Max Mana',
 		manaRegen: 'Mana Regen',
+		spellPower: 'Spell Power',
 	};
 	return function(stat) {
 		return upgradeNames[stat] || stat;

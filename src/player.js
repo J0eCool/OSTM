@@ -253,7 +253,9 @@ Player = {
 			attackPower: this.weapon.getDamage() *
 				this.attack.getDamage() / 100 *
 				Skills.getPassiveMult('damage'),
-			spellPower: 75 + 5 * this.intelligence.value(),
+			spellPower: Math.floor(this.weapon.getMult('spellPower') *
+				Skills.getPassiveMult('spellPower') *
+				(90 + 2 * this.intelligence.value() + this.weapon.getSpellPower())),
 			crit: (this.weapon.getBaseCrit() + Skills.getPassiveBase('crit')) *
 				this.weapon.getMult('crit') *
 				Skills.getPassiveMult('crit'),

@@ -672,16 +672,37 @@ function loadWeapons() {
 		'rune-dagger': new WeaponDef({
 			displayName: 'Rune Dagger',
 			scalingBase: {
-				dexterity: 20,
-				intelligence: 50
+				dexterity: 40,
+				intelligence: 30
 			},
 			buyCost: 250000,
 			researchCost: 5000,
 			damage: 9,
 			crit: 6,
+			spellPower: 20,
 			upgradeData: {
 				crit: 8,
 				manaRegen: 12
+			},
+			prereqs: {
+				buildings: {
+					'training-hall': 1
+				}
+			}
+		}),
+		'wand': new WeaponDef({
+			displayName: 'Wand',
+			scalingBase: {
+				intelligence: 50
+			},
+			buyCost: 250000,
+			researchCost: 5000,
+			damage: 7,
+			crit: 3,
+			spellPower: 50,
+			upgradeData: {
+				spellPower: 8,
+				maxMana: 5
 			},
 			prereqs: {
 				buildings: {
@@ -707,7 +728,7 @@ function loadSkills() {
 		'power-attack': new AttackSkillDef({
 			displayName: 'Power Attack',
 			scalingBase: {
-				strength: 2
+				strength: 1
 			},
 			manaCost: 15,
 			baseDamage: 150,
@@ -716,11 +737,11 @@ function loadSkills() {
 		'quick-attack': new AttackSkillDef({
 			displayName: 'Quick Attack',
 			scalingBase: {
-				dexterity: 3.5
+				dexterity: 2.5
 			},
 			manaCost: 15,
 			baseDamage: 140,
-			levelDamage: 25
+			levelDamage: 20
 		}),
 
 		'magic-missile': new SpellSkillDef({
@@ -779,6 +800,19 @@ function loadSkills() {
 			},
 			statMult: {
 				damage: {
+					level: 1
+				}
+			}
+		}),
+		'power': new PassiveSkillDef({
+			displayName: 'Power',
+			statMult: {
+				damage: {
+					base: 1,
+					level: 1
+				},
+				spellPower: {
+					base: 1,
 					level: 1
 				}
 			}
