@@ -23,7 +23,7 @@ Skills = {
 			}
 			categoriedHtml[skill.category] += skill.getButtonHtml();
 
-			if (skill.category === 'Attack') {
+			if (skill.isAttack()) {
 				attackHtml += skill.getAttackButtonHtml();
 			}
 		});
@@ -68,7 +68,7 @@ Skills = {
 
 	equip: function(skillName) {
 		var skill = this.getSkill(skillName);
-		if (skill.level > 0 && skill.category === 'Attack') {
+		if (skill.level > 0 && skill.isAttack()) {
 			Player.attackName = skillName;
 		}
 	},
@@ -128,12 +128,16 @@ function SkillDef(data) {
 		}
 	};
 
+	this.isAttack = function() {
+		return this.category === 'Attack' || this.category === 'Spell';
+	};
+
 	this.getButtonHtml = function() {
-		return '<div class="skill-container" id="' + this.name + '">' +
+		return '<div class="skill-container" id="' + this.name + '"><span id="name"></span>' +
 			getButtonHtml("Skills.tryPurchase('" + this.name + "')",
 				'<span id="action"></span><span id="level"></span>' +
 				'<br><span id="cost"></span>', 'button') +
-			'<span id="description"></span>' +
+			'<div id="description"></div>' +
 			'</div>';
 	};
 
@@ -161,14 +165,14 @@ function SkillDef(data) {
 
 			j(id + ' #button', 'toggleClass', 'inactive', !this.canPurchase());
 
-			var actionText = 'Level ';
+			j(id + ' #name', 'text', this.displayName);
+			var actionText = 'Level';
 			if (!this.researched) {
-				actionText = 'Research ';
+				actionText = 'Research';
 			}
 			else if (this.level === 0) {
-				actionText = 'Learn ';
+				actionText = 'Learn';
 			}
-			actionText += this.displayName;
 			j(id + ' #action', 'text', actionText);
 
 			var levelText = '';
@@ -181,11 +185,11 @@ function SkillDef(data) {
 				' ' + getIconHtml(this.getCurrency()));
 
 			j(id + ' #description', 'toggle', this.researched);
-			j(id + ' #description', 'text', this.getDescription());
+			j(id + ' #description', 'html', this.getDescription());
 		}
 	};
 
-	this.getDescriptionAtLevel = data.getDescriptionAtLevel || function(level) {
+	this.getDescriptionAtLevel = function(level) {
 		return this.displayName + ' Level ' + level;
 	};
 
@@ -206,8 +210,24 @@ function AttackSkillDef(data) {
 	this.baseDamage = data.baseDamage || 100;
 	this.levelDamage = data.levelDamage || 10;
 
+	this.scalingBase = data.scalingBase || {};
+
+	this.getScaling = function(stat, level) {
+		if (!this.scalingBase[stat]) {
+			return 0;
+		}
+		return this.scalingBase[stat] * (1 + (level - 1) / 15);
+	};
+
 	this.getDamage = function() {
-		return this.getDamageAtLevel(this.level);
+		var statMult = 1;
+		var that = this;
+		foreach (this.scalingBase, function(val, name) {
+			if (Player[name]) {
+				statMult += Player[name].value() * that.getScaling(name, that.level) / 100;
+			}
+		});
+		return this.getDamageAtLevel(this.level) * statMult;
 	};
 
 	this.getDamageAtLevel = function(level) {
@@ -215,8 +235,25 @@ function AttackSkillDef(data) {
 	};
 
 	this.getDescriptionAtLevel = function(level) {
-			return 'Damage: ' + this.getDamageAtLevel(level);
+		var scalingStr = '<div id="scaling"><ul>';
+		var possibleStats = ['strength', 'dexterity', 'intelligence'];
+		for (var i in possibleStats) {
+			var name = possibleStats[i];
+			var stat = Player[name];
+			if (stat) {
+				var scaling = this.getScaling(name, level);
+				scalingStr += '<li>' + stat.abbrev + ': ' +
+					(scaling ? formatNumber(scaling, 1) + '%' : '-') + '</li>';
+			}
+		}
+		scalingStr += '</ul></div>';
+		return scalingStr + '<span id="base">Damage: ' + this.getDamageAtLevel(level) + '</span>';
 	};
+}
+
+function SpellSkillDef(data) {
+	this.__proto__ = new AttackSkillDef(data);
+	this.category = 'Spell';
 }
 
 function PassiveSkillDef(data) {

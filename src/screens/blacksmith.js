@@ -191,8 +191,8 @@ function WeaponDef(data) {
 			' ' + getButtonHtml("Blacksmith.tryPurchase('" + this.name + "')",
 				'<span id="action"></span>' +
 				'<br><span id="cost"></span>', 'button') +
-			'<div id="description"><span id="scaling"> </span><span id="base">' +
-			'</span> <span id="upgrades"></span></div>' +
+			'<div id="description"><span id="scaling"></span><span id="base">' +
+			'</span><span id="upgrades"></span></div>' +
 			'</div>';
 	};
 
@@ -250,6 +250,7 @@ function WeaponDef(data) {
 						(scaling ? formatNumber(scaling, 1) + '%' : '-') + '</li>';
 				}
 			}
+			scalingStr += '</ul>';
 			j(id + ' #scaling', 'html', scalingStr);
 			j(id + ' #base', 'html', '<ul><li>Damage: ' + formatNumber(this.getBaseDamage()) +
 				'</li><li>Base Crit: ' + formatNumber(this.crit) + '%</li></ul>');

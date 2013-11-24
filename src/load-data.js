@@ -706,9 +706,31 @@ function loadSkills() {
 		}),
 		'power-attack': new AttackSkillDef({
 			displayName: 'Power Attack',
-			manaCost: 20,
+			scalingBase: {
+				strength: 2
+			},
+			manaCost: 15,
 			baseDamage: 150,
-			levelDamage: 15
+			levelDamage: 25
+		}),
+		'quick-attack': new AttackSkillDef({
+			displayName: 'Quick Attack',
+			scalingBase: {
+				dexterity: 3.5
+			},
+			manaCost: 15,
+			baseDamage: 140,
+			levelDamage: 25
+		}),
+
+		'magic-missile': new SpellSkillDef({
+			displayName: 'Magic Missile',
+			scalingBase: {
+				intelligence: 10
+			},
+			manaCost: 5,
+			baseDamage: 80,
+			levelDamage: 20
 		}),
 
 		'health-up': new PassiveSkillDef({

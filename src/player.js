@@ -59,19 +59,23 @@ Player = {
 		});
 		statStr += 
 			'<div id="resources"></div>' +
-			'<br/>' +
+			'<br>' +
 			'<div>Weapon : <span id="stat-weapon"></span></div>' +
 			'<div>Skill : <span id="stat-skill"></span></div>' +
+			'<br>' +
 			'<div>Damage : <span id="stat-damage"></span></div>' +
+			'<br>' +
 			'<div>Crit. Chance : <span id="stat-crit"></span></div>' +
 			'<div>Crit Damage : <span id="stat-crit-damage"></span></div>' +
-			'<br/>' +
+			'<br>' +
+			'<div>Spell Power : <span id="stat-spellpower"></span></div>' +
+			'<br>' +
 			'<div>Armor : <span id="stat-armor"></span></div>' +
-			'<br/>' +
+			'<br>' +
 			'<div>Health Regen: <span id="stat-regen"></span></div>' +
 			'<div>Mana Regen: <span id="stat-mana-regen"></span></div>' +
 			'<div>Damage Reduction: <span id="stat-reduction"></span></div>' +
-			'<br/>';
+			'<br>';
 
 		j("#stats").html(statStr);
 
@@ -169,10 +173,14 @@ Player = {
 
 		j('#stat-weapon', 'text', this.weapon.getName());
 		j('#stat-skill', 'text', this.attack.displayName);
+
 		var dmg = this.getDamageInfo();
 		j('#stat-damage', 'text', formatNumber(dmg.lo) + ' - ' + formatNumber(dmg.hi));
+
 		j('#stat-crit', 'text', formatNumber(dmg.crit) + '%');
 		j('#stat-crit-damage', 'text', formatNumber(this.getCritDamage()) + '%');
+
+		j('#stat-spellpower', 'text', formatNumber(dmg.spellPower));
 
 		j('#stat-armor', 'text', formatNumber(Player.armor));
 
@@ -242,16 +250,23 @@ Player = {
 
 	getDamageInfo: function() {
 		var dmg = {
-			baseDamage: this.weapon.getDamage() *
+			attackPower: this.weapon.getDamage() *
 				this.attack.getDamage() / 100 *
 				Skills.getPassiveMult('damage'),
+			spellPower: 75 + 5 * this.intelligence.value(),
 			crit: (this.weapon.getBaseCrit() + Skills.getPassiveBase('crit')) *
 				this.weapon.getMult('crit') *
-				Skills.getPassiveMult('crit')
+				Skills.getPassiveMult('crit'),
+			isSpell: this.attack.category === 'Spell',
 		};
+		dmg.baseDamage = dmg.attackPower;
+		if (dmg.isSpell) {
+			dmg.baseDamage = (dmg.spellPower / 100) * this.attack.getDamage();
+		}
+
 		dmg.lo = Math.ceil(dmg.baseDamage * (1 - this.randDamage / 2));
 		dmg.hi = Math.floor(dmg.baseDamage * (1 + this.randDamage / 2));
-		dmg.isCrit = rand(0, 100) < dmg.crit;
+		dmg.isCrit = !dmg.isSpell && rand(0, 100) < dmg.crit;
 		dmg.damage = randIntInc(dmg.lo, dmg.hi);
 		if (dmg.isCrit) {
 			dmg.damage = Math.floor(dmg.damage * this.getCritDamage() / 100);
