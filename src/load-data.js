@@ -2,8 +2,6 @@ function loadStats() {
 	var stats = {
 		'maxHealth': new StatType({
 			displayName: 'Health',
-			baseCost: 5,
-			levelCost: 2.5,
 			baseValue: 100,
 			levelValue: 10,
 
@@ -20,32 +18,24 @@ function loadStats() {
 			displayName: 'Strength',
 			abbrev: 'STR',
 			minLevel: 10,
-			baseCost: 10,
-			levelCost: 5,
 			baseValue: 4
 		}),
 		'dexterity': new StatType({
 			displayName: 'Dexterity',
 			abbrev: 'DEX',
 			minLevel: 2,
-			baseCost: 15,
-			levelCost: 5,
 			baseValue: 5
 		}),
 		'intelligence': new StatType({
 			displayName: 'Intelligence',
 			abbrev: 'INT',
 			minLevel: 24,
-			baseCost: 80,
-			levelCost: 7,
 			baseValue: 3
 		}),
 		'defense': new StatType({
 			displayName: 'Defense',
 			abbrev: 'DEF',
 			minLevel: 5,
-			baseCost: 25,
-			levelCost: 5,
 			baseValue: 3
 		})
 	};

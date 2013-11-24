@@ -255,7 +255,7 @@ Player = {
 				Skills.getPassiveMult('damage'),
 			spellPower: Math.floor(this.weapon.getMult('spellPower') *
 				Skills.getPassiveMult('spellPower') *
-				(90 + 2 * this.intelligence.value() + this.weapon.getSpellPower())),
+				(94 + 2 * this.intelligence.value() + this.weapon.getSpellPower())),
 			crit: (this.weapon.getBaseCrit() + Skills.getPassiveBase('crit')) *
 				this.weapon.getMult('crit') *
 				Skills.getPassiveMult('crit'),
@@ -373,7 +373,8 @@ Player = {
 	},
 
 	statUpgradeBaseCost: function() {
-		return Math.floor(Math.pow(this.getLevel() - 1, 1.7) * 1.5);
+		var level = this.getLevel();
+		return Math.floor(0.5 * (level - 1) + 0.2 * Math.pow(level - 1, 2.5));
 	}
 };
 
@@ -386,8 +387,6 @@ function StatType(data) {
 	this.minLevel = data.minLevel || 0;
 	this.baseValue = data.baseValue || 0;
 	this.levelValue = data.levelValue || 1;
-	this.baseCost = data.baseCost || 0;
-	this.levelCost = data.levelCost || 0;
 	this.isPercent = data.isPercent || false;
 	this.stringPostfix = data.stringPostfix || '';
 
@@ -418,7 +417,7 @@ function StatType(data) {
 	};
 
 	this.upgradeCost = function() {
-		return Math.ceil(this.baseCost + Math.pow(this.level, 2.3) * this.levelCost) +
+		return Math.ceil(10 + 5 * this.level + 0.2 * Math.pow(this.level, 3)) +
 			Player.statUpgradeBaseCost();
 	};
 
