@@ -1,8 +1,11 @@
 to do asap:
-	- rebalance blacksmith costs
+	- shrine
+		- balance cost (based on max level enemy in )
+		- exponentially scale enemy level with power increase
+		- either increase enemy power scaling, or decrease reward scaling, or both
+	- xp cost balancing
 
 Backlog:
-	- skill main-stat?
 	- status effects
 		- poison: 500% damage over 8 seconds
 		- burn: 300% damage over 3 seconds
