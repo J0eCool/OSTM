@@ -753,12 +753,21 @@ function loadSkills() {
 				}
 			}
 		}),
+		'heartiness': new PassiveSkillDef({
+			displayName: 'Heartiness',
+			statMult: {
+				healthRegen: {
+					base: 10,
+					level: 2
+				}
+			}
+		}),
 		'mana-up': new PassiveSkillDef({
 			displayName: 'Mana Plus',
 			statMult: {
 				maxMana: {
 					base: 5,
-					level: 1
+					level: 2
 				}
 			}
 		}),
