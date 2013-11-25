@@ -18,6 +18,7 @@ Game = {
 
 	realtimeDt: 33,
 	normalDt: 100,
+	veryLongDt: 30000,
 
 	init: function() {
 		Log.init();
@@ -35,6 +36,7 @@ Game = {
 		Save.load();
 
 		window.setInterval(Game.update, Game.normalDt);
+		window.setInterval(Game.veryLongUpdate, Game.veryLongDt);
 		Game.update();
 	},
 
@@ -49,5 +51,21 @@ Game = {
 		AdventureScreen.update();
 
 		Save.update();
-	}
+	},
+
+	veryLongUpdate: function() {
+		$.getJSON('update.json', function(data) {
+			console.log(data);
+			if (data && data.version && Save.isNewerVersion(data.version, Save.currentSaveVersion)) {
+				var str = '<h4>New Update! - ' + data.version + '</h4><i>' +
+					data.description + '</i><ul>';
+				for (var i = 0; i < data.changes.length; i++) {
+					str += '<li>' + data.changes[i] + '</li>';
+				}
+				str += '</ul>';
+				j('.update', 'toggle', true);
+				j('.update', 'html', str);
+			}
+		});
+	},
 };
