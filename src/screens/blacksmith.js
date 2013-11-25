@@ -156,7 +156,7 @@ function WeaponDef(data) {
 		}
 
 		if (this.isMaxLevel()) {
-			return Math.floor(this.ascendCost * Math.pow(this.ascensions + 1, 2.6));
+			return Math.floor(this.ascendCost * Math.pow(this.ascensions + 1, 3));
 		}
 
 		return Math.floor(this.upgradeCost * Math.pow(this.level + 1, 1.6 + this.ascensions * 0.2) * (this.ascensions * 0.2 + 1));

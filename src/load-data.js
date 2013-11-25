@@ -129,7 +129,7 @@ function loadEnemies() {
 			image: 'Snake.png',
 			health: 22,
 			reward: {
-				xp: 3,
+				xp: 8,
 				gold: 5,
 				wood: 2,
 			}
@@ -139,7 +139,7 @@ function loadEnemies() {
 			image: 'SlugSquirrel.png',
 			health: 40,
 			reward: {
-				xp: 4,
+				xp: 10,
 				gold: 6,
 				research: 3,
 			}
@@ -150,7 +150,7 @@ function loadEnemies() {
 			health: 30,
 			attack: 6,
 			reward: {
-				xp: 6,
+				xp: 12,
 				gold: 7,
 				iron: 3
 			}
@@ -161,7 +161,7 @@ function loadEnemies() {
 			health: 45,
 			attack: 6,
 			reward: {
-				xp: 7,
+				xp: 15,
 				research: 4,
 				gold: 8
 			}
@@ -172,7 +172,7 @@ function loadEnemies() {
 			health: 50,
 			attack: 6,
 			reward: {
-				xp: 6,
+				xp: 18,
 				wood: 4,
 				gold: 3
 			}
@@ -183,7 +183,7 @@ function loadEnemies() {
 			health: 65,
 			attack: 7,
 			reward: {
-				xp: 9,
+				xp: 20,
 				research: 5,
 				gold: 7
 			}
@@ -195,9 +195,9 @@ function loadEnemies() {
 			health: 500,
 			attack: 6,
 			reward: {
-				xp: 20,
-				research: 25,
-				gold: 12
+				xp: 25,
+				research: 50,
+				gold: 20
 			}
 		}),
 	};
@@ -220,7 +220,7 @@ function loadAdventures() {
 				adventures: ['adv0']
 			},
 			displayName: 'OtherField',
-			levels: [4, 6, 6, 8],
+			levels: [4, 5, 5, 7],
 			enemies: ['enemy', 'wall'],
 		}),
 		'adv2': new AdventureDef({
@@ -228,7 +228,7 @@ function loadAdventures() {
 				adventures: ['adv1']
 			},
 			displayName: 'Third Area',
-			levels: [12, 16, 18, 18, 18, 22],
+			levels: [8, 10, 11, 11, 14],
 			enemies: ['wall', 'swirl'],
 		}),
 		'adv3': new AdventureDef({
@@ -236,7 +236,7 @@ function loadAdventures() {
 				adventures: ['adv2']
 			},
 			displayName: "Oh shit there's more",
-			levels: [24, 26, 24, 28, 32],
+			levels: [24, 26, 24, 28, 32, 28, 36, 44],
 			enemies: ['wall', 'swirl', 'snail', 'snapplant', 'trisnake', 'trisnake-boss'],
 		})
 	};

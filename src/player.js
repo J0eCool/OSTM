@@ -69,6 +69,7 @@ Player = {
 			'<div>Crit Damage : <span id="stat-crit-damage"></span></div>' +
 			'<br>' +
 			'<div>Spell Power : <span id="stat-spellpower"></span></div>' +
+			'<div>Defense Power : <span id="stat-defense"></span></div>' +
 			'<br>' +
 			'<div>Armor : <span id="stat-armor"></span></div>' +
 			'<br>' +
@@ -181,6 +182,7 @@ Player = {
 		j('#stat-crit-damage', 'text', formatNumber(this.getCritDamage()) + '%');
 
 		j('#stat-spellpower', 'text', formatNumber(dmg.spellPower));
+		j('#stat-defense', 'text', formatNumber(this.getDefensePower()));
 
 		j('#stat-armor', 'text', formatNumber(Player.armor));
 
@@ -282,11 +284,15 @@ Player = {
 			this.critDamage;
 	},
 
+	getDefensePower: function() {
+		return Math.floor(this.weapon.getMult('defense') *
+			Skills.getPassiveMult('defense') *
+			(12 + this.defense.value() * 6 + this.getLevel()));
+		
+	},
+
 	defenseDamageMultiplier: function() {
-		var defScale = 28;
-		return defScale / (defScale +
-			this.weapon.getMult('defense') *
-			this.defense.value());
+		return 35 / (35 + this.getDefensePower());
 	},
 
 	tryAttack: function(enemy) {

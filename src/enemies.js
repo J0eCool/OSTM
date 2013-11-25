@@ -174,13 +174,15 @@ function EnemyContainer(index) {
 
 	var calcReward = function() {
 		var rewardScaling = {
-			xp: function(b, s) { return b * Math.pow(s, 1.6); },
-			gold: function(b, s) { return rand(0.5, 1) * b * Math.pow(s, 1.75); },
-			research: function(b, s) { return b * Math.pow(s, 0.7); }
+			xp: function(b, s) { return b * Math.pow(s, 2); },
+			gold: function(b, s) { return rand(0.35, 1) * b * Math.pow(s, 2.15); },
+			research: function(b, s) { return b * Math.pow(s, 0.85); },
+			iron: function(b, s) { return b * Math.pow(s, 1.4); },
+			wood: function(b, s) { return b * Math.pow(s, 0.8); },
 		};
 		return function(reward, level) {
 			var r = {};
-			var scale = level / 3;
+			var scale = level * 0.3;
 			for (var key in reward) {
 				if (Player[key] && Player[key].unlocked) {
 					if (key in rewardScaling) {
@@ -203,12 +205,11 @@ function EnemyContainer(index) {
 		this.level = EnemyManager.curArea.getLevel(EnemyManager.subArea);
 
 		var lev = this.level / 3;
-		var powerMult = (lev + 0.5) / 1.5;
 
 		this.def = def;
-		this.maxHealth = Math.floor(def.health * powerMult);
+		this.maxHealth = Math.floor(def.health * (1 + 0.5 * lev + 0.03 * Math.pow(lev, 2.5)));
 		this.health = this.maxHealth;
-		this.attack = Math.floor(def.attack * powerMult);
+		this.attack = Math.floor(def.attack * (1 + 0.35 * lev + 0.15 * Math.pow(lev, 1.9)));
 
 		this.reward = calcReward(def.reward, this.level);
 
