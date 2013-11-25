@@ -20,6 +20,8 @@ Game = {
 	normalDt: 100,
 	veryLongDt: 30000,
 
+	dT: 100,
+
 	init: function() {
 		Log.init();
 
@@ -44,17 +46,24 @@ Game = {
 	},
 
 	update: function() {
-		Player.update();
-		Inventory.update();
-		Village.update();
-		Blacksmith.update();
-		Skills.update();
+		var prevTime = Date.now();
+		return function() {
+			Game.dT = (Date.now() - prevTime) / 1000;
 
-		Menu.update();
-		AdventureScreen.update();
+			Player.update();
+			Inventory.update();
+			Village.update();
+			Blacksmith.update();
+			Skills.update();
 
-		Save.update();
-	},
+			Menu.update();
+			AdventureScreen.update();
+
+			Save.update();
+
+			prevTime = Date.now();
+		};
+	}(),
 
 	veryLongUpdate: function() {
 		// Check for updates

@@ -88,7 +88,7 @@ Player = {
 		this.weapon = Blacksmith.getWeapon(this.weaponName);
 		this.attack = Skills.getSkill(this.attackName);
 
-		var dT = Game.normalDt / 1000;
+		var dT = Game.dT;
 		this.regenHealth(this.getHealthRegen() * dT);
 		this.regenMana(this.getManaRegen() * dT);
 
@@ -103,7 +103,7 @@ Player = {
 	},
 
 	updateResources: function() {
-		var dT = Game.normalDt / 1000;
+		var dT = Game.dT;
 
 		foreach (this.resources, function(resource) {
 			var r = Player[resource];
