@@ -123,7 +123,7 @@ function AdventureDef(data) {
 		j(powId, 'toggle', this.isAvailable());
 		if (this.isAvailable()) {
 			j(id, 'toggleClass', 'selected', this.power <= this.beatOnPower);
-			j(powId + '-count', 'text', formatNumber(this.power));
+			j(powId + '-count', 'text', formatNumber(this.getMaxLevel()));
 			j(powId + '-dec', 'toggle', this.power > 0);
 			j(powId + '-inc', 'toggle', this.power <= this.beatOnPower);
 			j(powId + '-inc-cost', 'text', formatNumber(this.powerUpCost()));
@@ -136,11 +136,26 @@ function AdventureDef(data) {
 
 	this.getLevel = function(areaIndex) {
 		var baseLevel = this.levels[areaIndex] || 1;
-		return Math.ceil(baseLevel * (1 + 0.25 * this.power) + 2.5 * this.power);
+		var diff = this.getBaseMaxLevel() - baseLevel;
+
+		return this.getMaxLevel() - diff;
+	};
+
+	this.getBaseMaxLevel = function() {
+		var max = 0;
+		for (var i = 0; i < this.levels.length; i++) {
+			max = Math.max(max, this.levels[i]);
+		}
+		return max;
+	};
+
+	this.getMaxLevel = function() {
+		return Math.ceil(this.getBaseMaxLevel() * Math.pow(1.2, this.power));
 	};
 
 	this.powerUpCost = function() {
-		return this.powerCost * Math.pow(this.power + 1, 2);
+		//return this.powerCost * Math.pow(this.power + 1, 2);
+		return 0;
 	};
 }
 
@@ -168,7 +183,7 @@ function shrineHtml() {
 		html += '<div id="' + id + '">' +
 			getButtonHtml("AdventureScreen.decreasePower('" + adv.name + "')",
 				'Decrease Power', id + '-dec') +
-			' <span>' + adv.displayName + ' : Power <span id="' + id + '-count"></span></span> ' +
+			' <span>' + adv.displayName + ' : Max enemy Level <span id="' + id + '-count"></span></span> ' +
 			getButtonHtml("AdventureScreen.increasePower('" + adv.name + "')",
 				'Increase Power<br><span id="' + id + '-inc-cost"></span>' +
 				getIconHtml('research'), id + '-inc') +
