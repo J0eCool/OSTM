@@ -154,8 +154,7 @@ function AdventureDef(data) {
 	};
 
 	this.powerUpCost = function() {
-		//return this.powerCost * Math.pow(this.power + 1, 2);
-		return 0;
+		return Math.floor(50 * Math.pow(this.getMaxLevel(), 1.15));
 	};
 }
 

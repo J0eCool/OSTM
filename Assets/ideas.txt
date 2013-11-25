@@ -1,9 +1,8 @@
 to do asap:
+	- upgrade google analytics
+		- include version number
 	- shrine
 		- balance cost (based on max level enemy in )
-		- exponentially scale enemy level with power increase
-		- either increase enemy power scaling, or decrease reward scaling, or both
-	- xp cost balancing
 
 Backlog:
 	- status effects
