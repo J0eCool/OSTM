@@ -38,6 +38,9 @@ Game = {
 		window.setInterval(Game.update, Game.normalDt);
 		window.setInterval(Game.veryLongUpdate, Game.veryLongDt);
 		Game.update();
+
+		// Report current version
+		ga('set', 'dimension1', Save.currentSaveVersion);
 	},
 
 	update: function() {
@@ -54,6 +57,7 @@ Game = {
 	},
 
 	veryLongUpdate: function() {
+		// Check for updates
 		$.getJSON('update.json', function(data) {
 			console.log(data);
 			if (data && data.version && Save.isNewerVersion(data.version, Save.currentSaveVersion)) {
@@ -67,5 +71,8 @@ Game = {
 				j('.update', 'html', str);
 			}
 		});
+
+		// Report player level
+		ga('set', 'dimension2', Player.getLevel());
 	},
 };

@@ -1,8 +1,6 @@
 to do asap:
 	- upgrade google analytics
 		- include version number
-	- shrine
-		- balance cost (based on max level enemy in )
 
 Backlog:
 	- status effects
