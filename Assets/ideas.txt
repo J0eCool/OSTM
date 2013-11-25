@@ -1,6 +1,5 @@
 to do asap:
-	- upgrade google analytics
-		- include version number
+	- 2fps fix
 
 Backlog:
 	- status effects

@@ -151,10 +151,10 @@ function UpgradeDef(data) {
 	this.displayName = data.displayName || '';
 	this.description = data.description || '';
 	this.baseCost = data.baseCost || 10000;
-	this.costIncreasePercent = data.costIncreasePercent || 500;
+	this.costIncreasePercent = data.costIncreasePercent || 15;
 	this.researchCost = data.researchCost || 0;
 	this.prereqs = data.prereqs || null;
-	this.maxCount = data.maxCount || 1;
+	this.maxCount = data.maxCount !== undefined ? data.maxCount : 1;
 
 	this.targetBuilding = data.targetBuilding || '';
 	this.amountIncrease = data.amountIncrease || 0;
@@ -206,6 +206,6 @@ function UpgradeDef(data) {
 	};
 
 	this.apply = data.apply || function(base) {
-		return (1 + this.amountIncrease / 100) * base;
+		return (1 + this.amountIncrease * this.count / 100) * base;
 	};
 }

@@ -491,6 +491,19 @@ function loadUpgrades() {
 				}
 			}
 		}),
+		'tent-n': new UpgradeDef({
+			displayName: 'Infinite Tents',
+			researchCost: 50000,
+			baseCost: 100000,
+			targetBuilding: 'tent',
+			amountIncrease: 2,
+			maxCount: 0,
+			prereqs: {
+				buildings: {
+					'tent': 5
+				}
+			}
+		}),
 
 		'shack-1': new UpgradeDef({
 			displayName: 'Dry Shacks',
