@@ -207,7 +207,7 @@ function EnemyContainer(index) {
 		var lev = this.level / 3;
 
 		this.def = def;
-		this.maxHealth = Math.floor(def.health * (1 + 0.5 * lev + 0.03 * Math.pow(lev, 2.5)));
+		this.maxHealth = Math.floor(def.health * (1 + 0.5 * lev + 0.03 * Math.pow(lev, 2.7)));
 		this.health = this.maxHealth;
 		this.attack = Math.floor(def.attack * (1 + 0.35 * lev + 0.15 * Math.pow(lev, 1.9)));
 

@@ -292,7 +292,7 @@ Player = {
 	},
 
 	defenseDamageMultiplier: function() {
-		return 35 / (35 + this.getDefensePower());
+		return 40 / (40 + this.getDefensePower());
 	},
 
 	tryAttack: function(enemy) {
@@ -380,7 +380,7 @@ Player = {
 
 	statUpgradeBaseCost: function() {
 		var level = this.getLevel();
-		return Math.floor(0.5 * (level - 1) + 0.2 * Math.pow(level - 1, 2.5));
+		return Math.floor(0.5 * (level - 1) + 0.2 * Math.pow(level - 1, 2.3));
 	}
 };
 
@@ -423,7 +423,7 @@ function StatType(data) {
 	};
 
 	this.upgradeCost = function() {
-		return Math.ceil(10 + 5 * this.level + 0.2 * Math.pow(this.level, 3)) +
+		return Math.ceil(10 + 5 * this.level + 0.2 * Math.pow(this.level, 3.2)) +
 			Player.statUpgradeBaseCost();
 	};
 
