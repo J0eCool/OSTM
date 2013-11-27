@@ -1,9 +1,8 @@
 {
 	"version": "0.1.8",
-	"description": "Analytics, Update notification",
+	"description": "Fixes",
 	"changes": [
-		"things",
-		"stuff",
-		"... and More!"
+		"Game runs smoothly when off-tab",
+		"Added a repeatable tent upgrade"
 	]
 }

@@ -1,7 +1,10 @@
 to do asap:
-	- 2fps fix
+	. AoE skills (chain lightning, fireball)
+	. hp/mp revamp
+	. village rebalance
 
 Backlog:
+	- spell elements
 	- status effects
 		- poison: 500% damage over 8 seconds
 		- burn: 300% damage over 3 seconds
@@ -33,3 +36,7 @@ Misc:
 	. STR/DEX weapons, 2 varieties each
 		Str weapons either do increased random damage, or increase defenses
 		Dex weapons either increase crit chance or crit damage
+
+Thematic areas:
+	. Futuristic / Aliens / Robots
+	. Rock band

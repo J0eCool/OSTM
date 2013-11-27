@@ -56,6 +56,10 @@ Save = {
 				}
 			}
 		}
+
+		if (baseObject.postLoad) {
+			baseObject.postLoad();
+		}
 	},
 
 	save: function() {
@@ -125,9 +129,6 @@ Save = {
 					var key = Game.toSave[i];
 					var obj = eval(key);
 					this.restoreFromSaveObject(obj, restoredObject[key]);
-					if (obj.postLoad) {
-						obj.postLoad();
-					}
 				}
 			}
 			catch (exception) {

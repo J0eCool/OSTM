@@ -115,6 +115,12 @@ function AdventureDef(data) {
 	this.beatOnPower = -1;
 	this.power = 0;
 
+	var powerCap = 20;
+
+	this.postLoad = function() {
+		this.power = Math.min(this.power, powerCap);
+	};
+
 	this.update = function() {
 		var id = '#' + this.name + '-button';
 		var powId = '#' + this.name + '-power';
@@ -125,13 +131,17 @@ function AdventureDef(data) {
 			j(id, 'toggleClass', 'selected', this.power <= this.beatOnPower);
 			j(powId + '-count', 'text', formatNumber(this.getMaxLevel()));
 			j(powId + '-dec', 'toggle', this.power > 0);
-			j(powId + '-inc', 'toggle', this.power <= this.beatOnPower);
+			j(powId + '-inc', 'toggle', this.canIncreasePower());
 			j(powId + '-inc-cost', 'text', formatNumber(this.powerUpCost()));
 		}
 	};
 
 	this.isAvailable = function() {
 		return prereqsMet(this.prereqs);
+	};
+
+	this.canIncreasePower = function() {
+		return this.power <= this.beatOnPower && this.power < powerCap;
 	};
 
 	this.getLevel = function(areaIndex) {
