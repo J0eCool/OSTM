@@ -94,7 +94,6 @@ function SkillDef(data) {
 	this.researchCost = data.researchCost || 0;
 	this.baseCost = data.baseCost || 1000;
 	this.upgradeCost = (data.upgradeCostMult || 1) * 35;
-	this.ascendCost = (data.ascendCostMult || 1) * 500;
 	this.prereqs = data.prereqs || null;
 
 	this.level = data.level || 0;
@@ -105,7 +104,7 @@ function SkillDef(data) {
 			return this.researchCost;
 		}
 
-		return Math.floor(this.baseCost + this.upgradeCost * Math.pow(this.level, 1.5));
+		return Math.floor(this.baseCost + this.upgradeCost * Math.pow(this.level, 2));
 	};
 
 	this.getCurrency = function() {
