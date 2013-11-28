@@ -107,15 +107,7 @@ var Menu = new ScreenContainer({
 		}),
 		new ScreenDef({
 			name: 'options',
-			displayName: 'Options',
-			html: getButtonHtml('Save.save()', 'Save') + ' ' +
-				getButtonHtml('Save.autosave = !Save.autosave',
-					'Autosave: <span id="save-autosave"></span>') +
-				'<span id="save-info"><br>' +
-				getButtonHtml('Save.clearSave()', 'Delete Save', 'del-save') + '<br>' +
-				getButtonHtml("Save.import($('#save-import').val())", 'Import') +
-				'Import hash: <textarea class="saveArea" id="save-import"></textarea>' +
-				'<br>Export hash: <div class="saveArea" id="save-val"></div></span>'
+			displayName: 'Options'
 		})
 	],
 
@@ -133,18 +125,17 @@ var Menu = new ScreenContainer({
 		this.setScreen('adventure');
 
 		AdventureScreen.init();
+		Options.init();
 	},
 
 	update: function() {
-		j('#save-info', 'toggle', Save.saveExists());
-		j('#save-val', 'text', Save.getSavedString());
-		j('#save-autosave', 'text', Save.autosave ? 'Enabled' : 'Disabled');
-
 		foreach (this.screens, function(scr) {
 			var id = '#' + scr.name + '-button';
 			j(id, 'toggle', prereqsMet(scr.prereqs));
 			j(id, 'toggleClass', 'inactive', scr.adventuresBlock && AdventureScreen.isAdventuring());
 		});
+		
+		Options.update();
 	},
 
 	onScreenSet: function(name) {

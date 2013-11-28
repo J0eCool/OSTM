@@ -267,19 +267,12 @@ function EnemyContainer(index) {
 	this.takeDamage = function(damageInfo) {
 		this.health -= damageInfo.damage;
 
-		var sel = this.getSelector();
-		var width = sel.width();
-		var height = sel.height();
-
-		var pos = this.getAbsolutePosition();
-		var x = pos.x + randInt(-40, 40) + width / 2;
-		var y = pos.y + randInt(-20, 0) + height / 2;
 		var dmgString = formatNumber(damageInfo.damage);
 		if (damageInfo.isCrit) {
-			ParticleContainer.create(critParticleType, dmgString + '!', x, y);
+			this.showMessage(dmgString + '!', critParticleType);
 		}
 		else {
-			ParticleContainer.create(damageParticleType, dmgString, x, y);
+			this.showMessage(dmgString, damageParticleType);
 		}
 
 		if (this.health <= 0) {
@@ -292,12 +285,30 @@ function EnemyContainer(index) {
 		else {
 			this.animateHealthBar();
 
-			var enemyImage = this.getSelector().find('.enemy');
-			enemyImage.toggleClass('blur', true)
-				.one('transitionend', function(e) {
-					enemyImage.toggleClass('blur', false);
-				});
+			if (Options.fancyGraphics) {
+				var enemyImage = this.getSelector().find('.enemy');
+				enemyImage.toggleClass('blur', true)
+					.one('transitionend', function(e) {
+						enemyImage.toggleClass('blur', false);
+					});
+			}
 		}
+	};
+
+	this.showMessage = function(message, particleType) {
+		if (!particleType) {
+			particleType = damageParticleType;
+		}
+
+		var sel = this.getSelector();
+		var width = sel.width();
+		var height = sel.height();
+
+		var pos = this.getAbsolutePosition();
+		var x = pos.x + randInt(-40, 40) + width / 2;
+		var y = pos.y + randInt(-20, 0) + height / 2;
+
+		ParticleContainer.create(particleType, message, x, y);
 	};
 
 	this.getHealthPercent = function() {

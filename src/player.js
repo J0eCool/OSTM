@@ -299,15 +299,20 @@ var Player = {
 		var modifiedDamage = Math.ceil(baseDamage * this.defenseDamageMultiplier()) -
 			this.armor;
 		modifiedDamage = Math.max(modifiedDamage, 1);
-		if (enemy.isActive() &&
-				this.mana >= this.attack.manaCost &&
-				this.health > modifiedDamage) {
-			this.spendMana(this.attack.manaCost);
-			this.takeDamage(modifiedDamage);
-			enemy.takeDamage(this.getDamageInfo());
-
+		if (enemy.isActive()) {
 			if (this.mana < this.attack.manaCost) {
-				this.attackName  = 'attack';
+				enemy.showMessage('Need Mana');
+				if (Options.resetToAttack && this.mana < this.attack.manaCost) {
+					this.attackName  = 'attack';
+				}
+			}
+			else if (this.health <= modifiedDamage) {
+				enemy.showMessage('Need HP');
+			}
+			else {
+				this.spendMana(this.attack.manaCost);
+				this.takeDamage(modifiedDamage);
+				enemy.takeDamage(this.getDamageInfo());
 			}
 		}
 	},
