@@ -1,12 +1,8 @@
 {
-	"version": "0.1.9",
-	"description": "Upheaval",
+	"version": "0.1.10",
+	"description": "Sorry 'bout the font",
 	"changes": [
-		"Made health scale linearly (without skills)",
-		"Made health regen not percentage-based (without skills)",
-		"Removed the Inn",
-		"Mana can now be upgraded directly",
-		"Visual tweaks",
-		"Some behavioral options (in the Options menu)"
+		"New font, but less drastically different, with no outlining",
+		"Except for on the healthbar where it makes it more readable"
 	]
 }
