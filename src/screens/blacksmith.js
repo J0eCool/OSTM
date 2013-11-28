@@ -1,4 +1,4 @@
-Blacksmith = {
+var Blacksmith = {
 	toSave: ['weapons'],
 
 	weapons: {},

@@ -1,4 +1,4 @@
-Inventory = {
+var Inventory = {
 	toSave: ['items'],
 
 	items: {},

@@ -59,7 +59,7 @@ function formatNumber(x, precision, report) {
 }
 
 function getButtonHtml(onclick, contents, id) {
-	idStr = id ? ' id="' + id + '"' : '';
+	var idStr = id ? ' id="' + id + '"' : '';
 	return '<div class="button" onclick="' + onclick + '"' + idStr +
 		' ><span class="content">' + contents + '</span></div>';
 }

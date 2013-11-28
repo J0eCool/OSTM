@@ -1,4 +1,4 @@
-Village = {
+var Village = {
 	toSave: ['buildings', 'upgrades'],
 
 	buildings: {},

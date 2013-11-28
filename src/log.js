@@ -1,4 +1,4 @@
-Log = {
+var Log = {
 	maxLines: 5,
 
 	inUse: {},

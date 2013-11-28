@@ -1,4 +1,4 @@
-Save = {
+var Save = {
 	toSave: ['autosave'],
 
 	currentSaveVersion: '/* @echo version */',

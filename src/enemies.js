@@ -1,4 +1,4 @@
-EnemyManager = {
+var EnemyManager = {
 	numEnemies: 6,
 	enemyDefs: {},
 

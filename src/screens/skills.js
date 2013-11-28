@@ -1,4 +1,4 @@
-Skills = {
+var Skills = {
 	toSave: ['skills'],
 
 	skills: {},

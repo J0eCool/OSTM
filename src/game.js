@@ -12,7 +12,7 @@ $(document).ready(function() {
 	.mousedown(function() { $(this).attr('class', 'health-button size-0_85'); });*/
 });
 
-Game = {
+var Game = {
 	toSave: ['Player', 'Inventory', 'AdventureScreen', 'Save',
 		'Village', 'Blacksmith', 'Skills'],
 

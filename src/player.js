@@ -1,4 +1,4 @@
-Player = {
+var Player = {
 	toSave: ['health', 'mana', 'weaponName'],
 
 	health: 100,

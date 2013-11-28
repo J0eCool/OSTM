@@ -4,7 +4,7 @@ function ParticleType(data) {
 	this.animTime = data.animTime || 500;
 }
 
-ParticleContainer = {
+var ParticleContainer = {
 	curParticle: 0,
 	maxParticles: 30,
 

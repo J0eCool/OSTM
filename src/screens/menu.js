@@ -65,7 +65,7 @@ function ScreenContainer(data) {
 	};
 }
 
-Menu = new ScreenContainer({
+var Menu = new ScreenContainer({
 	screens: [
 		new ScreenDef({
 			name: 'adventure',

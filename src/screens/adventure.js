@@ -1,4 +1,4 @@
-AdventureScreen = new ScreenContainer({
+var AdventureScreen = new ScreenContainer({
 	classBase: 'adventure-screen',
 	targetDiv: '.adventure',
 

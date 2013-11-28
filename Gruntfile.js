@@ -4,6 +4,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    updatePkg: grunt.file.readJSON('update.json'),
     deployFolder: 'build/deploy/<%= pkg.version %>',
     debugFolder: 'build/debug/<%= pkg.version %>',
     liveDeployFolder: '../gh-pages',
@@ -22,6 +23,7 @@ module.exports = function(grunt) {
           
           '-W061': true, //disable eval warning
           '-W069': true, //disable dot-notation warning
+          '-W097': true, //allow non-function 'use strict'
           '-W099': true, //disable "mixed spaces and tabs" warning
           '-W103': true, //disable __proto__ warning
         },
@@ -129,5 +131,12 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['clean', 'jshint', 'concat', 'preprocess', 'uglify', 'less', 'autoprefixer', 'cssmin', 'copy']);
-  grunt.registerTask('deploy', ['default', 'githubPages']);
+
+  //grunt.log.write(pkg);
+  if (grunt.config('pkg').version === grunt.config('updatePkg').version) {
+    grunt.registerTask('deploy', ['default', 'githubPages']);
+  }
+  else {
+    grunt.log.error('package.json and update.json version mismatch; unable to deploy');
+  }
 };
