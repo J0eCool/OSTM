@@ -3,15 +3,21 @@ function loadStats() {
 		'maxHealth': new StatType({
 			displayName: 'Health',
 			baseValue: 100,
-			levelValue: 10,
-
-			getBaseValueAtLevel: function(level) {
-				return this.baseValue + level * (this.levelValue + (level - 1) / 2);
-			},
+			levelValue: 20,
 
 			onUpgrade: function() {
 				//technically not correct but it rounds up and is close
 				Player.regenHealth(this.upgradeValue());
+			}
+		}),
+		'maxMana': new StatType({
+			displayName: 'Mana',
+			minLevel: 24,
+			baseValue: 40,
+			levelValue: 5,
+
+			onUpgrade: function() {
+				Player.regenMana(this.upgradeValue());
 			}
 		}),
 		'strength': new StatType({
@@ -761,17 +767,26 @@ function loadSkills() {
 			displayName: 'Health Plus',
 			statMult: {
 				maxHealth: {
-					base: 2,
-					level: 0.5
+					base: 10,
+					level: 5
+				}
+			}
+		}),
+		'fortitude': new PassiveSkillDef({
+			displayName: 'Fortitude',
+			statMult: {
+				healthRegen: {
+					base: 20,
+					level: 5
 				}
 			}
 		}),
 		'heartiness': new PassiveSkillDef({
 			displayName: 'Heartiness',
-			statMult: {
+			statBase: {
 				healthRegen: {
-					base: 10,
-					level: 2
+					base: 1,
+					level: 0.1
 				}
 			}
 		}),
@@ -779,8 +794,8 @@ function loadSkills() {
 			displayName: 'Mana Plus',
 			statMult: {
 				maxMana: {
-					base: 5,
-					level: 2
+					base: 12,
+					level: 6
 				}
 			}
 		}),
@@ -788,8 +803,17 @@ function loadSkills() {
 			displayName: 'Focus',
 			statMult: {
 				manaRegen: {
-					base: 15,
-					level: 3
+					base: 25,
+					level: 6
+				}
+			}
+		}),
+		'crystal-mind': new PassiveSkillDef({
+			displayName: 'Crystal Mind',
+			statBase: {
+				manaRegen: {
+					base: 1.5,
+					level: 0.15
 				}
 			}
 		}),
@@ -798,7 +822,7 @@ function loadSkills() {
 			statBase: {
 				crit: {
 					base: 1,
-					level: 0.2
+					level: 0.1
 				}
 			}
 		}),

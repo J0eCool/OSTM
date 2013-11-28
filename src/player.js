@@ -2,12 +2,12 @@ Player = {
 	toSave: ['health', 'mana', 'weaponName'],
 
 	health: 100,
-	baseHealthRegen: 1, //percent
+	baseHealthRegen: 5,
 	partialHealth: 0, //health regen per-tick roundoff
 
 	mana: 100,
 	baseMaxMana: 100,
-	baseManaRegen: 5,
+	baseManaRegen: 8,
 	partialMana: 0,
 
 	weaponName: 'knife',
@@ -233,21 +233,21 @@ Player = {
 	getMaxMana: function() {
 		return Math.floor(this.weapon.getMult('maxMana') *
 			Skills.getPassiveMult('maxMana') *
-			this.baseMaxMana);
+			this.maxMana.value());
 	},
 
 	getHealthRegen: function() {
-		return this.baseHealthRegen / 100 *
-			this.weapon.getMult('healthRegen') *
+		return this.weapon.getMult('healthRegen') *
 			Skills.getPassiveMult('healthRegen') *
-			this.getMaxHealth();
+			(this.baseHealthRegen +
+				Skills.getPassiveBase('healthRegen') / 100 * this.getMaxHealth());
 	},
 
 	getManaRegen: function() {
-		return this.baseManaRegen / 100 *
-			this.weapon.getMult('manaRegen') *
+		return this.weapon.getMult('manaRegen') *
 			Skills.getPassiveMult('manaRegen') *
-			this.getMaxMana();
+			(this.baseManaRegen +
+				Skills.getPassiveBase('manaRegen') / 100 * this.getMaxMana());
 	},
 
 	getDamageInfo: function() {
@@ -467,7 +467,7 @@ function StatType(data) {
 
 	this.updateButton = function() {
 			var id = '#stat-' + this.name + '-button';
-			j(id, 'toggleClass', 'inactive', !this.canUpgrade());
+			j(id, 'toggle', this.canUpgrade());
 			j(id + ' #upgrade', 'toggle', this.isPlayerMinLevel());
 			j(id + ' #amount', 'text', this.stringValue());
 			j(id + ' #upgrade-amount', 'text', this.stringUpgradeValue());
