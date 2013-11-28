@@ -14,12 +14,13 @@
     border: 1px solid black;
     margin: 1.5px 0px;
     padding: 3px;
-    color: black;
     background-color: @bgColor;
     transition: 0.25s;
     box-shadow: 1.5px -1.5px 10px #555 inset;
     z-index: 5;
     cursor: pointer;
+    .outlined(1px, black, 0);
+    font-size: 20px;
 
     &.selected {
         background-color: @bgColorSelected;
@@ -70,6 +71,7 @@
 .stat-bar .button,
 .item-bar .button {
     width: 75%;
+    font-size: 18px;
 }
 
 .shrine .button {
@@ -82,7 +84,7 @@
     }
 }
 
-@healthHeight: 18px;
+@healthHeight: 20px;
 @healthTop: 22px;
 @healthBetween: 4px;
 @healthBottom: 14px;
@@ -148,12 +150,12 @@ img {
     word-wrap: break-word;
 }
 
-.outlined(@r: 1px, @color: black) {
+.outlined(@r: 1px, @color: black, @blur: 1px) {
     text-shadow:
-        @r @r 0 @color,
-        // -@r @r 0 @color,
-        // @r -@r 0 @color,
-        -@r -@r 0 @color;
+        @r 0 @blur @color,
+        -@r 0 @blur @color,
+        0 @r @blur @color,
+        0 -@r @blur @color;
 }
 
 .scrolls(@x: hidden) {
