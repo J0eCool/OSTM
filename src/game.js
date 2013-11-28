@@ -69,7 +69,7 @@ var Game = {
 		// Check for updates
 		$.getJSON('update.json', function(data) {
 			if (data && data.version && Save.isNewerVersion(data.version, Save.currentSaveVersion)) {
-				var str = '<h4>New Update! - ' + data.version + '</h4><i>' +
+				var str = '<h4>New Update! (refresh to get it) - ' + data.version + '</h4><i>' +
 					data.description + '</i><ul>';
 				for (var i = 0; i < data.changes.length; i++) {
 					str += '<li>' + data.changes[i] + '</li>';
