@@ -6,7 +6,6 @@ var Player = {
 	partialHealth: 0, //health regen per-tick roundoff
 
 	mana: 100,
-	baseMaxMana: 100,
 	baseManaRegen: 8,
 	partialMana: 0,
 
@@ -365,7 +364,7 @@ var Player = {
 	createStatButtons: function() {
 		var statHtml = '';
 		for (var i = 0; i < this.stats.length; i++) {
-			statHtml += this.getStat(i).getUpgradeButtonHtml() + '<br/>';
+			statHtml += this.getStat(i).getUpgradeButtonHtml();
 		}
 
 		$('#stat-buttons').html(statHtml);
@@ -437,7 +436,7 @@ function StatType(data) {
 	};
 
 	this.canUpgrade = function() {
-		return this.isPlayerMinLevel() && Player.xp.amount >= this.upgradeCost();
+		return this.isUnlocked() && Player.xp.amount >= this.upgradeCost();
 	};
 
 	this.tryUpgrade = function() {
@@ -453,7 +452,7 @@ function StatType(data) {
 		return false;
 	};
 
-	this.isPlayerMinLevel = function() {
+	this.isUnlocked = function() {
 		return this.minLevel <= Player.getLevel();
 	};
 
@@ -467,8 +466,8 @@ function StatType(data) {
 
 	this.updateButton = function() {
 			var id = '#stat-' + this.name + '-button';
-			j(id, 'toggle', this.canUpgrade());
-			j(id + ' #upgrade', 'toggle', this.isPlayerMinLevel());
+			j(id, 'toggle', this.isUnlocked());
+			j(id, 'toggleClass', 'inactive', !this.canUpgrade());
 			j(id + ' #amount', 'text', this.stringValue());
 			j(id + ' #upgrade-amount', 'text', this.stringUpgradeValue());
 			j(id + ' #cost', 'text', formatNumber(this.upgradeCost()));

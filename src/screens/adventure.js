@@ -10,13 +10,13 @@ var AdventureScreen = new ScreenContainer({
 		new ScreenDef({
 			name: 'field'
 		}),
-		new ScreenDef({
-			name: 'inn',
-			displayName: 'Inn',
-			html: getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave') + '<br>' +
-				getButtonHtml("AdventureScreen.useInn()", 'Rest: <span id="inn-cost"></span>' +
-					getIconHtml('gold'))
-		}),
+		// new ScreenDef({
+		// 	name: 'inn',
+		// 	displayName: 'Inn',
+		// 	html: getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave') + '<br>' +
+		// 		getButtonHtml("AdventureScreen.useInn()", 'Rest: <span id="inn-cost"></span>' +
+		// 			getIconHtml('gold'))
+		// }),
 		new ScreenDef({
 			name: 'shrine',
 			displayName: 'Shrine',
@@ -49,11 +49,6 @@ var AdventureScreen = new ScreenContainer({
 	}
 });
 AdventureScreen.toSave = ['adventures'];
-AdventureScreen.postLoad = function() {
-	if (!this.hasBeat('adv0')) {
-		this.startAdventure('adv0');
-	}
-};
 AdventureScreen.getAdventure = function(name) {
 	for (var i in this.adventures) {
 		var adv = this.adventures[i];
