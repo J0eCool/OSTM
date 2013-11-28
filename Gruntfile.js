@@ -132,7 +132,6 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', ['clean', 'jshint', 'concat', 'preprocess', 'uglify', 'less', 'autoprefixer', 'cssmin', 'copy']);
 
-  //grunt.log.write(pkg);
   if (grunt.config('pkg').version === grunt.config('updatePkg').version) {
     grunt.registerTask('deploy', ['default', 'githubPages']);
   }
