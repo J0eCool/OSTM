@@ -48,9 +48,8 @@ var EnemyManager = {
 		fieldHtml += '</div>';
 
 		this.jqField.html(fieldHtml);
-		$('#map-button').hide();
 
-		$(".enemy").click(function() {
+		j(".enemy").click(function() {
 			var index = $(this).attr('index');
 			EnemyManager.enemies[index].onClick();
 		});
@@ -69,7 +68,7 @@ var EnemyManager = {
 		this.activeEnemies = [];
 		var numToSpawn = Math.min(this.enemies.length,
 			randIntInc(this.curArea.spawnCountLo, this.curArea.spawnCountHi));
-		$('.enemy-container').hide();
+		j('.enemy-container').hide();
 		for (var i = 0; i < numToSpawn; i++) {
 			var enemy = this.enemies[i];
 			enemy.getSelector().show();
@@ -96,9 +95,9 @@ var EnemyManager = {
 	},
 
 	updateHeaderButtons: function() {
-		$('#area-name').text(this.curArea.displayName);
-		$('#dec-level').toggle(this.subArea > 0);
-		$('#inc-level').toggle(this.subArea < this.bestAvailableSubArea)
+		j('#area-name').text(this.curArea.displayName);
+		j('#dec-level').toggle(this.subArea > 0);
+		j('#inc-level').toggle(this.subArea < this.bestAvailableSubArea)
 			.find('.content').text((this.subArea + 1 < this.curArea.levels.length) ?
 				'Forward' : 'Area Complete');
 	},

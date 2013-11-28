@@ -21,7 +21,7 @@ var ParticleContainer = {
 	create: function(type, val, x, y) {
 		while (this.curParticle >= this.particles.length) {
 			var id = '#particle-'+this.curParticle;
-			this.particles.push($(id));
+			this.particles.push(j(id));
 		}
 		var obj = this.particles[this.curParticle];
 		obj.stop(true, true).html(val).css({

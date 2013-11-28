@@ -72,15 +72,6 @@ var Menu = new ScreenContainer({
 			displayName: 'Adventure'
 		}),
 		new ScreenDef({
-			name: 'store',
-			displayName: 'Store',
-			html: '<div class="recipes"></div>',
-			adventuresBlock: true,
-			prereqs: {
-				adventures: ['adv0']
-			}
-		}),
-		new ScreenDef({
 			name: 'blacksmith',
 			displayName: 'Blacksmith',
 			prereqs: {
@@ -93,7 +84,7 @@ var Menu = new ScreenContainer({
 			name: 'village',
 			displayName: 'Village',
 			prereqs: {
-				adventures: ['adv1']
+				adventures: ['adv0']
 			}
 		}),
 		new ScreenDef({

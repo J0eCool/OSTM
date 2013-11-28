@@ -176,8 +176,7 @@ function WeaponDef(data) {
 	};
 
 	this.canPurchase = function() {
-		return !AdventureScreen.isAdventuring() &&
-			Player.canSpend(this.getCurrency(), this.getCost());
+		return Player.canSpend(this.getCurrency(), this.getCost());
 	};
 
 	this.purchase = function() {

@@ -18,6 +18,16 @@ var AdventureScreen = new ScreenContainer({
 		// 			getIconHtml('gold'))
 		// }),
 		new ScreenDef({
+			name: 'store',
+			displayName: 'Store',
+			html: getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave') +
+				'<br><div class="recipes"></div>',
+			adventuresBlock: true,
+			prereqs: {
+				adventures: ['adv1']
+			}
+		}),
+		new ScreenDef({
 			name: 'shrine',
 			displayName: 'Shrine',
 			createHtml: shrineHtml
@@ -31,7 +41,6 @@ var AdventureScreen = new ScreenContainer({
 	},
 
 	update: function() {
-		j('#map-button', 'toggle', this.hasBeat('adv0'));
 		j('#shrine-button', 'toggle', this.hasBeat('adv2'));
 		j('#inn-cost', 'text', formatNumber(this.getInnCost()));
 

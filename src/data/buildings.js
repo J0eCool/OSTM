@@ -1,52 +1,50 @@
 function loadBuildings() {
-	var researchBuildingCostIncrease = 30;
-	var ironBuildingCostIncrease = 50;
+	var researchBuildingCostIncrease = 20;
+	var ironBuildingCostIncrease = 30;
 
 	var sectionedBuildings = {
 		'Residences': {
 			'tent': new BuildingDef({
 				displayName: 'Tent',
-				baseCost: 7500,
-				resourcePerSecond: 6
+				baseCost: 250,
+				resourcePerSecond: 1
 			}),
 			'shack': new BuildingDef({
 				displayName: 'Shack',
-				baseCost: 40000,
-				researchCost: 50,
-				resourcePerSecond: 20,
+				baseCost: 2000,
+				resourcePerSecond: 6,
 				prereqs: {
 					buildings: {
-						'tent': 0
+						'tent': 1
 					}
 				}
 			}),
 			'cabin': new BuildingDef({
 				displayName: 'Cabin',
-				baseCost: 150000,
-				researchCost: 200,
-				resourcePerSecond: 65,
+				baseCost: 11500,
+				resourcePerSecond: 18,
 				prereqs: {
 					buildings: {
-						'shack': 0
+						'shack': 1
 					}
 				}
 			}),
 			'cottage': new BuildingDef({
 				displayName: 'Cottage',
-				baseCost: 350000,
+				baseCost: 50000,
 				researchCost: 1000,
-				resourcePerSecond: 120,
+				resourcePerSecond: 45,
 				prereqs: {
 					buildings: {
-						'cabin': 0
+						'cabin': 1
 					}
 				}
 			}),
 			'house': new BuildingDef({
 				displayName: 'House',
-				baseCost: 1500000,
+				baseCost: 320000,
 				researchCost: 3500,
-				resourcePerSecond: 450,
+				resourcePerSecond: 140,
 				prereqs: {
 					buildings: {
 						'cottage': 0
@@ -55,9 +53,9 @@ function loadBuildings() {
 			}),
 			'manor': new BuildingDef({
 				displayName: 'Manor',
-				baseCost: 6000000,
+				baseCost: 2400000,
 				researchCost: 12500,
-				resourcePerSecond: 1250,
+				resourcePerSecond: 500,
 				prereqs: {
 					buildings: {
 						'house': 0
@@ -70,7 +68,9 @@ function loadBuildings() {
 			'research-center': new BuildingDef({
 				displayName: 'Research Center',
 				description: 'Researches new things',
-				baseCost: 5000,
+				baseCost: 500,
+				resourceProduced: 'research',
+				resourcePerSecond: 2,
 				maxCount: 1
 			}),
 			'library': new BuildingDef({
@@ -79,7 +79,7 @@ function loadBuildings() {
 				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 1000,
 				resourceProduced: 'research',
-				resourcePerSecond: 0.25,
+				resourcePerSecond: 1,
 				prereqs: {
 					buildings: {
 						'research-center': 1
@@ -92,7 +92,7 @@ function loadBuildings() {
 				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 7500,
 				resourceProduced: 'research',
-				resourcePerSecond: 1,
+				resourcePerSecond: 3,
 				prereqs: {
 					buildings: {
 						'library': 0
@@ -105,7 +105,7 @@ function loadBuildings() {
 				costIncreasePercent: researchBuildingCostIncrease,
 				researchCost: 100000,
 				resourceProduced: 'research',
-				resourcePerSecond: 2.5,
+				resourcePerSecond: 5,
 				prereqs: {
 					buildings: {
 						'school': 0

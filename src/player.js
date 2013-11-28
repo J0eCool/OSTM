@@ -6,7 +6,7 @@ var Player = {
 	partialHealth: 0, //health regen per-tick roundoff
 
 	mana: 100,
-	baseManaRegen: 8,
+	baseManaRegen: 6,
 	partialMana: 0,
 
 	weaponName: 'knife',
