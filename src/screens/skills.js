@@ -90,6 +90,7 @@ function SkillDef(data) {
 	this.category = data.category || '';
 
 	this.displayName = data.displayName || '';
+	this.description = data.description || '';
 
 	this.researchCost = data.researchCost || 0;
 	this.baseCost = data.baseCost || 1000;
@@ -282,13 +283,17 @@ function PassiveSkillDef(data) {
 	};
 
 	this.getDescriptionAtLevel = function(level) {
-		var str = '';
-		var stat;
-		for (stat in stats.mult) {
-			str += ' ' + getUpgradeName(stat) + ' +' + formatNumber(getAmount('mult', stat, level)) + '%';
-		}
-		for (stat in stats.base) {
-			str += ' ' + getUpgradeName(stat) + ' +' + formatNumber(getAmount('base', stat, level));
+		var str = this.description;
+		var statFields = ['mult', 'base'];
+		for (var i = 0; i < statFields.length; i++) {
+			var field = statFields[i];
+			for (var stat in stats[field]) {
+				var matchStr = '<' + field + '.' + stat + '>';
+				while (str.indexOf(matchStr) != -1) {
+					var replaceStr = formatNumber(getAmount(field, stat, level));
+					str = str.replace(matchStr, replaceStr);
+				}
+			}
 		}
 		return str;
 	};

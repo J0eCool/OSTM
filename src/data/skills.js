@@ -37,6 +37,7 @@ function loadSkills() {
 
 		'health-up': new PassiveSkillDef({
 			displayName: 'Health Plus',
+			description: 'Increases Max Health by <mult.maxHealth>%',
 			statMult: {
 				maxHealth: {
 					base: 10,
@@ -46,6 +47,7 @@ function loadSkills() {
 		}),
 		'fortitude': new PassiveSkillDef({
 			displayName: 'Fortitude',
+			description: 'Increases overall Health Regen by <mult.healthRegen>%',
 			statMult: {
 				healthRegen: {
 					base: 20,
@@ -55,6 +57,7 @@ function loadSkills() {
 		}),
 		'heartiness': new PassiveSkillDef({
 			displayName: 'Heartiness',
+			description: 'Restores Health by <base.healthRegen>% of Max Health every second',
 			statBase: {
 				healthRegen: {
 					base: 1,
@@ -64,6 +67,7 @@ function loadSkills() {
 		}),
 		'mana-up': new PassiveSkillDef({
 			displayName: 'Mana Plus',
+			description: 'Increases Max Mana by <mult.maxMana>%',
 			statMult: {
 				maxMana: {
 					base: 12,
@@ -73,6 +77,7 @@ function loadSkills() {
 		}),
 		'focus': new PassiveSkillDef({
 			displayName: 'Focus',
+			description: 'Increases overall Mana Regen by <mult.manaRegen>%',
 			statMult: {
 				manaRegen: {
 					base: 25,
@@ -82,6 +87,7 @@ function loadSkills() {
 		}),
 		'crystal-mind': new PassiveSkillDef({
 			displayName: 'Crystal Mind',
+			description: 'Restores Mana by <base.manaRegen>% of Max Mana every second',
 			statBase: {
 				manaRegen: {
 					base: 1.5,
@@ -91,6 +97,7 @@ function loadSkills() {
 		}),
 		'precision': new PassiveSkillDef({
 			displayName: 'Precision',
+			description: 'Increase weapon base Crit Chance by <base.crit>%',
 			statBase: {
 				crit: {
 					base: 1,
@@ -100,6 +107,7 @@ function loadSkills() {
 		}),
 		'cruelty': new PassiveSkillDef({
 			displayName: 'Cruelty',
+			description: 'Adds <base.critDamage>% Crit Damage and increases all Damage by <mult.damage>%',
 			statBase: {
 				critDamage: {
 					base: 20,
@@ -114,6 +122,7 @@ function loadSkills() {
 		}),
 		'power': new PassiveSkillDef({
 			displayName: 'Power',
+			description: 'Increases Damage and Spell Power by <mult.damage>%',
 			statMult: {
 				damage: {
 					base: 1,
