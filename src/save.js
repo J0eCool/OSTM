@@ -107,7 +107,19 @@ var Save = {
 	},
 
 	isNewerVersion: function(newer, older) {
-		return newer.length > older.length || newer > older;
+		var newSplit = newer.split('.');
+		var oldSplit = older.split('.');
+		for (var i = 0; i < newSplit.length; i++) {
+			var n = Math.floor(newSplit[i]);
+			var o = Math.floor(oldSplit[i]);
+			if (n > o) {
+				return true;
+			}
+			else if (o > n) {
+				return false;
+			}
+		}
+		return false;
 	},
 
 	import: function(str) {

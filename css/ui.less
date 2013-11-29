@@ -19,7 +19,6 @@
     box-shadow: 1.5px -1.5px 10px #555 inset;
     z-index: 5;
     cursor: pointer;
-    .outlined(1px, black, 0);
     font-size: 20px;
 
     &.selected {
@@ -103,6 +102,9 @@
     .mana-background {
         width: 90%;
         height: @healthHeight;
+        color: white;
+        font-weight: bold;
+        .outlined;
     }
 }
 

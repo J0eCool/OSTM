@@ -1,4 +1,11 @@
 var changelist = {
+	"v0.1.10": {
+		"description": "Sorry 'bout the font",
+		"changes": [
+			"New font, but less drastically different, with no outlining",
+			"Except for on the healthbar where it makes it more readable"
+		]
+	},
 	"v0.1.9": {
 		"description": "Upheaval",
 		"changes": [
