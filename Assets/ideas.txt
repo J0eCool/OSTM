@@ -1,7 +1,12 @@
 to do asap:
 	. AoE skills (chain lightning, fireball)
-	. hp/mp revamp
-	. village rebalance
+	. content
+		- adventures
+		- enemies
+		- weapons
+		- upgrades
+	. skill descriptions
+
 
 Backlog:
 	- spell elements
