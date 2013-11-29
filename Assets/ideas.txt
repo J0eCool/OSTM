@@ -6,6 +6,7 @@ to do asap:
 		- weapons
 		- upgrades
 	. skill descriptions
+	. in-game changelist
 
 
 Backlog:

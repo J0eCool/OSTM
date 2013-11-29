@@ -19,6 +19,7 @@
     box-shadow: 1.5px -1.5px 10px #555 inset;
     z-index: 5;
     cursor: pointer;
+    color: black;
     font-size: 20px;
 
     &.selected {
@@ -57,7 +58,7 @@
 
 .game-log {
     position: absolute;
-    left: 240px;
+    left: @statWidth;
     right: 220px;
     bottom: 60px;
     z-index: 20;
@@ -98,23 +99,30 @@
         margin: 0px auto @healthBottom;
     }
 
+    @textMargin: 6px;
     .health-background,
     .mana-background {
-        width: 90%;
+        width: calc(90% - @textMargin);
         height: @healthHeight;
-        color: white;
-        font-weight: bold;
-        .outlined;
+        padding-right: @textMargin;
+
+        .health-foreground,
+        .mana-foreground {
+            color: white;
+            font-weight: bold;
+            padding-left: @textMargin;
+            .outlined;
+        }
     }
 }
 
-@statButtonHeight: 55%;
+@statButtonsHeight: 55%;
 #stats {
     @leftMargin: @statWidth / 10;
     margin-left: @leftMargin;
     position: absolute;
     top: @healthTotal;
-    bottom: 100% - @statButtonHeight;
+    bottom: 100% - @statButtonsHeight;
     left: 0px;
     width: @statWidth - @leftMargin;
     .scrolls;
@@ -123,7 +131,7 @@
 #stat-buttons {
     text-align: center;
     position: absolute;
-    top: @statButtonHeight;
+    top: @statButtonsHeight;
     bottom: 0px;
     left: 0px;
     width: @statWidth;
