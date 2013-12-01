@@ -64,7 +64,6 @@ function ItemDef(data) {
 	this.displayName = data.displayName || data.name || '';
 	this.description = data.description || '';
 
-	this.data = data.data || null;
 	this.onUse = data.onUse || null;
 	this.isCountLimited = (data.isCountLimited !== undefined ? data.isCountLimited : true);
 	this.maxPerInvSlot = data.maxPerInvSlot || 1;
@@ -189,12 +188,24 @@ function ItemDef(data) {
 
 function PotionDef(data) {
 	this.__proto__ = new ItemDef(data);
+
+	this.healAmount = data.healAmount || 0;
+	this.manaAmount = data.manaAmount || 0;
+
 	this.onUse = function() {
-		var heal = Skills.getPassiveMult('itemEffeciency') *
-			this.data.healAmount;
-		Player.addHealth(Math.floor(heal));
+		var mult = Skills.getPassiveMult('itemEffeciency');
+		var heal = Math.floor(mult * this.healAmount);
+		var mana = Math.floor(mult * this.manaAmount);
+		Player.addHealth(heal);
+		Player.addMana(mana);
 	};
 
-	this.description = 'Restores ' + formatNumber(this.data.healAmount) + ' HP';
+	this.description = 'Restores';
+	if (this.healAmount) {
+		this.description += ' ' + formatNumber(this.healAmount) + 'HP';
+	}
+	if (this.manaAmount) {
+		this.description += ' ' + formatNumber(this.manaAmount) + 'MP';
+	}
 }
 

@@ -220,7 +220,9 @@ var Player = {
 
 	addHealth: function(amount) {
 		this.regenHealth(amount);
-		this.createAddHealthParticle(amount);
+		if (amount) {
+			this.createAddHealthParticle(amount);
+		}
 	},
 
 	getMaxHealth: function() {
@@ -311,7 +313,7 @@ var Player = {
 				enemy.showMessage('Need HP');
 			}
 			else {
-				this.spendMana(this.attack.getManaCost());
+				this.addMana(-this.attack.getManaCost());
 				this.takeDamage(modifiedDamage);
 				enemy.takeDamage(this.getDamageInfo());
 			}
@@ -319,15 +321,13 @@ var Player = {
 	},
 
 	takeDamage: function(damage) {
-		this.health -= damage;
-		this.createAddHealthParticle(-damage);
+		this.addHealth(-damage);
 	},
 
-	spendMana: function(cost) {
-		this.mana -= cost;
-
-		if (cost > 0) {
-			this.createAddManaParticle(-cost);
+	addMana: function(amt) {
+		this.regenMana(amt);
+		if (amt) {
+			this.createAddManaParticle(amt);
 		}
 	},
 

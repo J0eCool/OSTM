@@ -3,16 +3,12 @@ function loadItems() {
 		'potion': new PotionDef({
 			displayName: 'Potion',
 			count: 2,
-			data: {
-				healAmount: 100
-			},
+			healAmount: 100,
 			baseCost: 250
 		}),
 		'hiPotion': new PotionDef({
 			displayName: 'Hi-Potion',
-			data: {
-				healAmount: 500
-			},
+			healAmount: 500,
 			baseCost: 5000,
 			researchCost: 250,
 			prereqs: {
@@ -21,9 +17,7 @@ function loadItems() {
 		}),
 		'superPotion': new PotionDef({
 			displayName: 'Super Potion',
-			data: {
-				healAmount: 2500
-			},
+			healAmount: 2500,
 			baseCost: 100000,
 			researchCost: 1500,
 			prereqs: {
@@ -33,14 +27,42 @@ function loadItems() {
 		}),
 		'megaPotion': new PotionDef({
 			displayName: 'Mega Potion',
-			data: {
-				healAmount: 15000
-			},
+			healAmount: 15000,
 			baseCost: 3500000,
 			researchCost: 5000,
 			prereqs: {
 				adventures: ['adv3'],
 				items: ['superPotion']
+			}
+		}),
+		'ether': new PotionDef({
+			displayName: 'Ether',
+			manaAmount: 75,
+			baseCost: 10000,
+			researchCost: 1000,
+			prereqs: {
+				items: ['hiPotion']
+			}
+		}),
+		'hiEther': new PotionDef({
+			displayName: 'Hi-Ether',
+			manaAmount: 300,
+			baseCost: 180000,
+			researchCost: 5000,
+			prereqs: {
+				adventures: ['adv3'],
+				items: ['ether']
+			}
+		}),
+		'elixir': new PotionDef({
+			displayName: 'Elixir',
+			healAmount: 1500,
+			manaAmount: 200,
+			baseCost: 150000,
+			researchCost: 15000,
+			prereqs: {
+				adventures: ['adv4'],
+				items: ['superPotion', 'hiEther']
 			}
 		}),
 
