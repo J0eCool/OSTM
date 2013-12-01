@@ -11,7 +11,7 @@ function loadSkills() {
 			scalingBase: {
 				strength: 1
 			},
-			manaCost: 12,
+			manaCost: 8,
 			baseDamage: 150,
 			levelDamage: 25
 		}),
@@ -20,7 +20,7 @@ function loadSkills() {
 			scalingBase: {
 				dexterity: 2.5
 			},
-			manaCost: 12,
+			manaCost: 7,
 			baseDamage: 140,
 			levelDamage: 20
 		}),
@@ -30,7 +30,7 @@ function loadSkills() {
 			scalingBase: {
 				intelligence: 10
 			},
-			manaCost: 5,
+			manaCost: 4,
 			baseDamage: 80,
 			levelDamage: 20
 		}),

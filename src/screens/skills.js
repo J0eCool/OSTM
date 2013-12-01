@@ -157,8 +157,8 @@ function SkillDef(data) {
 			j(equipId, 'toggle', this.level > 0);
 			j(equipId, 'toggleClass', 'selected', isEquipped);
 			var manaText = '';
-			if (this.manaCost > 0) {
-				manaText = this.manaCost + ' MP';
+			if (this.manaCost && this.getManaCost() > 0) {
+				manaText = this.getManaCost() + ' MP';
 			}
 			j(equipId + ' #mana', 'text', manaText);
 
@@ -234,6 +234,14 @@ function AttackSkillDef(data) {
 		return this.baseDamage + this.levelDamage * (level - 1);
 	};
 
+	this.getManaCost = function() {
+		return this.getManaCostAtLevel(this.level);
+	};
+
+	this.getManaCostAtLevel = function(level) {
+		return this.manaCost + level - 1;
+	};
+
 	this.getDescriptionAtLevel = function(level) {
 		var scalingStr = '<div id="scaling"><ul>';
 		var possibleStats = ['strength', 'dexterity', 'intelligence'];
@@ -247,7 +255,8 @@ function AttackSkillDef(data) {
 			}
 		}
 		scalingStr += '</ul></div>';
-		return scalingStr + '<span id="base">Damage: ' + this.getDamageAtLevel(level) + '</span>';
+		return scalingStr + '<div id="base"><ul><li>Damage: ' + this.getDamageAtLevel(level) +
+			'</li><li>Mana Cost:' + this.getManaCostAtLevel(level) + '</li></ul></div>';
 	};
 }
 

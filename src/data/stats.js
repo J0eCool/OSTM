@@ -14,7 +14,7 @@ function loadStats() {
 			displayName: 'Mana',
 			minLevel: 24,
 			baseValue: 40,
-			levelValue: 5,
+			levelValue: 7,
 
 			onUpgrade: function() {
 				Player.regenMana(this.upgradeValue());

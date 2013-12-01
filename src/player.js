@@ -2,7 +2,7 @@ var Player = {
 	toSave: ['health', 'mana', 'weaponName'],
 
 	health: 100,
-	baseHealthRegen: 5,
+	baseHealthRegen: 3,
 	partialHealth: 0, //health regen per-tick roundoff
 
 	mana: 100,
@@ -300,9 +300,9 @@ var Player = {
 			this.armor;
 		modifiedDamage = Math.max(modifiedDamage, 1);
 		if (enemy.isActive()) {
-			if (this.mana < this.attack.manaCost) {
+			if (this.mana < this.attack.getManaCost()) {
 				enemy.showMessage('Need Mana');
-				if (Options.resetToAttack && this.mana < this.attack.manaCost) {
+				if (Options.resetToAttack) {
 					this.attackName  = 'attack';
 				}
 			}
@@ -310,7 +310,7 @@ var Player = {
 				enemy.showMessage('Need HP');
 			}
 			else {
-				this.spendMana(this.attack.manaCost);
+				this.spendMana(this.attack.getManaCost());
 				this.takeDamage(modifiedDamage);
 				enemy.takeDamage(this.getDamageInfo());
 			}
