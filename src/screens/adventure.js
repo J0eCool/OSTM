@@ -110,11 +110,21 @@ function AdventureDef(data) {
 	this.prereqs = data.prereqs || null;
 	this.name = data.name || '';
 	this.displayName = data.displayName || '';
-	this.levels = data.levels || [1];
-	this.enemies = data.enemies || [];
+	this.subAreas = data.subAreas || [{
+		// This object serving as an example; don't actually default this
+		level: 2,
+		levelRand: 1,
+		spawnLo: 3,
+		spawnHi: 5,
+		useAll: true,
+		enemies: {
+			'enemy': 100
+		}
+	}];
+	this.allEnemies = data.allEnemies || {};
+	this.allLevelRand = data.allLevelRand || 0;
 	this.spawnCountLo = data.spawnCountLo || 3;
 	this.spawnCountHi = data.spawnCountHi || 5;
-	this.powerCost = data.powerCost || 100;
 
 	this.beatOnPower = -1;
 	this.power = 0;
@@ -148,17 +158,64 @@ function AdventureDef(data) {
 		return this.power <= this.beatOnPower && this.power < powerCap;
 	};
 
-	this.getLevel = function(areaIndex) {
-		var baseLevel = this.levels[areaIndex] || 1;
-		var diff = this.getBaseMaxLevel() - baseLevel;
+	this.subUseAll = function(areaIndex) {
+		var subArea = this.subAreas[areaIndex];
+		return subArea.useAll === undefined || subArea.useAll;
+	};
+
+	this.getLevelHi = function(areaIndex) {
+		var subArea = this.subAreas[areaIndex];
+		var rand = (this.subUseAll(areaIndex) ? this.allLevelrand : subArea.levelRand) || 0;
+		return subArea.level + rand;
+	};
+
+	this.getRandomLevel = function(areaIndex) {
+		var subArea = this.subAreas[areaIndex];
+		var diff = this.getBaseMaxLevel() - randIntInc(subArea.level, this.getLevelHi(areaIndex));
 
 		return this.getMaxLevel() - diff;
 	};
 
+	this.getRandomEnemy = function(areaIndex) {
+		var possibles = [];
+		var weights = [];
+		var totalWeight = 0;
+		var subArea = this.subAreas[areaIndex];
+
+		if (this.subUseAll(areaIndex)) {
+			foreach (this.allEnemies, function(weight, name) {
+				possibles.push(name);
+				weights.push(weight);
+				totalWeight += weight;
+			});
+		}
+		foreach (subArea.enemies, function(weight, name) {
+			possibles.push(name);
+			weights.push(weight);
+			totalWeight += weight;
+		});
+
+		var roll = rand(0, totalWeight);
+		var i = 0;
+		while (i < possibles.length && roll > weights[i]) {
+			roll -= weights[i];
+			i++;
+		}
+		return possibles[i];
+	};
+
+	this.getRandomSpawnCount = function(areaIndex) {
+		var subArea = this.subAreas[areaIndex];
+		if (this.subUseAll(areaIndex) || !subArea.spawnLo) {
+			return randIntInc(this.spawnCountLo, this.spawnCountHi);
+		}
+		return randIntInc(subArea.spawnLo, subArea.spawnHi);
+	};
+
 	this.getBaseMaxLevel = function() {
 		var max = 0;
-		for (var i = 0; i < this.levels.length; i++) {
-			max = Math.max(max, this.levels[i]);
+		for (var i = 0; i < this.subAreas.length; i++) {
+			max = Math.max(max, this.getLevelHi(i));
 		}
 		return max;
 	};

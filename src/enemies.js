@@ -13,14 +13,7 @@ var EnemyManager = {
 	bestAvailableSubArea: 0,
 
 	getAppropriateEnemy: function() {
-		var enemies = [];
-		for (var key in this.enemyDefs) {
-			var e = this.enemyDefs[key];
-			if (this.curArea.enemies.indexOf(e.name) >= 0) {
-				enemies.push(e);
-			}
-		}
-		return randItem(enemies);
+		return this.enemyDefs[this.curArea.getRandomEnemy(this.subArea)];
 	},
 
 	init: function() {
@@ -67,7 +60,7 @@ var EnemyManager = {
 	spawnEnemies: function() {
 		this.activeEnemies = [];
 		var numToSpawn = Math.min(this.enemies.length,
-			randIntInc(this.curArea.spawnCountLo, this.curArea.spawnCountHi));
+			this.curArea.getRandomSpawnCount(this.subArea));
 		j('.enemy-container').hide();
 		for (var i = 0; i < numToSpawn; i++) {
 			var enemy = this.enemies[i];
@@ -82,7 +75,7 @@ var EnemyManager = {
 		enemy.getSelector().hide();
 		if (this.activeEnemies.length === 0) {
 			this.bestAvailableSubArea = Math.max(this.subArea + 1, this.bestAvailableSubArea);
-			if (this.bestAvailableSubArea >= this.curArea.levels.length) {
+			if (this.bestAvailableSubArea >= this.curArea.subAreas.length) {
 				this.curArea.beatOnPower = Math.max(this.curArea.power, this.curArea.beatOnPower);
 			}
 			this.updateHeaderButtons();
@@ -98,7 +91,7 @@ var EnemyManager = {
 		j('#area-name').text(this.curArea.displayName);
 		j('#dec-level').toggle(this.subArea > 0);
 		j('#inc-level').toggle(this.subArea < this.bestAvailableSubArea)
-			.find('.content').text((this.subArea + 1 < this.curArea.levels.length) ?
+			.find('.content').text((this.subArea + 1 < this.curArea.subAreas.length) ?
 				'Forward' : 'Area Complete');
 	},
 
@@ -109,7 +102,7 @@ var EnemyManager = {
 	},
 
 	increaseLevel: function() {
-		if (this.subArea + 1 < this.curArea.levels.length) {
+		if (this.subArea + 1 < this.curArea.subAreas.length) {
 			this.subArea++;
 			this.spawnEnemies();
 			this.updateUI();
@@ -201,7 +194,7 @@ function EnemyContainer(index) {
 	}();
 
 	this.respawn = function(def) {
-		this.level = EnemyManager.curArea.getLevel(EnemyManager.subArea);
+		this.level = EnemyManager.curArea.getRandomLevel(EnemyManager.subArea);
 
 		var lev = this.level / 3;
 

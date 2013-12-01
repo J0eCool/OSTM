@@ -7,17 +7,17 @@ to do asap:
 		- upgrades
 	. skill descriptions
 	. in-game changelist
+	- upgrade Adventures
+		- define rooms, enemy data per-room
+		- bosses
 
 
 Backlog:
+	- split adventure list into main and side areas
 	- spell elements
 	- status effects
 		- poison: 500% damage over 8 seconds
 		- burn: 300% damage over 3 seconds
-	- upgrade Adventures
-		- define rooms, enemy data per-room
-		- bosses
-		- split adventure list into main and side areas
 	- Browser compatibility
 		- Firefox
 		- IE9?+
