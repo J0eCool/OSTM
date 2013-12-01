@@ -1,8 +1,11 @@
 {
-	"version": "0.1.10",
-	"description": "Sorry 'bout the font",
+	"version": "0.1.11",
+	"description": "More Adventures",
 	"changes": [
-		"New font, but less drastically different, with no outlining",
-		"Except for on the healthbar where it makes it more readable"
+		"More Adventures",
+		"Return of the Inn; now with variable cost",
+		"Mana costs on Skills increase with skill level",
+		"Added Alchemy skill and Super Potions",
+		"Passive Skills have descriptions"
 	]
 }

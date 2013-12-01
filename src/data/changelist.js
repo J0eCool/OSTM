@@ -1,4 +1,14 @@
 var changelist = {
+	"v0.1.11": {
+		"description": "More Adventures",
+		"changes": [
+			"More Adventures",
+			"Return of the Inn; now with variable cost",
+			"Mana costs on Skills increase with skill level",
+			"Added Alchemy skill and Super Potions",
+			"Passive Skills have descriptions"
+		]
+	},
 	"v0.1.10": {
 		"description": "Sorry 'bout the font",
 		"changes": [
