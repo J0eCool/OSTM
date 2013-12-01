@@ -293,6 +293,7 @@ var getUpgradeName = function() {
 		maxMana: 'Max Mana',
 		manaRegen: 'Mana Regen',
 		spellPower: 'Spell Power',
+		itemEffeciency: 'Item Efficiency',
 	};
 	return function(stat) {
 		return upgradeNames[stat] || stat;

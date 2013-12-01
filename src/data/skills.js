@@ -134,6 +134,16 @@ function loadSkills() {
 				}
 			}
 		}),
+		'alchemy': new PassiveSkillDef({
+			displayName: 'Alchemy',
+			description: 'Increases item effectiveness by <mult.itemEffeciency>%',
+			statMult: {
+				itemEffeciency: {
+					base: 100,
+					level: 25
+				}
+			}
+		}),
 	};
 
 	foreach (skills, function(skill, key) {

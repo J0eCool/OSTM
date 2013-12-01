@@ -19,8 +19,8 @@ function loadItems() {
 				adventures: ['adv1']
 			}
 		}),
-		'megaPotion': new PotionDef({
-			displayName: 'Mega Potion',
+		'superPotion': new PotionDef({
+			displayName: 'Super Potion',
 			data: {
 				healAmount: 2500
 			},
@@ -29,6 +29,18 @@ function loadItems() {
 			prereqs: {
 				adventures: ['adv2'],
 				items: ['hiPotion']
+			}
+		}),
+		'megaPotion': new PotionDef({
+			displayName: 'Mega Potion',
+			data: {
+				healAmount: 15000
+			},
+			baseCost: 3500000,
+			researchCost: 5000,
+			prereqs: {
+				adventures: ['adv3'],
+				items: ['superPotion']
 			}
 		}),
 
