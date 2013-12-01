@@ -45,6 +45,16 @@ function loadSkills() {
 				}
 			}
 		}),
+		'health-scale': new PassiveSkillDef({
+			displayName: 'Health Mastery',
+			description: 'Increases Max Health by <mult.healthPerLevel>% per Player Level',
+			statMult: {
+				healthPerLevel: {
+					base: 0.05,
+					level: 0.01
+				}
+			}
+		}),
 		'fortitude': new PassiveSkillDef({
 			displayName: 'Fortitude',
 			description: 'Increases overall Health Regen by <mult.healthRegen>%',

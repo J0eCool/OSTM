@@ -38,6 +38,10 @@ function formatNumber(x, precision, report) {
 		var decimal = parts[1];
 		if (decimal.length > precision) {
 			decimal = Math.round(parts[1].slice(0, precision + 1) / 10).toString();
+			while (decimal.length < precision) {
+				// we lose leading 0s when converting to a number; re-add them
+				decimal = '0' + decimal;
+			}
 		}
 		decimal = decimal.slice(0, precision);
 		for (var i = decimal.length - 1; i >= 0; i--) {

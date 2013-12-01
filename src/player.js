@@ -226,6 +226,7 @@ var Player = {
 	getMaxHealth: function() {
 		return Math.floor(this.weapon.getMult('maxHealth') *
 			Skills.getPassiveMult('maxHealth') *
+			((Skills.getPassiveMult('healthPerLevel') - 1) * Player.getLevel() + 1) *
 			this.maxHealth.value());
 	},
 
