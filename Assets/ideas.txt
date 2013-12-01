@@ -1,11 +1,8 @@
 to do asap:
 	. AoE skills (chain lightning, fireball)
 	. content
-		- adventures
-		- enemies
 		- weapons
 		- upgrades
-	. skill descriptions
 	. in-game changelist
 	. MP potions
 

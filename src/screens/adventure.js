@@ -10,13 +10,14 @@ var AdventureScreen = new ScreenContainer({
 		new ScreenDef({
 			name: 'field'
 		}),
-		// new ScreenDef({
-		// 	name: 'inn',
-		// 	displayName: 'Inn',
-		// 	html: getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave') + '<br>' +
-		// 		getButtonHtml("AdventureScreen.useInn()", 'Rest: <span id="inn-cost"></span>' +
-		// 			getIconHtml('gold'))
-		// }),
+		new ScreenDef({
+			name: 'inn',
+			displayName: 'Inn',
+			html: getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave') + '<br>' +
+				getButtonHtml("AdventureScreen.useInn()", 'Rest: <span id="inn-cost"></span>' +
+					getIconHtml('gold')) +
+				'<div>Inn cost reduced in <span id="inn-reset"></span>s</div>'
+		}),
 		new ScreenDef({
 			name: 'store',
 			displayName: 'Store',
@@ -38,10 +39,20 @@ var AdventureScreen = new ScreenContainer({
 
 	preInit: function() {
 		this.adventures = loadAdventures();
+		this.lastInnResetTime = Date.now();
 	},
 
 	update: function() {
 		j('#shrine-button', 'toggle', this.hasBeat('adv2'));
+
+		var timeDiff = Date.now() - this.lastInnResetTime;
+		var timeLeft = this.innResetTime - timeDiff;
+		if (timeLeft < 0) {
+			timeLeft = 0;
+			this.innUseCount = Math.floor(this.innUseCount / 2);
+			this.lastInnResetTime = Date.now();
+		}
+		j('#inn-reset', 'text', formatNumber(Math.floor(timeLeft / 1000)));
 		j('#inn-cost', 'text', formatNumber(this.getInnCost()));
 
 		for (var i in this.adventures) {
@@ -57,7 +68,11 @@ var AdventureScreen = new ScreenContainer({
 		this.curScreen = name;
 	}
 });
-AdventureScreen.toSave = ['adventures'];
+AdventureScreen.toSave = ['adventures', 'innUseCount'];
+AdventureScreen.lastInnResetTime = 0;
+AdventureScreen.innUseCount = 0;
+AdventureScreen.innResetTime = 10 * 60 * 1000;
+
 AdventureScreen.getAdventure = function(name) {
 	for (var i in this.adventures) {
 		var adv = this.adventures[i];
@@ -98,12 +113,14 @@ AdventureScreen.useInn = function() {
 		Player.spend('gold', this.getInnCost(), function() {
 			Player.health = Player.getMaxHealth();
 			Player.mana = Player.getMaxMana();
+			AdventureScreen.innUseCount++;
 		});
 	}
 };
 AdventureScreen.getInnCost = function() {
 	var l = Player.getLevel() - 1;
-	return Math.floor(10 + l + 0.05 * Math.pow(l, 2.2));
+	var base = 10 + l + 0.05 * Math.pow(l, 1.6);
+	return Math.floor(base * Math.pow(2, this.innUseCount));
 };
 AdventureScreen.isAdventuring = function() {
 	return this.curScreen == 'field';
