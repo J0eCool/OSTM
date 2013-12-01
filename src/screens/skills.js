@@ -239,7 +239,10 @@ function AttackSkillDef(data) {
 	};
 
 	this.getManaCostAtLevel = function(level) {
-		return this.manaCost + level - 1;
+		if (this.manaCost) {
+			return this.manaCost + level - 1;
+		}
+		return 0;
 	};
 
 	this.getDescriptionAtLevel = function(level) {
@@ -255,8 +258,12 @@ function AttackSkillDef(data) {
 			}
 		}
 		scalingStr += '</ul></div>';
-		return scalingStr + '<div id="base"><ul><li>Damage: ' + this.getDamageAtLevel(level) +
-			'</li><li>Mana Cost:' + this.getManaCostAtLevel(level) + '</li></ul></div>';
+		var baseStr = '<div id="base"><ul><li>Damage: ' + this.getDamageAtLevel(level) + '</li>';
+		if (this.getManaCostAtLevel(level)) {
+			baseStr += '<li>Mana Cost:' + this.getManaCostAtLevel(level) + '</li>';
+		}
+		baseStr += '</ul></div>';
+		return scalingStr + baseStr;
 	};
 }
 
