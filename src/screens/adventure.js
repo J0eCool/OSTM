@@ -120,7 +120,7 @@ AdventureScreen.useInn = function() {
 AdventureScreen.getInnCost = function() {
 	var l = Player.getLevel() - 1;
 	var base = 10 + l + 0.05 * Math.pow(l, 1.6);
-	return Math.floor(base * Math.pow(2, this.innUseCount));
+	return Math.floor(base * Math.pow(1.5, this.innUseCount));
 };
 AdventureScreen.isAdventuring = function() {
 	return this.curScreen == 'field';
