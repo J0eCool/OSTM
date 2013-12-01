@@ -43,7 +43,7 @@ function loadEnemies() {
 			}
 		}),
 		'trisnake': new EnemyDef({
-			displayName: 'Tri-Snake',
+			displayName: 'TriSnake',
 			image: 'TriSnake2.png',
 			boss: true,
 			health: 750,
@@ -65,6 +65,65 @@ function loadEnemies() {
 				iron: 3,
 			}
 		}),
+		'shell': new EnemyDef({
+			displayName: 'Sheller',
+			image: 'ShellBug.png',
+			health: 110,
+			attack: 7,
+			reward: {
+				xp: 19,
+				gold: 11,
+			}
+		}),
+		'slug2': new EnemyDef({
+			displayName: 'Sloog-2',
+			image: 'SlugSquirrel2.png',
+			health: 140,
+			attack: 7,
+			reward: {
+				xp: 24,
+				gold: 9,
+				research: 6,
+			}
+		}),
+		'mask2': new EnemyDef({
+			displayName: 'Masker-2',
+			image: 'MaskBug2.png',
+			health: 160,
+			attack: 11,
+			reward: {
+				xp: 24,
+				gold: 11,
+				iron: 4.5,
+			}
+		}),
+		'mask3': new EnemyDef({
+			displayName: 'Masker-3',
+			image: 'MaskBug3.png',
+			health: 1200,
+			attack: 20,
+			reward: {
+				xp: 70,
+				gold: 27,
+				iron: 23,
+				wood: 2.4,
+			}
+		}),
+		'trisnake2': new EnemyDef({
+			displayName: 'TriSnake-2',
+			image: 'TriSnake.png',
+			boss: true,
+			health: 2750,
+			attack: 18,
+			reward: {
+				xp: 180,
+				gold: 125,
+				research: 135,
+			}
+		}),
+
+
+
 		'snail': new EnemyDef({
 			displayName: 'Snale',
 			image: 'SpikeSnail.png',

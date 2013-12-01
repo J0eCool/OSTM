@@ -1,5 +1,5 @@
 var EnemyManager = {
-	numEnemies: 6,
+	numEnemies: 9,
 	enemyDefs: {},
 
 	curArea: null,
@@ -88,8 +88,8 @@ var EnemyManager = {
 	},
 
 	updateHeaderButtons: function() {
-		j('#area-name').text(this.curArea.displayName);
-		j('#dec-level').toggle(this.subArea > 0);
+		j('#area-name', 'text', this.curArea.displayName);
+		j('#dec-level', 'toggle', this.subArea > 0);
 		j('#inc-level').toggle(this.subArea < this.bestAvailableSubArea)
 			.find('.content').text((this.subArea + 1 < this.curArea.subAreas.length) ?
 				'Forward' : 'Area Complete');

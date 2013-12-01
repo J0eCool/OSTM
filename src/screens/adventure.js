@@ -74,6 +74,10 @@ AdventureScreen.hasBeat = function(name) {
 };
 AdventureScreen.startAdventure = function(name) {
 	var adv = this.getAdventure(name);
+	if (EnemyManager.curArea) {
+		j('.field').toggleClass(EnemyManager.curArea.areaType, false);
+	}
+	j('.field').toggleClass(adv.areaType, true);
 	EnemyManager.curArea = adv;
 	this.setScreen('field');
 };
@@ -110,6 +114,7 @@ function AdventureDef(data) {
 	this.prereqs = data.prereqs || null;
 	this.name = data.name || '';
 	this.displayName = data.displayName || '';
+	this.areaType = data.areaType || 'grass';
 	this.subAreas = data.subAreas || [{
 		// This object serving as an example; don't actually default this
 		level: 2,
