@@ -1,4 +1,13 @@
 var changelist = {
+	"v0.1.12": {
+		"description": "Small stuff",
+		"changes": [
+			"Don't increase mana cost for basic attack",
+			"Inn cost increases by 50% per use (down from 100%)",
+			"Add Health Mastery passive skill",
+			"Fix a bug where numbers like '0.06' could display as '0.6'"
+		]
+	},
 	"v0.1.11": {
 		"description": "More Adventures",
 		"changes": [
