@@ -2,7 +2,7 @@ function loadUpgrades() {
 	var upgrades = {
 		'tent-1': new UpgradeDef({
 			displayName: 'Big Tents',
-			baseCost: 1000,
+			baseCost: 100,
 			targetBuilding: 'tent',
 			amountIncrease: 50,
 			prereqs: {
@@ -14,7 +14,7 @@ function loadUpgrades() {
 		'tent-2': new UpgradeDef({
 			displayName: 'Bigger Tents',
 			researchCost: 750,
-			baseCost: 5000,
+			baseCost: 400,
 			targetBuilding: 'tent',
 			amountIncrease: 50,
 			prereqs: {
@@ -29,7 +29,7 @@ function loadUpgrades() {
 		'tent-3': new UpgradeDef({
 			displayName: 'Nice Tents',
 			researchCost: 2000,
-			baseCost: 50000,
+			baseCost: 2000,
 			targetBuilding: 'tent',
 			amountIncrease: 100,
 			prereqs: {
@@ -44,9 +44,9 @@ function loadUpgrades() {
 		'tent-4': new UpgradeDef({
 			displayName: 'Real Nice Tents',
 			researchCost: 5000,
-			baseCost: 250000,
+			baseCost: 5000,
 			targetBuilding: 'tent',
-			amountIncrease: 30,
+			amountIncrease: 40,
 			prereqs: {
 				buildings: {
 					'tent': 25
@@ -59,7 +59,7 @@ function loadUpgrades() {
 		'tent-n': new UpgradeDef({
 			displayName: 'Infinite Tents',
 			researchCost: 50000,
-			baseCost: 100000,
+			baseCost: 10000,
 			targetBuilding: 'tent',
 			amountIncrease: 2,
 			maxCount: 0,
@@ -72,7 +72,7 @@ function loadUpgrades() {
 
 		'shack-1': new UpgradeDef({
 			displayName: 'Dry Shacks',
-			baseCost: 50000,
+			baseCost: 500,
 			targetBuilding: 'shack',
 			amountIncrease: 50,
 			prereqs: {
@@ -84,9 +84,9 @@ function loadUpgrades() {
 
 		'cabin-1': new UpgradeDef({
 			displayName: 'Log Cabins',
-			baseCost: 250000,
+			baseCost: 2000,
 			targetBuilding: 'cabin',
-			amountIncrease: 30,
+			amountIncrease: 50,
 			prereqs: {
 				buildings: {
 					'cabin': 1
@@ -96,7 +96,7 @@ function loadUpgrades() {
 
 		'library-1': new UpgradeDef({
 			displayName: 'Card Catalogs',
-			baseCost: 50000,
+			baseCost: 1200,
 			targetBuilding: 'library',
 			amountIncrease: 100,
 			prereqs: {

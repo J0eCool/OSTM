@@ -170,7 +170,7 @@ function EnemyContainer(index) {
 			gold: function(b, s) { return rand(0.35, 1) * b * Math.pow(s, 2.15); },
 			research: function(b, s) { return b * Math.pow(s, 0.85); },
 			iron: function(b, s) { return b * Math.pow(s, 1.4); },
-			wood: function(b, s) { return b * Math.pow(s, 0.8); },
+			wood: function(b, s) { return b * Math.pow(s, 1.15); },
 		};
 		return function(reward, level) {
 			var r = {};
