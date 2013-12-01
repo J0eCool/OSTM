@@ -10,7 +10,7 @@ function loadAdventures() {
 				level: 3
 			}],
 			allEnemies: {
-				'enemy': 100
+				snake: 100
 			},
 			allLevelRand: 1,
 			spawnCountHi: 3,
@@ -30,8 +30,8 @@ function loadAdventures() {
 				level: 7
 			}],
 			allEnemies: {
-				'enemy': 50,
-				'wall': 50
+				snake: 50,
+				slug: 50
 			},
 		}),
 		adv2: new AdventureDef({
@@ -48,11 +48,23 @@ function loadAdventures() {
 			}, {
 				level: 11
 			}, {
-				level: 14
+				level: 10,
+				enemies: {
+					snake3: 8
+				}
+			}, {
+				level: 14,
+				useAll: false,
+				spawnLo: 1,
+				spawnHi: 1,
+				enemies: {
+					trisnake: 100
+				}
 			}],
 			allEnemies: {
-				'wall': 30,
-				'swirl': 70
+				snake: 40,
+				slug: 30,
+				snake2: 30
 			},
 		}),
 		// 'adv3': new AdventureDef({

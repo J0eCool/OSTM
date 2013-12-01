@@ -7,9 +7,7 @@ to do asap:
 		- upgrades
 	. skill descriptions
 	. in-game changelist
-	- upgrade Adventures
-		- define rooms, enemy data per-room
-		- bosses
+	. MP potions
 
 
 Backlog:
