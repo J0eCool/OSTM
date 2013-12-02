@@ -103,13 +103,13 @@ module.exports = function(grunt) {
     copy: {
       build: {
         files: [
-          {expand: true, flatten: true, dest: '<%= deployFolder %>', src: ['build/game.min.css', 'build/game.min.js', 'build/index.html', 'img/*.png', 'img/Enemies/*.png', 'update.json']},
+          {expand: true, flatten: true, dest: '<%= deployFolder %>', src: ['build/game.min.css', 'build/game.min.js', 'build/index.html', 'img/**/*.png', 'update.json']},
         ]
       },
       debug: {
         files: [
           {dest: '<%= debugFolder %>/index.html', src: ['build/index.debug.html']},
-          {expand: true, flatten: true, dest: '<%= debugFolder %>', src: ['build/game.css', 'build/game.js', 'img/*.png', 'img/Enemies/*.png', 'update.json']},
+          {expand: true, flatten: true, dest: '<%= debugFolder %>', src: ['build/game.css', 'build/game.js', 'img/**/*.png', 'update.json']},
         ]
       }
     },

@@ -18,22 +18,43 @@ var ParticleContainer = {
 		return html;
 	},
 
-	create: function(type, val, x, y) {
+	getNextParticle: function() {
 		while (this.curParticle >= this.particles.length) {
 			var id = '#particle-'+this.curParticle;
 			this.particles.push(j(id));
 		}
 		var obj = this.particles[this.curParticle];
+		this.curParticle = (this.curParticle + 1) % this.maxParticles;
+		return obj;
+	},
+
+	create: function(type, val, x, y) {
+		var obj = this.getNextParticle();
 		obj.stop(true, true).html(val).css({
 			'left': x + 'px',
 			'top': (y + 64) + 'px',
-			'opacity': 1
+			'opacity': 1,
+			'transform': '',
 		}).attr('class', 'particle ' + type.className).animate({
 			top: "-=" + type.animHeight + "px",
 			opacity: "0"
 		}, type.animTime);
-		this.curParticle = (this.curParticle + 1) % this.maxParticles;
-	}
+	},
+
+	createEffect: function(image, data) {
+		var obj = this.getNextParticle();
+		var widHeight = 'style="' +
+			(data.w ? 'width:' + data.w + 'px;' : '') +
+			(data.h ? 'height:' + data.h + 'px;' : '') + '"';
+		obj.stop(true, true).html('<img src="' + image + '" ' + widHeight + '></img>').css({
+			'left': (data.x || 0) + 'px',
+			'top': (data.y || 0) + 'px',
+			'opacity': 1,
+			'transform': 'rotate(' + (data.deg || 0) + 'deg)',
+		}).attr('class', 'particle').animate({
+			opacity: "0"
+		}, data.fadeTime || 750);
+	},
 };
 
 var damageParticleType = new ParticleType({
