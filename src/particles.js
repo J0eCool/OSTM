@@ -42,6 +42,10 @@ var ParticleContainer = {
 	},
 
 	createEffect: function(image, data) {
+		if (!Options.fancyGraphics) {
+			return;
+		}
+
 		var obj = this.getNextParticle();
 		var widHeight = 'style="' +
 			(data.w ? 'width:' + data.w + 'px;' : '') +

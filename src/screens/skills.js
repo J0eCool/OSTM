@@ -265,6 +265,10 @@ function AttackSkillDef(data) {
 		baseStr += '</ul></div>';
 		return scalingStr + baseStr;
 	};
+
+	this.doAttack = data.doAttack || function(enemy) {
+		enemy.takeDamage(Player.getDamageInfo());
+	};
 }
 
 function SpellSkillDef(data) {

@@ -252,7 +252,9 @@ var Player = {
 				Skills.getPassiveBase('manaRegen') / 100 * this.getMaxMana());
 	},
 
-	getDamageInfo: function() {
+	getDamageInfo: function(mod) {
+		mod = mod || 1;
+
 		var dmg = {
 			attackPower: this.weapon.getDamage() *
 				this.attack.getDamage() / 100 *
@@ -269,6 +271,7 @@ var Player = {
 		if (dmg.isSpell) {
 			dmg.baseDamage = (dmg.spellPower / 100) * this.attack.getDamage();
 		}
+		dmg.baseDamage *= mod;
 
 		dmg.lo = Math.ceil(dmg.baseDamage * (1 - this.randDamage / 2));
 		dmg.hi = Math.floor(dmg.baseDamage * (1 + this.randDamage / 2));
@@ -315,7 +318,8 @@ var Player = {
 			else {
 				this.addMana(-this.attack.getManaCost());
 				this.takeDamage(modifiedDamage);
-				enemy.takeDamage(this.getDamageInfo());
+
+				this.attack.doAttack(enemy);
 			}
 		}
 	},

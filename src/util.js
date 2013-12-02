@@ -17,6 +17,9 @@ function clamp(val, lo, hi) {
 function clamp01(val) {
 	return clamp(val, 0, 1);
 }
+function lerp(t, from, to) {
+	return clamp01(t) * (to - from) + from;
+}
 
 function removeItem(item, list) {
 	var index = list.indexOf(item);

@@ -34,6 +34,36 @@ function loadSkills() {
 			baseDamage: 80,
 			levelDamage: 20
 		}),
+		'fireball': new SpellSkillDef({
+			displayName: 'Fireball',
+			scalingBase: {
+				intelligence: 4
+			},
+			manaCost: 16,
+			baseDamage: 100,
+			levelDamage: 10,
+			doAttack: function(enemy) {
+				var pos = enemy.getAbsolutePosition();
+				var sel = enemy.getSelector();
+				var siz = 250;
+				var jit = 32;
+				ParticleContainer.createEffect('Explosion.png', {
+					x: pos.x + (sel.width() - siz) / 2 + randIntInc(-jit, jit),
+					y: pos.y + sel.height() - siz / 2 + randIntInc(-jit, jit),
+					w: siz,
+					h: siz,
+				});
+
+				enemy.takeDamage(Player.getDamageInfo());
+				foreach (EnemyManager.activeEnemies, function(e) {
+					if (e != enemy) {
+						e.takeDamage(Player.getDamageInfo(0.35));
+					}
+				});
+			}
+		}),
+
+
 
 		'health-up': new PassiveSkillDef({
 			displayName: 'Health Plus',
