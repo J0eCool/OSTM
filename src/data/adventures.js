@@ -149,18 +149,33 @@ function loadAdventures() {
 			}, {
 				level: 40
 			}, {
-				level: 41
+				level: 41,
+				enemies: {
+					shell2: 35
+				}
 			}, {
-				level: 42
+				level: 42,
+				enemies: {
+					shell2: 35
+				}
 			}, {
 				level: 41,
 				enemies: {
+					shell2: 35,
 					mask3: 8
+				}
+			}, {
+				level: 46,
+				useAll: false,
+				spawnLo: 1,
+				spawnHi: 1,
+				enemies: {
+					trisnake2: 100
 				}
 			}],
 			allEnemies: {
 				mask2: 45,
-				shell: 35,
+				shell: 15,
 				slug2: 20,
 				mask3: 1,
 			},

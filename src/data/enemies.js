@@ -29,6 +29,7 @@ function loadEnemies() {
 			reward: {
 				xp: 13,
 				gold: 8,
+				wood: 0.7,
 			}
 		}),
 		'snake3': new EnemyDef({
@@ -39,7 +40,7 @@ function loadEnemies() {
 			reward: {
 				xp: 28,
 				gold: 45,
-				wood: 1.5,
+				wood: 3.5,
 			}
 		}),
 		'trisnake': new EnemyDef({
@@ -97,6 +98,17 @@ function loadEnemies() {
 				iron: 4.5,
 			}
 		}),
+		'shell2': new EnemyDef({
+			displayName: 'Sheller-2',
+			image: 'ShellBug2.png',
+			health: 210,
+			attack: 9,
+			reward: {
+				xp: 25,
+				gold: 12,
+				wood: 1.4,
+			}
+		}),
 		'mask3': new EnemyDef({
 			displayName: 'Masker-3',
 			image: 'MaskBug3.png',
@@ -106,7 +118,7 @@ function loadEnemies() {
 				xp: 70,
 				gold: 27,
 				iron: 23,
-				wood: 2.4,
+				wood: 4.5,
 			}
 		}),
 		'trisnake2': new EnemyDef({
