@@ -64,6 +64,10 @@ var AdventureScreen = new ScreenContainer({
 		if (!this.isOpen('field') && name == 'field') {
 			EnemyManager.resetField();
 		}
+		else if (this.isOpen('field') && name != 'field' && EnemyManager.curArea) {
+			j('.field').toggleClass(EnemyManager.curArea.areaType, false);
+			EnemyManager.curArea = null;
+		}
 
 		this.curScreen = name;
 	}

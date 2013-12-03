@@ -21,6 +21,15 @@ function lerp(t, from, to) {
 	return clamp01(t) * (to - from) + from;
 }
 
+function distance(x1, y1, x2, y2) {
+	var dx = x2 - x1;
+	var dy = y2 - y1;
+	return Math.sqrt(dx * dx + dy * dy);
+}
+function vecDistance(vec1, vec2) {
+	return dist(vec1.x, vec1.y, vec2.x, vec2.y);
+}
+
 function removeItem(item, list) {
 	var index = list.indexOf(item);
 	if (index >= 0) {

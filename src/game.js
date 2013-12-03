@@ -56,6 +56,8 @@ var Game = {
 			Blacksmith.update();
 			Skills.update();
 
+			EnemyManager.update();
+
 			Menu.update();
 			AdventureScreen.update();
 

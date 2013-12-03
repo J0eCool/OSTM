@@ -47,6 +47,10 @@ function loadSkills() {
 				var sel = enemy.getSelector();
 				var siz = 250;
 				var jit = 32;
+				var rangeLo = 0.2;
+				var rangeHi = 0.6;
+				var dmgHi = 0.6;
+				var dmgLo = 0.25;
 				ParticleContainer.createEffect('Explosion.png', {
 					x: pos.x + (sel.width() - siz) / 2 + randIntInc(-jit, jit),
 					y: pos.y + sel.height() - siz / 2 + randIntInc(-jit, jit),
@@ -55,11 +59,14 @@ function loadSkills() {
 				});
 
 				enemy.takeDamage(Player.getDamageInfo());
-				foreach (EnemyManager.activeEnemies, function(e) {
+				for (var i = EnemyManager.activeEnemies.length - 1; i >= 0; i--) {
+					var e = EnemyManager.activeEnemies[i];
 					if (e != enemy) {
-						e.takeDamage(Player.getDamageInfo(0.35));
+						var d = distance(enemy.x, enemy.y, e.x, e.y);
+						var dmg = lerp((d - rangeLo) / (rangeHi - rangeLo), dmgHi, dmgLo);
+						e.takeDamage(Player.getDamageInfo(dmg));
 					}
-				});
+				}
 			}
 		}),
 
