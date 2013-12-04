@@ -240,7 +240,7 @@ function AttackSkillDef(data) {
 
 	this.getManaCostAtLevel = function(level) {
 		if (this.manaCost) {
-			return this.manaCost + level - 1;
+			return Math.floor(this.manaCost * (1 + (level - 1) * 0.1));
 		}
 		return 0;
 	};

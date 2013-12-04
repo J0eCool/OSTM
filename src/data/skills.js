@@ -32,7 +32,7 @@ function loadSkills() {
 			},
 			manaCost: 4,
 			baseDamage: 80,
-			levelDamage: 20
+			levelDamage: 10
 		}),
 		'fireball': new SpellSkillDef({
 			displayName: 'Fireball',
@@ -73,7 +73,7 @@ function loadSkills() {
 			scalingBase: {
 				intelligence: 5.5
 			},
-			manaCost: 16,
+			manaCost: 14,
 			baseDamage: 100,
 			levelDamage: 10,
 			doAttack: function() {
@@ -123,7 +123,7 @@ function loadSkills() {
 				};
 
 				return function(enemy) {
-					damage(enemy, [enemy], 0.0001);
+					damage(enemy, [enemy], 1);
 				};
 			}()
 		}),

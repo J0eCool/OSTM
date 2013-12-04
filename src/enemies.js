@@ -239,7 +239,10 @@ function EnemyContainer(index) {
 		});
 
 		this.updateHealthBar();
+		this.clearPosCache();
+	};
 
+	this.clearPosCache = function() {
 		this.cachedRelPos = null;
 		this.cachedAbsPos = null;
 	};
@@ -365,9 +368,6 @@ function EnemyContainer(index) {
 	};
 
 	this.handleResize = function(windowSize) {
-		this.x *= windowSize.width / Game.windowSize.width;
-		this.y *= windowSize.height / Game.windowSize.height;
-
-		this.updatePosition();
+		this.clearPosCache();
 	};
 }

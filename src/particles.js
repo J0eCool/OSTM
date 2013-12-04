@@ -6,7 +6,7 @@ function ParticleType(data) {
 
 var ParticleContainer = {
 	curParticle: 0,
-	maxParticles: 30,
+	maxParticles: 60,
 
 	particles: null,
 
@@ -45,12 +45,12 @@ var ParticleContainer = {
 			var startParticle = ParticleContainer.curParticle - 1;
 			return function(t) {
 				if (startParticle + ParticleContainer.maxParticles <= ParticleContainer.curParticle) {
-					t = 1;
+					style.opacity = 0;
+					return true;
 				}
 
-				style.top = (baseTop - height * t) + 'px';
 				style.opacity = 1 - t;
-				return t >= 1;
+				style.top = (baseTop - height * t) + 'px';
 			};
 		}(), type.animTime);
 	},

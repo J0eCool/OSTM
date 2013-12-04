@@ -42,6 +42,10 @@ var Game = {
 		window.setInterval(Game.veryLongUpdate, Game.veryLongDt);
 		Game.update();
 
+		$(window).resize(function() {
+			Game.handleResize();
+		});
+
 		// Report current version
 		ga('set', 'dimension1', Save.currentSaveVersion);
 	},
@@ -89,5 +93,16 @@ var Game = {
 
 		// Report player level
 		ga('set', 'dimension2', Player.getLevel());
+	},
+
+	handleResize: function() {
+		// var win = $(window);
+		var windowSize = {
+			// width: win.width(),
+			// height: win.height()
+		};
+		foreach (EnemyManager.activeEnemies, function(enemy) {
+			 enemy.handleResize(windowSize);
+		});
 	},
 };

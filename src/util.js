@@ -114,7 +114,17 @@ var j = function(id) {
 var TimerManager = {
 	active: [],
 
+	skipFrame: 0,
+	maxSkipFrame: 2,
+
 	update: function() {
+		if (!Options.fancyGraphics) {
+			this.skipFrame = (this.skipFrame + 1) % this.maxSkipFrame;
+			if (this.skipFrame !== 0) {
+				return;
+			}
+		}
+
 		for (var i = this.active.length - 1; i >= 0; i--) {
 			this.active[i]();
 		}
@@ -124,7 +134,12 @@ var TimerManager = {
 		var func = function() {
 			var t = 0;
 			return function() {
-				t += Game.realtimeDt / duration;
+				var dt = Game.realtimeDt / duration;
+				if (!Options.fancyGraphics) {
+					dt *= TimerManager.maxSkipFrame;
+				}
+
+				t += dt;
 				if (action(clamp01(t)) || t >= 1) {
 					removeItem(func, TimerManager.active);
 				}
