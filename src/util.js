@@ -110,3 +110,35 @@ var j = function(id) {
 		}
 	};
 }();
+
+var TimerManager = {
+	active: [],
+
+	update: function() {
+		for (var i = this.active.length - 1; i >= 0; i--) {
+			this.active[i]();
+		}
+	},
+
+	create: function(action, duration) {
+		var func = function() {
+			var t = 0;
+			return function() {
+				t += Game.realtimeDt / duration;
+				if (action(clamp01(t)) || t >= 1) {
+					removeItem(func, TimerManager.active);
+				}
+			};
+		}();
+
+		this.active.push(func);
+	}
+};
+
+function shallowClone(base) {
+	var newObj = {};
+	for (var key in base) {
+		newObj[key] = base[key];
+	}
+	return newObj;
+}

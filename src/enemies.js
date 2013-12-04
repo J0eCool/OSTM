@@ -163,6 +163,14 @@ function EnemyContainer(index) {
 		return this.selector;
 	};
 
+	this.imgSelector = null;
+	this.getImgSelector = function() {
+		if (!this.imgSelector) {
+			this.imgSelector = this.getSelector().find('.enemy');
+		}
+		return this.imgSelector;
+	};
+
 	this.isActive = function() {
 		return EnemyManager.activeEnemies.indexOf(this) >= 0;
 	};
@@ -209,7 +217,7 @@ function EnemyContainer(index) {
 		this.reward = calcReward(def.reward, this.level);
 
 		var sel = this.getSelector();
-		var en = sel.find('.enemy');
+		var en = this.getImgSelector();
 
 		en.attr('src', def.image)
 			.toggleClass('boss', def.boss);
@@ -231,31 +239,40 @@ function EnemyContainer(index) {
 		});
 
 		this.updateHealthBar();
+
+		this.cachedRelPos = null;
+		this.cachedAbsPos = null;
 	};
 
 	this.getRelativePosition = function() {
-		var spawn = j('.spawn-area');
-		var sel = this.getSelector().find('.enemy');
-		var pos = sel.position();
-		return {
-			x: spawn.width() * this.x + pos.left,
-			y: spawn.height() * this.y + pos.top,
-			w: sel.width(),
-			h: sel.height()
-		};
+		if (!this.cachedRelPos) {
+			var spawn = j('.spawn-area');
+			var sel = this.getImgSelector();
+			var pos = sel.position();
+			this.cachedRelPos = {
+				x: spawn.width() * this.x + pos.left,
+				y: spawn.height() * this.y + pos.top,
+				w: sel.width(),
+				h: sel.height()
+			};
+		}
+		return shallowClone(this.cachedRelPos);
 	};
 
 	this.getAbsolutePosition = function() {
-		var adventurePos = EnemyManager.jqAdventure.position();
-		adventurePos.top = 64;
-		var spawnPos = j('.spawn-area').position();
-		var pos = this.getRelativePosition();
-		return {
-			x: adventurePos.left + spawnPos.left + pos.x,
-			y: adventurePos.top + spawnPos.top + pos.y,
-			w: pos.w,
-			h: pos.h
-		};
+		if (!this.cachedAbsPos) {
+			var adventurePos = EnemyManager.jqAdventure.position();
+			adventurePos.top = 64;
+			var spawnPos = j('.spawn-area').position();
+			var pos = this.getRelativePosition();
+			this.cachedAbsPos = {
+				x: adventurePos.left + spawnPos.left + pos.x,
+				y: adventurePos.top + spawnPos.top + pos.y,
+				w: pos.w,
+				h: pos.h
+			};
+		}
+		return shallowClone(this.cachedAbsPos);
 	};
 
 	this.attackPower = function() {
@@ -277,10 +294,11 @@ function EnemyContainer(index) {
 			this.showMessage(dmgString, damageParticleType);
 		}
 
+		var enemyImage = this.getImgSelector();
 		if (this.health <= 0) {
 			this.giveRewards();
 
-			this.selector.find('.enemy').toggleClass('blur', false);
+			enemyImage.toggleClass('blur', false);
 
 			EnemyManager.despawnEnemy(this);
 		}
@@ -288,7 +306,6 @@ function EnemyContainer(index) {
 			this.animateHealthBar();
 
 			if (Options.fancyGraphics) {
-				var enemyImage = this.getSelector().find('.enemy');
 				enemyImage.toggleClass('blur', true)
 					.one('transitionend', function(e) {
 						enemyImage.toggleClass('blur', false);
@@ -302,13 +319,9 @@ function EnemyContainer(index) {
 			particleType = damageParticleType;
 		}
 
-		var sel = this.getSelector();
-		var width = sel.width();
-		var height = sel.height();
-
 		var pos = this.getAbsolutePosition();
-		var x = pos.x + randInt(-40, 40) + width / 2;
-		var y = pos.y + randInt(-20, 0) + height / 2;
+		var x = pos.x + randInt(-40, 40) + pos.w / 2;
+		var y = pos.y - 64 + randInt(-20, 20) + pos.h / 2;
 
 		ParticleContainer.create(particleType, message, x, y);
 	};
@@ -318,8 +331,15 @@ function EnemyContainer(index) {
 	};
 
 	this.animateHealthBar = function() {
-		j('.enemy-health-'+this.index).stop(true, false)
-			.animate({ width: this.getHealthPercent() + '%' }, 125);
+		var obj = j('.enemy-health-'+this.index)[0].style;
+		var that = this;
+		TimerManager.create(function() {
+			var from = obj.width.split('%')[0] / 1;
+			var to = that.getHealthPercent();
+			return function(t) {
+				obj.width = lerp(t, from, to) + '%';
+			};
+		}(), 125);
 	};
 
 	this.updateHealthBar = function() {

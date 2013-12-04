@@ -38,6 +38,7 @@ var Game = {
 		Save.load();
 
 		window.setInterval(Game.update, Game.normalDt);
+		window.setInterval(Game.realtimeUpdate, Game.realtimeDt);
 		window.setInterval(Game.veryLongUpdate, Game.veryLongDt);
 		Game.update();
 
@@ -66,6 +67,10 @@ var Game = {
 			prevTime = Date.now();
 		};
 	}(),
+
+	realtimeUpdate: function() {
+		TimerManager.update();
+	},
 
 	veryLongUpdate: function() {
 		// Check for updates

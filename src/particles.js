@@ -8,7 +8,7 @@ var ParticleContainer = {
 	curParticle: 0,
 	maxParticles: 30,
 
-	particles: [],
+	particles: null,
 
 	getHtml: function() {
 		var html = "";
@@ -19,26 +19,40 @@ var ParticleContainer = {
 	},
 
 	getNextParticle: function() {
-		while (this.curParticle >= this.particles.length) {
-			var id = '#particle-'+this.curParticle;
-			this.particles.push(j(id));
+		if (!this.particles) {
+			this.particles = [];
+			for (var i = 0; i < this.maxParticles; i++) {
+				var id = '#particle-' + i;
+				this.particles.push(j(id));
+			}
 		}
-		var obj = this.particles[this.curParticle];
-		this.curParticle = (this.curParticle + 1) % this.maxParticles;
+		var obj = this.particles[this.curParticle % this.maxParticles];
+		this.curParticle++;
 		return obj;
 	},
 
 	create: function(type, val, x, y) {
+		var baseTop = y + 64;
 		var obj = this.getNextParticle();
-		obj.stop(true, true).html(val).css({
-			'left': x + 'px',
-			'top': (y + 64) + 'px',
-			'opacity': 1,
-			'transform': '',
-		}).attr('class', 'particle ' + type.className).animate({
-			top: "-=" + type.animHeight + "px",
-			opacity: "0"
-		}, type.animTime);
+		var style = obj[0].style;
+		obj.html(val).attr('class', 'particle ' + type.className).css('transform', '');
+		style.left = x + 'px';
+		style.top = baseTop + 'px';
+		style.opacity = 1;
+
+		TimerManager.create(function() {
+			var height = type.animHeight;
+			var startParticle = ParticleContainer.curParticle - 1;
+			return function(t) {
+				if (startParticle + ParticleContainer.maxParticles <= ParticleContainer.curParticle) {
+					t = 1;
+				}
+
+				style.top = (baseTop - height * t) + 'px';
+				style.opacity = 1 - t;
+				return t >= 1;
+			};
+		}(), type.animTime);
 	},
 
 	createEffect: function(image, data) {
@@ -46,18 +60,31 @@ var ParticleContainer = {
 			return;
 		}
 
-		var obj = this.getNextParticle();
 		var widHeight = 'style="' +
 			(data.w ? 'width:' + data.w + 'px;' : '') +
 			(data.h ? 'height:' + data.h + 'px;' : '') + '"';
-		obj.stop(true, true).html('<img src="' + image + '" ' + widHeight + '></img>').css({
-			'left': (data.x || 0) + 'px',
-			'top': (data.y || 0) + 'px',
-			'opacity': 1,
-			'transform': 'rotate(' + (data.deg || 0) + 'deg)',
-		}).attr('class', 'particle').animate({
-			opacity: "0"
-		}, data.fadeTime || 750);
+		var obj = this.getNextParticle();
+		var style = obj[0].style;
+		obj.html('<img src="' + image + '" ' + widHeight + '></img>').attr('class', 'particle')
+			.css('transform', 'rotate(' + (data.deg || 0) + 'deg)');
+		style.left = (data.x || 0) + 'px';
+		style.top = (data.y || 0) + 'px';
+		style.opacity = 1;
+
+		TimerManager.create(function() {
+			var startParticle = ParticleContainer.curParticle - 1;
+			return function(t) {
+				if (startParticle + ParticleContainer.maxParticles <= ParticleContainer.curParticle) {
+					t = 1;
+				}
+
+				style.opacity = 1 - t;
+				return t >= 1;
+			};
+		}(), data.fadeTime || 750);
+		// .animate({
+		// 	opacity: "0"
+		// }, data.fadeTime || 750);
 	},
 };
 
