@@ -235,25 +235,26 @@ function EnemyContainer(index) {
 
 	this.getRelativePosition = function() {
 		var spawn = j('.spawn-area');
+		var sel = this.getSelector().find('.enemy');
+		var pos = sel.position();
 		return {
-			x: spawn.width() * this.x,
-			y: spawn.height() * this.y
+			x: spawn.width() * this.x + pos.left,
+			y: spawn.height() * this.y + pos.top,
+			w: sel.width(),
+			h: sel.height()
 		};
 	};
 
 	this.getAbsolutePosition = function() {
 		var adventurePos = EnemyManager.jqAdventure.position();
 		adventurePos.top = 64;
-		console.log(adventurePos);
 		var spawnPos = j('.spawn-area').position();
-		console.log(spawnPos);
 		var pos = this.getRelativePosition();
-		console.log(pos);
 		return {
-			// x: adventurePos.left + spawnPos.left + pos.x,
-			// y: adventurePos.top + spawnPos.top + pos.y,
-			x: adventurePos.left + spawnPos.left,
-			y: adventurePos.top + spawnPos.top,
+			x: adventurePos.left + spawnPos.left + pos.x,
+			y: adventurePos.top + spawnPos.top + pos.y,
+			w: pos.w,
+			h: pos.h
 		};
 	};
 

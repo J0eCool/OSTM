@@ -44,7 +44,6 @@ function loadSkills() {
 			levelDamage: 10,
 			doAttack: function(enemy) {
 				var pos = enemy.getAbsolutePosition();
-				var sel = enemy.getSelector();
 				var siz = 250;
 				var jit = 32;
 				var rangeLo = 0.2;
@@ -52,8 +51,8 @@ function loadSkills() {
 				var dmgHi = 0.6;
 				var dmgLo = 0.25;
 				ParticleContainer.createEffect('Explosion.png', {
-					x: pos.x + (sel.width() - siz) / 2 + randIntInc(-jit, jit),
-					y: pos.y + sel.height() - siz / 2 + randIntInc(-jit, jit),
+					x: pos.x + (pos.w - siz) / 2 + randIntInc(-jit, jit),
+					y: pos.y + (pos.h - siz) / 2 + randIntInc(-jit, jit),
 					w: siz,
 					h: siz,
 				});
@@ -82,16 +81,23 @@ function loadSkills() {
 				var stepMult = 0.85;
 
 				var makeArc = function(from, to) {
+					var jit = 16;
 					var fPos = from.getAbsolutePosition();
 					var tPos = to.getAbsolutePosition();
+					fPos.x += fPos.w / 2 + randIntInc(-jit, jit);
+					fPos.y += fPos.h / 2 + randIntInc(-jit, jit);
+					tPos.x += tPos.w / 2 + randIntInc(-jit, jit);
+					tPos.y += tPos.h / 2 + randIntInc(-jit, jit);
+
 					var d = vecDistance(fPos, tPos);
 
 					ParticleContainer.createEffect('Lightning.png', {
-						x: (fPos.x + tPos.x) / 2,
-						y: (fPos.y + tPos.y) / 2,
+						x: (fPos.x + tPos.x - w) / 2,
+						y: (fPos.y + tPos.y - d) / 2,
 						w: w,
 						h: d,
-						deg: 90 + 180 / Math.PI * Math.atan2(tPos.y - fPos.y, tPos.x - fPos.x)
+						deg: 90 + 180 / Math.PI * Math.atan2(tPos.y - fPos.y, tPos.x - fPos.x),
+						fadeTime: 250
 					});
 				};
 
@@ -114,13 +120,6 @@ function loadSkills() {
 					}
 
 					e.takeDamage(Player.getDamageInfo(dmg));
-
-					ParticleContainer.createEffect('Explosion.png', {
-						x: e.getAbsolutePosition().x,
-						y: e.getAbsolutePosition().y,
-						w: 20,
-						h: 20,
-					});
 				};
 
 				return function(enemy) {
