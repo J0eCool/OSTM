@@ -39,7 +39,7 @@ function loadSkills() {
 			scalingBase: {
 				intelligence: 4
 			},
-			manaCost: 16,
+			manaCost: 20,
 			baseDamage: 100,
 			levelDamage: 10,
 			doAttack: function(enemy) {
@@ -68,6 +68,65 @@ function loadSkills() {
 					}
 				}
 			}
+		}),
+		'chainLightning': new SpellSkillDef({
+			displayName: 'Chain Lightning',
+			scalingBase: {
+				intelligence: 5.5
+			},
+			manaCost: 16,
+			baseDamage: 100,
+			levelDamage: 10,
+			doAttack: function() {
+				var w = 50;
+				var stepMult = 0.85;
+
+				var makeArc = function(from, to) {
+					var fPos = from.getAbsolutePosition();
+					var tPos = to.getAbsolutePosition();
+					var d = vecDistance(fPos, tPos);
+
+					ParticleContainer.createEffect('Lightning.png', {
+						x: (fPos.x + tPos.x) / 2,
+						y: (fPos.y + tPos.y) / 2,
+						w: w,
+						h: d,
+						deg: 90 + 180 / Math.PI * Math.atan2(tPos.y - fPos.y, tPos.x - fPos.x)
+					});
+				};
+
+				var damage = function(e, hitSet, dmg) {
+					var closest = null;
+					var minDist = 0;
+					foreach (EnemyManager.activeEnemies, function(en) {
+						if (hitSet.indexOf(en) === -1) {
+							var d = distance(e.x, e.y, en.x, en.y);
+							if (!closest || d < minDist) {
+								closest = en;
+								minDist = d;
+							}
+						}
+					});
+
+					if (closest) {
+						makeArc(e, closest);
+						damage(closest, hitSet.concat(closest), dmg * stepMult);
+					}
+
+					e.takeDamage(Player.getDamageInfo(dmg));
+
+					ParticleContainer.createEffect('Explosion.png', {
+						x: e.getAbsolutePosition().x,
+						y: e.getAbsolutePosition().y,
+						w: 20,
+						h: 20,
+					});
+				};
+
+				return function(enemy) {
+					damage(enemy, [enemy], 0.0001);
+				};
+			}()
 		}),
 
 

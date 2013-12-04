@@ -243,11 +243,17 @@ function EnemyContainer(index) {
 
 	this.getAbsolutePosition = function() {
 		var adventurePos = EnemyManager.jqAdventure.position();
+		adventurePos.top = 64;
+		console.log(adventurePos);
 		var spawnPos = j('.spawn-area').position();
+		console.log(spawnPos);
 		var pos = this.getRelativePosition();
+		console.log(pos);
 		return {
-			x: adventurePos.left + spawnPos.left + pos.x,
-			y: adventurePos.top + spawnPos.top + pos.y
+			// x: adventurePos.left + spawnPos.left + pos.x,
+			// y: adventurePos.top + spawnPos.top + pos.y,
+			x: adventurePos.left + spawnPos.left,
+			y: adventurePos.top + spawnPos.top,
 		};
 	};
 

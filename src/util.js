@@ -27,7 +27,7 @@ function distance(x1, y1, x2, y2) {
 	return Math.sqrt(dx * dx + dy * dy);
 }
 function vecDistance(vec1, vec2) {
-	return dist(vec1.x, vec1.y, vec2.x, vec2.y);
+	return distance(vec1.x, vec1.y, vec2.x, vec2.y);
 }
 
 function removeItem(item, list) {
