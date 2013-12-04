@@ -285,6 +285,7 @@ function WeaponDef(data) {
 var getUpgradeName = function() {
 	var upgradeNames = {
 		damage: 'Damage',
+		maxDamage: 'Max Damage',
 		crit: 'Crit. Chance',
 		critDamage: 'Crit. Damage',
 		defense: 'Defense',

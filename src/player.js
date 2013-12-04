@@ -274,7 +274,8 @@ var Player = {
 		dmg.baseDamage *= mod;
 
 		dmg.lo = Math.ceil(dmg.baseDamage * (1 - this.randDamage / 2));
-		dmg.hi = Math.floor(dmg.baseDamage * (1 + this.randDamage / 2));
+		dmg.hi = Math.floor(this.weapon.getMult('maxDamage') *
+			dmg.baseDamage * (1 + this.randDamage / 2));
 		dmg.isCrit = !dmg.isSpell && rand(0, 100) < dmg.crit;
 		dmg.damage = randIntInc(dmg.lo, dmg.hi);
 		if (dmg.isCrit) {

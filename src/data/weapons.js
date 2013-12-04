@@ -164,6 +164,27 @@ function loadWeapons() {
 				}
 			}
 		}),
+		'axe': new WeaponDef({
+			displayName: 'Axe',
+			scalingBase: {
+				strength: 75,
+				dexterity: 25
+			},
+			buyCost: 750000,
+			researchCost: 7500,
+			damage: 14,
+			crit: 5,
+			upgradeData: {
+				damage: 7,
+				maxDamage: 10,
+				critDamage: 10
+			},
+			prereqs: {
+				buildings: {
+					'research-center': 1
+				}
+			}
+		}),
 	};
 	foreach (weapons, function(weapon, key) {
 		weapon.name = key;
