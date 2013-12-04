@@ -3,6 +3,7 @@
 	"description": "",
 	"changes": [
 		"New spells",
+		"New weapon",
 		"More enemies give wood, Sand Sea has a boss",
 		"Some performance optimizations (because new spells are CPU-intensive)"
 	]

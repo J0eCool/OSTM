@@ -267,15 +267,18 @@ var Player = {
 				Skills.getPassiveMult('crit'),
 			isSpell: this.attack.category === 'Spell',
 		};
+		var hiMult = 1;
 		dmg.baseDamage = dmg.attackPower;
 		if (dmg.isSpell) {
 			dmg.baseDamage = (dmg.spellPower / 100) * this.attack.getDamage();
 		}
+		else {
+			hiMult = this.weapon.getMult('maxDamage');
+		}
 		dmg.baseDamage *= mod;
 
 		dmg.lo = Math.ceil(dmg.baseDamage * (1 - this.randDamage / 2));
-		dmg.hi = Math.floor(this.weapon.getMult('maxDamage') *
-			dmg.baseDamage * (1 + this.randDamage / 2));
+		dmg.hi = Math.floor(hiMult * dmg.baseDamage * (1 + this.randDamage / 2));
 		dmg.isCrit = !dmg.isSpell && rand(0, 100) < dmg.crit;
 		dmg.damage = randIntInc(dmg.lo, dmg.hi);
 		if (dmg.isCrit) {
