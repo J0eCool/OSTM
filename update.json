@@ -1,10 +1,10 @@
 {
-	"version": "0.1.12",
-	"description": "Small stuff",
+	"version": "0.2.0",
+	"description": "Content",
 	"changes": [
-		"Don't increase mana cost for basic attack",
-		"Inn cost increases by 50% per use (down from 100%)",
-		"Add Health Mastery passive skill",
-		"Fix a bug where numbers like '0.06' could display as '0.6'"
+		"New spells, weapons, enemies, buildings, upgrades",
+		"Select spells with keyboard shortcuts",
+		"More enemies give wood, Sand Sea has a boss",
+		"Some performance optimizations (because some new spells are CPU-intensive)"
 	]
 }
