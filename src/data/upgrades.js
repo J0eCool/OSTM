@@ -13,7 +13,6 @@ function loadUpgrades() {
 		}),
 		'tent-2': new UpgradeDef({
 			displayName: 'Bigger Tents',
-			researchCost: 750,
 			baseCost: 400,
 			targetBuilding: 'tent',
 			amountIncrease: 50,
@@ -21,14 +20,11 @@ function loadUpgrades() {
 				buildings: {
 					'tent': 5
 				},
-				upgrades: {
-					'tent-1': 1
-				}
 			}
 		}),
 		'tent-3': new UpgradeDef({
 			displayName: 'Nice Tents',
-			researchCost: 2000,
+			researchCost: 700,
 			baseCost: 2000,
 			targetBuilding: 'tent',
 			amountIncrease: 100,
@@ -36,24 +32,18 @@ function loadUpgrades() {
 				buildings: {
 					'tent': 10
 				},
-				upgrades: {
-					'tent-2': 1
-				}
 			}
 		}),
 		'tent-4': new UpgradeDef({
 			displayName: 'Real Nice Tents',
-			researchCost: 5000,
+			researchCost: 1500,
 			baseCost: 5000,
 			targetBuilding: 'tent',
-			amountIncrease: 40,
+			amountIncrease: 50,
 			prereqs: {
 				buildings: {
-					'tent': 25
+					'tent': 20
 				},
-				upgrades: {
-					'tent-3': 1
-				}
 			}
 		}),
 		'tent-n': new UpgradeDef({
@@ -65,7 +55,7 @@ function loadUpgrades() {
 			maxCount: 0,
 			prereqs: {
 				buildings: {
-					'tent': 5
+					'tent': 50
 				}
 			}
 		}),
@@ -81,6 +71,17 @@ function loadUpgrades() {
 				}
 			}
 		}),
+		'shack-2': new UpgradeDef({
+			displayName: 'Painted Shack',
+			baseCost: 3500,
+			targetBuilding: 'shack',
+			amountIncrease: 75,
+			prereqs: {
+				buildings: {
+					'shack': 10
+				}
+			}
+		}),
 
 		'cabin-1': new UpgradeDef({
 			displayName: 'Log Cabins',
@@ -90,6 +91,74 @@ function loadUpgrades() {
 			prereqs: {
 				buildings: {
 					'cabin': 1
+				}
+			}
+		}),
+		'cabin-2': new UpgradeDef({
+			displayName: 'Doors',
+			baseCost: 12000,
+			targetBuilding: 'cabin',
+			amountIncrease: 100,
+			prereqs: {
+				buildings: {
+					'cabin': 10
+				}
+			}
+		}),
+
+		'cottage-1': new UpgradeDef({
+			displayName: 'Fireplaces',
+			baseCost: 5000,
+			targetBuilding: 'cottage',
+			amountIncrease: 50,
+			prereqs: {
+				buildings: {
+					'cottage': 1
+				}
+			}
+		}),
+		'cottage-2': new UpgradeDef({
+			displayName: 'Chimneys',
+			baseCost: 40000,
+			targetBuilding: 'cottage',
+			amountIncrease: 100,
+			prereqs: {
+				buildings: {
+					'cottage': 10
+				}
+			}
+		}),
+		'cottage-3': new UpgradeDef({
+			displayName: 'Cozy Fireplaces',
+			baseCost: 180000,
+			targetBuilding: 'cottage',
+			amountIncrease: 50,
+			prereqs: {
+				buildings: {
+					'cottage': 20
+				}
+			}
+		}),
+
+		'house-1': new UpgradeDef({
+			displayName: 'Windows',
+			baseCost: 15000,
+			targetBuilding: 'house',
+			amountIncrease: 50,
+			prereqs: {
+				buildings: {
+					'house': 1
+				}
+			}
+		}),
+		'house-2': new UpgradeDef({
+			displayName: 'Decks',
+			baseCost: 125000,
+			targetBuilding: 'house',
+			amountIncrease: 100,
+			prereqs: {
+				buildings: {
+					'house': 10
 				}
 			}
 		}),
