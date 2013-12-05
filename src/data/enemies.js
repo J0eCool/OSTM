@@ -47,14 +47,15 @@ function loadEnemies() {
 			displayName: 'TriSnake',
 			image: 'TriSnake2.png',
 			boss: true,
-			health: 750,
-			attack: 5,
+			health: 1050,
+			attack: 4.5,
 			reward: {
 				xp: 80,
 				gold: 25,
 				research: 35,
 			}
 		}),
+
 		'mask': new EnemyDef({
 			displayName: 'Masker',
 			image: 'MaskBug.png',
@@ -125,8 +126,8 @@ function loadEnemies() {
 			displayName: 'TriSnake-2',
 			image: 'TriSnake.png',
 			boss: true,
-			health: 2750,
-			attack: 18,
+			health: 4500,
+			attack: 16,
 			reward: {
 				xp: 180,
 				gold: 125,
@@ -134,19 +135,20 @@ function loadEnemies() {
 			}
 		}),
 
-
-
 		'snail': new EnemyDef({
 			displayName: 'Snale',
 			image: 'SpikeSnail.png',
-			health: 45,
-			attack: 6,
+			health: 450,
+			attack: 26,
 			reward: {
-				xp: 15,
-				gold: 8,
-				research: 4,
+				xp: 45,
+				gold: 28,
+				research: 8,
 			}
 		}),
+
+
+
 		'snap': new EnemyDef({
 			displayName: 'Snapper',
 			image: 'SnapPlant.png',

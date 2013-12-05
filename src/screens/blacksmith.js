@@ -219,11 +219,11 @@ function WeaponDef(data) {
 			j(id + ' #equip', 'toggleClass', 'selected', isEquipped);
 
 			var prereqs = null;
-			if (this.owned) {
-				prereqs = { buildings: { 'anvil': 1 } };
-			}
-			else if (this.isMaxLevel()) {
+			if (this.isMaxLevel()) {
 				prereqs = { buildings: { 'forge': 1 } };
+			}
+			else if (this.owned) {
+				prereqs = { buildings: { 'anvil': 1 } };
 			}
 			j(id + ' #button', 'toggle', prereqsMet(prereqs));
 			j(id + ' #button', 'toggleClass', 'inactive', !this.canPurchase());

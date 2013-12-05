@@ -2,7 +2,7 @@
 	"version": "0.1.12",
 	"description": "",
 	"changes": [
-		"New spells, weapons, enemies, adventures, buildings, upgrades",
+		"New spells, weapons, enemies, buildings, upgrades",
 		"Select spells with keyboard shortcuts",
 		"More enemies give wood, Sand Sea has a boss",
 		"Some performance optimizations (because some new spells are CPU-intensive)"
