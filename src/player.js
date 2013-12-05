@@ -403,7 +403,7 @@ function StatType(data) {
 	this.name = data.name || '';
 	this.displayName = data.displayName || this.name || '';
 	this.abbrev = data.abbrev || this.displayName || '';
-	this.minLevel = data.minLevel || 0;
+	this.prereqs = data.prereqs || null;
 	this.baseValue = data.baseValue || 0;
 	this.levelValue = data.levelValue || 1;
 	this.isPercent = data.isPercent || false;
@@ -467,7 +467,7 @@ function StatType(data) {
 	};
 
 	this.isUnlocked = function() {
-		return this.minLevel <= Player.getLevel();
+		return prereqsMet(this.prereqs);
 	};
 
 	this.getUpgradeButtonHtml = function() {

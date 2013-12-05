@@ -5,6 +5,12 @@ function prereqsMet(prereqs) {
 		return true;
 	}
 
+	if (prereqs.playerLevel) {
+		if (Player.getLevel() < prereqs.playerLevel) {
+			return false;
+		}
+	}
+
 	if (prereqs.items) {
 		for (i = 0; i < prereqs.items.length; i++) {
 			if (!Inventory.getItem(prereqs.items[i]).isResearched) {

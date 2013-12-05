@@ -12,9 +12,13 @@ function loadStats() {
 		}),
 		'maxMana': new StatType({
 			displayName: 'Mana',
-			minLevel: 24,
 			baseValue: 40,
 			levelValue: 7,
+			prereqs: {
+				buildings: {
+					'training-hall': 1
+				}
+			},
 
 			onUpgrade: function() {
 				Player.regenMana(this.upgradeValue());
@@ -23,26 +27,38 @@ function loadStats() {
 		'strength': new StatType({
 			displayName: 'Strength',
 			abbrev: 'STR',
-			minLevel: 2,
-			baseValue: 4
+			baseValue: 4,
+			prereqs: {
+				playerLevel: 2
+			},
 		}),
 		'dexterity': new StatType({
 			displayName: 'Dexterity',
 			abbrev: 'DEX',
-			minLevel: 10,
-			baseValue: 5
+			baseValue: 5,
+			prereqs: {
+				buildings: {
+					'blacksmith': 1
+				}
+			},
 		}),
 		'intelligence': new StatType({
 			displayName: 'Intelligence',
 			abbrev: 'INT',
-			minLevel: 24,
-			baseValue: 3
+			baseValue: 3,
+			prereqs: {
+				buildings: {
+					'wizard-tower': 1
+				}
+			},
 		}),
 		'defense': new StatType({
 			displayName: 'Defense',
 			abbrev: 'DEF',
-			minLevel: 5,
-			baseValue: 3
+			baseValue: 3,
+			prereqs: {
+				adventures: ['adv0']
+			},
 		})
 	};
 	for (var key in stats) {

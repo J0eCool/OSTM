@@ -78,17 +78,17 @@ function loadAdventures() {
 			displayName: 'Desert',
 			areaType: 'sand',
 			subAreas: [{
-				level: 15,
+				level: 18,
 				useAll: false,
 				enemies: {
 					mask: 100
 				}
 			}, {
-				level: 18
-			}, {
-				level: 18
-			}, {
 				level: 20
+			}, {
+				level: 21
+			}, {
+				level: 23
 			}],
 			allEnemies: {
 				mask: 50,
@@ -102,15 +102,15 @@ function loadAdventures() {
 			displayName: 'Dune',
 			areaType: 'sand',
 			subAreas: [{
-				level: 22,
+				level: 26,
 				useAll: false,
 				enemies: {
 					mask: 100
 				}
 			}, {
-				level: 25
+				level: 29
 			}, {
-				level: 28
+				level: 32
 			}],
 			allEnemies: {
 				mask: 30,
@@ -125,9 +125,9 @@ function loadAdventures() {
 			displayName: 'Oasis',
 			areaType: 'grass',
 			subAreas: [{
-				level: 30
+				level: 35
 			}, {
-				level: 33
+				level: 37
 			}],
 			allEnemies: {
 				snake2: 35,
@@ -135,7 +135,7 @@ function loadAdventures() {
 				shell: 35,
 				snake3: 1,
 			},
-			spawnCountLo: 5,
+			spawnCountLo: 6,
 			spawnCountHi: 7,
 		}),
 		adv6: new AdventureDef({
@@ -145,27 +145,27 @@ function loadAdventures() {
 			displayName: 'Sand Sea',
 			areaType: 'sand',
 			subAreas: [{
-				level: 38
+				level: 42
 			}, {
-				level: 40
+				level: 44
 			}, {
-				level: 41,
+				level: 45,
 				enemies: {
 					shell2: 35
 				}
 			}, {
-				level: 42,
+				level: 45,
 				enemies: {
 					shell2: 35
 				}
 			}, {
-				level: 41,
+				level: 44,
 				enemies: {
 					shell2: 35,
 					mask3: 8
 				}
 			}, {
-				level: 46,
+				level: 49,
 				useAll: false,
 				spawnLo: 1,
 				spawnHi: 1,
@@ -203,14 +203,6 @@ function loadAdventures() {
 			spawnCountLo: 6,
 			spawnCountHi: 9,
 		}),
-		// 'adv3': new AdventureDef({
-		// 	prereqs: {
-		// 		adventures: ['adv2']
-		// 	},
-		// 	displayName: "Oh shit there's more",
-		// 	levels: [24, 26, 24, 28, 32, 28, 36, 44],
-		// 	enemies: ['wall', 'swirl', 'snail', 'snapplant', 'trisnake', 'trisnake-boss'],
-		// })
 	};
 	for (var key in adventures) {
 		adventures[key].name = key;

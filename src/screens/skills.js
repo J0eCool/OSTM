@@ -148,21 +148,22 @@ function SkillDef(data) {
 
 	this.updateButton = function() {
 		var id = '.skill-container#' + this.name;
-		var isVisible = this.level > 0 || prereqsMet(this.prereqs);
+		var equipId = '#' + this.name + '-equip';
+		var isKnown = this.level > 0;
+		var isVisible = this.isKnown || prereqsMet(this.prereqs);
 		j(id, 'toggle', isVisible);
+		j(equipId, 'toggle', isKnown);
 
-		if (isVisible) {
+		if (isKnown) {
 			var isEquipped = this.name === Player.attackName;
-			var equipId = '#' + this.name + '-equip';
-			j(equipId, 'toggle', this.level > 0);
 			j(equipId, 'toggleClass', 'selected', isEquipped);
 			var manaText = '';
 			if (this.manaCost && this.getManaCost() > 0) {
 				manaText = this.getManaCost() + ' MP';
 			}
 			j(equipId + ' #mana', 'text', manaText);
-
-
+		}
+		if (isVisible) {
 			j(id + ' #button', 'toggleClass', 'inactive', !this.canPurchase());
 
 			j(id + ' #name', 'text', this.displayName);

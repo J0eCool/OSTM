@@ -165,4 +165,5 @@ function merge(base, supp) {
 			newObj[key] = supp[key];
 		}
 	}
+	return newObj;
 }
