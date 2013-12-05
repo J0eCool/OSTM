@@ -8,6 +8,7 @@ function loadSkills() {
 		}),
 		'power-attack': new AttackSkillDef({
 			displayName: 'Power Attack',
+			keyCode: '1',
 			scalingBase: {
 				strength: 1
 			},
@@ -17,6 +18,7 @@ function loadSkills() {
 		}),
 		'quick-attack': new AttackSkillDef({
 			displayName: 'Quick Attack',
+			keyCode: '2',
 			scalingBase: {
 				dexterity: 2.5
 			},
@@ -27,6 +29,7 @@ function loadSkills() {
 
 		'magic-missile': new SpellSkillDef({
 			displayName: 'Magic Missile',
+			keyCode: '3',
 			scalingBase: {
 				intelligence: 5
 			},
@@ -35,6 +38,7 @@ function loadSkills() {
 			levelDamage: 10
 		}),
 		'fireBolt': new SpellSkillDef({
+			keyCode: '4',
 			displayName: 'Fire Bolt',
 			scalingBase: {
 				intelligence: 10
@@ -45,6 +49,7 @@ function loadSkills() {
 		}),
 		'fireball': new SpellSkillDef({
 			displayName: 'Fireball',
+			keyCode: '5',
 			scalingBase: {
 				intelligence: 6.5
 			},
@@ -79,6 +84,7 @@ function loadSkills() {
 		}),
 		'chainLightning': new SpellSkillDef({
 			displayName: 'Chain Lightning',
+			keyCode: '6',
 			scalingBase: {
 				intelligence: 7.5
 			},

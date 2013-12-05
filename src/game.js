@@ -46,6 +46,10 @@ var Game = {
 			Game.handleResize();
 		});
 
+		$(document).keypress(function(event) {
+			Game.keyPressed(String.fromCharCode(event.which));
+		});
+
 		// Report current version
 		ga('set', 'dimension1', Save.currentSaveVersion);
 	},
@@ -104,5 +108,9 @@ var Game = {
 		foreach (EnemyManager.activeEnemies, function(enemy) {
 			 enemy.handleResize(windowSize);
 		});
+	},
+
+	keyPressed: function(key) {
+		Skills.keyPressed(key);
 	},
 };

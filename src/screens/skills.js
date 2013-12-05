@@ -80,7 +80,16 @@ var Skills = {
 				skill.purchase();
 			});
 		}
-	}
+	},
+
+	keyPressed: function(key) {
+		foreach (this.skills, function(skill) {
+			if (skill.keyCode === key) {
+				Skills.equip(skill.name);
+				return;
+			}
+		});
+	},
 };
 
 function SkillDef(data) {
@@ -142,8 +151,9 @@ function SkillDef(data) {
 	};
 
 	this.getAttackButtonHtml = function() {
+		var keyStr = this.keyCode ? ' (' + this.keyCode + ')' : '';
 		return getButtonHtml("Skills.equip('" + this.name + "')",
-				this.displayName + '<br><span id="mana"></span>', this.name + '-equip');
+				this.displayName + keyStr + '<br><span id="mana"></span>', this.name + '-equip');
 	};
 
 	this.updateButton = function() {
@@ -205,6 +215,8 @@ function SkillDef(data) {
 function AttackSkillDef(data) {
 	this.__proto__ = new SkillDef(data);
 	this.category = 'Attack';
+
+	this.keyCode = data.keyCode || null;
 
 	this.manaCost = data.manaCost || 0;
 	
