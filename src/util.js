@@ -157,3 +157,12 @@ function shallowClone(base) {
 	}
 	return newObj;
 }
+
+function merge(base, supp) {
+	var newObj = shallowClone(base);
+	for (var key in supp) {
+		if (newObj[key] === undefined) {
+			newObj[key] = supp[key];
+		}
+	}
+}

@@ -2,14 +2,14 @@ var Player = {
 	toSave: ['health', 'mana', 'weaponName'],
 
 	health: 100,
-	baseHealthRegen: 3,
+	baseHealthRegen: 4,
 	partialHealth: 0, //health regen per-tick roundoff
 
 	mana: 100,
 	baseManaRegen: 6,
 	partialMana: 0,
 
-	weaponName: 'knife',
+	weaponName: 'stick',
 	weapon: null,
 
 	attackName: 'attack',

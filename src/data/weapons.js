@@ -1,13 +1,26 @@
 function loadWeapons() {
 	var weapons = {
-		'knife': new WeaponDef({
-			displayName: 'Knife',
+		'stick': new WeaponDef({
+			displayName: 'Stick',
 			owned: true,
 			scalingBase: {
-				strength: 5,
-				dexterity: 70
+				strength: 45,
+				dexterity: 5
 			},
-			damage: 5,
+			damage: 4,
+			crit: 3,
+			upgradeData: {
+				damage: 5
+			}
+		}),
+		'knife': new WeaponDef({
+			displayName: 'Knife',
+			scalingBase: {
+				strength: 5,
+				dexterity: 75
+			},
+			buyCost: 250,
+			damage: 8,
 			crit: 9,
 			upgradeData: {
 				crit: 10,
@@ -18,10 +31,10 @@ function loadWeapons() {
 			displayName: 'Dagger',
 			scalingBase: {
 				strength: 10,
-				dexterity: 55
+				dexterity: 60
 			},
-			buyCost: 500,
-			damage: 6,
+			buyCost: 2000,
+			damage: 9,
 			crit: 8,
 			upgradeData: {
 				damage: 5,
@@ -34,8 +47,8 @@ function loadWeapons() {
 				strength: 25,
 				dexterity: 40
 			},
-			buyCost: 1500,
-			damage: 7,
+			buyCost: 5000,
+			damage: 11,
 			crit: 5,
 			upgradeData: {
 				damage: 8,
@@ -48,8 +61,8 @@ function loadWeapons() {
 				strength: 45,
 				dexterity: 30
 			},
-			buyCost: 5000,
-			damage: 8,
+			buyCost: 25000,
+			damage: 13,
 			crit: 5,
 			upgradeData: {
 				damage: 10,
@@ -62,8 +75,8 @@ function loadWeapons() {
 				strength: 20,
 				dexterity: 60
 			},
-			buyCost: 7500,
-			damage: 8,
+			buyCost: 25000,
+			damage: 13,
 			crit: 6.5,
 			upgradeData: {
 				crit: 12,
@@ -75,8 +88,8 @@ function loadWeapons() {
 			scalingBase: {
 				strength: 80
 			},
-			buyCost: 15000,
-			damage: 10,
+			buyCost: 65000,
+			damage: 16,
 			crit: 3,
 			upgradeData: {
 				damage: 15
@@ -88,9 +101,9 @@ function loadWeapons() {
 				strength: 85,
 				dexterity: 20
 			},
-			buyCost: 50000,
+			buyCost: 250000,
 			researchCost: 1500,
-			damage: 12,
+			damage: 17,
 			crit: 5,
 			upgradeData: {
 				damage: 16,
@@ -108,9 +121,9 @@ function loadWeapons() {
 				strength: 20,
 				dexterity: 85
 			},
-			buyCost: 50000,
+			buyCost: 500000,
 			researchCost: 1500,
-			damage: 11,
+			damage: 15,
 			crit: 6,
 			upgradeData: {
 				damage: 8,
@@ -131,7 +144,7 @@ function loadWeapons() {
 			},
 			buyCost: 250000,
 			researchCost: 5000,
-			damage: 9,
+			damage: 10,
 			crit: 6,
 			spellPower: 20,
 			upgradeData: {
@@ -140,7 +153,7 @@ function loadWeapons() {
 			},
 			prereqs: {
 				buildings: {
-					'training-hall': 1
+					'wizard-tower': 1
 				}
 			}
 		}),
@@ -149,7 +162,7 @@ function loadWeapons() {
 			scalingBase: {
 				intelligence: 50
 			},
-			buyCost: 250000,
+			buyCost: 750000,
 			researchCost: 5000,
 			damage: 7,
 			crit: 3,
@@ -160,7 +173,7 @@ function loadWeapons() {
 			},
 			prereqs: {
 				buildings: {
-					'training-hall': 1
+					'wizard-tower': 1
 				}
 			}
 		}),
@@ -170,9 +183,9 @@ function loadWeapons() {
 				strength: 75,
 				dexterity: 25
 			},
-			buyCost: 750000,
+			buyCost: 2500000,
 			researchCost: 7500,
-			damage: 14,
+			damage: 19,
 			crit: 5,
 			upgradeData: {
 				damage: 7,
@@ -181,7 +194,7 @@ function loadWeapons() {
 			},
 			prereqs: {
 				buildings: {
-					'research-center': 1
+					'training-hall': 1
 				}
 			}
 		}),

@@ -140,8 +140,6 @@ function EnemyContainer(index) {
 	this.maxHealth = 0;
 	this.attack = 0;
 
-	this.reward = {};
-
 	this.x = 0;
 	this.y = 0;
 
@@ -178,7 +176,7 @@ function EnemyContainer(index) {
 	var calcReward = function() {
 		var rewardScaling = {
 			xp: function(b, s) { return b * Math.pow(s, 2); },
-			gold: function(b, s) { return rand(0.35, 1) * b * Math.pow(s, 2.15); },
+			gold: function(b, s) { return rand(0.35, 1) * b * Math.pow(s, 2); },
 			research: function(b, s) { return b * Math.pow(s, 0.85); },
 			iron: function(b, s) { return b * Math.pow(s, 1.4); },
 			wood: function(b, s) { return b * Math.pow(s, 1.15); },
@@ -213,8 +211,6 @@ function EnemyContainer(index) {
 		this.maxHealth = Math.floor(def.health * (1 + 0.5 * lev + 0.03 * Math.pow(lev, 2.7)));
 		this.health = this.maxHealth;
 		this.attack = Math.floor(def.attack * (1 + 0.35 * lev + 0.15 * Math.pow(lev, 1.9)));
-
-		this.reward = calcReward(def.reward, this.level);
 
 		var sel = this.getSelector();
 		var en = this.getImgSelector();
@@ -350,13 +346,14 @@ function EnemyContainer(index) {
 	};
 
 	this.giveRewards = function() {
-		Player.giveResources(this.reward);
+		var reward = calcReward(this.def.reward, this.level);
+		Player.giveResources(reward);
 
 		var rewardString = '';
 		// iterate over Player.resources to guarantee ordering
 		for (var i = 0; i < Player.resources.length; i++) {
 			var name = Player.resources[i];
-			var amt = this.reward[name];
+			var amt = reward[name];
 			if (amt > 0) {
 				rewardString += '<span class="' + name + '-reward">' + getIconHtml(name) + ' ' +
 					formatNumber(amt) + '</span><br>';

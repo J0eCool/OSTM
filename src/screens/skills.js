@@ -272,6 +272,11 @@ function AttackSkillDef(data) {
 }
 
 function SpellSkillDef(data) {
+	data.prereqs = merge(data.prereqs, {
+		buildings: {
+			'wizard-tower': 1
+		}
+	});
 	this.__proto__ = new AttackSkillDef(data);
 	this.category = 'Spell';
 }

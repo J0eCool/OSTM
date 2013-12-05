@@ -30,9 +30,9 @@ var AdventureScreen = new ScreenContainer({
 		}),
 		new ScreenDef({
 			name: 'shrine',
-			displayName: 'Shrine',
+			displayName: 'Demon Shrine',
 			createHtml: shrineHtml
-		})
+		}),
 	],
 
 	adventures: {},

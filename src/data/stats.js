@@ -23,13 +23,13 @@ function loadStats() {
 		'strength': new StatType({
 			displayName: 'Strength',
 			abbrev: 'STR',
-			minLevel: 10,
+			minLevel: 2,
 			baseValue: 4
 		}),
 		'dexterity': new StatType({
 			displayName: 'Dexterity',
 			abbrev: 'DEX',
-			minLevel: 2,
+			minLevel: 10,
 			baseValue: 5
 		}),
 		'intelligence': new StatType({

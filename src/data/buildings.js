@@ -6,7 +6,7 @@ function loadBuildings() {
 		'Residences': {
 			'tent': new BuildingDef({
 				displayName: 'Tent',
-				baseCost: 250,
+				baseCost: 100,
 				resourcePerSecond: 1
 			}),
 			'shack': new BuildingDef({
@@ -14,9 +14,7 @@ function loadBuildings() {
 				baseCost: 2000,
 				resourcePerSecond: 6,
 				prereqs: {
-					buildings: {
-						'tent': 1
-					}
+					adventures: ['adv1'],
 				}
 			}),
 			'cabin': new BuildingDef({
@@ -24,44 +22,63 @@ function loadBuildings() {
 				baseCost: 11500,
 				resourcePerSecond: 18,
 				prereqs: {
-					buildings: {
-						'shack': 1
-					}
+					adventures: ['adv1'],
 				}
 			}),
 			'cottage': new BuildingDef({
 				displayName: 'Cottage',
 				baseCost: 50000,
-				researchCost: 1000,
+				researchCost: 750,
 				resourcePerSecond: 45,
 				prereqs: {
-					buildings: {
-						'cabin': 1
-					}
+					adventures: ['adv2'],
 				}
 			}),
 			'house': new BuildingDef({
 				displayName: 'House',
 				baseCost: 320000,
-				researchCost: 3500,
+				researchCost: 1500,
 				resourcePerSecond: 140,
 				prereqs: {
-					buildings: {
-						'cottage': 0
-					}
+					adventures: ['adv2'],
 				}
 			}),
 			'manor': new BuildingDef({
 				displayName: 'Manor',
 				baseCost: 2400000,
-				researchCost: 12500,
+				researchCost: 5000,
 				resourcePerSecond: 500,
 				prereqs: {
-					buildings: {
-						'house': 0
-					}
+					adventures: ['adv2'],
 				}
-			})
+			}),
+			'dorm': new BuildingDef({
+				displayName: 'Dormitory',
+				baseCost: 26000000,
+				researchCost: 15000,
+				resourcePerSecond: 2000,
+				prereqs: {
+					adventures: ['adv6'],
+				}
+			}),
+			'apartment': new BuildingDef({
+				displayName: 'Apartment',
+				baseCost: 149000000,
+				researchCost: 32500,
+				resourcePerSecond: 4500,
+				prereqs: {
+					adventures: ['adv6'],
+				}
+			}),
+			'condo': new BuildingDef({
+				displayName: 'Condominium',
+				baseCost: 499950000,
+				researchCost: 75000,
+				resourcePerSecond: 9500,
+				prereqs: {
+					adventures: ['adv6'],
+				}
+			}),
 		},
 
 		'Research': {
@@ -70,14 +87,14 @@ function loadBuildings() {
 				description: 'Researches new things',
 				baseCost: 500,
 				resourceProduced: 'research',
-				resourcePerSecond: 2,
+				resourcePerSecond: 1,
 				maxCount: 1
 			}),
 			'library': new BuildingDef({
 				displayName: 'Library',
 				baseCost: 25000,
 				costIncreasePercent: researchBuildingCostIncrease,
-				researchCost: 1000,
+				researchCost: 100,
 				resourceProduced: 'research',
 				resourcePerSecond: 1,
 				prereqs: {
@@ -90,7 +107,7 @@ function loadBuildings() {
 				displayName: 'School',
 				baseCost: 175000,
 				costIncreasePercent: researchBuildingCostIncrease,
-				researchCost: 7500,
+				researchCost: 750,
 				resourceProduced: 'research',
 				resourcePerSecond: 3,
 				prereqs: {
@@ -103,7 +120,7 @@ function loadBuildings() {
 				displayName: 'University',
 				baseCost: 750000,
 				costIncreasePercent: researchBuildingCostIncrease,
-				researchCost: 100000,
+				researchCost: 10000,
 				resourceProduced: 'research',
 				resourcePerSecond: 5,
 				prereqs: {
@@ -111,7 +128,20 @@ function loadBuildings() {
 						'school': 0
 					}
 				}
-			})
+			}),
+			'sciFactory': new BuildingDef({
+				displayName: 'Science Factory',
+				baseCost: 5500000,
+				costIncreasePercent: researchBuildingCostIncrease,
+				researchCost: 25000,
+				resourceProduced: 'research',
+				resourcePerSecond: 9,
+				prereqs: {
+					buildings: {
+						'university': 0
+					}
+				}
+			}),
 		},
 
 		'Workshops': {
@@ -171,6 +201,18 @@ function loadBuildings() {
 				researchCost: 500,
 				baseCost: 25000,
 				maxCount: 1
+			}),
+			'wizard-tower': new BuildingDef({
+				displayName: 'Wizard\'s Tower',
+				description: 'Unlocks Spells',
+				researchCost: 7500,
+				baseCost: 100000,
+				maxCount: 1,
+				prereqs: {
+					buildings: {
+						'training-hall': 1
+					}
+				}
 			}),
 		}
 	};

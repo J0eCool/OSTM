@@ -28,20 +28,29 @@ function loadSkills() {
 		'magic-missile': new SpellSkillDef({
 			displayName: 'Magic Missile',
 			scalingBase: {
-				intelligence: 10
+				intelligence: 5
 			},
 			manaCost: 4,
 			baseDamage: 80,
 			levelDamage: 10
 		}),
+		'fireBolt': new SpellSkillDef({
+			displayName: 'Fire Bolt',
+			scalingBase: {
+				intelligence: 10
+			},
+			manaCost: 11,
+			baseDamage: 160,
+			levelDamage: 20
+		}),
 		'fireball': new SpellSkillDef({
 			displayName: 'Fireball',
 			scalingBase: {
-				intelligence: 4
+				intelligence: 6.5
 			},
 			manaCost: 20,
-			baseDamage: 100,
-			levelDamage: 10,
+			baseDamage: 110,
+			levelDamage: 15,
 			doAttack: function(enemy) {
 				var pos = enemy.getAbsolutePosition();
 				var siz = 250;
@@ -71,7 +80,7 @@ function loadSkills() {
 		'chainLightning': new SpellSkillDef({
 			displayName: 'Chain Lightning',
 			scalingBase: {
-				intelligence: 5.5
+				intelligence: 7.5
 			},
 			manaCost: 14,
 			baseDamage: 100,
