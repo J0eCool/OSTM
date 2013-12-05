@@ -1,4 +1,13 @@
 var changelist = {
+	"v0.2.0": {
+		"description": "Content",
+		"changes": [
+			"New spells, weapons, enemies, buildings, upgrades",
+			"Select spells with keyboard shortcuts",
+			"More enemies give wood, Sand Sea has a boss",
+			"Some performance optimizations (because some new spells are CPU-intensive)"
+		]
+	},
 	"v0.1.12": {
 		"description": "Small stuff",
 		"changes": [
