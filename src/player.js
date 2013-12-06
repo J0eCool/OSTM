@@ -394,11 +394,22 @@ var Player = {
 	statUpgradeBaseCost: function() {
 		var level = this.getLevel();
 		return Math.floor(0.5 * (level - 1) + 0.2 * Math.pow(level - 1, 2.3));
-	}
+	},
+
+	resetStats: function() {
+		var c = confirm("Are you sure? You don't get an XP refund.");
+		if (c) {
+			for (var i = 0; i < this.stats.length; i++) {
+				this.getStat(i).level = 0;
+			}
+
+			this.updateStatButtons();
+		}
+	},
 };
 
 function StatType(data) {
-	this.toSave = ['level'];
+	this.toSave = ['level', 'unlocked'];
 
 	this.name = data.name || '';
 	this.displayName = data.displayName || this.name || '';
@@ -410,6 +421,7 @@ function StatType(data) {
 	this.stringPostfix = data.stringPostfix || '';
 
 	this.level = 0;
+	this.unlocked = false;
 
 	this.value = function() {
 		var val = this.getBaseValue();
@@ -467,7 +479,10 @@ function StatType(data) {
 	};
 
 	this.isUnlocked = function() {
-		return prereqsMet(this.prereqs);
+		if (!this.unlocked) {
+			this.unlocked = prereqsMet(this.prereqs);
+		}
+		return this.unlocked;
 	};
 
 	this.getUpgradeButtonHtml = function() {

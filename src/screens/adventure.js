@@ -36,6 +36,14 @@ var AdventureScreen = new ScreenContainer({
 				adventures: ['adv2']
 			}
 		}),
+		new ScreenDef({
+			name: 'mortal-shrine',
+			displayName: 'Mortal Shrine',
+			html: 'Reset all stats?<br>' + getButtonHtml("Player.resetStats()", 'Reset'),
+			prereqs: {
+				adventures: ['adv4']
+			}
+		}),
 	],
 
 	adventures: {},
