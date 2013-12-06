@@ -1,4 +1,11 @@
 var changelist = {
+	"v0.2.1": {
+		"description": "Spam reduction",
+		"changes": [
+			"Reward messages can be toggled per-resource",
+			"Added a second Shrine"
+		]
+	},
 	"v0.2.0": {
 		"description": "Content",
 		"changes": [
