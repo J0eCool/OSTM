@@ -354,7 +354,7 @@ function EnemyContainer(index) {
 		for (var i = 0; i < Player.resources.length; i++) {
 			var name = Player.resources[i];
 			var amt = reward[name];
-			if (amt > 0) {
+			if (amt > 0 && Options.showRewards[name]) {
 				rewardString += '<span class="' + name + '-reward">' + getIconHtml(name) + ' ' +
 					formatNumber(amt) + '</span><br>';
 			}

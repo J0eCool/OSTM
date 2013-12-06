@@ -98,6 +98,7 @@ var Save = {
 
 	clearSave: function() {
 		delete localStorage.saveString;
+		this.autosave = false;
 	},
 
 	load: function() {
