@@ -31,7 +31,10 @@ var AdventureScreen = new ScreenContainer({
 		new ScreenDef({
 			name: 'shrine',
 			displayName: 'Demon Shrine',
-			createHtml: shrineHtml
+			createHtml: shrineHtml,
+			prereqs: {
+				adventures: ['adv2']
+			}
 		}),
 	],
 
@@ -43,7 +46,7 @@ var AdventureScreen = new ScreenContainer({
 	},
 
 	update: function() {
-		j('#shrine-button', 'toggle', this.hasBeat('adv2'));
+		this.updateScreens();
 
 		var timeDiff = Date.now() - this.lastInnResetTime;
 		var timeLeft = this.innResetTime - timeDiff;

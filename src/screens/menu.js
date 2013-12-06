@@ -58,6 +58,14 @@ function ScreenContainer(data) {
 		}
 	};
 
+	this.updateScreens = function() {
+		foreach (this.screens, function(scr) {
+			var id = '#' + scr.name + '-button';
+			j(id, 'toggle', prereqsMet(scr.prereqs));
+			j(id, 'toggleClass', 'inactive', scr.adventuresBlock && AdventureScreen.isAdventuring());
+		});
+	};
+
 	this.onScreenSet = data.onScreenSet || function(name){};
 
 	this.isOpen = function(name) {
@@ -120,11 +128,7 @@ var Menu = new ScreenContainer({
 	},
 
 	update: function() {
-		foreach (this.screens, function(scr) {
-			var id = '#' + scr.name + '-button';
-			j(id, 'toggle', prereqsMet(scr.prereqs));
-			j(id, 'toggleClass', 'inactive', scr.adventuresBlock && AdventureScreen.isAdventuring());
-		});
+		this.updateScreens();
 		
 		Options.update();
 	},
