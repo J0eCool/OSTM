@@ -1,4 +1,10 @@
 var changelist = {
+	"v0.2.2": {
+		"description": "Silly bugfix",
+		"changes": [
+			"You can now leave the Mortal Shrine!"
+		]
+	},
 	"v0.2.1": {
 		"description": "Spam reduction",
 		"changes": [
