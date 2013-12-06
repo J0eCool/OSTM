@@ -1,10 +1,8 @@
 {
-	"version": "0.2.0",
-	"description": "Content",
+	"version": "0.2.1",
+	"description": "Spam reduction",
 	"changes": [
-		"New spells, weapons, enemies, buildings, upgrades",
-		"Select spells with keyboard shortcuts",
-		"More enemies give wood, Sand Sea has a boss",
-		"Some performance optimizations (because some new spells are CPU-intensive)"
+		"Reward messages can be toggled per-resource",
+		"Added a second Shrine"
 	]
 }
