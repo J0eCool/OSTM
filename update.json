@@ -1,8 +1,7 @@
 {
-	"version": "0.2.1",
-	"description": "Spam reduction",
+	"version": "0.2.2",
+	"description": "Silly bugfix",
 	"changes": [
-		"Reward messages can be toggled per-resource",
-		"Added a second Shrine"
+		"You can now leave the Mortal Shrine!"
 	]
 }
