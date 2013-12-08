@@ -266,7 +266,7 @@ function WeaponDef(data) {
 				var scaling = this.getScaling(name);
 				if (stat && scaling) {
 					scalingStr += '<li class="' + getStatClass(name) + '">' + stat.abbrev + ': ' +
-						formatNumber(scaling, 1) + '%' + '</li>';
+						formatNumber(scaling, 1) + '%</li>';
 				}
 			}
 			scalingStr += '</ul>';

@@ -169,7 +169,7 @@ function SkillDef(data) {
 			j(equipId, 'toggleClass', 'selected', isEquipped);
 			var manaText = '';
 			if (this.manaCost && this.getManaCost() > 0) {
-				manaText = this.getManaCost() + ' MP';
+				manaText = formatNumber(this.getManaCost()) + ' MP';
 			}
 			j(equipId + ' #mana', 'text', manaText);
 		}
@@ -188,7 +188,7 @@ function SkillDef(data) {
 
 			var levelText = '';
 			if (this.level > 0) {
-				levelText = ' (L' + this.level + ')';
+				levelText = ' (L' + formatNumber(this.level) + ')';
 			}
 			j(id + ' #level', 'text', levelText);
 
@@ -219,9 +219,11 @@ function AttackSkillDef(data) {
 	this.keyCode = data.keyCode || null;
 
 	this.manaCost = data.manaCost || 0;
-	
+
 	this.baseDamage = data.baseDamage || 100;
 	this.levelDamage = data.levelDamage || 10;
+
+	this.baseCrit = data.baseCrit || 0;
 
 	this.scalingBase = data.scalingBase || {};
 
@@ -258,22 +260,29 @@ function AttackSkillDef(data) {
 		return 0;
 	};
 
+	this.getBaseCrit = function() {
+		return this.baseCrit;
+	};
+
 	this.getDescriptionAtLevel = function(level) {
 		var scalingStr = '<div id="scaling"><ul>';
 		var possibleStats = ['strength', 'dexterity', 'intelligence'];
 		for (var i in possibleStats) {
 			var name = possibleStats[i];
 			var stat = Player[name];
-			if (stat) {
-				var scaling = this.getScaling(name, level);
+			var scaling = this.getScaling(name, level);
+			if (stat && scaling) {
 				scalingStr += '<li>' + stat.abbrev + ': ' +
-					(scaling ? formatNumber(scaling, 1) + '%' : '-') + '</li>';
+					formatNumber(scaling, 1) + '%</li>';
 			}
 		}
 		scalingStr += '</ul></div>';
-		var baseStr = '<div id="base"><ul><li>Damage: ' + this.getDamageAtLevel(level) + '</li>';
+		var baseStr = '<div id="base"><ul><li>Damage: ' + formatNumber(this.getDamageAtLevel(level)) + '</li>';
+		if (this.getBaseCrit()) {
+			baseStr += '<li>Crit Chance: ' + formatNumber(this.getBaseCrit()) + '%</li>';
+		}
 		if (this.getManaCostAtLevel(level)) {
-			baseStr += '<li>Mana Cost:' + this.getManaCostAtLevel(level) + '</li>';
+			baseStr += '<li>Mana Cost:' + formatNumber(this.getManaCostAtLevel(level)) + '</li>';
 		}
 		baseStr += '</ul></div>';
 		return scalingStr + baseStr;

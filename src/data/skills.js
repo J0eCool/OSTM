@@ -35,7 +35,8 @@ function loadSkills() {
 			},
 			manaCost: 4,
 			baseDamage: 80,
-			levelDamage: 10
+			levelDamage: 10,
+			baseCrit: 5,
 		}),
 		'fireBolt': new SpellSkillDef({
 			keyCode: '4',
@@ -45,7 +46,8 @@ function loadSkills() {
 			},
 			manaCost: 11,
 			baseDamage: 160,
-			levelDamage: 20
+			levelDamage: 20,
+			baseCrit: 4,
 		}),
 		'fireball': new SpellSkillDef({
 			displayName: 'Fireball',
@@ -56,6 +58,7 @@ function loadSkills() {
 			manaCost: 20,
 			baseDamage: 110,
 			levelDamage: 15,
+			baseCrit: 3,
 			doAttack: function(enemy) {
 				var pos = enemy.getAbsolutePosition();
 				var siz = 250;
@@ -91,6 +94,7 @@ function loadSkills() {
 			manaCost: 14,
 			baseDamage: 100,
 			levelDamage: 10,
+			baseCrit: 7,
 			doAttack: function() {
 				var w = 50;
 				var stepMult = 0.85;
