@@ -1,4 +1,13 @@
 var changelist = {
+	"v0.2.3": {
+		"description": "Spell Work",
+		"changes": [
+			"Spell Power from weapons scales with Int",
+			"Spells can Critically Strike",
+			"Skill rebalancing (mostly nerfs?)",
+			"Added two passive skills, one spell"
+		]
+	},
 	"v0.2.2": {
 		"description": "Silly bugfix",
 		"changes": [
