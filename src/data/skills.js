@@ -12,7 +12,7 @@ function loadSkills() {
 			scalingBase: {
 				strength: 1.4
 			},
-			manaCost: 8,
+			manaCost: 6,
 			baseDamage: 150,
 			levelDamage: 30
 		}),
@@ -22,7 +22,7 @@ function loadSkills() {
 			scalingBase: {
 				dexterity: 2.5
 			},
-			manaCost: 7,
+			manaCost: 5,
 			baseDamage: 110,
 			levelDamage: 15
 		}),
@@ -31,9 +31,9 @@ function loadSkills() {
 			displayName: 'Magic Missile',
 			keyCode: '3',
 			scalingBase: {
-				intelligence: 5
+				intelligence: 6
 			},
-			manaCost: 4,
+			manaCost: 8,
 			baseDamage: 80,
 			levelDamage: 10,
 			baseCrit: 5,
@@ -44,7 +44,7 @@ function loadSkills() {
 			scalingBase: {
 				intelligence: 10
 			},
-			manaCost: 11,
+			manaCost: 18,
 			baseDamage: 160,
 			levelDamage: 20,
 			baseCrit: 4,
@@ -55,9 +55,9 @@ function loadSkills() {
 			scalingBase: {
 				intelligence: 6.5
 			},
-			manaCost: 20,
+			manaCost: 32,
 			baseDamage: 110,
-			levelDamage: 15,
+			levelDamage: 18,
 			baseCrit: 3,
 			doAttack: function(enemy) {
 				var pos = enemy.getAbsolutePosition();
@@ -91,13 +91,13 @@ function loadSkills() {
 			scalingBase: {
 				intelligence: 7.5
 			},
-			manaCost: 14,
+			manaCost: 26,
 			baseDamage: 100,
-			levelDamage: 10,
+			levelDamage: 15,
 			baseCrit: 7,
 			doAttack: function() {
 				var w = 50;
-				var stepMult = 0.85;
+				var stepMult = 0.8;
 
 				var makeArc = function(from, to) {
 					var jit = 16;
@@ -221,17 +221,27 @@ function loadSkills() {
 		}),
 		'precision': new PassiveSkillDef({
 			displayName: 'Precision',
-			description: 'Increase weapon base Crit Chance by <base.crit>%',
+			description: 'Increase base Crit Chance by <base.crit>%',
 			statBase: {
 				crit: {
-					base: 1,
-					level: 0.1
+					base: 0.5,
+					level: 0.075
+				}
+			}
+		}),
+		'ruthlessness': new PassiveSkillDef({
+			displayName: 'Ruthlessness',
+			description: 'Increase overall Crit Chance by <mult.crit>%',
+			statMult: {
+				crit: {
+					base: 6,
+					level: 1.25
 				}
 			}
 		}),
 		'cruelty': new PassiveSkillDef({
 			displayName: 'Cruelty',
-			description: 'Adds <base.critDamage>% Crit Damage and increases all Damage by <mult.damage>%',
+			description: 'Adds <base.critDamage>% Crit Damage and increases Physical Damage by <mult.damage>%',
 			statBase: {
 				critDamage: {
 					base: 20,
@@ -246,7 +256,7 @@ function loadSkills() {
 		}),
 		'power': new PassiveSkillDef({
 			displayName: 'Power',
-			description: 'Increases Damage and Spell Power by <mult.damage>%',
+			description: 'Increases Physical and Spell Damage by <mult.damage>%',
 			statMult: {
 				damage: {
 					base: 1,
