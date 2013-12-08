@@ -323,6 +323,10 @@ var Player = {
 			}
 			else {
 				this.addMana(-this.attack.getManaCost());
+				if (this.attack.name === 'attack') {
+					this.addMana(Skills.getPassiveBase('attackMana'));
+				}
+				
 				this.takeDamage(modifiedDamage);
 
 				this.attack.doAttack(enemy);

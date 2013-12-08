@@ -164,8 +164,8 @@ function loadSkills() {
 			description: 'Increases Max Health by <mult.healthPerLevel>% per Player Level',
 			statMult: {
 				healthPerLevel: {
-					base: 0.05,
-					level: 0.01
+					base: 0.025,
+					level: 0.005
 				}
 			}
 		}),
@@ -216,6 +216,16 @@ function loadSkills() {
 				manaRegen: {
 					base: 1.5,
 					level: 0.15
+				}
+			}
+		}),
+		'spellSword': new PassiveSkillDef({
+			displayName: 'Spell Sword',
+			description: 'Restores <base.attackMana> MP with every standard Attack',
+			statBase: {
+				attackMana: {
+					base: 3,
+					level: 2
 				}
 			}
 		}),

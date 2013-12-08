@@ -1,14 +1,17 @@
 to do asap:
-	. AoE skills (chain lightning, fireball)
-	. content
-		- weapons
-		- upgrades
+	. weapon interface change
+		- top panel w/ selected weapon
+		- bottom panel w/ list of weapons
 	. in-game changelist
-	. MP potions
-
+	. forest area
+	. skill interface change
+		- skill trees
+		- description on mouseover
+		- prereqs
 
 Backlog:
 	- split adventure list into main and side areas
+		- side areas can't have power increased
 	- spell elements
 	- status effects
 		- poison: 500% damage over 8 seconds
@@ -23,21 +26,13 @@ Backlog:
 
 -----
 
+Weapon abilities:
+	. reduce mana cost
+
 Skills:
 	Passive
-	. increase max hp by 0.5% per character level
-	. restore mana on basic attack
-
-	Active
-	. hit all enemies on screen
-	. drawing strike: large damage, only works on full-health enemy
-	. double-strike; 30% damage hit that doesn't get counterattacked, 100% damage normal hit
-
-Misc:
-	. STR/DEX weapons, 2 varieties each
-		Str weapons either do increased random damage, or increase defenses
-		Dex weapons either increase crit chance or crit damage
 
 Thematic areas:
 	. Futuristic / Aliens / Robots
 	. Rock band
+	. Mining
