@@ -49,9 +49,20 @@ function loadSkills() {
 			levelDamage: 20,
 			baseCrit: 4,
 		}),
+		'lightningBolt': new SpellSkillDef({
+			keyCode: '5',
+			displayName: 'Lightning Bolt',
+			scalingBase: {
+				intelligence: 10
+			},
+			manaCost: 16,
+			baseDamage: 130,
+			levelDamage: 16,
+			baseCrit: 8,
+		}),
 		'fireball': new SpellSkillDef({
 			displayName: 'Fireball',
-			keyCode: '5',
+			keyCode: '6',
 			scalingBase: {
 				intelligence: 6.5
 			},
@@ -87,7 +98,7 @@ function loadSkills() {
 		}),
 		'chainLightning': new SpellSkillDef({
 			displayName: 'Chain Lightning',
-			keyCode: '6',
+			keyCode: '7',
 			scalingBase: {
 				intelligence: 7.5
 			},
