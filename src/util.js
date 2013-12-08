@@ -74,9 +74,14 @@ function formatNumber(x, precision, report) {
 	return parts.join('');
 }
 
-function getButtonHtml(onclick, contents, id) {
+function getButtonHtml(onclick, contents, id, extraClass) {
 	var idStr = id ? ' id="' + id + '"' : '';
-	return '<div class="button" onclick="' + onclick + '"' + idStr +
+	var classStr = 'class="button';
+	if (extraClass) {
+		classStr += ' ' + extraClass;
+	}
+	classStr += '"';
+	return '<div ' + classStr + ' onclick="' + onclick + '"' + idStr +
 		' ><span class="content">' + contents + '</span></div>';
 }
 

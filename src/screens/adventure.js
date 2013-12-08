@@ -15,7 +15,7 @@ var AdventureScreen = new ScreenContainer({
 			displayName: 'Inn',
 			html: getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave') + '<br>' +
 				getButtonHtml("AdventureScreen.useInn()", 'Rest: <span id="inn-cost"></span>' +
-					getIconHtml('gold')) +
+					getIconHtml('gold'), '', 'gold') +
 				'<div>Inn cost reduced in <span id="inn-reset"></span>s</div>'
 		}),
 		new ScreenDef({
@@ -294,7 +294,7 @@ function shrineHtml() {
 			' <span>' + adv.displayName + ' : Max enemy Level <span id="' + id + '-count"></span></span> ' +
 			getButtonHtml("AdventureScreen.increasePower('" + adv.name + "')",
 				'Increase Power<br><span id="' + id + '-inc-cost"></span>' +
-				getIconHtml('research'), id + '-inc') +
+				getIconHtml('research'), id + '-inc', 'research') +
 			'</div>';
 	}
 	return html;

@@ -101,7 +101,13 @@ function ItemDef(data) {
 
 		var storeId = '.store-item#' + this.name + ' #button';
 		j('.store-item#' + this.name, 'toggle', this.isVisibleInStore());
-		j(storeId, 'toggleClass', 'inactive', !this.canMakeMore());
+
+		var buttonClass = 'button ' + this.getCurrency();
+		if (!this.canMakeMore()) {
+			buttonClass += ' inactive';
+		}
+		j(storeId, 'attr', 'class', buttonClass);
+		
 		j(storeId + ' #name', 'html', this.isResearched ? this.storeName : 'Research ' + this.storeName);
 		j(storeId + ' span #cost', 'text', formatNumber(this.getCost()));
 		j(storeId + ' span #currency', 'html', getIconHtml(this.getCurrency()));

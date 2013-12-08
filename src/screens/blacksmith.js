@@ -233,7 +233,12 @@ function WeaponDef(data) {
 				prereqs = { buildings: { 'anvil': 1 } };
 			}
 			j(id + ' #button', 'toggle', prereqsMet(prereqs));
-			j(id + ' #button', 'toggleClass', 'inactive', !this.canPurchase());
+
+			var buttonClass = 'button ' + this.getCurrency();
+			if (!this.canPurchase()) {
+				buttonClass += ' inactive';
+			}
+			j(id + ' #button', 'attr', 'class', buttonClass);
 
 			var actionText = 'Buy';
 			if (this.isMaxLevel()) {

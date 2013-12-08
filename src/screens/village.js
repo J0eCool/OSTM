@@ -102,7 +102,13 @@ function BuildingDef(data) {
 		var id = '#' + this.name + '-building';
 		j(id, 'toggle', this.isVisible());
 		j(id + ' #name', 'text', this.isResearched ? this.displayName : 'Research ' + this.displayName);
-		j(id + ' #button', 'toggleClass', 'inactive', !this.canAfford());
+
+		var buttonClass = 'button ' + this.getCurrency();
+		if (!this.canAfford()) {
+			buttonClass += ' inactive';
+		}
+		j(id + ' #button', 'attr', 'class', buttonClass);
+
 		j(id + ' #count', 'text', this.isResearched ? ': ' + formatNumber(this.count) : '');
 		j(id + ' #cost', 'html', formatNumber(this.getCost()) + ' ' + getIconHtml(this.getCurrency()));
 
@@ -175,8 +181,13 @@ function UpgradeDef(data) {
 		var id = '#' + this.name + '-building';
 		j(id, 'toggle', this.isVisible());
 		j(id + ' #name', 'text', this.isResearched ? this.displayName : 'Research ' + this.displayName);
-		j(id + ' #button', 'toggleClass', 'inactive', !this.canAfford());
-		//j(id + ' #count', 'text', formatNumber(this.count));
+
+		var buttonClass = 'button ' + this.getCurrency();
+		if (!this.canAfford()) {
+			buttonClass += ' inactive';
+		}
+		j(id + ' #button', 'attr', 'class', buttonClass);
+
 		j(id + ' #cost', 'html', formatNumber(this.getCost()) + ' ' + getIconHtml(this.getCurrency()));
 
 		j(id + ' #description', 'html', this.isResearched ? this.description ? this.description :

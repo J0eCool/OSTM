@@ -145,7 +145,7 @@ function SkillDef(data) {
 		return '<div class="skill-container" id="' + this.name + '"><span id="name"></span>' +
 			getButtonHtml("Skills.tryPurchase('" + this.name + "')",
 				'<span id="action"></span><span id="level"></span>' +
-				'<br><span id="cost"></span>', 'button') +
+				'<br><span id="cost"></span>', 'button', 'skill') +
 			'<div id="description"></div>' +
 			'</div>';
 	};
@@ -153,7 +153,8 @@ function SkillDef(data) {
 	this.getAttackButtonHtml = function() {
 		var keyStr = this.keyCode ? ' (' + this.keyCode + ')' : '';
 		return getButtonHtml("Skills.equip('" + this.name + "')",
-				this.displayName + keyStr + '<br><span id="mana"></span>', this.name + '-equip');
+				this.displayName + keyStr + '<br><span id="mana"></span>',
+				this.name + '-equip');
 	};
 
 	this.updateButton = function() {

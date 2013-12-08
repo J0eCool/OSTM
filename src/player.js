@@ -496,7 +496,7 @@ function StatType(data) {
 			'<br/><span id="upgrade">(+<span id="upgrade-amount"></span>) : ' +
 			'<span id="cost"></span> ' + getIconHtml('xp') + '</span>';
 		return getButtonHtml("Player.upgrade('" + this.name + "')",
-			htmlStr, 'stat-' + this.name + '-button');
+			htmlStr, 'stat-' + this.name + '-button', 'xp');
 	};
 
 	this.updateButton = function() {

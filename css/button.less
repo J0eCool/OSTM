@@ -1,5 +1,5 @@
 .button {
-    @bgColor: #28f090;
+    @bgColor: #6ce9c1;
     @bgColorSelected: #f0b038;
     @bgColorInactive: #777;
 
@@ -14,36 +14,58 @@
     border: 1px solid black;
     margin: 1.5px 0px;
     padding: 3px;
-    background-color: @bgColor;
     transition: 0.25s;
-    box-shadow: 1.5px -1.5px 10px #555 inset;
     z-index: 5;
     cursor: pointer;
     color: black;
     font-size: 20px;
 
-    &.selected {
-        background-color: @bgColorSelected;
+    .shadow(@baseColor; @darkenAmount: 40%) {
+        box-shadow: 1px -1px 8px darken(@baseColor, @darkenAmount) inset;    
     }
-    &.inactive {
-        background-color: @bgColorInactive;
-        cursor: auto;
-    }
-
-    &:hover:not(.inactive) {
-        background-color: lighten(@bgColor, @bgHoverLighten);
-    }
-    &.selected:hover {
-        background-color: lighten(@bgColorSelected, @bgHoverLighten);
-    }
-
-    &:active:not(.inactive) {
-        background-color: darken(@bgColor, @bgPressDarken);
-        transition: 0.1s;
-
-        &.selected {
-            background-color: darken(@bgColorSelected, @bgPressDarken);
+    .buttonActions(@baseColor) {
+        background-color: @baseColor;
+        .shadow(@baseColor);
+        &:hover:not(.inactive) {
+            @color: lighten(@baseColor, @bgHoverLighten);
+            background-color: @color;
+            .shadow(@color);
         }
+        &:active:not(.inactive) {
+            @color: darken(@baseColor, @bgPressDarken);
+            background-color: @color;
+            .shadow(@color, 15%);
+            transition: 0.1s;
+        }
+    }
+
+    .buttonActions(@bgColor);
+    &.selected {
+        .buttonActions(@bgColorSelected);
+    }
+    // Resource Spend buttons
+    &.xp {
+        .buttonActions(@xpColor);
+    }
+    &.gold {
+        .buttonActions(@goldColor);
+    }
+    &.research {
+        .buttonActions(@researchColor);
+    }
+    &.iron {
+        .buttonActions(@ironColor);
+    }
+    &.wood {
+        .buttonActions(@woodColor);
+    }
+    &.skill {
+        .buttonActions(@skillColor);
+    }
+
+    &.inactive {
+        .buttonActions(@bgColorInactive);
+        cursor: auto;
     }
 
     .content {
