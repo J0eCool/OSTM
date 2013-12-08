@@ -1,0 +1,32 @@
+.screen {
+    position: absolute;
+    left: @statWidth;
+    right: 220px;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #aaa;
+}
+
+.field {
+    overflow: hidden;
+
+    &.grass {
+        background-color: #7b3;
+    }
+    &.sand {
+        background-color: #a92;
+    }
+    &.forest {
+        background-color: #142;
+    }
+}
+
+.store {
+    background-color: orange;
+}
+
+.options {
+    background-color: #445;
+    color: white;
+}

@@ -1,0 +1,25 @@
+img.icon {
+    vertical-align: middle;
+    height: 16px;
+}
+
+.size-0_85 {
+    transform: scale(0.85, 0.85);
+}
+
+.size-1_1 {
+    transform: scale(1.1, 1.1);
+}
+
+.outlined(@r: 1px, @color: black, @blur: 1px) {
+    text-shadow:
+        @r 0 @blur @color,
+        -@r 0 @blur @color,
+        0 @r @blur @color,
+        0 -@r @blur @color;
+}
+
+.scrolls(@x: hidden) {
+    overflow-x: @x;
+    overflow-y: auto;
+}
