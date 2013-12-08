@@ -10,11 +10,11 @@ function loadSkills() {
 			displayName: 'Power Attack',
 			keyCode: '1',
 			scalingBase: {
-				strength: 1
+				strength: 1.4
 			},
 			manaCost: 8,
 			baseDamage: 150,
-			levelDamage: 25
+			levelDamage: 30
 		}),
 		'quick-attack': new AttackSkillDef({
 			displayName: 'Quick Attack',
@@ -23,8 +23,8 @@ function loadSkills() {
 				dexterity: 2.5
 			},
 			manaCost: 7,
-			baseDamage: 140,
-			levelDamage: 20
+			baseDamage: 110,
+			levelDamage: 15
 		}),
 
 		'magic-missile': new SpellSkillDef({
