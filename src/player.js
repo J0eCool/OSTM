@@ -261,7 +261,7 @@ var Player = {
 				Skills.getPassiveMult('damage'),
 			spellPower: Math.floor(this.weapon.getMult('spellPower') *
 				Skills.getPassiveMult('spellPower') *
-				(94 + 2 * this.intelligence.value() + this.weapon.getSpellPower())),
+				(30 + this.intelligence.value() + this.weapon.getSpellPower())),
 			crit: (this.weapon.getBaseCrit() + Skills.getPassiveBase('crit')) *
 				this.weapon.getMult('crit') *
 				Skills.getPassiveMult('crit'),

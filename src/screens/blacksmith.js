@@ -118,20 +118,27 @@ function WeaponDef(data) {
 		return this.scalingBase[stat] * (1 + this.getTotalUpgradeCount() / 75);
 	};
 
-	this.getDamage = function() {
-		var weaponDamage = this.getBaseDamage() * this.getMult('damage');
+	this.getTotalScalingOfType = function(type) {
 		var statMod = 1;
 		var that = this;
 		foreach (this.scalingBase, function(val, name) {
-			if (Player[name]) {
+			if (Player[name] && getStatClass(name) === type) {
 				statMod += Player[name].value() * that.getScaling(name) / 100;
 			}
 		});
-		return weaponDamage * statMod;
+		return statMod;
+	};
+
+	this.getDamage = function() {
+		return this.getMult('damage') *
+			this.getTotalScalingOfType('physical') *
+			this.getBaseDamage();
 	};
 
 	this.getSpellPower = function() {
-		return this.getBaseSpellPower() * this.getMult('spellPower');
+		return this.getMult('spellPower') *
+			this.getTotalScalingOfType('mental') *
+			this.getBaseSpellPower();
 	};
 
 	this.getBaseCrit = function() {
@@ -256,18 +263,18 @@ function WeaponDef(data) {
 			for (var i in possibleStats) {
 				var name = possibleStats[i];
 				var stat = Player[name];
-				if (stat) {
-					var scaling = this.getScaling(name);
-					scalingStr += '<li>' + stat.abbrev + ': ' +
-						(scaling ? formatNumber(scaling, 1) + '%' : '-') + '</li>';
+				var scaling = this.getScaling(name);
+				if (stat && scaling) {
+					scalingStr += '<li class="' + getStatClass(name) + '">' + stat.abbrev + ': ' +
+						formatNumber(scaling, 1) + '%' + '</li>';
 				}
 			}
 			scalingStr += '</ul>';
 			j(id + ' #scaling', 'html', scalingStr);
-			var baseStr = '<ul><li>Damage: ' + formatNumber(this.getBaseDamage()) +
+			var baseStr = '<ul><li class="physical">Damage: ' + formatNumber(this.getBaseDamage()) +
 				'</li><li>Base Crit: ' + formatNumber(this.crit) + '%</li>';
 			if (this.getBaseSpellPower()) {
-				baseStr += '<li>Spell Power: +' + formatNumber(this.getBaseSpellPower()) + '</li>';
+				baseStr += '<li class="mental">Spell Power: +' + formatNumber(this.getBaseSpellPower()) + '</li>';
 			}
 			baseStr += '</ul>';
 			j(id + ' #base', 'html', baseStr);
@@ -298,5 +305,19 @@ var getUpgradeName = function() {
 	};
 	return function(stat) {
 		return upgradeNames[stat] || stat;
+	};
+}();
+
+var getStatClass = function() {
+	var physical = ['strength', 'dexterity'];
+	var mental = ['intelligence'];
+	return function(stat) {
+		if (physical.indexOf(stat) !== -1) {
+			return 'physical';
+		}
+		if (mental.indexOf(stat) !== -1) {
+			return 'mental';
+		}
+		return '';
 	};
 }();
