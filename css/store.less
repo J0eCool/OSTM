@@ -1,7 +1,8 @@
+@itemBarWidth: 220px;
 .item-bar {
     float: right;
-    width: 220px;
-    height: 100%;
+    width: @itemBarWidth;
+    height: calc(~"100%" - @adContainerHeight);
     background: linear-gradient(-70deg, #813, #d63);
     .scrolls;
 
@@ -11,8 +12,6 @@
 .item-container,
 .attack-container {
     div {
-        height: 100%;
-        .scrolls;
         text-align: center;
     }
 

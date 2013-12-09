@@ -1,0 +1,34 @@
+@adContainerHeight: 175px;
+.ad-container {
+    position: absolute;
+    bottom: 0px;
+    height: @adContainerHeight;
+
+    .privacy {
+        width: @itemBarWidth;
+        text-align: center;
+
+        a {
+            font-weight: bold;
+            font-size: 11px;
+        }
+        a:link {
+            color: black;
+        }
+        a:visited {
+            color: black;
+        }
+
+        .note {
+            font-size: 8px;
+        }
+    }
+
+    .ad {
+        position: absolute;
+        bottom: 0px;
+        width: @itemBarWidth;
+        height: 150px;
+        background-color: white;
+    }
+}
