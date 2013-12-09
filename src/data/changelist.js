@@ -1,4 +1,13 @@
 var changelist = {
+	"v0.2.4": {
+		"description": "Button Colors",
+		"changes": [
+			"Buttons that spend currency are now that currency's color",
+			"Normal Attack has a hotkey",
+			"Added Whirlwind skill, some upgrades",
+			"Added Privacy Policy for future reference"
+		]
+	},
 	"v0.2.3": {
 		"description": "Spell Work",
 		"changes": [
