@@ -1,8 +1,9 @@
-@adContainerHeight: 175px;
+@adContainerHeight: 25px;
 .ad-container {
     position: absolute;
     bottom: 0px;
     height: @adContainerHeight;
+    background-color: #777;
 
     .privacy {
         width: @itemBarWidth;
@@ -25,6 +26,7 @@
     }
 
     .ad {
+        display: none;
         position: absolute;
         bottom: 0px;
         width: @itemBarWidth;
