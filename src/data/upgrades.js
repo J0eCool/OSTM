@@ -163,6 +163,29 @@ function loadUpgrades() {
 			}
 		}),
 
+		'manor-1': new UpgradeDef({
+			displayName: 'Landscaping',
+			baseCost: 50000,
+			targetBuilding: 'manor',
+			amountIncrease: 50,
+			prereqs: {
+				buildings: {
+					'manor': 1
+				}
+			}
+		}),
+		'manor-2': new UpgradeDef({
+			displayName: 'Serfs',
+			baseCost: 650000,
+			targetBuilding: 'manor',
+			amountIncrease: 100,
+			prereqs: {
+				buildings: {
+					'manor': 10
+				}
+			}
+		}),
+
 		'library-1': new UpgradeDef({
 			displayName: 'Card Catalogs',
 			baseCost: 1200,
