@@ -27,10 +27,28 @@ function loadSkills() {
 			baseDamage: 110,
 			levelDamage: 15
 		}),
+		'whirlwind': new AttackSkillDef({
+			displayName: 'Whirlwind',
+			keyCode: '3',
+			scalingBase: {
+				strength: 1.5,
+				dexterity: 1.5
+			},
+			manaCost: 15,
+			baseDamage: 60,
+			levelDamage: 6,
+
+			doAttack: function(enemy) {
+				for (var i = EnemyManager.activeEnemies.length - 1; i >= 0; i--) {
+					var e = EnemyManager.activeEnemies[i];
+					e.takeDamage(Player.getDamageInfo());
+				}
+			}
+		}),
 
 		'magic-missile': new SpellSkillDef({
 			displayName: 'Magic Missile',
-			keyCode: '3',
+			keyCode: '4',
 			scalingBase: {
 				intelligence: 6
 			},
@@ -40,7 +58,7 @@ function loadSkills() {
 			baseCrit: 5,
 		}),
 		'fireBolt': new SpellSkillDef({
-			keyCode: '4',
+			keyCode: '5',
 			displayName: 'Fire Bolt',
 			scalingBase: {
 				intelligence: 10
@@ -51,7 +69,7 @@ function loadSkills() {
 			baseCrit: 4,
 		}),
 		'lightningBolt': new SpellSkillDef({
-			keyCode: '5',
+			keyCode: '6',
 			displayName: 'Lightning Bolt',
 			scalingBase: {
 				intelligence: 10
@@ -63,12 +81,12 @@ function loadSkills() {
 		}),
 		'fireball': new SpellSkillDef({
 			displayName: 'Fireball',
-			keyCode: '6',
+			keyCode: '7',
 			scalingBase: {
-				intelligence: 6.5
+				intelligence: 4.5
 			},
-			manaCost: 32,
-			baseDamage: 110,
+			manaCost: 36,
+			baseDamage: 140,
 			levelDamage: 18,
 			baseCrit: 3,
 			doAttack: function(enemy) {
@@ -77,8 +95,8 @@ function loadSkills() {
 				var jit = 32;
 				var rangeLo = 0.2;
 				var rangeHi = 0.6;
-				var dmgHi = 0.6;
-				var dmgLo = 0.25;
+				var dmgHi = 0.85;
+				var dmgLo = 0.35;
 				ParticleContainer.createEffect('Explosion.png', {
 					x: pos.x + (pos.w - siz) / 2 + randIntInc(-jit, jit),
 					y: pos.y + (pos.h - siz) / 2 + randIntInc(-jit, jit),
@@ -99,11 +117,11 @@ function loadSkills() {
 		}),
 		'chainLightning': new SpellSkillDef({
 			displayName: 'Chain Lightning',
-			keyCode: '7',
+			keyCode: '8',
 			scalingBase: {
-				intelligence: 7.5
+				intelligence: 5
 			},
-			manaCost: 26,
+			manaCost: 28,
 			baseDamage: 100,
 			levelDamage: 15,
 			baseCrit: 7,
