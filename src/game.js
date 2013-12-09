@@ -47,7 +47,7 @@ var Game = {
 		});
 
 		$(document).keypress(function(event) {
-			Game.keyPressed(String.fromCharCode(event.which));
+			Game.keyPressed(String.fromCharCode(event.which).toLowerCase());
 		});
 
 		// Report current version

@@ -2,6 +2,7 @@ function loadSkills() {
 	var skills = {
 		'attack': new AttackSkillDef({
 			displayName: 'Attack',
+			keyCode: 'a',
 			baseDamage: 100,
 			levelDamage: 5,
 			level: 1

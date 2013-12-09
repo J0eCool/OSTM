@@ -151,7 +151,7 @@ function SkillDef(data) {
 	};
 
 	this.getAttackButtonHtml = function() {
-		var keyStr = this.keyCode ? ' (' + this.keyCode + ')' : '';
+		var keyStr = this.keyCode ? ' (' + this.keyCode.toUpperCase() + ')' : '';
 		return getButtonHtml("Skills.equip('" + this.name + "')",
 				this.displayName + keyStr + '<br><span id="mana"></span>',
 				this.name + '-equip');
