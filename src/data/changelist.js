@@ -82,5 +82,43 @@ var changelist = {
 			"Game runs smoothly when off-tab",
 			"Added a repeatable tent upgrade"
 		]
-	}
+	},
+	"v0.1.6": {
+		"description": "Balancing",
+		"changes": [
+			"Higher level enemies are harder",
+			"XP costs / gains have been altered",
+			"Leveling up any stat increases defense slightly",
+			"Shrine scales enemy levels exponentially, so earlier areas can keep up",
+			"Shrine cost currently set to 0 for the hell of it (so I can get feedback on how enemies scale independent of the cost of it)"
+		]
+	},
+	"v0.1.5": {
+		"description": "Balancing, Spells",
+		"changes": [
+			"Weapon scaling has been tweaked slightly (cheaper earlier, more expensive later)",
+			"Skill Points scaling has been tweaked a lot. Enemies give much less per level, but cost scales less aggressively",
+			"Spells and Spell Power have been added",
+			"Skills can scale their damage with stats",
+			"New skills and weapon"
+		]
+	},
+	"v0.1.4": {
+		"description": "",
+		"changes": [
+			"Added Google Analytics for curiosity's sake",
+			"Changed how stats scale on weapons; hopefully it's more transparent",
+			"Change how upgrade/ascension costs scale. That's going to be balanced better in the near-future",
+			"Minor blacksmith visual tweaks"
+		]
+	},
+	"v0.1.3": {
+		"description": "",
+		"changes": [
+			"Fix for flickering icons in chrome",
+			"Reformatted the Blacksmith a tad",
+			"Skills now revert to normal attacks when you run out of mana",
+			"Inn restores mana"
+		]
+	},
 };

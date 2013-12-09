@@ -29,12 +29,10 @@
         &:hover:not(.inactive) {
             @color: lighten(@baseColor, @bgHoverLighten);
             background-color: @color;
-            .shadow(@color);
         }
         &:active:not(.inactive) {
             @color: darken(@baseColor, @bgPressDarken);
             background-color: @color;
-            .shadow(@color, 15%);
             transition: 0.1s;
         }
     }

@@ -7,6 +7,7 @@ function ScreenDef(data) {
 	};
 	this.adventuresBlock = data.adventuresBlock || false;
 	this.prereqs = data.prereqs || null;
+	this.hidden = data.hidden || false;
 }
 
 function ScreenContainer(data) {
@@ -107,7 +108,12 @@ var Menu = new ScreenContainer({
 		new ScreenDef({
 			name: 'options',
 			displayName: 'Options'
-		})
+		}),
+		new ScreenDef({
+			name: 'changelist',
+			hidden: true,
+			createHtml: getChangelistHtml
+		}),
 	],
 
 	classBase: 'screen',
@@ -116,8 +122,10 @@ var Menu = new ScreenContainer({
 	postInit: function() {
 		var headerHtml = '';
 		foreach (this.screens, function (scr) {
-			headerHtml += getButtonHtml("Menu.setScreen('" + scr.name + "')",
-				scr.displayName, scr.name + '-button') + ' ';
+			if (!scr.hidden) {
+				headerHtml += getButtonHtml("Menu.setScreen('" + scr.name + "')",
+					scr.displayName, scr.name + '-button') + ' ';
+			}
 		});
 		j('.header-buttons', 'html', headerHtml);
 
@@ -138,3 +146,17 @@ var Menu = new ScreenContainer({
 		j('#' + name + '-button', 'toggleClass', 'selected', true);
 	}
 });
+
+function getChangelistHtml() {
+	var str = '';
+	for (var version in changelist) {
+		var data = changelist[version];
+		str += '<h3>' + version + ' - ' + data.description + '</h3>' +
+			'<div><ul>';
+		for (var i = 0; i < data.changes.length; i++) {
+			str += '<li>' + data.changes[i] + '</li>';
+		}
+		str += '</ul></div>';
+	}
+	return str;
+}
