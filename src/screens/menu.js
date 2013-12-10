@@ -114,6 +114,13 @@ var Menu = new ScreenContainer({
 			hidden: true,
 			createHtml: getChangelistHtml
 		}),
+// @if DEBUG
+		new ScreenDef({
+			name: 'debug',
+			displayName: 'DEBUG',
+			createHtml: getDebugScreenHtml
+		}),
+// @endif
 	],
 
 	classBase: 'screen',

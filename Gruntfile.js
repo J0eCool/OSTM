@@ -110,7 +110,8 @@ module.exports = function(grunt) {
       debug: {
         files: [
           {dest: '<%= debugFolder %>/index.html', src: ['build/index.debug.html']},
-          {expand: true, flatten: true, dest: '<%= debugFolder %>', src: ['build/game.css', 'build/game.js',
+          {dest: '<%= debugFolder %>/game.js', src: ['build/game.debug.js']},
+          {expand: true, flatten: true, dest: '<%= debugFolder %>', src: ['build/game.css',
             'img/**/*.png', 'update.json', 'privacy.html']},
         ]
       }
