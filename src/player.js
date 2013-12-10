@@ -519,6 +519,7 @@ function StatType(data) {
 			j(id + ' #amount', 'text', this.stringValue());
 			j(id + ' #upgrade-amount', 'text', this.stringUpgradeValue());
 			j(id + ' #cost', 'text', formatNumber(this.upgradeCost()));
+			j(id + ' .description', 'text', 'Bonus: ' + this.getBonusPercent() + '%');
 	};
 
 	this.onUpgrade = data.onUpgrade || function() {};

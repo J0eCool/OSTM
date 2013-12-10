@@ -81,8 +81,25 @@ function getButtonHtml(onclick, contents, id, extraClass) {
 		classStr += ' ' + extraClass;
 	}
 	classStr += '"';
-	return '<div ' + classStr + ' onclick="' + onclick + '"' + idStr +
-		' ><span class="content">' + contents + '</span></div>';
+	return '<div ' + classStr + ' onclick="' + onclick + '; hideButtonDescription(this)"' +
+		' onmouseover="showButtonDescription(this)" onmouseout="hideButtonDescription(this)"' +
+		idStr + '><span class="content">' + contents + '</span>' +
+		'<div class="description" style="display:none"></div>' +
+		'</div>';
+}
+
+function showButtonDescription(button) {
+	var obj = $(button).find('.description');
+	if (obj.html()) {
+		j('.description-box').show().css({
+			left: Game.mouse.x,
+			top: Game.mouse.y
+		});
+		j('.description-box', 'html', obj.html());
+	}
+}
+function hideButtonDescription(button) {
+	j('.description-box').hide();
 }
 
 function foreach(target, toDo) {

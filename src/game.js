@@ -22,6 +22,11 @@ var Game = {
 
 	dT: 100,
 
+	mouse: {
+		x: 0,
+		y: 0
+	},
+
 	init: function() {
 		Log.init();
 
@@ -48,6 +53,8 @@ var Game = {
 
 		$(document).keypress(function(event) {
 			Game.keyPressed(String.fromCharCode(event.which).toLowerCase());
+		}).on('mousemove', function(event) {
+			Game.mouseMoved(event.pageX, event.pageY);
 		});
 
 		// Report current version
@@ -112,5 +119,12 @@ var Game = {
 
 	keyPressed: function(key) {
 		Skills.keyPressed(key);
+	},
+
+	mouseMoved: function(xPos, yPos) {
+		this.mouse = {
+			x: xPos,
+			y: yPos
+		};
 	},
 };
