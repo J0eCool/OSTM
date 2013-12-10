@@ -67,6 +67,7 @@ var Player = {
 			'<div>Crit. Chance : <span id="stat-crit"></span></div>' +
 			'<div>Crit Damage : <span id="stat-crit-damage"></span></div>' +
 			'<br>' +
+			'<div>Attack Power : <span id="stat-attackpower"></span></div>' +
 			'<div>Spell Power : <span id="stat-spellpower"></span></div>' +
 			'<div>Defense Power : <span id="stat-defense"></span></div>' +
 			'<br>' +
@@ -180,6 +181,7 @@ var Player = {
 		j('#stat-crit', 'text', formatNumber(dmg.crit) + '%');
 		j('#stat-crit-damage', 'text', formatNumber(this.getCritDamage()) + '%');
 
+		j('#stat-attackpower', 'text', formatNumber(dmg.attackPower));
 		j('#stat-spellpower', 'text', formatNumber(dmg.spellPower));
 		j('#stat-defense', 'text', formatNumber(this.getDefensePower()));
 
@@ -256,28 +258,27 @@ var Player = {
 		mod = mod || 1;
 
 		var dmg = {
-			attackPower: this.weapon.getDamage() *
-				this.attack.getDamage() / 100 *
-				Skills.getPassiveMult('damage'),
+			attackPower: Math.floor(this.weapon.getDamage() *
+				Skills.getPassiveMult('damage')),
 			spellPower: Math.floor(this.weapon.getMult('spellPower') *
 				Skills.getPassiveMult('spellPower') *
 				(30 + this.intelligence.value() + this.weapon.getSpellPower())),
 			isSpell: this.attack.category === 'Spell',
 		};
 		var hiMult = 1;
-		dmg.baseDamage = dmg.attackPower;
 		if (dmg.isSpell) {
-			dmg.baseDamage = (dmg.spellPower / 100) * this.attack.getDamage();
+			dmg.power = dmg.spellPower;
 			dmg.crit = (this.attack.getBaseCrit() + Skills.getPassiveBase('crit')) *
 				Skills.getPassiveMult('crit');
 		}
 		else {
+			dmg.power = dmg.attackPower;
 			hiMult = this.weapon.getMult('maxDamage');
 			dmg.crit = (this.weapon.getBaseCrit() + Skills.getPassiveBase('crit')) *
 				this.weapon.getMult('crit') *
 				Skills.getPassiveMult('crit');
 		}
-		dmg.baseDamage *= mod;
+		dmg.baseDamage = dmg.power * this.attack.getDamage() / 100 * mod;
 
 		dmg.lo = Math.ceil(dmg.baseDamage * (1 - this.randDamage / 2));
 		dmg.hi = Math.floor(hiMult * dmg.baseDamage * (1 + this.randDamage / 2));
