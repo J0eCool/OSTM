@@ -259,23 +259,25 @@ var Player = {
 
 		var dmg = {
 			attackPower: Math.floor(this.weapon.getDamage() *
+				this.strength.getBonusMult() *
 				Skills.getPassiveMult('damage')),
 			spellPower: Math.floor(this.weapon.getMult('spellPower') *
 				Skills.getPassiveMult('spellPower') *
-				(30 + this.intelligence.value() + this.weapon.getSpellPower())),
+				this.intelligence.getBonusMult() *
+				(30 + this.weapon.getSpellPower())),
 			isSpell: this.attack.category === 'Spell',
 		};
 		var hiMult = 1;
-		if (dmg.isSpell) {
-			dmg.power = dmg.spellPower;
-			dmg.crit = (this.attack.getBaseCrit() + Skills.getPassiveBase('crit')) *
-				Skills.getPassiveMult('crit');
-		}
-		else {
+		if (!dmg.isSpell) {
 			dmg.power = dmg.attackPower;
 			hiMult = this.weapon.getMult('maxDamage');
 			dmg.crit = (this.weapon.getBaseCrit() + Skills.getPassiveBase('crit')) *
 				this.weapon.getMult('crit') *
+				Skills.getPassiveMult('crit');
+		}
+		else {
+			dmg.power = dmg.spellPower;
+			dmg.crit = (this.attack.getBaseCrit() + Skills.getPassiveBase('crit')) *
 				Skills.getPassiveMult('crit');
 		}
 		dmg.baseDamage = dmg.power * this.attack.getDamage() / 100 * mod;
@@ -293,6 +295,7 @@ var Player = {
 	getCritDamage: function() {
 		return this.weapon.getUpgradeAmount('critDamage') +
 			Skills.getPassiveBase('critDamage') +
+			this.dexterity.getBonusPercent() +
 			this.critDamage;
 	},
 
@@ -426,6 +429,7 @@ function StatType(data) {
 	this.levelValue = data.levelValue || 1;
 	this.isPercent = data.isPercent || false;
 	this.stringPostfix = data.stringPostfix || '';
+	this.bonusPercent = data.bonusPercent || 0;
 
 	this.level = 0;
 	this.unlocked = false;
@@ -444,6 +448,14 @@ function StatType(data) {
 
 	this.getBaseValueAtLevel = data.getBaseValueAtLevel || function(level) {
 		return this.baseValue + level * this.levelValue;
+	};
+
+	this.getBonusMult = function() {
+		return 1 + this.getBonusPercent() / 100;
+	};
+
+	this.getBonusPercent = function() {
+		return this.value() * this.bonusPercent;
 	};
 
 	this.getStringPostfix = function() {

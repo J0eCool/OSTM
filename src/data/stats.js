@@ -28,6 +28,7 @@ function loadStats() {
 			displayName: 'Strength',
 			abbrev: 'STR',
 			baseValue: 4,
+			bonusPercent: 0.5,
 			prereqs: {
 				playerLevel: 2
 			},
@@ -36,6 +37,7 @@ function loadStats() {
 			displayName: 'Dexterity',
 			abbrev: 'DEX',
 			baseValue: 5,
+			bonusPercent: 1,
 			prereqs: {
 				buildings: {
 					'blacksmith': 1
@@ -46,6 +48,7 @@ function loadStats() {
 			displayName: 'Intelligence',
 			abbrev: 'INT',
 			baseValue: 3,
+			bonusPercent: 0.5,
 			prereqs: {
 				buildings: {
 					'wizard-tower': 1

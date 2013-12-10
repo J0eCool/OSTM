@@ -46,6 +46,8 @@ function debugResetSkills() {
 	foreach (Skills.skills, function(s) {
 		s.level = 0;
 	});
+	Skills.skills.attack.level = 1;
+	Player.attackName = 'attack';
 }
 
 function debugResetVillage() {
