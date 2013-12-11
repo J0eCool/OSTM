@@ -261,10 +261,9 @@ var Player = {
 			attackPower: Math.floor(this.weapon.getDamage() *
 				this.strength.getBonusMult() *
 				Skills.getPassiveMult('damage')),
-			spellPower: Math.floor(this.weapon.getMult('spellPower') *
-				Skills.getPassiveMult('spellPower') *
+			spellPower: Math.floor(Skills.getPassiveMult('spellPower') *
 				this.intelligence.getBonusMult() *
-				(30 + this.weapon.getSpellPower())),
+				this.weapon.getSpellPower()),
 			isSpell: this.attack.category === 'Spell',
 		};
 		var hiMult = 1;

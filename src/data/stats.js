@@ -65,7 +65,7 @@ function loadStats() {
 			abbrev: 'WIS',
 			description: 'Increases mana regen by <bonus>/s per level (+<totalBonus> total)',
 			baseValue: 3,
-			bonus: 0.75,
+			bonus: 0.5,
 			prereqs: {
 				buildings: {
 					'wizard-tower': 1
@@ -77,7 +77,7 @@ function loadStats() {
 			abbrev: 'DEF',
 			description: 'Increases health regen by <bonus>/s per level (+<totalBonus> total)',
 			baseValue: 3,
-			bonus: 0.5,
+			bonus: 0.25,
 			prereqs: {
 				adventures: ['adv0']
 			},

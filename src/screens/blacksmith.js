@@ -62,7 +62,7 @@ function WeaponDef(data) {
 	this.crit = data.crit || 5;
 	this.spellPower = data.spellPower || 0;
 	this.ascendDamage = data.ascendDamage || 1;
-	this.ascendSpellPower = data.ascendSpellPower || 10;
+	this.ascendSpellPower = data.ascendSpellPower || 1;
 	this.buyCost = data.buyCost || 1000;
 	this.researchCost = data.researchCost || 0;
 	this.upgradeCost = (data.upgradeCostMult || 1) * 5000;
@@ -264,9 +264,8 @@ function WeaponDef(data) {
 			j(id + ' #description', 'toggle', this.researched);
 
 			var scalingStr = '<ul>';
-			var possibleStats = ['strength', 'dexterity', 'intelligence'];
-			for (var i in possibleStats) {
-				var name = possibleStats[i];
+			for (var i = 0; i < Player.stats.length; i++) {
+				var name = Player.stats[i];
 				var stat = Player[name];
 				var scaling = this.getScaling(name);
 				if (stat && scaling) {
@@ -276,11 +275,9 @@ function WeaponDef(data) {
 			}
 			scalingStr += '</ul>';
 			j(id + ' #scaling', 'html', scalingStr);
-			var baseStr = '<ul><li class="physical">Damage: ' + formatNumber(this.getBaseDamage()) +
+			var baseStr = '<ul><li class="physical">Attack: ' + formatNumber(this.getBaseDamage()) +
+				'<li class="mental">Spell: ' + formatNumber(this.getBaseSpellPower()) + '</li>' +
 				'</li><li>Base Crit: ' + formatNumber(this.crit) + '%</li>';
-			if (this.getBaseSpellPower()) {
-				baseStr += '<li class="mental">Spell Power: +' + formatNumber(this.getBaseSpellPower()) + '</li>';
-			}
 			baseStr += '</ul>';
 			j(id + ' #base', 'html', baseStr);
 			var upgradeStr = '<ul>';
@@ -315,7 +312,7 @@ var getUpgradeName = function() {
 
 var getStatClass = function() {
 	var physical = ['strength', 'dexterity'];
-	var mental = ['intelligence'];
+	var mental = ['intelligence', 'wisdom'];
 	return function(stat) {
 		if (physical.indexOf(stat) !== -1) {
 			return 'physical';
