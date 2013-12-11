@@ -10,33 +10,28 @@ function loadSkills() {
 		'power-attack': new AttackSkillDef({
 			displayName: 'Power Attack',
 			keyCode: '1',
-			scalingBase: {
-				strength: 1.4
-			},
 			manaCost: 6,
-			baseDamage: 150,
-			levelDamage: 30
+			baseDamage: 200,
+			levelDamage: 40
 		}),
 		'quick-attack': new AttackSkillDef({
 			displayName: 'Quick Attack',
 			keyCode: '2',
-			scalingBase: {
-				dexterity: 2.5
+			description: '2x chance to critically strike',
+			bonuses: {
+				crit: 100
 			},
-			manaCost: 5,
-			baseDamage: 110,
+			manaCost: 7,
+			baseDamage: 120,
 			levelDamage: 15
 		}),
 		'whirlwind': new AttackSkillDef({
 			displayName: 'Whirlwind',
 			keyCode: '3',
-			scalingBase: {
-				strength: 1.5,
-				dexterity: 1.5
-			},
+			description: 'Hits all enemies on screen',
 			manaCost: 15,
-			baseDamage: 60,
-			levelDamage: 6,
+			baseDamage: 80,
+			levelDamage: 10,
 
 			doAttack: function(enemy) {
 				for (var i = EnemyManager.activeEnemies.length - 1; i >= 0; i--) {
@@ -49,42 +44,35 @@ function loadSkills() {
 		'magic-missile': new SpellSkillDef({
 			displayName: 'Magic Missile',
 			keyCode: '4',
-			scalingBase: {
-				intelligence: 6
-			},
 			manaCost: 8,
-			baseDamage: 80,
-			levelDamage: 10,
+			baseDamage: 200,
+			levelDamage: 50,
 			baseCrit: 5,
 		}),
 		'fireBolt': new SpellSkillDef({
 			keyCode: '5',
 			displayName: 'Fire Bolt',
-			scalingBase: {
-				intelligence: 10
-			},
 			manaCost: 18,
-			baseDamage: 160,
-			levelDamage: 20,
+			baseDamage: 350,
+			levelDamage: 75,
 			baseCrit: 4,
 		}),
 		'lightningBolt': new SpellSkillDef({
 			keyCode: '6',
 			displayName: 'Lightning Bolt',
-			scalingBase: {
-				intelligence: 10
+			description: '100% higher max damage',
+			bonuses: {
+				maxDamage: 100,
 			},
 			manaCost: 16,
-			baseDamage: 130,
-			levelDamage: 16,
-			baseCrit: 8,
+			baseDamage: 200,
+			levelDamage: 40,
+			baseCrit: 6,
 		}),
 		'fireball': new SpellSkillDef({
 			displayName: 'Fireball',
 			keyCode: '7',
-			scalingBase: {
-				intelligence: 4.5
-			},
+			description: 'Hits all enemies on screen, enemies closer to target take more damage',
 			manaCost: 36,
 			baseDamage: 140,
 			levelDamage: 18,
@@ -118,12 +106,10 @@ function loadSkills() {
 		'chainLightning': new SpellSkillDef({
 			displayName: 'Chain Lightning',
 			keyCode: '8',
-			scalingBase: {
-				intelligence: 5
-			},
+			description: 'Hits all enemies on screen, does 20% less damage with each bounce',
 			manaCost: 28,
-			baseDamage: 100,
-			levelDamage: 15,
+			baseDamage: 150,
+			levelDamage: 20,
 			baseCrit: 7,
 			doAttack: function() {
 				var w = 50;

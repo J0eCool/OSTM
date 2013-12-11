@@ -205,12 +205,14 @@ function SkillDef(data) {
 		return this.displayName + ' Level ' + level;
 	};
 
-	this.getDescription = function() {
+	this.getLevelDescription = function() {
 		if (this.level < 1) {
 			return this.getDescriptionAtLevel(1);
 		}
 		return this.getDescriptionAtLevel(this.level) + ' --> ' + this.getDescriptionAtLevel(this.level + 1);
 	};
+
+	this.getDescription = this.getLevelDescription;
 }
 
 function AttackSkillDef(data) {
@@ -225,29 +227,21 @@ function AttackSkillDef(data) {
 	this.levelDamage = data.levelDamage || 10;
 
 	this.baseCrit = data.baseCrit || 0;
-
-	this.scalingBase = data.scalingBase || {};
-
-	this.getScaling = function(stat, level) {
-		if (!this.scalingBase[stat]) {
-			return 0;
-		}
-		return this.scalingBase[stat] * (1 + (level - 1) / 15);
-	};
+	this.bonuses = data.bonuses || {};
 
 	this.getDamage = function() {
-		var statMult = 1;
-		var that = this;
-		foreach (this.scalingBase, function(val, name) {
-			if (Player[name]) {
-				statMult += Player[name].value() * that.getScaling(name, that.level) / 100;
-			}
-		});
-		return this.getDamageAtLevel(this.level) * statMult;
+		return this.getDamageAtLevel(this.level);
 	};
 
 	this.getDamageAtLevel = function(level) {
 		return this.baseDamage + this.levelDamage * (level - 1);
+	};
+
+	this.getBonusMult = function(bonus) {
+		if (!this.bonuses[bonus]) {
+			return 1;
+		}
+		return 1 + this.bonuses[bonus] / 100;
 	};
 
 	this.getManaCost = function() {
@@ -266,18 +260,6 @@ function AttackSkillDef(data) {
 	};
 
 	this.getDescriptionAtLevel = function(level) {
-		var scalingStr = '<div id="scaling"><ul>';
-		var possibleStats = ['strength', 'dexterity', 'intelligence'];
-		for (var i in possibleStats) {
-			var name = possibleStats[i];
-			var stat = Player[name];
-			var scaling = this.getScaling(name, level);
-			if (stat && scaling) {
-				scalingStr += '<li>' + stat.abbrev + ': ' +
-					formatNumber(scaling, 1) + '%</li>';
-			}
-		}
-		scalingStr += '</ul></div>';
 		var baseStr = '<div id="base"><ul><li>Damage: ' + formatNumber(this.getDamageAtLevel(level)) + '</li>';
 		if (this.getBaseCrit()) {
 			baseStr += '<li>Crit Chance: ' + formatNumber(this.getBaseCrit()) + '%</li>';
@@ -286,7 +268,11 @@ function AttackSkillDef(data) {
 			baseStr += '<li>Mana Cost:' + formatNumber(this.getManaCostAtLevel(level)) + '</li>';
 		}
 		baseStr += '</ul></div>';
-		return scalingStr + baseStr;
+		return baseStr;
+	};
+
+	this.getDescription = function() {
+		return '<div>' + this.description + '</div><div>' + this.getLevelDescription() + '</div>';
 	};
 
 	this.doAttack = data.doAttack || function(enemy) {
