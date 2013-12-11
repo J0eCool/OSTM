@@ -1,10 +1,11 @@
 {
-	"version": "0.2.4",
-	"description": "Button Colors",
+	"version": "0.2.5",
+	"description": "Skill/Stat restructuring",
 	"changes": [
-		"Buttons that spend currency are now that currency's color",
-		"Normal Attack has a hotkey",
-		"Added Whirlwind skill, some upgrades",
-		"Added Privacy Policy for future reference"
+		"Skills no longer scale with stats(!!)",
+		"Some attack skills have extra modifications",
+		"Stats now have a secondary effect",
+		"Added in-game changelist (click the version number)",
+		"Added two weapons"
 	]
 }
