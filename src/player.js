@@ -2,11 +2,11 @@ var Player = {
 	toSave: ['health', 'mana', 'weaponName'],
 
 	health: 100,
-	baseHealthRegen: 4,
+	baseHealthRegen: 3,
 	partialHealth: 0, //health regen per-tick roundoff
 
 	mana: 100,
-	baseManaRegen: 6,
+	baseManaRegen: 3,
 	partialMana: 0,
 
 	weaponName: 'stick',
@@ -231,26 +231,26 @@ var Player = {
 		return Math.floor(this.weapon.getMult('maxHealth') *
 			Skills.getPassiveMult('maxHealth') *
 			((Skills.getPassiveMult('healthPerLevel') - 1) * Player.getLevel() + 1) *
-			this.maxHealth.value());
+			this.maxHealth.getTotalBonus());
 	},
 
 	getMaxMana: function() {
 		return Math.floor(this.weapon.getMult('maxMana') *
 			Skills.getPassiveMult('maxMana') *
-			this.maxMana.value());
+			this.maxMana.getTotalBonus());
 	},
 
 	getHealthRegen: function() {
 		return this.weapon.getMult('healthRegen') *
 			Skills.getPassiveMult('healthRegen') *
-			(this.baseHealthRegen +
+			(this.baseHealthRegen + this.defense.getTotalBonus() +
 				Skills.getPassiveBase('healthRegen') / 100 * this.getMaxHealth());
 	},
 
 	getManaRegen: function() {
 		return this.weapon.getMult('manaRegen') *
 			Skills.getPassiveMult('manaRegen') *
-			(this.baseManaRegen +
+			(this.baseManaRegen + this.wisdom.getTotalBonus() +
 				Skills.getPassiveBase('manaRegen') / 100 * this.getMaxMana());
 	},
 
@@ -295,7 +295,7 @@ var Player = {
 	getCritDamage: function() {
 		return this.weapon.getUpgradeAmount('critDamage') +
 			Skills.getPassiveBase('critDamage') +
-			this.dexterity.getBonusPercent() +
+			this.dexterity.getTotalBonus() +
 			this.critDamage;
 	},
 
@@ -424,12 +424,13 @@ function StatType(data) {
 	this.name = data.name || '';
 	this.displayName = data.displayName || this.name || '';
 	this.abbrev = data.abbrev || this.displayName || '';
+	this.description = data.description || '';
 	this.prereqs = data.prereqs || null;
 	this.baseValue = data.baseValue || 0;
 	this.levelValue = data.levelValue || 1;
 	this.isPercent = data.isPercent || false;
 	this.stringPostfix = data.stringPostfix || '';
-	this.bonusPercent = data.bonusPercent || 0;
+	this.bonus = data.bonus || 0;
 
 	this.level = 0;
 	this.unlocked = false;
@@ -451,11 +452,11 @@ function StatType(data) {
 	};
 
 	this.getBonusMult = function() {
-		return 1 + this.getBonusPercent() / 100;
+		return 1 + this.getTotalBonus() / 100;
 	};
 
-	this.getBonusPercent = function() {
-		return this.value() * this.bonusPercent;
+	this.getTotalBonus = function() {
+		return this.value() * this.bonus;
 	};
 
 	this.getStringPostfix = function() {
@@ -513,13 +514,27 @@ function StatType(data) {
 	};
 
 	this.updateButton = function() {
-			var id = '#stat-' + this.name + '-button';
-			j(id, 'toggle', this.isUnlocked());
-			j(id, 'toggleClass', 'inactive', !this.canUpgrade());
-			j(id + ' #amount', 'text', this.stringValue());
-			j(id + ' #upgrade-amount', 'text', this.stringUpgradeValue());
-			j(id + ' #cost', 'text', formatNumber(this.upgradeCost()));
-			j(id + ' .description', 'text', 'Bonus: ' + this.getBonusPercent() + '%');
+		var id = '#stat-' + this.name + '-button';
+		j(id, 'toggle', this.isUnlocked());
+		j(id, 'toggleClass', 'inactive', !this.canUpgrade());
+		j(id + ' #amount', 'text', this.stringValue());
+		j(id + ' #upgrade-amount', 'text', this.stringUpgradeValue());
+		j(id + ' #cost', 'text', formatNumber(this.upgradeCost()));
+
+		var desc = this.description;
+		var descFields = {
+			'bonus': this.bonus,
+			'totalBonus': this.getTotalBonus()
+		};
+		for (var key in descFields) {
+			var matchStr = '<' + key + '>';
+			while (desc.indexOf(matchStr) != -1) {
+				var replaceStr = '<span class="statDesc-' + key + '">' +
+					formatNumber(descFields[key]) + '</span>';
+				desc = desc.replace(matchStr, replaceStr);
+			}
+		}
+		j(id + ' .description', 'html', desc);
 	};
 
 	this.onUpgrade = data.onUpgrade || function() {};

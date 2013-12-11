@@ -1,9 +1,10 @@
 function loadStats() {
 	var stats = {
 		'maxHealth': new StatType({
-			displayName: 'Health',
-			baseValue: 100,
-			levelValue: 20,
+			displayName: 'Vitality',
+			description: 'Increase health by <bonus> per level (<totalBonus> total)',
+			baseValue: 5,
+			bonus: 20,
 
 			onUpgrade: function() {
 				//technically not correct but it rounds up and is close
@@ -11,9 +12,10 @@ function loadStats() {
 			}
 		}),
 		'maxMana': new StatType({
-			displayName: 'Mana',
-			baseValue: 40,
-			levelValue: 7,
+			displayName: 'Spirit',
+			description: 'Increase mana by <bonus> per level (<totalBonus> total)',
+			baseValue: 5,
+			bonus: 7,
 			prereqs: {
 				buildings: {
 					'training-hall': 1
@@ -27,8 +29,9 @@ function loadStats() {
 		'strength': new StatType({
 			displayName: 'Strength',
 			abbrev: 'STR',
+			description: 'Increases Attack Power by <bonus>% per level (+<totalBonus>% total)',
 			baseValue: 4,
-			bonusPercent: 0.5,
+			bonus: 0.5,
 			prereqs: {
 				playerLevel: 2
 			},
@@ -36,8 +39,9 @@ function loadStats() {
 		'dexterity': new StatType({
 			displayName: 'Dexterity',
 			abbrev: 'DEX',
+			description: 'Increases Crit Damage by <bonus>% per level (+<totalBonus>% total)',
 			baseValue: 5,
-			bonusPercent: 1,
+			bonus: 1,
 			prereqs: {
 				buildings: {
 					'blacksmith': 1
@@ -47,8 +51,21 @@ function loadStats() {
 		'intelligence': new StatType({
 			displayName: 'Intelligence',
 			abbrev: 'INT',
+			description: 'Increases Spell Power by <bonus>% per level (+<totalBonus>% total)',
 			baseValue: 3,
-			bonusPercent: 0.5,
+			bonus: 0.5,
+			prereqs: {
+				buildings: {
+					'wizard-tower': 1
+				}
+			},
+		}),
+		'wisdom': new StatType({
+			displayName: 'Wisdom',
+			abbrev: 'WIS',
+			description: 'Increases mana regen by <bonus>/s per level (+<totalBonus> total)',
+			baseValue: 3,
+			bonus: 0.75,
 			prereqs: {
 				buildings: {
 					'wizard-tower': 1
@@ -58,7 +75,9 @@ function loadStats() {
 		'defense': new StatType({
 			displayName: 'Defense',
 			abbrev: 'DEF',
+			description: 'Increases health regen by <bonus>/s per level (+<totalBonus> total)',
 			baseValue: 3,
+			bonus: 0.5,
 			prereqs: {
 				adventures: ['adv0']
 			},

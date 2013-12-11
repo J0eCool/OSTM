@@ -4,13 +4,13 @@
     @bgColorInactive: #777;
 
     @bgHoverLighten: 17%;
-    @bgPressDarken: 14%;
+    @bgPressDarken: 24%;
 
     display: inline-table;
     min-width: 120px;
     min-height: 50px;
     height: auto;
-    border-radius: 16px;
+    border-radius: 11px;
     border: 1px solid black;
     margin: 1.5px 0px;
     padding: 3px;
@@ -21,7 +21,7 @@
     font-size: 20px;
 
     .shadow(@baseColor; @darkenAmount: 40%) {
-        box-shadow: 1px -1px 8px darken(@baseColor, @darkenAmount) inset;    
+        box-shadow: 1px -1px 7px darken(@baseColor, @darkenAmount) inset;    
     }
     .buttonActions(@baseColor) {
         background-color: @baseColor;
@@ -80,9 +80,12 @@
     display: table-cell;
     position: absolute;
     min-width: 200px;
+    max-width: 400px;
     min-height: 80px;
-    background-color: white;
-    border: 2px solid brown;
+    padding: 6px;
+    background-color: #888;
+    border: 2px solid #333;
+    border-radius: 5px;
     pointer-events: none;
 }
 
