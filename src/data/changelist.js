@@ -1,4 +1,14 @@
 var changelist = {
+	"v0.2.5": {
+		"description": "Skill/Stat restructuring",
+		"changes": [
+			"Skills no longer scale with stats(!!)",
+			"Some attack skills have extra modifications",
+			"Stats now have a secondary effect",
+			"Added in-game changelist (click the version number)",
+			"Added two weapons"
+		]
+	},
 	"v0.2.4": {
 		"description": "Button Colors",
 		"changes": [
