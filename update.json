@@ -1,11 +1,9 @@
 {
-	"version": "0.2.5",
-	"description": "Skill/Stat restructuring",
+	"version": "0.2.6",
+	"description": "New areas",
 	"changes": [
-		"Skills no longer scale with stats(!!)",
-		"Some attack skills have extra modifications",
-		"Stats now have a secondary effect",
-		"Added in-game changelist (click the version number)",
-		"Added two weapons"
+		"Two new areas (woo)",
+		"Also I changed how areas are named for the future, please ignore slight wonkiness",
+		"Made Changelist link obvious, added link to OSTM subreddit"
 	]
 }

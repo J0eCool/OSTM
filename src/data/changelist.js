@@ -1,4 +1,12 @@
 var changelist = {
+	"v0.2.6": {
+		"description": "New areas",
+		"changes": [
+			"Two new areas (woo)",
+			"Also I changed how areas are named for the future, please ignore slight wonkiness",
+			"Made Changelist link obvious, added link to OSTM subreddit"
+		]
+	},
 	"v0.2.5": {
 		"description": "Skill/Stat restructuring",
 		"changes": [
