@@ -57,20 +57,33 @@ div {
     box-shadow: 0px 0px 70px #222 inset;
 }
 
-.version {
+.version-container {
     @fontSize: 24px;
+    @fontColor: #ccc;
     position: absolute;
     top: (@headerHeight - @fontSize) / 2;
     right: 30px;
-    font-size: @fontSize;
+    font-size: 12px;
     font-weight: bold;
-    color: #ccc;
-    .outlined;
+    color: @fontColor;
+    .outlined(@blur:0px);
     vertical-align: middle;
 
-    cursor: pointer;
-    &:hover {
+    .version {
+        font-size: @fontSize;
+        .outlined;
+    }
+
+    .changelist-link {
+        cursor: pointer;
         text-decoration: underline;
+    }
+
+    a:link {
+        color: @fontColor;
+    }
+    a:visited {
+        color: @fontColor;
     }
 }
 
