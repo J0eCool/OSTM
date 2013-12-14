@@ -1,9 +1,8 @@
 to do asap:
+	. forest area
 	. weapon interface change
 		- top panel w/ selected weapon
 		- bottom panel w/ list of weapons
-	. in-game changelist
-	. forest area
 	. skill interface change
 		- skill trees
 		- description on mouseover
@@ -12,6 +11,7 @@ to do asap:
 Backlog:
 	- split adventure list into main and side areas
 		- side areas can't have power increased
+	- weapon mastery
 	- spell elements
 	- status effects
 		- poison: 500% damage over 8 seconds
@@ -21,7 +21,6 @@ Backlog:
 		- IE9?+
 	- loading message
 	- class system
-	- weapon mastery?
 	- ascension system
 
 -----

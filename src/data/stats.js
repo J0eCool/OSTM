@@ -65,7 +65,7 @@ function loadStats() {
 			abbrev: 'WIS',
 			description: 'Increases mana regen by <bonus>/s per level (+<totalBonus> total)',
 			baseValue: 3,
-			bonus: 0.5,
+			bonus: 0.15,
 			prereqs: {
 				buildings: {
 					'wizard-tower': 1
