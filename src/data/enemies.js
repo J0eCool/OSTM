@@ -40,7 +40,7 @@ function loadEnemies() {
 			reward: {
 				xp: 28,
 				gold: 45,
-				wood: 3.5,
+				wood: 6,
 			}
 		}),
 		'trisnake': new EnemyDef({
@@ -119,7 +119,7 @@ function loadEnemies() {
 				xp: 70,
 				gold: 27,
 				iron: 23,
-				wood: 4.5,
+				wood: 11,
 			}
 		}),
 		'trisnake2': new EnemyDef({
@@ -135,6 +135,42 @@ function loadEnemies() {
 			}
 		}),
 
+		'spider': new EnemyDef({
+			displayName: 'Spider',
+			image: 'Spider.png',
+			health: 400,
+			attack: 31,
+			reward: {
+				xp: 44,
+				gold: 33,
+				research: 8,
+			}
+		}),
+		'snap': new EnemyDef({
+			displayName: 'Snapper',
+			image: 'SnapPlant.png',
+			health: 480,
+			attack: 25,
+			reward: {
+				xp: 40,
+				gold: 23,
+				wood: 2.2,
+			}
+		}),
+		'spider2': new EnemyDef({
+			displayName: 'Spider-2',
+			image: 'Spider2.png',
+			health: 650,
+			attack: 38,
+			reward: {
+				xp: 54,
+				gold: 41,
+				research: 9.5,
+			}
+		}),
+
+
+
 		'snail': new EnemyDef({
 			displayName: 'Snale',
 			image: 'SpikeSnail.png',
@@ -144,19 +180,6 @@ function loadEnemies() {
 				xp: 45,
 				gold: 28,
 				research: 8,
-			}
-		}),
-
-
-
-		'snap': new EnemyDef({
-			displayName: 'Snapper',
-			image: 'SnapPlant.png',
-			health: 50,
-			attack: 6,
-			reward: {
-				xp: 18,
-				gold: 3,
 			}
 		}),
 	};

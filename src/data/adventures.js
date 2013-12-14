@@ -118,7 +118,7 @@ function loadAdventures() {
 				slug2: 30,
 			},
 		}),
-		adv5: new AdventureDef({
+		sid0: new AdventureDef({
 			prereqs: {
 				adventures: ['adv4']
 			},
@@ -138,9 +138,9 @@ function loadAdventures() {
 			spawnCountLo: 6,
 			spawnCountHi: 7,
 		}),
-		adv6: new AdventureDef({
+		adv5: new AdventureDef({
 			prereqs: {
-				adventures: ['adv5']
+				adventures: ['sid0']
 			},
 			displayName: 'Sand Sea',
 			areaType: 'sand',
@@ -180,16 +180,65 @@ function loadAdventures() {
 				mask3: 1,
 			},
 		}),
+		adv6: new AdventureDef({
+			prereqs: {
+				adventures: ['adv5']
+			},
+			displayName: 'Forest',
+			areaType: 'forest',
+			subAreas: [{
+				level: 80,
+				useAll: false,
+				enemies: {
+					spider: 100
+				}
+			}, {
+				level: 84
+			}, {
+				level: 87
+			}, {
+				level: 89
+			}],
+			allEnemies: {
+				spider: 50,
+				snap: 50
+			},
+		}),
 		adv7: new AdventureDef({
 			prereqs: {
 				adventures: ['adv6']
 			},
+			displayName: 'Grove',
+			areaType: 'forest',
+			subAreas: [{
+				level: 95,
+			}, {
+				level: 99
+			}, {
+				level: 101
+			}, {
+				level: 102
+			}],
+			allEnemies: {
+				spider: 15,
+				spider2: 45,
+				snap: 30
+			},
+		}),
+
+		// SIDE AREAS
+
+		// OSTM
+		ostm: new AdventureDef({
+			prereqs: {
+				adventures: ['adv7']
+			},
 			displayName: 'Oh Shit, There\'s More',
 			areaType: 'forest',
 			subAreas: [{
-				level: 65
+				level: 120
 			}, {
-				level: 85
+				level: 121
 			}],
 			allEnemies: {
 				snake2: 35,
@@ -199,6 +248,9 @@ function loadAdventures() {
 				mask2: 35,
 				snake3: 3,
 				mask3: 3,
+				spider: 15,
+				spider2: 45,
+				snap: 30,
 			},
 			spawnCountLo: 6,
 			spawnCountHi: 9,
