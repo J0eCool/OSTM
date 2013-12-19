@@ -1,17 +1,18 @@
 to do asap:
-	. forest area
-	. weapon interface change
+	- block bar (shields)
+	- split adventure list into main and side areas
+		- side areas can't have power increased
+	- weapon interface change
 		- top panel w/ selected weapon
 		- bottom panel w/ list of weapons
-	. skill interface change
+	- weapon mastery
+	- forest area
+
+Backlog:
+	- skill interface change
 		- skill trees
 		- description on mouseover
 		- prereqs
-
-Backlog:
-	- split adventure list into main and side areas
-		- side areas can't have power increased
-	- weapon mastery
 	- spell elements
 	- status effects
 		- poison: 500% damage over 8 seconds
