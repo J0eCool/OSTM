@@ -158,8 +158,11 @@ function getChangelistHtml() {
 	var str = '<div>NOTE: <i>This game is very much pre-alpha. Expect bugs, wild balance changes, missing content, and other insanities.</i></div>';
 	for (var version in changelist) {
 		var data = changelist[version];
-		str += '<h3>' + version + ' - ' + data.description + '</h3>' +
-			'<div><ul>';
+		str += '<h3>' + version + ' - ';
+		if (data.date) {
+			str += '<i>' + data.date + '</i> - ';
+		}
+		str += data.description + '</h3><div><ul>';
 		for (var i = 0; i < data.changes.length; i++) {
 			str += '<li>' + data.changes[i] + '</li>';
 		}

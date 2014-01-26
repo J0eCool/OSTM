@@ -1,9 +1,8 @@
 {
 	"version": "0.2.6",
-	"description": "New areas",
+	"description": "We're Back",
+	"date": "Jan 26, 2014",
 	"changes": [
-		"Two new areas (woo)",
-		"Also I changed how areas are named for the future, please ignore slight wonkiness",
-		"Made Changelist link obvious, added link to OSTM subreddit"
+		"Decreased stat gain per weapon level, reduced gold cost per weapon level"
 	]
 }

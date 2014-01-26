@@ -1,4 +1,11 @@
 var changelist = {
+	"v0.2.7": {
+		"description": "We're Back",
+		"date": "Jan 26, 2014",
+		"changes": [
+			"Decreased stat gain per weapon level, reduced gold cost per weapon level"
+		]
+	},
 	"v0.2.6": {
 		"description": "New areas",
 		"changes": [

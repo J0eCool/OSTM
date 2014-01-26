@@ -89,7 +89,7 @@ function WeaponDef(data) {
 		if (!perLevel) {
 			return 0;
 		}
-		return (this.level + 1) * perLevel;
+		return (1 + this.level / 2) * perLevel;
 	};
 
 	this.getMult = function(name) {
@@ -117,7 +117,7 @@ function WeaponDef(data) {
 		if (!this.scalingBase[stat]) {
 			return 0;
 		}
-		return this.scalingBase[stat] * (1 + this.getTotalUpgradeCount() / 75);
+		return this.scalingBase[stat] * (1 + this.getTotalUpgradeCount() / 100);
 	};
 
 	this.getTotalScalingOfType = function(type) {
@@ -168,7 +168,7 @@ function WeaponDef(data) {
 			return Math.floor(this.ascendCost * Math.pow(this.ascensions + 1, 3));
 		}
 
-		return Math.floor(this.upgradeCost * Math.pow(this.level + 1, 1.6 + this.ascensions * 0.2) * (this.ascensions * 0.2 + 1));
+		return Math.floor(this.upgradeCost * Math.pow(this.level + 1, 1.6 + this.ascensions * 0.1) * (this.ascensions * 0.2 + 1));
 	};
 
 	this.getCurrency = function() {
@@ -277,7 +277,7 @@ function WeaponDef(data) {
 			}
 			scalingStr += '</ul>';
 			j(id + ' #scaling', 'html', scalingStr);
-			var baseStr = '<ul><li>Type: ' + this.type + '</li>' +
+			var baseStr = '<ul><li>Type: ' + this.type.displayName + '</li>' +
 				'<li class="physical">Attack: ' + formatNumber(this.getBaseDamage()) +
 				'<li class="mental">Spell: ' + formatNumber(this.getBaseSpellPower()) + '</li>' +
 				'</li><li>Base Crit: ' + formatNumber(this.crit) + '%</li>';
