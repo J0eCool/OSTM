@@ -1,11 +1,12 @@
 to do asap:
+	- weapon mastery
+	- >100% crit handling (150% crit = 100% 2x, 25% 4x)
 	- block bar (shields)
 	- split adventure list into main and side areas
 		- side areas can't have power increased
 	- weapon interface change
 		- top panel w/ selected weapon
 		- bottom panel w/ list of weapons
-	- weapon mastery
 	- forest area
 
 Backlog:

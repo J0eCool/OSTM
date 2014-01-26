@@ -2,6 +2,7 @@ function loadWeapons() {
 	var weapons = {
 		'stick': new WeaponDef({
 			displayName: 'Stick',
+			type: 'wand',
 			owned: true,
 			scalingBase: {
 				strength: 40,
@@ -15,6 +16,7 @@ function loadWeapons() {
 		}),
 		'knife': new WeaponDef({
 			displayName: 'Knife',
+			type: 'dagger',
 			scalingBase: {
 				dexterity: 70
 			},
@@ -29,6 +31,7 @@ function loadWeapons() {
 		}),
 		'dagger': new WeaponDef({
 			displayName: 'Dagger',
+			type: 'dagger',
 			scalingBase: {
 				dexterity: 60
 			},
@@ -43,6 +46,7 @@ function loadWeapons() {
 		}),
 		'shortsword': new WeaponDef({
 			displayName: 'Shortsword',
+			type: 'sword',
 			scalingBase: {
 				strength: 30,
 				dexterity: 40
@@ -58,6 +62,7 @@ function loadWeapons() {
 		}),
 		'longsword': new WeaponDef({
 			displayName: 'Longsword',
+			type: 'sword',
 			scalingBase: {
 				strength: 45,
 				dexterity: 25
@@ -73,6 +78,7 @@ function loadWeapons() {
 		}),
 		'rapier': new WeaponDef({
 			displayName: 'Rapier',
+			type: 'sword',
 			scalingBase: {
 				dexterity: 60
 			},
@@ -87,6 +93,7 @@ function loadWeapons() {
 		}),
 		'greatsword': new WeaponDef({
 			displayName: 'Greatsword',
+			type: '2hsword',
 			scalingBase: {
 				strength: 70
 			},
@@ -100,6 +107,7 @@ function loadWeapons() {
 		}),
 		'greatersword': new WeaponDef({
 			displayName: 'Greatersword',
+			type: '2hsword',
 			scalingBase: {
 				strength: 75,
 				dexterity: 8
@@ -121,6 +129,7 @@ function loadWeapons() {
 		}),
 		'shamshir': new WeaponDef({
 			displayName: 'Shamshir',
+			type: 'sword',
 			scalingBase: {
 				dexterity: 85
 			},
@@ -142,6 +151,7 @@ function loadWeapons() {
 		}),
 		'axe': new WeaponDef({
 			displayName: 'Axe',
+			type: 'axe',
 			scalingBase: {
 				strength: 80,
 			},
@@ -162,6 +172,7 @@ function loadWeapons() {
 		}),
 		'rune-dagger': new WeaponDef({
 			displayName: 'Rune Dagger',
+			type: 'dagger',
 			scalingBase: {
 				dexterity: 60,
 				intelligence: 30
@@ -183,6 +194,7 @@ function loadWeapons() {
 		}),
 		'wand': new WeaponDef({
 			displayName: 'Wand',
+			type: 'wand',
 			scalingBase: {
 				dexterity: 25,
 				intelligence: 65
@@ -204,6 +216,7 @@ function loadWeapons() {
 		}),
 		'staff': new WeaponDef({
 			displayName: 'Staff',
+			type: 'staff',
 			scalingBase: {
 				strength: 35,
 				intelligence: 50,
@@ -226,6 +239,7 @@ function loadWeapons() {
 		}),
 		'scepter': new WeaponDef({
 			displayName: 'Scepter',
+			type: 'mace',
 			scalingBase: {
 				strength: 60,
 				wisdom: 60

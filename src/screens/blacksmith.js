@@ -75,6 +75,8 @@ function WeaponDef(data) {
 	this.level = 0;
 	this.ascensions = 0;
 
+	this.type = Mastery.weaponTypes[data.type];
+
 	this.getName = function() {
 		if (this.ascensions > 0) {
 			return this.displayName + ' +' + this.ascensions;
@@ -275,7 +277,8 @@ function WeaponDef(data) {
 			}
 			scalingStr += '</ul>';
 			j(id + ' #scaling', 'html', scalingStr);
-			var baseStr = '<ul><li class="physical">Attack: ' + formatNumber(this.getBaseDamage()) +
+			var baseStr = '<ul><li>Type: ' + this.type + '</li>' +
+				'<li class="physical">Attack: ' + formatNumber(this.getBaseDamage()) +
 				'<li class="mental">Spell: ' + formatNumber(this.getBaseSpellPower()) + '</li>' +
 				'</li><li>Base Crit: ' + formatNumber(this.crit) + '%</li>';
 			baseStr += '</ul>';
