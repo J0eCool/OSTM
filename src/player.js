@@ -155,6 +155,11 @@ var Player = {
 				Player[name].amount += val;
 			}
 		});
+
+		if (true && //TODO: if weapon mastery is unlocked
+				resources.skill) {
+			this.weapon.type.addXp(resources.skill);
+		}
 	},
 
 	updateStats: function() {

@@ -93,7 +93,7 @@ function loadWeapons() {
 		}),
 		'greatsword': new WeaponDef({
 			displayName: 'Greatsword',
-			type: '2hsword',
+			type: 'sword2h',
 			scalingBase: {
 				strength: 70
 			},
@@ -107,7 +107,7 @@ function loadWeapons() {
 		}),
 		'greatersword': new WeaponDef({
 			displayName: 'Greatersword',
-			type: '2hsword',
+			type: 'sword2h',
 			scalingBase: {
 				strength: 75,
 				dexterity: 8

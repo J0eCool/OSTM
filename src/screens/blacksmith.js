@@ -85,6 +85,10 @@ function WeaponDef(data) {
 	};
 
 	this.getUpgradeAmount = function(name) {
+		return this.getBaseUpgradeAmount(name) + this.type.getUpgradeAmount(name);
+	};
+
+	this.getBaseUpgradeAmount = function(name) {
 		var perLevel = this.upgradeData[name];
 		if (!perLevel) {
 			return 0;
@@ -286,7 +290,7 @@ function WeaponDef(data) {
 			var upgradeStr = '<ul>';
 			for (var up in this.upgradeData) {
 				upgradeStr += '<li>' + getUpgradeName(up) + ': +' +
-					formatNumber(this.getUpgradeAmount(up)) + '%</li>';
+					formatNumber(this.getBaseUpgradeAmount(up)) + '%</li>';
 			}
 			upgradeStr += '</ul>';
 			j(id + ' #upgrades', 'html', upgradeStr);

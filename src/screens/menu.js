@@ -90,6 +90,15 @@ var Menu = new ScreenContainer({
 			}
 		}),
 		new ScreenDef({
+			name: 'mastery',
+			displayName: 'Masteries',
+			prereqs: {
+				buildings: {
+					'blacksmith': 1 //TODO: something else
+				}
+			}
+		}),
+		new ScreenDef({
 			name: 'village',
 			displayName: 'Village',
 			prereqs: {

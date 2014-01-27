@@ -70,6 +70,7 @@ var Game = {
 			Player.update();
 			Inventory.update();
 			Village.update();
+			Mastery.update();
 			Blacksmith.update();
 			Skills.update();
 

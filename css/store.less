@@ -21,6 +21,7 @@
 }
 
 .weapon-container,
+.mastery-container,
 .skill-container {
     overflow: auto;
     display: inline-table;
@@ -51,6 +52,12 @@
     #description {
         display: inline-block;
     }
+    #level {
+        display: table-cell;
+        width: 50px;
+        text-align: center;
+        vertical-align: middle;
+    }
     #scaling {
         display: inline-table;
         width: 110px;
@@ -62,6 +69,22 @@
     #upgrades {
         display: inline-table;
         font-style: italic;
+        min-width: 160px;
+    }
+    #xpBar {
+        @xpBarHeight: 24px;
+        border: 1px solid white;
+        height: @xpBarHeight;
+        #xpBar-foreground {
+            position: absolute;
+            height: @xpBarHeight;
+            background-color: white;
+            vertical-align: middle;
+        }
+        #xpBar-text {
+            position: relative;
+            vertical-align: middle;
+        }
     }
 
     .physical {
@@ -71,5 +94,16 @@
     .mental {
         color: #22d;
         font-weight: bold;
+    }
+}
+
+.mastery-container {
+    &+& {
+        border-top: 1px solid #666;
+        padding-top: 5px;
+    }
+
+    #upgrades {
+        display: table-cell;
     }
 }
