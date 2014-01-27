@@ -3,6 +3,7 @@ var changelist = {
 		"description": "We're Back",
 		"date": "Jan 26, 2014",
 		"changes": [
+			"Added Weapon Mastery",
 			"Decreased stat gain per weapon level, reduced gold cost per weapon level"
 		]
 	},

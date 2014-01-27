@@ -1,5 +1,4 @@
 to do asap:
-	- weapon mastery
 	- >100% crit handling (150% crit = 100% 2x, 25% 4x)
 	- block bar (shields)
 	- split adventure list into main and side areas
