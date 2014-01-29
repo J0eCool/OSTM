@@ -1,18 +1,26 @@
-to do asap:
-	- >100% crit handling (150% crit = 100% 2x, 25% 4x)
-	- block bar (shields)
+To-do list
+
+next minor version:
 	- split adventure list into main and side areas
 		- side areas can't have power increased
+		- unlock things by completing side areas
+			- Game.log things that unlock this way
+
+before next major:
+	- >100% crit handling (150% crit = 100% 2x, 25% 4x)
+	- forest area
+
+next major version:
+	- block bar (shields)
+	- pixel art!
 	- weapon interface change
 		- top panel w/ selected weapon
 		- bottom panel w/ list of weapons
-	- forest area
+	- skill interface change
+		- description on mouseover
 
 Backlog:
-	- skill interface change
-		- skill trees
-		- description on mouseover
-		- prereqs
+	- skill trees
 	- spell elements
 	- status effects
 		- poison: 500% damage over 8 seconds
@@ -30,7 +38,6 @@ Weapon abilities:
 	. reduce mana cost
 
 Skills:
-	Passive
 
 Thematic areas:
 	. Futuristic / Aliens / Robots

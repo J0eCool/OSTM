@@ -50,7 +50,12 @@ var AdventureScreen = new ScreenContainer({
 	adventures: {},
 
 	preInit: function() {
-		this.adventures = loadAdventures();
+		this.categorizedAdventures = loadAdventures();
+		this.adventures = {};
+		foreach (this.categorizedAdventures, function(list) {
+			AdventureScreen.adventures = merge(AdventureScreen.adventures, list);
+		});
+
 		this.lastInnResetTime = Date.now();
 	},
 
@@ -146,6 +151,7 @@ function AdventureDef(data) {
 	this.toSave = ['beatOnPower', 'power'];
 	this.prereqs = data.prereqs || null;
 	this.name = data.name || '';
+	this.category = data.category || '';
 	this.displayName = data.displayName || '';
 	this.areaType = data.areaType || 'grass';
 	this.subAreas = data.subAreas || [{
@@ -171,6 +177,9 @@ function AdventureDef(data) {
 
 	this.postLoad = function() {
 		this.power = Math.min(this.power, powerCap);
+		if (!this.canSeeInShrine()) {
+			this.power = 0;
+		}
 	};
 
 	this.update = function() {
@@ -265,6 +274,10 @@ function AdventureDef(data) {
 	this.powerUpCost = function() {
 		return Math.floor(50 * Math.pow(this.getMaxLevel(), 1.15));
 	};
+
+	this.canSeeInShrine = function() {
+		return this.category == 'Main' || this.category == 'OSTM';
+	};
 }
 
 function mapSelectHtml() {
@@ -276,9 +289,13 @@ function mapSelectHtml() {
 		}
 	});
 	html += '<br>';
-	foreach (AdventureScreen.adventures, function (adv) {
-		html += getButtonHtml("AdventureScreen.startAdventure('" + adv.name + "')",
-			adv.displayName, adv.name + '-button') + ' ';
+	foreach (AdventureScreen.categorizedAdventures, function(list, category) {
+		html += '<div class="category"><h3>' + category + '</h3>';
+		foreach (list, function (adv) {
+			html += getButtonHtml("AdventureScreen.startAdventure('" + adv.name + "')",
+				adv.displayName, adv.name + '-button') + ' ';
+		});
+		html += '</div>';
 	});
 	return html;
 }
@@ -287,15 +304,17 @@ function shrineHtml() {
 	var html = getButtonHtml("AdventureScreen.setScreen('map-select')", 'Leave');
 	for (var key in AdventureScreen.adventures) {
 		var adv = AdventureScreen.adventures[key];
-		var id = adv.name + '-power';
-		html += '<div id="' + id + '">' +
-			getButtonHtml("AdventureScreen.decreasePower('" + adv.name + "')",
-				'Decrease Power', id + '-dec') +
-			' <span>' + adv.displayName + ' : Max enemy Level <span id="' + id + '-count"></span></span> ' +
-			getButtonHtml("AdventureScreen.increasePower('" + adv.name + "')",
-				'Increase Power<br><span id="' + id + '-inc-cost"></span>' +
-				getIconHtml('research'), id + '-inc', 'research') +
-			'</div>';
+		if (adv.canSeeInShrine()) {
+			var id = adv.name + '-power';
+			html += '<div id="' + id + '">' +
+				getButtonHtml("AdventureScreen.decreasePower('" + adv.name + "')",
+					'Decrease Power', id + '-dec') +
+				' <span>' + adv.displayName + ' : Max enemy Level <span id="' + id + '-count"></span></span> ' +
+				getButtonHtml("AdventureScreen.increasePower('" + adv.name + "')",
+					'Increase Power<br><span id="' + id + '-inc-cost"></span>' +
+					getIconHtml('research'), id + '-inc', 'research') +
+				'</div>';
+		}
 	}
 	return html;
 }
