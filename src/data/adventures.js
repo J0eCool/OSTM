@@ -121,7 +121,7 @@ function loadAdventures() {
 			}),
 			adv5: new AdventureDef({
 				prereqs: {
-					adventures: ['sid4']
+					adventures: ['adv4']
 				},
 				displayName: 'Sand Sea',
 				areaType: 'sand',
@@ -209,6 +209,26 @@ function loadAdventures() {
 		},
 
 		'Extra': {
+			sid1: new AdventureDef({
+				prereqs: {
+					adventures: ['adv1']
+				},
+				displayName: 'Meadow',
+				areaType: 'grass',
+				subAreas: [{
+					level: 12,
+					enemies: {
+						snake: 50,
+					}
+				}, {
+					level: 14
+				}],
+				allEnemies: {
+					slug: 100,
+				},
+				spawnCountLo: 4,
+				spawnCountHi: 5,
+			}),
 			sid0: new AdventureDef({
 				prereqs: {
 					adventures: ['adv4']
@@ -216,9 +236,9 @@ function loadAdventures() {
 				displayName: 'Oasis',
 				areaType: 'grass',
 				subAreas: [{
-					level: 35
+					level: 70
 				}, {
-					level: 37
+					level: 75
 				}],
 				allEnemies: {
 					snake2: 35,

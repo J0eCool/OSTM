@@ -66,15 +66,20 @@ var AdventureScreen = new ScreenContainer({
 		var timeLeft = this.innResetTime - timeDiff;
 		if (timeLeft < 0) {
 			timeLeft = 0;
-			this.innUseCount = Math.floor(this.innUseCount / 2);
+			this.innUseCount = Math.floor(this.innUseCount * 0.85);
 			this.lastInnResetTime = Date.now();
 		}
 		j('#inn-reset', 'text', formatNumber(Math.floor(timeLeft / 1000)));
 		j('#inn-cost', 'text', formatNumber(this.getInnCost()));
 
-		for (var i in this.adventures) {
-			this.adventures[i].update();
-		}
+		foreach (this.categorizedAdventures, function(list, category) {
+			var isVisible = false;
+			foreach (list, function(adv) {
+				adv.update();
+				isVisible = isVisible || adv.isAvailable();
+			});
+			j('.cat-' + category, 'toggle', isVisible);
+		});
 	},
 
 	onScreenSet: function(name) {
@@ -92,7 +97,7 @@ var AdventureScreen = new ScreenContainer({
 AdventureScreen.toSave = ['adventures', 'innUseCount'];
 AdventureScreen.lastInnResetTime = 0;
 AdventureScreen.innUseCount = 0;
-AdventureScreen.innResetTime = 10 * 60 * 1000;
+AdventureScreen.innResetTime = 5 * 60 * 1000;
 
 AdventureScreen.getAdventure = function(name) {
 	for (var i in this.adventures) {
@@ -141,7 +146,7 @@ AdventureScreen.useInn = function() {
 AdventureScreen.getInnCost = function() {
 	var l = Player.getLevel() - 1;
 	var base = 10 + l + 0.05 * Math.pow(l, 1.6);
-	return Math.floor(base * Math.pow(1.5, this.innUseCount));
+	return Math.floor(base * Math.pow(1.4, this.innUseCount));
 };
 AdventureScreen.isAdventuring = function() {
 	return this.curScreen == 'field';
@@ -290,7 +295,7 @@ function mapSelectHtml() {
 	});
 	html += '<br>';
 	foreach (AdventureScreen.categorizedAdventures, function(list, category) {
-		html += '<div class="category"><h3>' + category + '</h3>';
+		html += '<div class="category cat-' + category + '"><h3>' + category + '</h3>';
 		foreach (list, function (adv) {
 			html += getButtonHtml("AdventureScreen.startAdventure('" + adv.name + "')",
 				adv.displayName, adv.name + '-button') + ' ';
