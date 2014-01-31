@@ -32,11 +32,11 @@ var ParticleContainer = {
 	},
 
 	create: function(type, val, x, y) {
-		var baseTop = y + 64;
 		var obj = this.getNextParticle();
 		var style = obj[0].style;
+		var baseTop = y;
 		obj.html(val).attr('class', 'particle ' + type.className).css('transform', '');
-		style.left = x + 'px';
+		style.left = x + 140 + 'px';
 		style.top = baseTop + 'px';
 		style.opacity = 1;
 

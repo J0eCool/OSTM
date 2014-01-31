@@ -22,24 +22,29 @@ div {
     min-height: 600px;
 }
 
-@headerHeight: 64px;
+@headerWidth: 140px;
 
 .header-container {
     position: absolute;
     top: 0px;
+    bottom: 0px;
     left: 0px;
-    right: 0px;
-    height: @headerHeight;
+    right: @headerWidth;
     background-color: #777;
     box-shadow: 0px 0px 22px #111 inset;
     .scrolls;
+
+    .header-buttons {
+        width: @headerWidth;
+        padding: 6px;
+    }
 }
 
 .body-container {
     position: absolute;
-    top: 64px;
+    top: 0px;
     bottom: 0px;
-    left: 0px;
+    left: @headerWidth;
     right: 0px;
 }
 
@@ -61,8 +66,8 @@ div {
     @fontSize: 24px;
     @fontColor: #ccc;
     position: absolute;
-    top: (@headerHeight - @fontSize) / 2;
-    right: 30px;
+    bottom: 30px;
+    left: 30px;
     font-size: 12px;
     font-weight: bold;
     color: @fontColor;
