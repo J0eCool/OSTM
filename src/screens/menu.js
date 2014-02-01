@@ -84,18 +84,15 @@ var Menu = new ScreenContainer({
 			name: 'blacksmith',
 			displayName: 'Blacksmith',
 			prereqs: {
-				buildings: {
-					'blacksmith': 1
-				}
+				adventures: ['sid1']
 			}
 		}),
 		new ScreenDef({
 			name: 'mastery',
 			displayName: 'Masteries',
 			prereqs: {
-				buildings: {
-					'blacksmith': 1 //TODO: something else
-				}
+				//TODO: something else
+				adventures: ['sid1']
 			}
 		}),
 		new ScreenDef({

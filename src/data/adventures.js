@@ -211,23 +211,44 @@ function loadAdventures() {
 		'Extra': {
 			sid1: new AdventureDef({
 				prereqs: {
-					adventures: ['adv1']
+					adventures: ['adv0']
 				},
 				displayName: 'Meadow',
 				areaType: 'grass',
 				subAreas: [{
-					level: 12,
+					level: 8,
 					enemies: {
 						snake: 50,
 					}
 				}, {
-					level: 14
+					level: 9
 				}],
 				allEnemies: {
 					slug: 100,
 				},
 				spawnCountLo: 4,
 				spawnCountHi: 5,
+			}),
+			sid2: new AdventureDef({
+				prereqs: {
+					adventures: ['sid1']
+				},
+				displayName: 'Hut',
+				areaType: 'house',
+				subAreas: [{
+					level: 30,
+				}, {
+					level: 35
+				}, {
+					level: 40
+				}],
+				allEnemies: {
+					snake2: 40,
+					slug2: 80,
+					mask2: 30,
+				},
+				spawnCountLo: 5,
+				spawnCountHi: 6,
 			}),
 			sid0: new AdventureDef({
 				prereqs: {
