@@ -275,18 +275,18 @@ var Player = {
 		if (!dmg.isSpell) {
 			dmg.power = dmg.attackPower;
 			hiMult *= this.weapon.getMult('maxDamage');
-			dmg.crit = (this.weapon.getBaseCrit() + Skills.getPassiveBase('crit')) *
-				this.weapon.getMult('crit') *
-				Skills.getPassiveMult('crit');
+			dmg.baseCrit = this.weapon.getBaseCrit();
 		}
 		else {
 			dmg.power = dmg.spellPower;
-			dmg.crit = (this.attack.getBaseCrit() + Skills.getPassiveBase('crit')) *
-				Skills.getPassiveMult('crit');
+			dmg.baseCrit = this.attack.getBaseCrit();
 		}
 		dmg.baseDamage = dmg.power * this.attack.getDamage() / 100 * mod;
+		dmg.crit = (dmg.baseCrit + Skills.getPassiveBase('crit')) *
+			this.weapon.getMult('crit') *
+			this.attack.getBonusMult('crit') *
+			Skills.getPassiveMult('crit');
 
-		dmg.crit *= this.attack.getBonusMult('crit');
 		hiMult *= this.attack.getBonusMult('maxDamage');
 
 		dmg.lo = Math.ceil(dmg.baseDamage * (1 - this.randDamage / 2));
