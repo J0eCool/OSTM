@@ -270,6 +270,28 @@ function loadAdventures() {
 				spawnCountLo: 6,
 				spawnCountHi: 7,
 			}),
+			sid3: new AdventureDef({
+				prereqs: {
+					adventures: ['adv6']
+				},
+				displayName: 'Cabin',
+				areaType: 'dark-house',
+				subAreas: [{
+					level: 200,
+					enemies: {
+						spider: 100
+					}
+				}, {
+					level: 200,
+					enemies: {
+						spider2: 100
+					}
+				}],
+				allEnemies: {
+				},
+				spawnCountLo: 7,
+				spawnCountHi: 8,
+			}),
 		},
 
 		'OSTM': {

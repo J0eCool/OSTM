@@ -267,7 +267,6 @@ function loadWeapons() {
 				intelligence: 70
 			},
 			buyCost: 10000000,
-			researchCost: 50000,
 			damage: 7,
 			spellPower: 20,
 			crit: 7,
@@ -277,9 +276,7 @@ function loadWeapons() {
 				critDamage: 5
 			},
 			prereqs: {
-				buildings: {
-					'wizard-tower': 1
-				}
+				adventures: ['sid3']
 			}
 		}),
 	};

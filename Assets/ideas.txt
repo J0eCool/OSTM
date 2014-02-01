@@ -1,23 +1,25 @@
 To-do list
 
 next minor version:
-	- split adventure list into main and side areas
-		- side areas can't have power increased
-		- unlock things by completing side areas
-			- Game.log things that unlock this way
+	- one more side area (unlocks lightning rod)
+	- items revamp
+		- buy max items directly, items get auto-replenished on level clear
 
 before next major:
+	- Game.log things that unlock via side areas
 	- >100% crit handling (150% crit = 100% 2x, 25% 4x)
 	- forest area
 
 next major version:
 	- block bar (shields)
 	- pixel art!
-	- weapon interface change
-		- top panel w/ selected weapon
-		- bottom panel w/ list of weapons
-	- skill interface change
-		- description on mouseover
+	- UI overhaul
+		- weapon interface change
+			- top panel w/ selected weapon
+			- bottom panel w/ list of weapons
+		- skill interface change
+			- description on mouseover
+	- better Firefox support
 
 Backlog:
 	- skill trees
@@ -26,7 +28,7 @@ Backlog:
 		- poison: 500% damage over 8 seconds
 		- burn: 300% damage over 3 seconds
 	- Browser compatibility
-		- Firefox
+		- Opera
 		- IE9?+
 	- loading message
 	- class system
