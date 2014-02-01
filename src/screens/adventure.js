@@ -175,6 +175,8 @@ function AdventureDef(data) {
 	this.spawnCountLo = data.spawnCountLo || 3;
 	this.spawnCountHi = data.spawnCountHi || 5;
 
+	this.clearMessage = data.clearMessage || '';
+
 	this.beatOnPower = -1;
 	this.power = 0;
 
@@ -282,6 +284,13 @@ function AdventureDef(data) {
 
 	this.canSeeInShrine = function() {
 		return this.category == 'Main' || this.category == 'OSTM';
+	};
+
+	this.onClear = function() {
+		if (this.clearMessage && this.beatOnPower < 0) {
+			Log.write(this.clearMessage);
+		}
+		this.beatOnPower = Math.max(this.power, this.beatOnPower);
 	};
 }
 

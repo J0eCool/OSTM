@@ -228,6 +228,7 @@ function loadAdventures() {
 				},
 				spawnCountLo: 4,
 				spawnCountHi: 5,
+				clearMessage: 'Found a Blacksmith',
 			}),
 			sid2: new AdventureDef({
 				prereqs: {
@@ -249,6 +250,7 @@ function loadAdventures() {
 				},
 				spawnCountLo: 5,
 				spawnCountHi: 6,
+				clearMessage: 'Logger now available',
 			}),
 			sid0: new AdventureDef({
 				prereqs: {
@@ -291,6 +293,7 @@ function loadAdventures() {
 				},
 				spawnCountLo: 7,
 				spawnCountHi: 8,
+				clearMessage: 'Lightning Rod now available',
 			}),
 		},
 
