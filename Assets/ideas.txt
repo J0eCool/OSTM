@@ -1,13 +1,13 @@
 To-do list
 
 next minor version:
-	- one more side area (unlocks lightning rod)
 	- items revamp
-		- buy max items directly, items get auto-replenished on level clear
+		- buy max items directly, items get auto-replenished on [level clear?]
+	- >100% crit handling (150% crit = 100% 2x, 25% 4x)
+	- research passive-only; tweak costs
+	- fix skill buttons
 
 before next major:
-	- Game.log things that unlock via side areas
-	- >100% crit handling (150% crit = 100% 2x, 25% 4x)
 	- forest area
 
 next major version:
@@ -42,6 +42,8 @@ Weapon abilities:
 Skills:
 
 Thematic areas:
+	. Gardening
+		- gold + time -> gardenPoints
 	. Futuristic / Aliens / Robots
 	. Rock band
 	. Mining

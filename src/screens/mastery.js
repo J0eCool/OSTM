@@ -66,7 +66,7 @@ function WeaponTypeDef(data) {
 
 	this.getButtonHtml = function() {
 		return '<div class="mastery-container" id="' + this.name +
-			'"><div><span id="name">' + this.displayName + '</span> <span id="level"></span>' +
+			'"><div><span id="name">' + this.displayName + '</span> <span id="mastery-level"></span>' +
 			'<div id="upgrades"></div></div>' +
 			'<div id="xpBar"><span id="xpBar-foreground"></span><span id="xpBar-text"></span></div>' +
 			'</div>';
@@ -74,7 +74,7 @@ function WeaponTypeDef(data) {
 
 	this.updateButton = function() {
 		var id = '.mastery-container#' + this.name;
-		j(id + ' #level', 'text', 'L: ' + this.level);
+		j(id + ' #mastery-level', 'text', 'L: ' + this.level);
 
 		var upgradeHtml = '<ul>';
 		for (var up in this.upgradeData) {
