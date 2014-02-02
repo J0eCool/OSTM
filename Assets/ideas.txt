@@ -1,11 +1,8 @@
 To-do list
 
 next minor version:
-	- items revamp
-		- buy max items directly, items get auto-replenished on [level clear?]
 	- >100% crit handling (150% crit = 100% 2x, 25% 4x)
 	- research passive-only; tweak costs
-	- fix skill buttons
 
 before next major:
 	- forest area
@@ -32,6 +29,7 @@ Backlog:
 		- IE9?+
 	- loading message
 	- class system
+		- merchant/builder class(es), skill trees focusing on
 	- ascension system
 
 -----
@@ -43,7 +41,7 @@ Skills:
 
 Thematic areas:
 	. Gardening
-		- gold + time -> gardenPoints
+		- gold + time -> gardenPoints -> ??
 	. Futuristic / Aliens / Robots
 	. Rock band
 	. Mining

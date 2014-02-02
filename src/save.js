@@ -2,6 +2,7 @@ var Save = {
 	toSave: ['autosave'],
 
 	currentSaveVersion: '/* @echo version */',
+	loadedSaveVersion: '/* @echo version */',
 
 	autosave: true,
 	autoDt: 30000,
@@ -107,6 +108,10 @@ var Save = {
 		}
 	},
 
+	isSaveOlderThan: function(oldVer) {
+		return this.isNewerVersion(oldVer, this.loadedSaveVersion);
+	},
+
 	isNewerVersion: function(newer, older) {
 		var newSplit = newer.split('.');
 		var oldSplit = older.split('.');
@@ -127,6 +132,7 @@ var Save = {
 		if (str && str !== '') {
 			//console.log('importing: ' + str);
 			var baseStr = LZString.decompressFromBase64(str);
+			this.loadedSaveVersion = this.currentSaveVersion;
 			try {
 				//console.log('  base str: ' + baseStr);
 				if (baseStr === null || baseStr === '') {
@@ -137,6 +143,7 @@ var Save = {
 				if (this.isNewerVersion(restoredObject.saveVersion, this.currentSaveVersion)) {
 					throw('Load failed! Saved version is greater than current version. Old version is: ' + restoredObject.saveVersion);
 				}
+				this.loadedSaveVersion = restoredObject.saveVersion;
 				//console.log('  object : ' + restoredObject);
 				for (var i = 0; i < Game.toSave.length; i++) {
 					var key = Game.toSave[i];

@@ -14,6 +14,16 @@ var Inventory = {
 		for (var key in this.items) {
 			this.items[key].update();
 		}
+
+		// Reset old consumable items data
+		if (Save.isSaveOlderThan('0.2.9')) {
+			console.log('ey!');
+			var baseItems = loadItems();
+			for (key in baseItems) {
+				console.log(baseItems[key]);
+				this.items[key].count = baseItems[key].count;
+			}
+		}
 	},
 
 	update: function() {
@@ -45,8 +55,10 @@ var Inventory = {
 
 	useItem: function(itemName) {
 		var item = this.getItem(itemName);
-		if (item && item.count > 0 && item.onUse) {
-			item.count -= 1;
+		if (item && item.canUse()) {
+			if (item.isConsumed) {
+				item.count -= 1;
+			}
 			item.onUse();
 			this.updateButtons();
 		}
@@ -65,7 +77,7 @@ function ItemDef(data) {
 	this.description = data.description || '';
 
 	this.onUse = data.onUse || null;
-	this.isCountLimited = (data.isCountLimited !== undefined ? data.isCountLimited : true);
+	this.isCountLimited = (data.isCountLimited !== undefined ? data.isCountLimited : false);
 	this.maxPerInvSlot = data.maxPerInvSlot || 1;
 
 	this.storeName = data.storeName || data.displayName || data.name || '';
@@ -77,10 +89,12 @@ function ItemDef(data) {
 	this.count = data.count || 0;
 	this.isResearched = (this.researchCost <= 0) || false;
 
+	this.isConsumed = true;
+
 	this.getButtonHtml = function() {
 		return getButtonHtml("Inventory.useItem('" + this.name + "')",
 			'<b>' + this.displayName + '</b>: <span id="count"></span>' +
-			(this.isCountLimited ? ' / <span id="max-count"></span>' : ''),
+			(this.curCount !== undefined ? ' / <span id="max-count"></span>' : ''),
 			this.name + '-inv-button'
 		);
 	};
@@ -95,24 +109,29 @@ function ItemDef(data) {
 
 	this.updateButtons = function() {
 		var id = '#' + this.name + '-inv-button';
-		j(id, 'toggle', this.isVisible());
-		j(id + ' #count', 'text', formatNumber(this.count));
-		j(id + ' #max-count', 'text', formatNumber(this.maxItemCount()));
+		var isVisible = this.isVisible();
+		j(id, 'toggle', isVisible);
+		if (isVisible) {
+			j(id + ' #count', 'text', formatNumber(this.getCount()));
+			j(id + ' #max-count', 'text', formatNumber(this.maxItemCount()));
+		}
 
 		var storeId = '.store-item#' + this.name + ' #button';
-		j('.store-item#' + this.name, 'toggle', this.isVisibleInStore());
-
-		var buttonClass = 'button ' + this.getCurrency();
-		if (!this.canMakeMore()) {
-			buttonClass += ' inactive';
+		var storeVisible = this.isVisibleInStore();
+		j('.store-item#' + this.name, 'toggle', storeVisible);
+		if (storeVisible) {
+			var buttonClass = 'button ' + this.getCurrency();
+			if (!this.canMakeMore()) {
+				buttonClass += ' inactive';
+			}
+			j(storeId, 'attr', 'class', buttonClass);
+			
+			j(storeId + ' #name', 'html', this.isResearched ? this.storeName : 'Research ' + this.storeName);
+			j(storeId + ' span #cost', 'text', formatNumber(this.getCost()));
+			j(storeId + ' span #currency', 'html', getIconHtml(this.getCurrency()));
+			j('.store-item#' + this.name + ' .description', 'html',
+				this.isResearched ? this.description : '');
 		}
-		j(storeId, 'attr', 'class', buttonClass);
-		
-		j(storeId + ' #name', 'html', this.isResearched ? this.storeName : 'Research ' + this.storeName);
-		j(storeId + ' span #cost', 'text', formatNumber(this.getCost()));
-		j(storeId + ' span #currency', 'html', getIconHtml(this.getCurrency()));
-		j('.store-item#' + this.name + ' .description', 'html',
-			this.isResearched ? this.description : '');
 	};
 
 	this.maxItemCount = function() {
@@ -150,13 +169,12 @@ function ItemDef(data) {
 		}
 		else {
 			this.count += 1;
+			if (this.curCount !== undefined) {
+				this.curCount += 1;
+			}
 		}
 
 		this.update();
-
-		if (this.isLimitReached()) {
-			this.count = this.maxItemCount();
-		}
 	};
 
 	this.getCost = function(that, costFunc) {
@@ -190,13 +208,24 @@ function ItemDef(data) {
 	this.canMakeMore = function() {
 		return !AdventureScreen.isAdventuring() && this.canAfford() && !this.isLimitReached();
 	};
+
+	this.canUse = function() {
+		return this.count > 0 && this.onUse;
+	};
+
+	this.getCount = function() {
+		return this.count;
+	};
 }
 
 function PotionDef(data) {
 	this.__proto__ = new ItemDef(data);
+	this.toSave.push('curCount');
+	this.isConsumed = false;
 
 	this.healAmount = data.healAmount || 0;
 	this.manaAmount = data.manaAmount || 0;
+	this.curCount = data.curCount || 0;
 
 	this.onUse = function() {
 		var mult = Skills.getPassiveMult('itemEffeciency');
@@ -204,6 +233,15 @@ function PotionDef(data) {
 		var mana = Math.floor(mult * this.manaAmount);
 		Player.addHealth(heal);
 		Player.addMana(mana);
+
+		this.curCount--;
+	};
+
+	this.getCost = function() {
+		if (!this.isResearched) {
+			return this.researchCost;
+		}
+		return this.baseCost * Math.pow(3, this.count);
 	};
 
 	this.description = 'Restores';
@@ -213,5 +251,17 @@ function PotionDef(data) {
 	if (this.manaAmount) {
 		this.description += ' ' + formatNumber(this.manaAmount) + 'MP';
 	}
+
+	this.canUse = function() {
+		return this.curCount > 0;
+	};
+
+	this.getCount = function() {
+		return this.curCount;
+	};
+
+	this.maxItemCount = function() {
+		return this.count;
+	};
 }
 

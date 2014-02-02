@@ -135,11 +135,27 @@ AdventureScreen.decreasePower = function(name) {
 	}
 };
 AdventureScreen.useInn = function() {
-	if (Player.health < Player.getMaxHealth() || Player.mana < Player.getMaxMana()) {
+	// Only let the player use the inn if they're missing any health, mana, or items
+	var canUse = Player.health < Player.getMaxHealth() ||
+		Player.mana < Player.getMaxMana();
+	if (!canUse) {
+		foreach (Inventory.items, function(item) {
+			canUse = canUse ||
+				(item.curCount !== undefined && item.count != item.curCount);
+		});
+	}
+
+	if (canUse) {
 		Player.spend('gold', this.getInnCost(), function() {
 			Player.health = Player.getMaxHealth();
 			Player.mana = Player.getMaxMana();
 			AdventureScreen.innUseCount++;
+
+			foreach (Inventory.items, function(item) {
+				if (item.curCount !== undefined) {
+					item.curCount = item.count;
+				}
+			});
 		});
 	}
 };

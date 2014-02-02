@@ -2,9 +2,10 @@ function loadItems() {
 	var items = {
 		'potion': new PotionDef({
 			displayName: 'Potion',
-			count: 2,
+			count: 1,
+			curCount: 1,
 			healAmount: 100,
-			baseCost: 250
+			baseCost: 100
 		}),
 		'hiPotion': new PotionDef({
 			displayName: 'Hi-Potion',
@@ -84,24 +85,6 @@ function loadItems() {
 				}
 			}
 		}),
-		'inventory-plus': new ItemDef({
-			storeName: 'Raise Item Capacity',
-			description: 'Increases the number of items you can carry by 1',
-			isCountLimited: false,
-			update: function() {
-				Inventory.slotsPerItem = this.count + 3;
-			},
-			baseCost: 500,
-			currency: 'iron',
-			getCost: function() {
-				return this.baseCost * Math.pow(10, this.count);
-			},
-			prereqs: {
-				buildings: {
-					'forge': 1
-				}
-			}
-		})
 	};
 	for (var key in items) {
 		items[key].name = key;
