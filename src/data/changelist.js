@@ -1,4 +1,13 @@
 var changelist = {
+	"v0.2.8": {
+		"description": "Side Areas",
+		"date": "Feb 1, 2014",
+		"changes": [
+			"Added optional areas",
+			"Some things unlock differently",
+			"Side areas have hidden secrets?!"
+		]
+	},
 	"v0.2.7": {
 		"description": "We're Back",
 		"date": "Jan 26, 2014",

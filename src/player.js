@@ -18,7 +18,7 @@ var Player = {
 	armor: 2,
 
 	randDamage: 0.3,
-	critDamage: 150,
+	critDamage: 50,
 
 	stats: [],
 	resources: ['xp', 'skill', 'gold', 'research', 'iron', 'wood'],
@@ -183,8 +183,16 @@ var Player = {
 		var dmg = this.getDamageInfo();
 		j('#stat-damage', 'text', formatNumber(dmg.lo) + ' - ' + formatNumber(dmg.hi));
 
-		j('#stat-crit', 'text', formatNumber(dmg.crit) + '%');
-		j('#stat-crit-damage', 'text', formatNumber(this.getCritDamage()) + '%');
+		var critString = formatNumber(dmg.crit) + '%';
+		var critDmg = this.getCritDamage();
+		var critDmgString = '+' + formatNumber(critDmg) + '%';
+		if (dmg.critWrap > 0) {
+			critString += '<br>Base Crit: ' + formatNumber(dmg.preWrapCrit) + '%';
+			critDmgString = '+' + formatNumber(critDmg * dmg.critWrap) + ' / +' +
+				formatNumber(critDmg * (dmg.critWrap + 1)) + '%';
+		}
+		j('#stat-crit', 'html', critString);
+		j('#stat-crit-damage', 'html', critDmgString);
 
 		j('#stat-attackpower', 'text', formatNumber(dmg.attackPower));
 		j('#stat-spellpower', 'text', formatNumber(dmg.spellPower));
@@ -275,27 +283,34 @@ var Player = {
 		if (!dmg.isSpell) {
 			dmg.power = dmg.attackPower;
 			hiMult *= this.weapon.getMult('maxDamage');
-			dmg.crit = (this.weapon.getBaseCrit() + Skills.getPassiveBase('crit')) *
-				this.weapon.getMult('crit') *
-				Skills.getPassiveMult('crit');
+			dmg.baseCrit = this.weapon.getBaseCrit();
 		}
 		else {
 			dmg.power = dmg.spellPower;
-			dmg.crit = (this.attack.getBaseCrit() + Skills.getPassiveBase('crit')) *
-				Skills.getPassiveMult('crit');
+			dmg.baseCrit = this.attack.getBaseCrit();
 		}
 		dmg.baseDamage = dmg.power * this.attack.getDamage() / 100 * mod;
+		dmg.preWrapCrit = (dmg.baseCrit + Skills.getPassiveBase('crit')) *
+			this.weapon.getMult('crit') *
+			this.attack.getBonusMult('crit') *
+			Skills.getPassiveMult('crit');
+		dmg.critWrap = 0;
+		dmg.crit = dmg.preWrapCrit;
+		while (dmg.crit > 100) {
+			dmg.crit /= 2;
+			dmg.critWrap += 1;
+		}
 
-		dmg.crit *= this.attack.getBonusMult('crit');
 		hiMult *= this.attack.getBonusMult('maxDamage');
 
 		dmg.lo = Math.ceil(dmg.baseDamage * (1 - this.randDamage / 2));
 		dmg.hi = Math.floor(hiMult * dmg.baseDamage * (1 + this.randDamage / 2));
 		dmg.isCrit = rand(0, 100) < dmg.crit;
 		dmg.damage = randIntInc(dmg.lo, dmg.hi);
-		if (dmg.isCrit) {
-			dmg.damage = Math.floor(dmg.damage * this.getCritDamage() / 100);
-		}
+
+		var critBonus = this.getCritDamage() / 100;
+		var didCrit = dmg.isCrit ? 1 : 0;
+		dmg.damage = Math.floor(dmg.damage * (1 + critBonus * (dmg.critWrap + didCrit)));
 		return dmg;
 	},
 

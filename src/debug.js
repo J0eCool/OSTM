@@ -1,12 +1,18 @@
 // @if DEBUG
 function getDebugScreenHtml() {
 	return getButtonHtml("debugAddCurrency()", 'Add currency') +
-		getButtonHtml("debugResetCurrency()", 'Reset currency') + '<br>' +
+		getButtonHtml("debugResetCurrency()", 'Reset currency') +
+		'<br>' +
 		getButtonHtml("debugCompleteAdventures()", 'Unlock adventures') +
-		getButtonHtml("debugResetAdventures()", 'Reset adventures') + '<br>' +
+		getButtonHtml("debugResetAdventures()", 'Reset adventures') +
+		'<br>' +
 		getButtonHtml("debugResetWeapons()", 'Reset weapons') +
 		getButtonHtml("debugResetSkills()", 'Reset skills') +
-		getButtonHtml("debugResetVillage()", 'Reset village');
+		getButtonHtml("debugResetVillage()", 'Reset village') +
+		'<br>' +
+		getButtonHtml("debugLevelMasteries()", 'Level all Masteries') +
+		getButtonHtml("debugResetMasteries()", 'Reset all Masteries') +
+		'';
 }
 
 function debugAddCurrency(p) {
@@ -16,7 +22,6 @@ function debugAddCurrency(p) {
 		Player[r].amount += amt;
 	});
 }
-
 function debugResetCurrency() {
 	foreach (Player.resources, function(r) {
 		Player[r].amount = 0;
@@ -28,7 +33,6 @@ function debugCompleteAdventures() {
 		a.beatOnPower = 9999;
 	});
 }
-
 function debugResetAdventures() {
 	foreach (AdventureScreen.adventures, function(a) {
 		a.beatOnPower = -1;
@@ -60,5 +64,16 @@ function debugResetVillage() {
 		u.count = 0;
 	});
 	Player.refreshResourceProduction();
+}
+
+function debugLevelMasteries() {
+	foreach (Mastery.weaponTypes, function(m) {
+		m.level += 1;
+	});
+}
+function debugResetMasteries() {
+	foreach (Mastery.weaponTypes, function(m) {
+		m.level = 0;
+	});
 }
 // @endif

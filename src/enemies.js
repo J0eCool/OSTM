@@ -52,7 +52,7 @@ var EnemyManager = {
 		if (this.curArea && this.activeEnemies.length === 0) {
 			this.bestAvailableSubArea = Math.max(this.subArea + 1, this.bestAvailableSubArea);
 			if (this.bestAvailableSubArea >= this.curArea.subAreas.length) {
-				this.curArea.beatOnPower = Math.max(this.curArea.power, this.curArea.beatOnPower);
+				this.curArea.onClear();
 			}
 			this.updateHeaderButtons();
 			this.spawnEnemies();

@@ -259,6 +259,26 @@ function loadWeapons() {
 				}
 			}
 		}),
+		'spark-wand': new WeaponDef({
+			displayName: 'Lightning Rod',
+			type: 'wand',
+			scalingBase: {
+				dexterity: 65,
+				intelligence: 70
+			},
+			buyCost: 10000000,
+			damage: 7,
+			spellPower: 20,
+			crit: 7,
+			upgradeData: {
+				spellPower: 14,
+				crit: 5,
+				critDamage: 5
+			},
+			prereqs: {
+				adventures: ['sid3']
+			}
+		}),
 	};
 	foreach (weapons, function(weapon, key) {
 		weapon.name = key;

@@ -1,35 +1,35 @@
 To-do list
 
 next minor version:
-	- split adventure list into main and side areas
-		- side areas can't have power increased
-		- unlock things by completing side areas
-			- Game.log things that unlock this way
+	- research passive-only; tweak costs
 
 before next major:
-	- >100% crit handling (150% crit = 100% 2x, 25% 4x)
 	- forest area
 
 next major version:
 	- block bar (shields)
 	- pixel art!
-	- weapon interface change
-		- top panel w/ selected weapon
-		- bottom panel w/ list of weapons
-	- skill interface change
-		- description on mouseover
+	- UI overhaul
+		- weapon interface change
+			- top panel w/ selected weapon
+			- bottom panel w/ list of weapons
+		- skill interface change
+			- description on mouseover
+	- better Firefox support
 
 Backlog:
+	- min damage plus
 	- skill trees
 	- spell elements
 	- status effects
 		- poison: 500% damage over 8 seconds
 		- burn: 300% damage over 3 seconds
 	- Browser compatibility
-		- Firefox
+		- Opera
 		- IE9?+
 	- loading message
 	- class system
+		- merchant/builder class(es), skill trees focusing on non-combat areas
 	- ascension system
 
 -----
@@ -40,6 +40,8 @@ Weapon abilities:
 Skills:
 
 Thematic areas:
+	. Gardening
+		- gold + time -> gardenPoints -> ??
 	. Futuristic / Aliens / Robots
 	. Rock band
 	. Mining

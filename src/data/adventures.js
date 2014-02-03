@@ -211,23 +211,46 @@ function loadAdventures() {
 		'Extra': {
 			sid1: new AdventureDef({
 				prereqs: {
-					adventures: ['adv1']
+					adventures: ['adv0']
 				},
 				displayName: 'Meadow',
 				areaType: 'grass',
 				subAreas: [{
-					level: 12,
+					level: 8,
 					enemies: {
 						snake: 50,
 					}
 				}, {
-					level: 14
+					level: 9
 				}],
 				allEnemies: {
 					slug: 100,
 				},
 				spawnCountLo: 4,
 				spawnCountHi: 5,
+				clearMessage: 'Found a Blacksmith',
+			}),
+			sid2: new AdventureDef({
+				prereqs: {
+					adventures: ['sid1']
+				},
+				displayName: 'Hut',
+				areaType: 'house',
+				subAreas: [{
+					level: 30,
+				}, {
+					level: 35
+				}, {
+					level: 40
+				}],
+				allEnemies: {
+					snake2: 40,
+					slug2: 80,
+					mask2: 30,
+				},
+				spawnCountLo: 5,
+				spawnCountHi: 6,
+				clearMessage: 'Logger now available',
 			}),
 			sid0: new AdventureDef({
 				prereqs: {
@@ -248,6 +271,29 @@ function loadAdventures() {
 				},
 				spawnCountLo: 6,
 				spawnCountHi: 7,
+			}),
+			sid3: new AdventureDef({
+				prereqs: {
+					adventures: ['adv6']
+				},
+				displayName: 'Cabin',
+				areaType: 'dark-house',
+				subAreas: [{
+					level: 200,
+					enemies: {
+						spider: 100
+					}
+				}, {
+					level: 200,
+					enemies: {
+						spider2: 100
+					}
+				}],
+				allEnemies: {
+				},
+				spawnCountLo: 7,
+				spawnCountHi: 8,
+				clearMessage: 'Lightning Rod now available',
 			}),
 		},
 

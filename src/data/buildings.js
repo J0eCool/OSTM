@@ -145,12 +145,6 @@ function loadBuildings() {
 		},
 
 		'Workshops': {
-			'blacksmith': new BuildingDef({
-				displayName: 'Blacksmith',
-				description: 'Sells weapons',
-				baseCost: 500,
-				maxCount: 1
-			}),
 			'anvil': new BuildingDef({
 				displayName: 'Anvil',
 				description: 'Blacksmith can Upgrade weapons',
@@ -158,9 +152,7 @@ function loadBuildings() {
 				baseCost: 25000,
 				maxCount: 1,
 				prereqs: {
-					buildings: {
-						'blacksmith': 1
-					}
+					adventures: ['sid1']
 				}
 			}),
 			'forge': new BuildingDef({
@@ -191,9 +183,11 @@ function loadBuildings() {
 			'logger': new BuildingDef({
 				displayName: 'Logger',
 				description: 'Unlocks building upgrades',
-				researchCost: 250,
-				baseCost: 15000,
-				maxCount: 1
+				baseCost: 500,
+				maxCount: 1,
+				prereqs: {
+					adventures: ['sid2']
+				}
 			}),
 			'training-hall': new BuildingDef({
 				displayName: 'Training Hall',
