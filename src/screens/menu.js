@@ -92,7 +92,9 @@ var Menu = new ScreenContainer({
 			displayName: 'Masteries',
 			prereqs: {
 				//TODO: something else
-				adventures: ['sid1']
+				buildings: {
+					'training-hall': 1
+				}
 			}
 		}),
 		new ScreenDef({

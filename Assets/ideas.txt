@@ -1,7 +1,6 @@
 To-do list
 
 next minor version:
-	- >100% crit handling (150% crit = 100% 2x, 25% 4x)
 	- research passive-only; tweak costs
 
 before next major:
@@ -19,6 +18,7 @@ next major version:
 	- better Firefox support
 
 Backlog:
+	- min damage plus
 	- skill trees
 	- spell elements
 	- status effects
@@ -29,7 +29,7 @@ Backlog:
 		- IE9?+
 	- loading message
 	- class system
-		- merchant/builder class(es), skill trees focusing on
+		- merchant/builder class(es), skill trees focusing on non-combat areas
 	- ascension system
 
 -----
