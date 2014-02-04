@@ -1,10 +1,11 @@
 To-do list
 
 next minor version:
-	- research passive-only; tweak costs
+	- multiplicative crits?
 
 before next major:
-	- forest area
+	- research passive-only; tweak costs
+	- new forest area
 
 next major version:
 	- block bar (shields)
