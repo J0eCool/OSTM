@@ -17,11 +17,12 @@ var Inventory = {
 
 		// Reset old consumable items data
 		if (Save.isSaveOlderThan('0.2.9')) {
-			console.log('ey!');
 			var baseItems = loadItems();
 			for (key in baseItems) {
-				console.log(baseItems[key]);
-				this.items[key].count = baseItems[key].count;
+				// only reset consumables!
+				if (baseItems[key].curCount !== undefined) {
+					this.items[key].count = baseItems[key].count;
+				}
 			}
 		}
 	},
