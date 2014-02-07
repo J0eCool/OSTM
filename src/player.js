@@ -188,8 +188,8 @@ var Player = {
 		var critDmgString = '+' + formatNumber(critDmg) + '%';
 		if (dmg.critWrap > 0) {
 			critString += '<br>Base Crit: ' + formatNumber(dmg.preWrapCrit) + '%';
-			critDmgString = '+' + formatNumber(critDmg * dmg.critWrap) + ' / +' +
-				formatNumber(critDmg * (dmg.critWrap + 1)) + '%';
+			critDmgString = '+' + formatNumber(critDmg * Math.pow(2, dmg.critWrap)) + ' / ' +
+				formatNumber(critDmg * Math.pow(2, (dmg.critWrap + 1))) + '%';
 		}
 		j('#stat-crit', 'html', critString);
 		j('#stat-crit-damage', 'html', critDmgString);
@@ -310,7 +310,8 @@ var Player = {
 
 		var critBonus = this.getCritDamage() / 100;
 		var didCrit = dmg.isCrit ? 1 : 0;
-		dmg.damage = Math.floor(dmg.damage * (1 + critBonus * (dmg.critWrap + didCrit)));
+		dmg.damage = Math.floor(dmg.damage * (1 + critBonus *
+			Math.pow(2, dmg.critWrap + didCrit)));
 		return dmg;
 	},
 
