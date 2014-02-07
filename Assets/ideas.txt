@@ -1,9 +1,14 @@
 To-do list
 
 next minor version:
+	- sorceress
+		- spend research for temporary buffs
+		- multiple buffs can be active at once
+		- buffs increase in power with time activated
+	- research passive-only; tweak costs
+	- item description mouseovers
 
 before next major:
-	- research passive-only; tweak costs
 	- new forest area
 
 next major version:
@@ -16,18 +21,19 @@ next major version:
 		- skill interface change
 			- description on mouseover
 	- better Firefox support
+	- loading message
 
 Backlog:
 	- min damage plus
-	- skill trees
-	- spell elements
+	- elements
+		- weapon/skill elements can be partial
 	- status effects
 		- poison: 500% damage over 8 seconds
 		- burn: 300% damage over 3 seconds
 	- Browser compatibility
 		- Opera
 		- IE9?+
-	- loading message
+	- skill trees
 	- class system
 		- merchant/builder class(es), skill trees focusing on non-combat areas
 	- ascension system
