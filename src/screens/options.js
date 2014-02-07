@@ -2,7 +2,7 @@ var Options = {
 	toSave: ['fancyGraphics', 'resetToAttack', 'showRewards'],
 
 	fancyGraphics: true,
-	resetToAttack: false,
+	resetToAttack: true,
 
 	showRewards: {},
 
@@ -20,7 +20,7 @@ var Options = {
 			'<div>' + getButtonHtml("Save.import($('#save-import').val())", 'Import') +
 			'Import hash: <textarea class="saveArea" id="save-import"></textarea></div>' +
 			'<div><ul><li>Fancy Graphics: <input type="checkbox" id="fancy-graphics"></input></li>' +
-			'<li>Reset to Attack when out of Mana: <input type="checkbox" id="attack-reset"></input></li></ul></div>' +
+			'<li>Use basic Attack when out of Mana: <input type="checkbox" id="attack-reset"></input></li></ul></div>' +
 			'<div>Show Rewards: <ul id="reward-options">';
 		foreach (this.showRewards, function(show, name) {
 			str += '<li id="' + name + '">' + getIconHtml(name) + '<input type="checkbox" id="show"></input></li>';

@@ -1,7 +1,6 @@
 To-do list
 
 next minor version:
-	- multiplicative crits?
 
 before next major:
 	- research passive-only; tweak costs

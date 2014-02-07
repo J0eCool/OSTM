@@ -339,14 +339,15 @@ var Player = {
 			this.armor;
 		modifiedDamage = Math.max(modifiedDamage, 1);
 		if (enemy.isActive()) {
-			if (this.mana < this.attack.getManaCost()) {
+			if (this.health <= modifiedDamage) {
+				enemy.showMessage('Need HP');
+			}
+			else if (this.mana < this.attack.getManaCost()) {
 				enemy.showMessage('Need Mana');
 				if (Options.resetToAttack) {
-					this.attackName  = 'attack';
+					this.attack = Skills.getSkill('attack');
+					this.tryAttack(enemy);
 				}
-			}
-			else if (this.health <= modifiedDamage) {
-				enemy.showMessage('Need HP');
 			}
 			else {
 				this.addMana(-this.attack.getManaCost());
