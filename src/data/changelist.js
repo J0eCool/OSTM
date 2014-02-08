@@ -1,4 +1,11 @@
 var changelist = {
+	"v0.2.10": {
+		"description": "Bugfix",
+		"date": "Feb 6, 2014",
+		"changes": [
+			"Updating from v0.2.8 or earlier no longer resets armor"
+		]
+	},
 	"v0.2.9": {
 		"description": "Item/Crit Revamps",
 		"date": "Feb 6, 2014",
