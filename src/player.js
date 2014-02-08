@@ -316,7 +316,7 @@ var Player = {
 	},
 
 	getCritDamage: function() {
-		return this.weapon.getUpgradeAmount('critDamage') +
+		return this.weapon.getFlatUpgradeAmount('critDamage') +
 			Skills.getPassiveBase('critDamage') +
 			this.dexterity.getTotalBonus() +
 			this.critDamage;

@@ -76,4 +76,14 @@ function debugResetMasteries() {
 		m.level = 0;
 	});
 }
+
+function debugTraceBonuses(name) {
+	return {
+		'weapon': Player.weapon.getBaseUpgradeAmount(name),
+		'weapon-type': Player.weapon.type.getUpgradeAmount(name),
+		'weapon-mult': Player.weapon.getMult(name),
+		'passive-base': Skills.getPassiveBase(name),
+		'passive-mult': Skills.getPassiveMult(name)
+	};
+}
 // @endif
