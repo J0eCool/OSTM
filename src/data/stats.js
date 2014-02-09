@@ -31,7 +31,7 @@ function loadStats() {
 			abbrev: 'STR',
 			description: 'Increases Attack Power by <bonus>% per level (+<totalBonus>% total)',
 			baseValue: 4,
-			bonus: 0.5,
+			bonus: 0.25,
 			prereqs: {
 				playerLevel: 2
 			},
@@ -41,7 +41,7 @@ function loadStats() {
 			abbrev: 'DEX',
 			description: 'Increases Crit Damage by <bonus>% per level (+<totalBonus>% total)',
 			baseValue: 5,
-			bonus: 1,
+			bonus: 0.5,
 			prereqs: {
 				buildings: {
 					'blacksmith': 1
