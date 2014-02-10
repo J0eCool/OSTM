@@ -80,7 +80,6 @@ var Player = {
 
 		j("#stats").html(statStr);
 
-		this.refreshResourceProduction();
 		this.update();
 	},
 
@@ -127,9 +126,11 @@ var Player = {
 		});
 
 		foreach (Village.buildings, function(building) {
-			if (building.resourceProduced) {
-				Player[building.resourceProduced].perSecond +=
-					building.count * building.getProduction();
+			var resource = building.resourceProduced;
+			if (resource) {
+				Player[resource].perSecond +=
+					building.count * building.getProduction() *
+					Buffs.getMult(resource + '-income');
 			}
 		});
 	},

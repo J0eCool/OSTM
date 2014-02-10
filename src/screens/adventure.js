@@ -29,6 +29,13 @@ var AdventureScreen = new ScreenContainer({
 			}
 		}),
 		new ScreenDef({
+			name: 'witch',
+			displayName: "Witch's Cave",
+			prereqs: {
+				adventures: ['adv2']
+			}
+		}),
+		new ScreenDef({
 			name: 'shrine',
 			displayName: 'Demon Shrine',
 			createHtml: shrineHtml,
