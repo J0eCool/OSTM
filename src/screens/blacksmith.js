@@ -84,7 +84,7 @@ function WeaponDef(data) {
 		return this.displayName;
 	};
 
-	this.getUpgradeAmount = function(name) {
+	this.getFlatUpgradeAmount = function(name) {
 		return this.getBaseUpgradeAmount(name) + this.type.getUpgradeAmount(name);
 	};
 
@@ -97,7 +97,8 @@ function WeaponDef(data) {
 	};
 
 	this.getMult = function(name) {
-		return 1 + this.getUpgradeAmount(name) / 100;
+		return (1 + this.getBaseUpgradeAmount(name) / 100) *
+			(1 + this.type.getUpgradeAmount(name) / 100);
 	};
 
 	this.getBaseDamage = function() {

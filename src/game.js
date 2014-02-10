@@ -14,7 +14,7 @@ $(document).ready(function() {
 
 var Game = {
 	toSave: ['Player', 'Inventory', 'AdventureScreen', 'Save',
-		'Village', 'Blacksmith', 'Mastery', 'Skills', 'Options'],
+		'Village', 'Blacksmith', 'Mastery', 'Skills', 'Buffs', 'Options'],
 
 	realtimeDt: 33,
 	normalDt: 100,
@@ -38,15 +38,19 @@ var Game = {
 		Mastery.init();
 		Blacksmith.init();
 		Skills.init();
+		Buffs.init();
 
 		Player.init();
 
 		Save.load();
 
+		// post-load
+		Player.refreshResourceProduction();
+
+		// set up the update loops and game window
 		window.setInterval(Game.update, Game.normalDt);
 		window.setInterval(Game.realtimeUpdate, Game.realtimeDt);
 		window.setInterval(Game.veryLongUpdate, Game.veryLongDt);
-		Game.update();
 
 		$(window).resize(function() {
 			Game.handleResize();
@@ -57,6 +61,8 @@ var Game = {
 		}).on('mousemove', function(event) {
 			Game.mouseMoved(event.pageX, event.pageY);
 		});
+		
+		Game.update();
 
 		// Report current version
 		ga('set', 'dimension1', Save.currentSaveVersion);
@@ -73,6 +79,7 @@ var Game = {
 			Mastery.update();
 			Blacksmith.update();
 			Skills.update();
+			Buffs.update();
 
 			EnemyManager.update();
 

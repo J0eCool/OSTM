@@ -80,7 +80,6 @@ var Player = {
 
 		j("#stats").html(statStr);
 
-		this.refreshResourceProduction();
 		this.update();
 	},
 
@@ -127,9 +126,11 @@ var Player = {
 		});
 
 		foreach (Village.buildings, function(building) {
-			if (building.resourceProduced) {
-				Player[building.resourceProduced].perSecond +=
-					building.count * building.getProduction();
+			var resource = building.resourceProduced;
+			if (resource) {
+				Player[resource].perSecond +=
+					building.count * building.getProduction() *
+					Buffs.getMult(resource + '-income');
 			}
 		});
 	},
@@ -184,12 +185,11 @@ var Player = {
 		j('#stat-damage', 'text', formatNumber(dmg.lo) + ' - ' + formatNumber(dmg.hi));
 
 		var critString = formatNumber(dmg.crit) + '%';
-		var critDmg = this.getCritDamage();
-		var critDmgString = '+' + formatNumber(critDmg) + '%';
-		if (dmg.critWrap > 0) {
+		var critDmgString = '+' + formatNumber(dmg.critBonusHi) + '%';
+		if (dmg.critBonusLo > 0) {
 			critString += '<br>Base Crit: ' + formatNumber(dmg.preWrapCrit) + '%';
-			critDmgString = '+' + formatNumber(critDmg * dmg.critWrap) + ' / +' +
-				formatNumber(critDmg * (dmg.critWrap + 1)) + '%';
+			critDmgString = '+' + formatNumber(dmg.critBonusLo) + ' / ' +
+				formatNumber(dmg.critBonusHi) + '%';
 		}
 		j('#stat-crit', 'html', critString);
 		j('#stat-crit-damage', 'html', critDmgString);
@@ -294,12 +294,15 @@ var Player = {
 			this.weapon.getMult('crit') *
 			this.attack.getBonusMult('crit') *
 			Skills.getPassiveMult('crit');
-		dmg.critWrap = 0;
+		dmg.critWrap = -1;
 		dmg.crit = dmg.preWrapCrit;
 		while (dmg.crit > 100) {
 			dmg.crit /= 2;
 			dmg.critWrap += 1;
 		}
+		var critBonus = this.getCritDamage();
+		dmg.critBonusLo = (dmg.critWrap === -1) ? 0 : critBonus * Math.pow(2, dmg.critWrap);
+		dmg.critBonusHi = critBonus * Math.pow(2, dmg.critWrap + 1);
 
 		hiMult *= this.attack.getBonusMult('maxDamage');
 
@@ -307,15 +310,14 @@ var Player = {
 		dmg.hi = Math.floor(hiMult * dmg.baseDamage * (1 + this.randDamage / 2));
 		dmg.isCrit = rand(0, 100) < dmg.crit;
 		dmg.damage = randIntInc(dmg.lo, dmg.hi);
+		dmg.damage = Math.floor(dmg.damage *
+			(1 + (dmg.isCrit ? dmg.critBonusHi : dmg.critBonusLo) / 100));
 
-		var critBonus = this.getCritDamage() / 100;
-		var didCrit = dmg.isCrit ? 1 : 0;
-		dmg.damage = Math.floor(dmg.damage * (1 + critBonus * (dmg.critWrap + didCrit)));
 		return dmg;
 	},
 
 	getCritDamage: function() {
-		return this.weapon.getUpgradeAmount('critDamage') +
+		return this.weapon.getFlatUpgradeAmount('critDamage') +
 			Skills.getPassiveBase('critDamage') +
 			this.dexterity.getTotalBonus() +
 			this.critDamage;
@@ -338,14 +340,15 @@ var Player = {
 			this.armor;
 		modifiedDamage = Math.max(modifiedDamage, 1);
 		if (enemy.isActive()) {
-			if (this.mana < this.attack.getManaCost()) {
+			if (this.health <= modifiedDamage) {
+				enemy.showMessage('Need HP');
+			}
+			else if (this.mana < this.attack.getManaCost()) {
 				enemy.showMessage('Need Mana');
 				if (Options.resetToAttack) {
-					this.attackName  = 'attack';
+					this.attack = Skills.getSkill('attack');
+					this.tryAttack(enemy);
 				}
-			}
-			else if (this.health <= modifiedDamage) {
-				enemy.showMessage('Need HP');
 			}
 			else {
 				this.addMana(-this.attack.getManaCost());
@@ -429,7 +432,7 @@ var Player = {
 	},
 
 	resetStats: function() {
-		var c = confirm("Are you sure? You don't get an XP refund.");
+		var c = confirm("Are you sure? There's no bonuses, and you don't get an XP refund.");
 		if (c) {
 			for (var i = 0; i < this.stats.length; i++) {
 				this.getStat(i).level = 0;

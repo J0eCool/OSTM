@@ -1,4 +1,20 @@
 var changelist = {
+	"v0.2.10": {
+		"description": "Bugfix",
+		"date": "Feb 6, 2014",
+		"changes": [
+			"Updating from v0.2.8 or earlier no longer resets armor"
+		]
+	},
+	"v0.2.9": {
+		"description": "Item/Crit Revamps",
+		"date": "Feb 6, 2014",
+		"changes": [
+			"Items are refilled on visiting the Inn, buy more capacity from the Store",
+			"Critical Hit Chance in excess of 100% deals bonus damage",
+			"On running out of mana, player can use basic attacks without deselecting previous skill"
+		]
+	},
 	"v0.2.8": {
 		"description": "Side Areas",
 		"date": "Feb 1, 2014",

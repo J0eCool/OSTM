@@ -17,9 +17,9 @@ function loadSkills() {
 		'quick-attack': new AttackSkillDef({
 			displayName: 'Quick Attack',
 			keyCode: '2',
-			description: '2x chance to critically strike',
+			description: '+50% chance to critically strike',
 			bonuses: {
-				crit: 100
+				crit: 50
 			},
 			manaCost: 7,
 			baseDamage: 120,

@@ -11,10 +11,6 @@ var Village = {
 		this.setupButtons();
 	},
 
-	postLoad: function() {
-		Player.refreshResourceProduction();
-	},
-
 	update: function() {
 		this.updateButtons();
 	},
