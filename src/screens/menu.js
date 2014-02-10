@@ -138,8 +138,9 @@ var Menu = new ScreenContainer({
 		var headerHtml = '';
 		foreach (this.screens, function (scr) {
 			if (!scr.hidden) {
-				headerHtml += getButtonHtml("Menu.setScreen('" + scr.name + "')",
-					scr.displayName, scr.name + '-button') + ' ';
+				headerHtml += '<div onclick="Menu.setScreen(\'' + scr.name +
+					'\')" class="header-button" id="' + scr.name + '-button">' +
+					scr.displayName + '</div>';
 			}
 		});
 		j('.header-buttons', 'html', headerHtml);

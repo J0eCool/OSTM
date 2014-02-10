@@ -35,7 +35,25 @@ div {
 
     .header-buttons {
         width: @headerWidth;
-        padding: 6px;
+    }
+}
+
+.header-button {
+    cursor: pointer;
+    color: white;
+    padding: 8px 12px 4px;
+    min-height: 22px;
+    font-weight: bold;
+    border-bottom: 1px solid #bbb;
+    transition: 0.07s;
+
+    .outlined;
+
+    &.selected {
+        background-color: #a33;
+    }
+    &:hover:not(.selected) {
+        background-color: #aa3;
     }
 }
 
@@ -58,20 +76,26 @@ div {
 }
 
 .version-container {
-    @fontSize: 24px;
+    @fontSize: 30px;
     @fontColor: #ccc;
     position: absolute;
     bottom: 30px;
-    left: 30px;
+    left: 24px;
     font-size: 12px;
     font-weight: bold;
     color: @fontColor;
     .outlined(@blur:0px);
     vertical-align: middle;
 
-    .version {
+    .title {
         font-size: @fontSize;
         .outlined;
+    }
+
+    .version {
+        position: absolute;
+        right: 4px;
+        line-height: 0px;
     }
 
     .changelist-link {
