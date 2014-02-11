@@ -65,12 +65,14 @@ div {
     right: 0px;
 }
 
-@statWidth: 240px;
+@statHeight: 48px;
 
 .stat-bar {
-    float: left;
-    width: @statWidth;
-    height: 100%;
+    position: absolute;
+    left: 0px;
+    right: @itemBarWidth;
+    top: 0px;
+    height: @statHeight;
     background-color: #777;
     white-space: nowrap;
 }
@@ -84,7 +86,7 @@ div {
     font-size: 12px;
     font-weight: bold;
     color: @fontColor;
-    .outlined(@blur:0px);
+    .outlined(@blur: 0px);
     vertical-align: middle;
 
     .title {
@@ -131,7 +133,7 @@ div {
 
 .game-log {
     position: absolute;
-    left: @statWidth;
+    left: 0px;
     right: @itemBarWidth;
     bottom: 60px;
     z-index: 20;

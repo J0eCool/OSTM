@@ -81,6 +81,11 @@ var Menu = new ScreenContainer({
 			displayName: 'Adventure'
 		}),
 		new ScreenDef({
+			name: 'stat-container',
+			displayName: 'Character',
+			html: '<div id="stats"></div><div id="stat-buttons"></div>'
+		}),
+		new ScreenDef({
 			name: 'blacksmith',
 			displayName: 'Blacksmith',
 			prereqs: {
