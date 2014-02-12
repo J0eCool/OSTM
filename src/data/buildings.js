@@ -1,6 +1,6 @@
 function loadBuildings() {
-	var researchBuildingCostIncrease = 20;
-	var ironBuildingCostIncrease = 30;
+	var researchBuildingCostIncrease = 15;
+	var ironBuildingCostIncrease = 25;
 
 	var sectionedBuildings = {
 		'Residences': {
@@ -92,11 +92,11 @@ function loadBuildings() {
 			}),
 			'library': new BuildingDef({
 				displayName: 'Library',
-				baseCost: 25000,
+				baseCost: 350,
 				costIncreasePercent: researchBuildingCostIncrease,
-				researchCost: 100,
+				researchCost: 50,
 				resourceProduced: 'research',
-				resourcePerSecond: 1,
+				resourcePerSecond: 0.2,
 				prereqs: {
 					buildings: {
 						'research-center': 1
@@ -105,11 +105,11 @@ function loadBuildings() {
 			}),
 			'school': new BuildingDef({
 				displayName: 'School',
-				baseCost: 175000,
+				baseCost: 7500,
 				costIncreasePercent: researchBuildingCostIncrease,
-				researchCost: 750,
+				researchCost: 250,
 				resourceProduced: 'research',
-				resourcePerSecond: 3,
+				resourcePerSecond: 0.75,
 				prereqs: {
 					buildings: {
 						'library': 0
@@ -118,11 +118,11 @@ function loadBuildings() {
 			}),
 			'university': new BuildingDef({
 				displayName: 'University',
-				baseCost: 750000,
+				baseCost: 150000,
 				costIncreasePercent: researchBuildingCostIncrease,
-				researchCost: 10000,
+				researchCost: 1000,
 				resourceProduced: 'research',
-				resourcePerSecond: 5,
+				resourcePerSecond: 1.5,
 				prereqs: {
 					buildings: {
 						'school': 0
@@ -131,14 +131,27 @@ function loadBuildings() {
 			}),
 			'sciFactory': new BuildingDef({
 				displayName: 'Science Factory',
-				baseCost: 5500000,
+				baseCost: 2000000,
 				costIncreasePercent: researchBuildingCostIncrease,
-				researchCost: 25000,
+				researchCost: 3500,
 				resourceProduced: 'research',
-				resourcePerSecond: 9,
+				resourcePerSecond: 3,
 				prereqs: {
 					buildings: {
 						'university': 0
+					}
+				}
+			}),
+			'observatory': new BuildingDef({
+				displayName: 'Observatory',
+				baseCost: 8500000,
+				costIncreasePercent: researchBuildingCostIncrease,
+				researchCost: 25000,
+				resourceProduced: 'research',
+				resourcePerSecond: 5,
+				prereqs: {
+					buildings: {
+						'sciFactory': 0
 					}
 				}
 			}),
@@ -148,7 +161,6 @@ function loadBuildings() {
 			'anvil': new BuildingDef({
 				displayName: 'Anvil',
 				description: 'Blacksmith can Upgrade weapons',
-				researchCost: 100,
 				baseCost: 25000,
 				maxCount: 1,
 				prereqs: {
@@ -158,7 +170,7 @@ function loadBuildings() {
 			'forge': new BuildingDef({
 				displayName: 'Mystic Forge',
 				description: 'Blacksmith can Ascend max-level weapons',
-				researchCost: 2500,
+				researchCost: 200,
 				baseCost: 50000,
 				maxCount: 1,
 				prereqs: {
@@ -180,6 +192,19 @@ function loadBuildings() {
 					}
 				}
 			}),
+			'ironworks': new BuildingDef({
+				displayName: 'Ironworks',
+				researchCost: 5000,
+				baseCost: 1750000,
+				costIncreasePercent: ironBuildingCostIncrease,
+				resourceProduced: 'iron',
+				resourcePerSecond: 5,
+				prereqs: {
+					buildings: {
+						'foundry': 1
+					}
+				}
+			}),
 			'logger': new BuildingDef({
 				displayName: 'Logger',
 				description: 'Unlocks building upgrades',
@@ -187,6 +212,19 @@ function loadBuildings() {
 				maxCount: 1,
 				prereqs: {
 					adventures: ['sid2']
+				}
+			}),
+			'lumberjack': new BuildingDef({
+				displayName: 'Lumberjack',
+				researchCost: 5000,
+				baseCost: 500000,
+				costIncreasePercent: ironBuildingCostIncrease,
+				resourceProduced: 'wood',
+				resourcePerSecond: 1.5,
+				prereqs: {
+					buildings: {
+						'logger': 1
+					}
 				}
 			}),
 			'training-hall': new BuildingDef({

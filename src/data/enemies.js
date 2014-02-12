@@ -18,7 +18,6 @@ function loadEnemies() {
 			reward: {
 				xp: 10,
 				gold: 6,
-				research: 3,
 			}
 		}),
 		'snake2': new EnemyDef({
@@ -52,7 +51,6 @@ function loadEnemies() {
 			reward: {
 				xp: 80,
 				gold: 25,
-				research: 35,
 			}
 		}),
 
@@ -85,7 +83,6 @@ function loadEnemies() {
 			reward: {
 				xp: 24,
 				gold: 9,
-				research: 6,
 			}
 		}),
 		'mask2': new EnemyDef({
@@ -131,7 +128,6 @@ function loadEnemies() {
 			reward: {
 				xp: 180,
 				gold: 125,
-				research: 135,
 			}
 		}),
 
@@ -143,7 +139,6 @@ function loadEnemies() {
 			reward: {
 				xp: 44,
 				gold: 33,
-				research: 8,
 			}
 		}),
 		'snap': new EnemyDef({
@@ -165,7 +160,6 @@ function loadEnemies() {
 			reward: {
 				xp: 54,
 				gold: 41,
-				research: 9.5,
 			}
 		}),
 
@@ -179,7 +173,6 @@ function loadEnemies() {
 			reward: {
 				xp: 45,
 				gold: 28,
-				research: 8,
 			}
 		}),
 	};

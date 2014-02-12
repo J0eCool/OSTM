@@ -7,6 +7,7 @@ next minor version:
 		- buffs increase in power with time activated
 	- research passive-only; tweak costs
 	- item description mouseovers
+	- research amount balancing!
 
 before next major:
 	- new forest area
@@ -20,10 +21,16 @@ next major version:
 			- bottom panel w/ list of weapons
 		- skill interface change
 			- description on mouseover
+		- active skill bar 
 	- better Firefox support
 	- loading message
 
 Backlog:
+	- "aura" skills
+		- passive bonus when active
+		- cost: max mana (flat/%) / mana reduction (flat/%) / active slot
+	- enemy mouseover info (scouter)
+		- several upgrades with varying levels of detail
 	- min damage plus
 	- elements
 		- weapon/skill elements can be partial
