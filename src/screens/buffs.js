@@ -55,7 +55,7 @@ function BuffDef(data) {
 		return '<div class="buff-container" id="' + this.name + '">' +
 			getButtonHtml("Buffs.activateBuff('" + this.name + "')",
 				this.displayName, 'button') +
-			'<span id="xp"></span></div>';
+			'<span id="timeleft"></span><br><span id="xp"></span></div>';
 	};
 
 	this.update = function() {
@@ -64,6 +64,12 @@ function BuffDef(data) {
 			var whole = Math.floor(this.activatedPartial);
 			this.activatedPartial -= whole;
 			this.secondsActivated += whole;
+
+			this.secondsLeft -= whole;
+			if (this.secondsLeft <= 0) {
+				this.secondsLeft = 0;
+				Player.refreshResourceProduction();
+			}
 		}
 		this.updateButton();
 	};
@@ -71,11 +77,12 @@ function BuffDef(data) {
 	this.updateButton = function() {
 		var id = '.buff-container#' + this.name;
 		j(id + ' #button', 'toggleClass', 'selected', this.isActivated());
-		j(id + ' #xp', 'text', this.secondsActivated);
+		j(id + ' #timeleft', 'text', 'Time Left: ' + formatTime(this.secondsLeft));
+		j(id + ' #xp', 'text', 'XP: ' + this.secondsActivated);
 	};
 
 	this.activate = function() {
-		this.secondsLeft = 1 - this.secondsLeft;
+		this.secondsLeft += 60;
 		Player.refreshResourceProduction();
 	};
 
