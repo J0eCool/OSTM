@@ -10,14 +10,14 @@ function loadWeaponTypes() {
 		'sword': new WeaponTypeDef({
 			displayName: 'Sword',
 			upgradeData: {
-				damage: 5,
+				attack: 5,
 				crit: 6,
 			}
 		}),
 		'sword2h': new WeaponTypeDef({
 			displayName: 'Greatsword',
 			upgradeData: {
-				damage: 4,
+				attack: 4,
 				maxHealth: 2,
 				defense: 3,
 			}
@@ -25,7 +25,7 @@ function loadWeaponTypes() {
 		'axe': new WeaponTypeDef({
 			displayName: 'Axe',
 			upgradeData: {
-				damage: 6,
+				attack: 6,
 				critDamage: 3,
 			}
 		}),
@@ -46,8 +46,7 @@ function loadWeaponTypes() {
 		'mace': new WeaponTypeDef({
 			displayName: 'Mace',
 			upgradeData: {
-				damage: 3,
-				spellPower: 3,
+				damage: 4,
 				healthRegen: 3,
 			}
 		}),

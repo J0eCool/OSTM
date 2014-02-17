@@ -137,7 +137,7 @@ function WeaponDef(data) {
 	};
 
 	this.getDamage = function() {
-		return this.getMult('damage') *
+		return this.getMult('attack') *
 			this.getTotalScalingOfType('physical') *
 			this.getBaseDamage();
 	};
@@ -302,6 +302,7 @@ function WeaponDef(data) {
 var getUpgradeName = function() {
 	var upgradeNames = {
 		damage: 'Damage',
+		attack: 'Attack Power',
 		maxDamage: 'Max Damage',
 		crit: 'Crit. Chance',
 		critDamage: 'Crit. Damage',

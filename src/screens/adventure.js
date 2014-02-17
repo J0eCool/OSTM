@@ -302,7 +302,7 @@ function AdventureDef(data) {
 	};
 
 	this.powerUpCost = function() {
-		return Math.floor(50 * Math.pow(this.getMaxLevel(), 1.15));
+		return 500 * (this.power + 1);
 	};
 
 	this.canSeeInShrine = function() {

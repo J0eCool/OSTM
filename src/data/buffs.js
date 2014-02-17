@@ -18,6 +18,33 @@ function loadBuffs() {
 				}
 			}
 		}),
+		'healthRegen': new BuffDef({
+			displayName: 'Health Bonus',
+			effects: {
+				healthRegen: {
+					base: 5,
+					level: 0.5
+				}
+			}
+		}),
+		'manaRegen': new BuffDef({
+			displayName: 'Mana Bonus',
+			effects: {
+				manaRegen: {
+					base: 5,
+					level: 0.5
+				}
+			}
+		}),
+		'damage': new BuffDef({
+			displayName: 'Damage Bonus',
+			effects: {
+				damage: {
+					base: 5,
+					level: 0.5
+				}
+			}
+		}),
 	};
 
 	foreach (buffs, function(buff, key) {
