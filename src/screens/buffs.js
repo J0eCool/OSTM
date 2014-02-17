@@ -52,9 +52,9 @@ function BuffDef(data) {
 	this.activatedPartial = 0;
 
 	this.getButtonHtml = function() {
-		return '<div class="buff-container" id="' + this.name + '">' +
+		return '<div class="buff-container" id="' + this.name + '"><b>' + this.displayName + '</b> ' +
 			getButtonHtml("Buffs.activateBuff('" + this.name + "')",
-				this.displayName, 'button') +
+				'+10 Minutes<br>1,000 ' + getIconHtml('research'), 'button', 'research') +
 			'<div id="buff-desc"><ul><li id="level"></li><li id="effect"></li>' +
 			'<li id="xpBar"><span id="xpBar-foreground"></span><span id="xpBar-text"></span></li>' +
 			'<li id="timeleft"></li></ul></div></div>';
@@ -84,9 +84,10 @@ function BuffDef(data) {
 
 	this.updateButton = function() {
 		var id = '.buff-container#' + this.name;
-		j(id + ' #button', 'toggleClass', 'selected', this.isActivated());
 		j(id + ' #level', 'text', 'Level: ' + this.level);
+		j(id + ' #button', 'toggleClass', 'inactive', !Player.canSpend('research', 1000));
 		j(id + ' #xpBar-text', 'text', 'Next Level: ' + formatTime(this.toNextLevel() - this.secondsActivated));
+		j(id + ' #xpBar-foreground', 'toggleClass', 'selected', this.isActivated());
 		j(id + ' #xpBar-foreground', 'css', 'width', this.secondsActivated / this.toNextLevel() * 100 + '%');
 
 		var timeStr = '';
@@ -103,8 +104,10 @@ function BuffDef(data) {
 	};
 
 	this.activate = function() {
-		this.secondsLeft += 60;
-		Player.refreshResourceProduction();
+		if (Player.spend('research', 1000)) {
+			this.secondsLeft += 600;
+			Player.refreshResourceProduction();
+		}
 	};
 
 	this.isActivated = function() {
