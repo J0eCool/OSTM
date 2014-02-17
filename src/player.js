@@ -130,7 +130,7 @@ var Player = {
 			if (resource) {
 				Player[resource].perSecond +=
 					building.count * building.getProduction() *
-					Buffs.getMult(resource + '-income');
+					Buffs.getMult(resource + 'Income');
 			}
 		});
 	},

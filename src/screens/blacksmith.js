@@ -312,6 +312,8 @@ var getUpgradeName = function() {
 		manaRegen: 'Mana Regen',
 		spellPower: 'Spell Power',
 		itemEffeciency: 'Item Efficiency',
+		xpIncome: 'XP Gain',
+		goldIncome: 'Gold Gain',
 	};
 	return function(stat) {
 		return upgradeNames[stat] || stat;

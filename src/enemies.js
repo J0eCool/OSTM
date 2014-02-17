@@ -348,7 +348,7 @@ function EnemyContainer(index) {
 	this.giveRewards = function() {
 		var reward = calcReward(this.def.reward, this.level);
 		for (var r in reward) {
-			reward[r] = Math.floor(Buffs.getMult(r + '-income') *
+			reward[r] = Math.floor(Buffs.getMult(r + 'Income') *
 				reward[r]);
 		}
 		Player.giveResources(reward);

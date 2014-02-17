@@ -47,7 +47,7 @@ function BuffDef(data) {
 	this.effects = data.effects || {};
 
 	this.secondsLeft = 0;
-	this.level = 0;
+	this.level = 1;
 	this.secondsActivated = 0;
 	this.activatedPartial = 0;
 
@@ -55,7 +55,9 @@ function BuffDef(data) {
 		return '<div class="buff-container" id="' + this.name + '">' +
 			getButtonHtml("Buffs.activateBuff('" + this.name + "')",
 				this.displayName, 'button') +
-			'<span id="timeleft"></span><br><span id="xp"></span></div>';
+			'<div id="buff-desc"><ul><li id="level"></li><li id="effect"></li>' +
+			'<li id="xpBar"><span id="xpBar-foreground"></span><span id="xpBar-text"></span></li>' +
+			'<li id="timeleft"></li></ul></div></div>';
 	};
 
 	this.update = function() {
@@ -64,6 +66,12 @@ function BuffDef(data) {
 			var whole = Math.floor(this.activatedPartial);
 			this.activatedPartial -= whole;
 			this.secondsActivated += whole;
+
+			if (this.secondsActivated >= this.toNextLevel()) {
+				this.secondsActivated -= this.toNextLevel();
+				this.level++;
+				Player.refreshResourceProduction();
+			}
 
 			this.secondsLeft -= whole;
 			if (this.secondsLeft <= 0) {
@@ -77,8 +85,21 @@ function BuffDef(data) {
 	this.updateButton = function() {
 		var id = '.buff-container#' + this.name;
 		j(id + ' #button', 'toggleClass', 'selected', this.isActivated());
-		j(id + ' #timeleft', 'text', 'Time Left: ' + formatTime(this.secondsLeft));
-		j(id + ' #xp', 'text', 'XP: ' + this.secondsActivated);
+		j(id + ' #level', 'text', 'Level: ' + this.level);
+		j(id + ' #xpBar-text', 'text', 'Next Level: ' + formatTime(this.toNextLevel() - this.secondsActivated));
+		j(id + ' #xpBar-foreground', 'css', 'width', this.secondsActivated / this.toNextLevel() * 100 + '%');
+
+		var timeStr = '';
+		if (this.secondsLeft > 0) {
+			timeStr = 'Time Left: ' + formatTime(this.secondsLeft);
+		}
+		j(id + ' #timeleft', 'text', timeStr);
+
+		var effectStr = '';
+		for (var name in this.effects) {
+			effectStr += getUpgradeName(name) + ': +' + this.getBonus(name) + '%';
+		}
+		j(id + ' #effect', 'text', effectStr);
 	};
 
 	this.activate = function() {
@@ -95,6 +116,10 @@ function BuffDef(data) {
 		if (!effect) {
 			return 0;
 		}
-		return effect.base + this.level * effect.level;
+		return effect.base + (this.level - 1) * effect.level;
+	};
+
+	this.toNextLevel = function() {
+		return 150 * this.level * (this.level + 1);
 	};
 }
