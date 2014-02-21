@@ -130,7 +130,7 @@ var Player = {
 			if (resource) {
 				Player[resource].perSecond +=
 					building.count * building.getProduction() *
-					Buffs.getMult(resource + '-income');
+					Buffs.getMult(resource + 'Income');
 			}
 		});
 	},
@@ -256,6 +256,7 @@ var Player = {
 	getHealthRegen: function() {
 		return this.weapon.getMult('healthRegen') *
 			Skills.getPassiveMult('healthRegen') *
+			Buffs.getMult('healthRegen') *
 			(this.baseHealthRegen + this.defense.getTotalBonus() +
 				Skills.getPassiveBase('healthRegen') / 100 * this.getMaxHealth());
 	},
@@ -263,6 +264,7 @@ var Player = {
 	getManaRegen: function() {
 		return this.weapon.getMult('manaRegen') *
 			Skills.getPassiveMult('manaRegen') *
+			Buffs.getMult('manaRegen') *
 			(this.baseManaRegen + this.wisdom.getTotalBonus() +
 				Skills.getPassiveBase('manaRegen') / 100 * this.getMaxMana());
 	},
@@ -273,7 +275,7 @@ var Player = {
 		var dmg = {
 			attackPower: Math.floor(this.weapon.getDamage() *
 				this.strength.getBonusMult() *
-				Skills.getPassiveMult('damage')),
+				Skills.getPassiveMult('attack')),
 			spellPower: Math.floor(Skills.getPassiveMult('spellPower') *
 				this.intelligence.getBonusMult() *
 				this.weapon.getSpellPower()),
@@ -289,7 +291,11 @@ var Player = {
 			dmg.power = dmg.spellPower;
 			dmg.baseCrit = this.attack.getBaseCrit();
 		}
-		dmg.baseDamage = dmg.power * this.attack.getDamage() / 100 * mod;
+		dmg.baseDamage = dmg.power *
+			this.weapon.getMult('damage') *
+			Skills.getPassiveMult('damage') *
+			Buffs.getMult('damage') *
+			this.attack.getDamage() / 100 * mod;
 		dmg.preWrapCrit = (dmg.baseCrit + Skills.getPassiveBase('crit')) *
 			this.weapon.getMult('crit') *
 			this.attack.getBonusMult('crit') *

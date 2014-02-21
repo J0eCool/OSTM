@@ -19,8 +19,6 @@ var Mastery = {
 			html += type.getButtonHtml();
 		});
 		j('.mastery').html(html);
-
-		this.updateButtons();
 	},
 
 	updateButtons: function() {
@@ -53,7 +51,7 @@ function WeaponTypeDef(data) {
 	};
 
 	this.getLevelXp = function(level) {
-		return level * (1 + level) / 2 * 1000 + 10000;
+		return level * (1 + level) * 500 + 10000;
 	};
 
 	this.getUpgradeAmount = function(name) {
@@ -86,6 +84,7 @@ function WeaponTypeDef(data) {
 
 		j(id + ' #xpBar-text', 'text', formatNumber(this.xp) +
 			' / ' + formatNumber(this.getNextLevelXp()));
+		j(id + ' #xpBar-foreground', 'toggleClass', 'selected', Player.weapon.type === this);
 		j(id + ' #xpBar-foreground', 'width', 100 * this.xp / this.getNextLevelXp() + '%');
 	};
 }

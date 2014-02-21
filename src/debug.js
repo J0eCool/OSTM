@@ -12,6 +12,8 @@ function getDebugScreenHtml() {
 		'<br>' +
 		getButtonHtml("debugLevelMasteries()", 'Level all Masteries') +
 		getButtonHtml("debugResetMasteries()", 'Reset all Masteries') +
+		'<br>' +
+		getButtonHtml("debugClearBuffs()", 'Deactivate Buffs') +
 		'';
 }
 
@@ -85,5 +87,11 @@ function debugTraceBonuses(name) {
 		'passive-base': Skills.getPassiveBase(name),
 		'passive-mult': Skills.getPassiveMult(name)
 	};
+}
+
+function debugClearBuffs() {
+	foreach (Buffs.buffs, function(buff) {
+		buff.secondsLeft = 0;
+	});
 }
 // @endif

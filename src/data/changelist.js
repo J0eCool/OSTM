@@ -1,4 +1,15 @@
 var changelist = {
+	"v0.2.11": {
+		"description": "Witch",
+		"date": "Feb 16, 2014",
+		"changes": [
+			"Enable limited-time buffs at the Witch's Cave",
+			"Enemies no longer drop Research",
+			"Some research costs reduced",
+			"Some research costs not reduced! Further rebalancing coming soon",
+			"Fixed some weird behavior with the new crit system"
+		]
+	},
 	"v0.2.10": {
 		"description": "Bugfix",
 		"date": "Feb 6, 2014",

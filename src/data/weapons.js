@@ -40,7 +40,7 @@ function loadWeapons() {
 			spellPower: 5,
 			crit: 8,
 			upgradeData: {
-				damage: 5,
+				attack: 5,
 				critDamage: 25
 			}
 		}),
@@ -56,7 +56,7 @@ function loadWeapons() {
 			spellPower: 5,
 			crit: 5,
 			upgradeData: {
-				damage: 8,
+				attack: 8,
 				crit: 10
 			}
 		}),
@@ -72,7 +72,7 @@ function loadWeapons() {
 			spellPower: 5,
 			crit: 5,
 			upgradeData: {
-				damage: 10,
+				attack: 10,
 				critDamage: 10
 			}
 		}),
@@ -102,7 +102,7 @@ function loadWeapons() {
 			spellPower: 5,
 			crit: 3,
 			upgradeData: {
-				damage: 15
+				attack: 15
 			}
 		}),
 		'greatersword': new WeaponDef({
@@ -118,7 +118,7 @@ function loadWeapons() {
 			spellPower: 5,
 			crit: 5,
 			upgradeData: {
-				damage: 16,
+				attack: 16,
 				defense: 2
 			},
 			prereqs: {
@@ -139,7 +139,7 @@ function loadWeapons() {
 			spellPower: 5,
 			crit: 6,
 			upgradeData: {
-				damage: 8,
+				attack: 8,
 				crit: 8,
 				critDamage: 10
 			},
@@ -158,9 +158,10 @@ function loadWeapons() {
 			buyCost: 2500000,
 			researchCost: 7500,
 			damage: 19,
+			spellPower: 3,
 			crit: 5,
 			upgradeData: {
-				damage: 7,
+				attack: 7,
 				maxDamage: 10,
 				critDamage: 10
 			},

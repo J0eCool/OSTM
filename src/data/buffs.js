@@ -3,7 +3,7 @@ function loadBuffs() {
 		'xp': new BuffDef({
 			displayName: 'XP Bonus',
 			effects: {
-				'xp-income': {
+				xpIncome: {
 					base: 10,
 					level: 1
 				}
@@ -12,9 +12,36 @@ function loadBuffs() {
 		'gold': new BuffDef({
 			displayName: 'Gold Bonus',
 			effects: {
-				'gold-income': {
+				goldIncome: {
 					base: 10,
 					level: 1
+				}
+			}
+		}),
+		'healthRegen': new BuffDef({
+			displayName: 'Health Bonus',
+			effects: {
+				healthRegen: {
+					base: 5,
+					level: 0.5
+				}
+			}
+		}),
+		'manaRegen': new BuffDef({
+			displayName: 'Mana Bonus',
+			effects: {
+				manaRegen: {
+					base: 5,
+					level: 0.5
+				}
+			}
+		}),
+		'damage': new BuffDef({
+			displayName: 'Damage Bonus',
+			effects: {
+				damage: {
+					base: 5,
+					level: 0.5
 				}
 			}
 		}),

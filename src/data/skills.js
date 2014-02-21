@@ -267,7 +267,7 @@ function loadSkills() {
 		}),
 		'cruelty': new PassiveSkillDef({
 			displayName: 'Cruelty',
-			description: 'Adds <base.critDamage>% Crit Damage and increases Physical Damage by <mult.damage>%',
+			description: 'Adds <base.critDamage>% Crit Damage and increases Attack Power by <mult.damage>%',
 			statBase: {
 				critDamage: {
 					base: 20,
@@ -275,23 +275,19 @@ function loadSkills() {
 				}
 			},
 			statMult: {
-				damage: {
+				attack: {
 					level: 1
 				}
 			}
 		}),
 		'power': new PassiveSkillDef({
 			displayName: 'Power',
-			description: 'Increases Physical and Spell Damage by <mult.damage>%',
+			description: 'Increases Damage by <mult.damage>%',
 			statMult: {
 				damage: {
-					base: 1,
+					base: 2,
 					level: 1
 				},
-				spellPower: {
-					base: 1,
-					level: 1
-				}
 			}
 		}),
 		'alchemy': new PassiveSkillDef({

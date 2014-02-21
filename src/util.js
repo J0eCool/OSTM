@@ -74,6 +74,32 @@ function formatNumber(x, precision, report) {
 	return parts.join('');
 }
 
+var formatTime = function() {
+	var units = [
+		{single: 'Day', plural: 'Days', seconds: 86400},
+		{single: 'Hour', plural: 'Hours', seconds: 3600},
+		{single: 'Minute', plural: 'Minutes', seconds: 60},
+		{single: 'Second', plural: 'Seconds', seconds: 1},
+	];
+
+	return function(seconds) {
+		var str = '';
+		for (var i = 0; i < units.length; i++) {
+			var u = units[i];
+			var n = Math.floor(seconds / u.seconds);
+			seconds -= n * u.seconds;
+
+			if (n > 0 || str !== '' || (i + 1) >= units.length) {
+				if (str !== '') {
+					str += ', ';
+				}
+				str += n + ' ' + (n === 1 ? u.single : u.plural);
+			}
+		}
+		return str;
+	};
+}();
+
 function getButtonHtml(onclick, contents, id, extraClass) {
 	var idStr = id ? ' id="' + id + '"' : '';
 	var classStr = 'class="button';

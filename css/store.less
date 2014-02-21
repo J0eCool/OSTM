@@ -22,6 +22,7 @@
 
 .weapon-container,
 .mastery-container,
+.buff-container,
 .skill-container {
     overflow: auto;
     display: inline-table;
@@ -52,6 +53,10 @@
     #description {
         display: inline-block;
     }
+    #buff-desc {
+        display: inline-block;
+        width: 100%;
+    }
     #mastery-level {
         display: table-cell;
         width: 50px;
@@ -75,11 +80,16 @@
         @xpBarHeight: 24px;
         border: 1px solid white;
         height: @xpBarHeight;
+
         #xpBar-foreground {
             position: absolute;
             height: @xpBarHeight;
             background-color: white;
             vertical-align: middle;
+
+            &.selected {
+                background-color: yellow;
+            }
         }
         #xpBar-text {
             position: relative;
